@@ -1,0 +1,81 @@
+Line Item,Stmt Type,FY2021,FY2022,FY2023,FY2024,FY2025
+Revenue,IS,526912,631477,908647,930806,1039181
+Cost of sales,IS,-429866,-475876,-569972,-577987,-629955
+Gross profit,IS,97046,155601,338675,352819,409226
+Distribution expenses,IS,-16723,-14730,-19599,-20876,-18096
+Brand and marketing investment expenses,IS,-44612,-40116,-79627,-87626,-98383
+Administrative expenses,IS,-79564,-70752,-25290,-143380,-153199
+Restructuring costs,IS,-607,-11627,-3354,-19774,-1263
+Impairment charge on trade receivables,IS,2874,1612,957,-43,-45
+Other income,IS,9134,12457,11017,14124,5073
+Operating profit,IS,-32452,32445,222779,95244,143313
+Finance income,IS,574,1088,1547,1739,3901
+Finance costs,IS,-2922,-18453,-9999,-4734,-4159
+Profit before taxation,IS,-34800,15080,214327,92249,143055
+Income tax expense,IS,-51,,-72884,-34198,-47326
+Profit for the year,IS,350,15080,141443,58051,95729
+Actuarial gain/(loss),IS,233,1286,-606,1310,-365
+Deferred tax on OCI,IS,-58,-322,152,-328,91
+"Other comprehensive income, net of tax",IS,175,964,-454,982,-274
+Total comprehensive income,IS,525,16044,140989,59033,95455
+Basic earnings per share (GHS),IS,0.0056,0.2413,2.2631,0.928,1.527
+Diluted earnings per share (GHS),IS,0.0056,0.2413,2.2631,0.928,1.527
+Profit/(loss) for the year from continuing operations,IS,-34851,,,,
+Profit/(loss) from discontinued operation,IS,35201,,,,
+Basic earnings per share - continuing operations (GHS),IS,-0.5576,,,,
+Diluted earnings per share - continuing operations (GHS),IS,-0.5576,,,,
+"Property, plant and equipment",BS,131166,133750,122103,131157,133193
+Right-of-use assets,BS,10255,22761,27692,26765,18898
+Non-current assets,BS,165913,180681,149806,157922,152091
+Inventories,BS,91627,128212,101301,128693,103449
+Trade and other receivables,BS,24539,33747,41799,49268,60453
+Prepayments,BS,3633,1368,2362,1702,1180
+Related party receivables,BS,56199,9901,8542,9415,9856
+Current tax assets,BS,14267,15341,,,9722
+Cash and bank balances,BS,26363,42504,108717,97030,210453
+Current assets,BS,216628,231073,262721,286108,395113
+Total assets,BS,382541,411754,412527,444030,547204
+Stated capital,BS,1200,1200,1200,1200,1200
+Capital surplus account,BS,204,204,204,204,204
+Retained earnings,BS,35289,51333,192322,224416,277456
+Share deals account,BS,81,81,81,81,81
+Total equity,BS,36774,52818,193807,225901,278941
+Employee benefit obligations,BS,4236,6193,6942,5738,10370
+Lease liability (non-current),BS,,6978,11241,13218,7657
+Deferred tax liability,BS,,,1391,1066,1118
+Non-current liabilities,BS,4236,13171,19574,20022,19145
+Trade and other payables,BS,92140,84594,113372,104051,126762
+Related party payables,BS,166804,127578,47757,64016,108373
+Provisions,BS,7939,7980,7948,25254,9517
+Lease liability (current),BS,176,3550,10005,3912,4466
+Current tax liability,BS,,,16887,874,
+Current liabilities,BS,341531,345765,199146,198107,249118
+Total liabilities,BS,345767,358936,218720,218129,268263
+Total liabilities and equity,BS,382541,411754,412527,444030,547204
+Deferred tax asset,BS,24481,24159,,,
+Other investment,BS,11,11,11,,
+Bank overdraft,BS,52055,99646,,,
+Dividend payables,BS,22417,22417,3177,,
+Non-current receivables,BS,,,,,
+Investment in subsidiaries,BS,,,,,
+Depreciation on PPE,CF,,12854,14012,12141,16049
+Depreciation on ROU asset,CF,,1741,5072,7773,6881
+Cash generated from operating activities,CF,7481,-43515,225589,95002,247349
+Interest paid,CF,-2922,-18453,-9999,-4734,-4159
+Interest received,CF,574,1088,1547,1739,3901
+Tax paid,CF,-2102,-1074,-14955,-50842,-57779
+Net cash generated from operating activities,CF,3031,-61954,202182,41165,189311
+"Purchase of property, plant and equipment",CF,-17587,-16035,-22949,-21195,-18793
+Net cash used in investing activities,CF,-17537,23787,-22629,-21195,-18793
+Dividend paid,CF,-11544,,-19240,-28044,-37500
+Payment of principal portion of lease liability,CF,-1335,-3735,-235,-12218,-4022
+Net cash used in financing activities,CF,-12879,-3735,-19475,-40262,-41522
+Increase in cash and cash equivalents,CF,-27385,-41902,160078,-20292,128996
+Cash and cash equivalents at 1 January,CF,1153,-25692,-57142,106449,97030
+Effects of movement in exchange rate on cash and bank,CF,540,10452,5781,10873,-15573
+Cash and cash equivalents at 31 December,CF,-25692,-57142,108717,97030,210453
+"Proceeds from sale of property, plant and equipment",CF,50,75,320,,
+Proceeds from sale of Tea Business,CF,,39747,,,
+Increase in non-current receivables,CF,,,,,
+DPS,META,0,,,,1
+Shares (m),META,62.5,62.5,62.5,62.5,62.5

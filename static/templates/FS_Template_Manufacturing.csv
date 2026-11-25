@@ -1,0 +1,106 @@
+Line Item,Stmt Type,FY2021,FY2022,FY2023,FY2024,FY2025
+Revenue from contracts with customers,IS,1104436,1298878,1766152,2371109,3597546
+Cost of sales,IS,-786876,-1045049,-1423534,-1973809,-2640137
+Gross profit,IS,317560,253829,342618,397300,957409
+Advertising and marketing expenses,IS,-81270,-81452,-96899,-112517,-152277
+Administrative expenses,IS,-81216,-119861,-122253,-173726,-217837
+Other expense,IS,-33118,-19952,4762,-9811,-30540
+Impairment charge on financial assets,IS,145,714,-61,-29,-1858
+Profit from operating activities,IS,122101,33278,128167,101217,554897
+Finance income,IS,610,167,6,1310,3617
+Finance costs,IS,-21743,-23515,-66474,-50444,-34142
+Profit before income tax,IS,100968,9930,61699,52083,524372
+Income tax expense,IS,-24393,-4145,-19089,-14728,-163530
+Growth and sustainability levy charge,IS,,,,-2604,-26218
+Profit for the year,IS,71527,5288,39525,34751,334624
+"Actuarial gain on defined benefit obligations, net of tax",IS,-118,-645,1024,1169,992
+Other comprehensive income,IS,-118,-645,1024,1169,992
+Total comprehensive income for the year,IS,71409,4643,40549,35920,335616
+Basic earnings per share (GHS),IS,0.233,0.017,0.128,0.113,1.088
+Diluted earnings per share (GHS),IS,0.233,0.017,0.128,0.113,1.088
+National fiscal stabilisation levy,IS,-5048,-497,-3085,,
+"Selling, general and administrative expenses",IS,,,,,
+"Property, plant and equipment",BS,540698,610902,775501,883224,946998
+Intangible assets,BS,915,3691,2605,3004,4846
+Right-of-use assets,BS,42987,36863,18050,25019,33461
+Deferred tax assets,BS,,,,2080,
+Total non-current assets,BS,584600,651456,796156,913327,985305
+Inventories,BS,187973,285234,298356,375993,427704
+Trade receivables,BS,51305,51138,71404,85828,185525
+Amounts due from related parties,BS,2586,6233,18657,11288,13392
+Other assets,BS,3525,15119,15793,,1689
+Other financial assets at amortised cost,BS,1231,15157,3327,19879,24418
+Current income tax assets,BS,5971,19312,11470,,11829
+Cash and bank balances,BS,46424,31677,233352,348440,140455
+Total current assets,BS,299015,423870,652359,841428,805012
+Total assets,BS,883615,1075326,1448515,1754755,1790317
+Stated capital,BS,272879,272879,272879,272879,272879
+Other reserves,BS,,,,2193,3185
+Retained earnings,BS,98955,78375,114024,147751,475664
+Total equity,BS,371834,351254,391803,422823,751728
+Deferred tax liabilities,BS,30203,33244,44588,,91567
+Lease liabilities (non-current),BS,29571,30557,7216,12285,9819
+Borrowings (non-current),BS,105577,105577,105577,105577,
+Employee benefit obligations,BS,3931,5823,6195,6822,8206
+Total non-current liabilities,BS,169282,175201,163576,124684,109592
+Bank overdrafts,BS,28942,53972,35906,,41042
+Lease liabilities (current),BS,9870,11864,5492,8806,21788
+Borrowings (current),BS,3248,3556,174820,56734,5666
+Current income tax liability,BS,,,,18720,
+Trade and other payables,BS,276678,424679,523786,602508,800655
+Amounts due to related parties,BS,23761,54800,153132,520480,59846
+Total current liabilities,BS,342499,548871,893136,1207248,928997
+Total liabilities,BS,511781,724072,1056712,1331932,1038589
+Total equity and liabilities,BS,883615,1075326,1448515,1754755,1790317
+Proposed dividend,BS,,,4900,,
+Provisions,BS,,,,,
+Profit before income tax,CF,100968,9930,61699,52083,524372
+"Depreciation of property, plant and equipment",CF,47687,62981,78868,102130,122228
+Depreciation of right-of-use assets,CF,14152,13577,26085,30057,21918
+Amortisation of intangible assets,CF,696,297,783,797,1348
+"Loss on disposal of property, plant and equipment",CF,4770,1325,,6054,17287
+Charge of provision for expected credit losses,CF,-145,-714,61,29,1858
+Finance costs,CF,21743,23515,66474,50444,34142
+Finance income,CF,-610,-167,-6,-1310,-3617
+Actuarial loss/(gain) on long service awards,CF,36,-189,-315,-278,-2
+Effects of exchange rate changes on cash and cash equivalents,CF,,,,77683,380
+Operating cash flow before working capital changes,CF,194818,138181,443606,317689,719914
+Inventories,CF,-70007,-97261,-13122,-77637,-51711
+Trade receivables,CF,-25888,881,-23434,20924,-101555
+Trade and other payables,CF,101984,135287,61485,93372,198147
+Related party balances,CF,5277,15684,-21423,244458,-462738
+Employee benefit obligations,CF,322,1257,2008,2410,2664
+Other assets,CF,-1112,-11594,-674,15793,-1689
+Other financial assets at amortised cost,CF,315,-14652,11830,-16012,-1898
+Cash generated from operating activities,CF,205709,167783,460276,600997,301134
+Income tax paid,CF,-24522,-14266,-200,-31542,-100718
+Growth and sustainability levy paid,CF,,,,-3144,-28859
+Interest received,CF,610,167,6,1310,3617
+Net cash generated from operating activities,CF,154301,150758,460082,567621,175174
+Acquisition of intangible assets,CF,,-3073,,,-736
+"Acquisition of property, plant and equipment",CF,-116908,-134510,-243176,-217103,-205743
+Net cash used in investing activities,CF,-116908,-137583,-243176,-217103,-206479
+Interest paid,CF,,-23207,-37626,-27242,-76843
+Repayment of principal portion of lease liabilities,CF,-6415,-4522,-36985,-28643,-28211
+Repayment of borrowings,CF,,,,-138566,-105577
+Dividend paid,CF,-4213,-25223,,-4900,-6711
+Net cash used in financing activities,CF,-10628,-52952,8174,-199351,-217342
+Net (decrease)/increase in cash and cash equivalents,CF,26765,-39777,225080,151167,-248647
+Cash and cash equivalents at 1 July,CF,-8209,17482,-22295,197446,348440
+Effect of movements in exchange rates on cash held,CF,-1074,,-5339,-173,-380
+Cash and cash equivalents at 30 June,CF,17482,-22295,197446,348440,99413
+Derecognition of intangible asset - software,CF,,,12,,
+Loss on derecognition of right-of-use assets,CF,196,49,,,
+Unrealised foreign exchange differences,CF,5172,27577,209945,,
+National fiscal stabilisation levy paid,CF,-5325,-2926,,,
+Proceeds from borrowings,CF,,,82785,,
+Impact of lease remeasurement,CF,153,,,,
+Interest paid (in operating activities),CF,-22171,,,,
+Depreciation and amortisation,CF,,,,,
+Net interest expense,CF,,,,,
+Impairment of intangible asset - software,CF,,,,,
+Remeasurement of leases,CF,,,,,
+"Proceeds from sale of property, plant and equipment",CF,,,,,
+Interest received (in financing activities),CF,,,,,
+Impact of IFRS16 adoption,CF,,,,,
+DPS,META,0.08,0,0.016,0.022,0.098

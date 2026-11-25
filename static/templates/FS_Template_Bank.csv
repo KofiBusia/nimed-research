@@ -1,0 +1,103 @@
+Line Item,Stmt Type,FY2021,FY2022,FY2023,FY2024,FY2025
+Interest income,IS,2379370,2829445,3756247,4454651,6158854
+Interest expense,IS,-484527,-721943,-860515,-1065965,-1571044
+Net interest income,IS,1894843,2107502,2895732,3388686,4587810
+Fee and commission income,IS,410277,458316,558291,794025,1144115
+Fee and commission expense,IS,-50749,-73310,-120112,-180579,-285753
+Net fee and commission income,IS,359528,385006,438179,613446,858362
+Net trading income,IS,157540,487226,425065,460832,824675
+Other operating income,IS,15582,25933,25199,13765,38043
+Operating income,IS,2427493,3005667,3784175,4476729,6308890
+Net impairment loss on loans and advances,IS,-324800,,-199319,-427179,-188797
+Net impairment gain on investment securities,IS,,,-233635,251110,25657
+Derecognition loss on investment securities,IS,,,,-297212,
+Personnel expenses,IS,-641555,,-908230,-1187153,-1652157
+Depreciation and amortisation,IS,-148466,,-151981,-150603,-185091
+Other expenses,IS,-473725,,-754456,-773674,-1141288
+Operating profit,IS,838947,-731544,1536554,1892018,3167214
+"Share of profit of associates, net of tax",IS,-6972,-11915,10828,14740,17991
+Profit before income tax,IS,831975,-743459,1547382,1906758,3185205
+Income tax expense,IS,-259694,150061,-537660,-705886,-1124465
+Profit for the year,IS,572281,-593398,1009722,1200872,2060740
+Other comprehensive income net of tax,IS,6442,26299,71501,62120,-168356
+Total comprehensive income for the year,IS,578723,-567099,1081223,1262992,1892384
+Basic earnings per share (GHp),IS,216,-224,381,453,778
+Net impairment loss on financial assets,IS,,-2105259,,,
+Operating expenses (total),IS,,-1631952,,,
+Annualised basic earnings per share (GHp),IS,,,,,
+Cash and cash equivalents,BS,2301092,4476878,5653778,14443976,14451219
+Non-pledged trading assets,BS,477658,275992,319065,713794,2501311
+Investments (other than securities),BS,26366,43346,47946,72704,95778
+Loans and advances to customers,BS,4306380,5482215,6692514,10229504,16038002
+Advances to banks,BS,201030,229115,382642,1108837,349627
+Investment securities,BS,9765840,8673601,11873153,13473412,16473724
+Investments in associates,BS,82280,92678,206109,221910,150361
+Investments in subsidiary,BS,,100,100,100,100
+Deferred tax assets,BS,238171,758124,863826,895863,862619
+Current tax asset,BS,,5980,,,
+Intangible assets,BS,168226,123752,76043,178486,170549
+Other assets,BS,536552,902983,638280,924892,940668
+"Property, equipment and right-of-use assets",BS,301332,429654,402204,532594,599533
+Total assets,BS,18404927,21494418,27155660,42796072,52633491
+Deposits from banks and other financial institutions,BS,747589,259147,344349,558181,299465
+Deposits from customers,BS,13154527,17515911,21437093,33970718,41042734
+Borrowings,BS,988073,1003168,1083447,2742194,3585603
+Current tax liabilities,BS,56247,,97316,47918,35904
+Employee benefit obligation,BS,113464,129596,186512,160912,253292
+Other liabilities,BS,646556,587724,926847,973811,1186363
+Total liabilities,BS,15706456,19495546,24075564,38453734,46403361
+Stated capital,BS,500000,500000,500000,500000,500000
+Retained earnings,BS,1547835,821937,1605322,2682818,4529236
+Statutory reserves,BS,639555,639555,763818,914963,1170459
+Credit risk reserves,BS,,,102074,73555,34460
+Fair value reserves,BS,14997,21030,33978,60807,78277
+Other reserves,BS,-3916,16350,74904,110195,-82302
+Total shareholders' equity,BS,2698471,1998872,3080096,4342338,6230130
+Total liabilities and shareholders' equity,BS,18404927,21494418,27155660,42796072,52633491
+Profit for the year,CF,572281,,1009722,1200872,2060740
+Depreciation and amortisation,CF,148466,,151981,150603,185091
+Net impairment loss on financial assets,CF,324800,,432954,176069,163140
+Loss on derecognition of investment securities,CF,,,,297212,
+Employee benefit expense,CF,20995,,27572,36983,44887
+Share of profit of associates,CF,6972,,-10828,-14740,-17991
+PPE written off,CF,,,223,498,116
+Intangible assets write off,CF,,,3438,,140
+Net interest income,CF,-1894843,,-2895732,-3388686,-4587810
+Dividend income,CF,-6578,,-12786,-8783,-15111
+Loss/(profit) on sale of property and equipment,CF,-461,,-503,-210,1223
+Foreign exchange (gain)/loss on cash held,CF,,,-124964,-300630,293783
+Income tax expense,CF,259694,,537660,705886,1124465
+Adjusted profit before working capital changes,CF,-568674,,-881263,-1144926,-747327
+Changes in non-pledged trading assets,CF,-256319,,-43072,-394729,-1787516
+Changes in advances to banks,CF,-126,,-165758,-722733,760023
+Changes in loans and advances to customers,CF,-1018592,,-1367798,-3856779,-5922397
+Changes in other assets,CF,-73852,,264703,-286612,-15777
+Changes in restricted cash,CF,,,-898026,-3479964,-501036
+Changes in deposits from banks and other financial institutions,CF,132171,,85202,213832,-258716
+Changes in deposits from customers,CF,1809287,,3892282,12579666,7086678
+Changes in borrowings,CF,215548,,13586,1617105,814171
+Changes in other liabilities,CF,225161,,295832,38523,207298
+Employee benefit paid,CF,-16312,,-23616,-26348,-29662
+Cash (used in)/generated from operations,CF,448292,,1172072,4537035,-394261
+Interest received,CF,2399061,,3540781,4449944,6077893
+Dividend received,CF,10086,,12811,10221,24977
+Interest paid,CF,-478277,,-765068,-1070364,-1557223
+Income tax paid,CF,-256715,,-524388,-786331,-1143504
+Net cash flow from operating activities,CF,2122447,,3436208,7140505,3007882
+Sale/(purchase) of equity investments,CF,,,1416,-5643,353
+Purchase of investment securities,CF,-1169024,,-3203734,-1740782,-2962672
+"Purchase of property, equipment and right-of-use assets",CF,-88582,,-61747,-234077,-221811
+Proceeds from sale of property and equipment,CF,137,,508,214,4191
+Purchase of intangible assets,CF,-57328,,-18741,-149863,-27953
+Net cash used in investing activities,CF,-1322346,,-3282298,-2130151,-3207892
+Dividend paid,CF,-66250,,,-750,
+Net cash used in financing activities,CF,-66250,,,-750,
+Net (decrease)/increase in cash and cash equivalents,CF,733851,,153910,5009604,-200010
+Cash and cash equivalents at 1 January,CF,1567241,,2109432,2388306,7698540
+Effect of exchange rate fluctuations on cash held,CF,,,124964,300630,-293783
+Cash and cash equivalents at 31 December,CF,2301092,,2388306,7698540,7204747
+Purchase of investments (other than securities),CF,-7549,,,,
+Unrealised exchange differences (operating),CF,,,,,
+CAR,META,0.209,0.1786,0.192,0.1747,0.1802
+NPL ratio,META,0.1598,,0.202,0.1506,0.1031
+"Dividend per share (GHS), declared for the year",META,,,,,

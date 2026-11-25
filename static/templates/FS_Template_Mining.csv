@@ -1,0 +1,105 @@
+Line Item,Stmt Type,FY2021,FY2022,FY2023,FY2024,FY2025
+(Loss) profit before taxation,IS,,472,63,1672,4276
+Profit attributable to equity shareholders,IS,622,233,-235,1004,2636
+Basic earnings per ordinary share (US cents),IS,148,55,-56,233,519
+Headline earnings,IS,612,489,-46,954,2725
+Adjusted EBITDA (non-GAAP),IS,,1792,1420,2747,6294
+Revenue from product sales,IS,4029,4501,4582,,
+Cost of sales,IS,-2857,-3366,-3541,,
+Loss on non-hedge derivatives and other commodity contracts,IS,,-6,-14,,
+Gross profit,IS,1172,1129,1027,,
+"Corporate administration, marketing and related expenses",IS,-73,-79,-94,,
+Exploration and evaluation costs,IS,-164,-205,-254,,
+"Impairment, derecognition of assets and profit (loss) on disposal",IS,11,-315,-221,,
+"Restructuring, care & maintenance and other (expenses) income",IS,-136,-26,-418,,
+Finance income,IS,58,81,127,,
+Foreign exchange and fair value adjustments,IS,-43,-125,-154,,
+Finance costs and unwinding of obligations,IS,-116,-149,-157,,
+Share of associates and joint ventures' profit,IS,,161,207,,
+Taxation,IS,,-221,-285,,
+(Loss) profit for the period,IS,,251,-222,,
+Non-controlling interests (profit),IS,,18,13,,
+Diluted earnings per ordinary share (US cents),IS,,55,-56,,
+"Amortisation of tangible, right of use and intangible assets",IS,,-637,-658,,
+Operating profit,IS,810,,,,
+Other expenses,IS,,,,,
+Tangible assets,BS,,4208,4419,,8515
+Right of use assets,BS,,156,142,,187
+Intangible assets,BS,,106,107,,106
+Investments in associates and joint ventures,BS,,1091,599,,726
+Other investments,BS,,3,1,,12
+Non-current: Loan receivable,BS,,,358,,200
+Non-current: Inventories,BS,,5,2,,175
+"Non-current: Trade, other receivables and other assets",BS,,231,254,,249
+Non-current: Contingent consideration,BS,,,,,60
+Reimbursive right for post-retirement benefits,BS,,12,35,,51
+Deferred taxation (asset),BS,,23,50,,106
+Non-current: Cash restricted for use,BS,,33,34,,44
+Total non-current assets,BS,,5868,6001,,10431
+Current: Loan receivable,BS,,,148,,133
+Current: Inventories,BS,,773,829,,1076
+"Current: Trade, other receivables and other assets",BS,,237,199,,426
+Current: Contingent consideration,BS,,,,,62
+Current: Cash restricted for use,BS,,27,34,,23
+Cash and cash equivalents,BS,,1108,964,,2905
+Assets held for sale,BS,,,,,22
+Total current assets,BS,,2145,2174,,4647
+Total assets,BS,,8013,8175,,15078
+Share capital and premium,BS,,,420,,554
+Accumulated profit (loss) and other reserves,BS,,4040,3291,,7537
+Shareholders' equity,BS,,4040,3711,,8091
+Non-controlling interests,BS,,35,29,,1825
+Total equity,BS,,4075,3740,,9916
+Non-current: Borrowings,BS,,1965,2032,,2025
+Non-current: Lease liabilities,BS,,115,98,,155
+Non-current: Environmental rehabilitation and other provisions,BS,,596,636,,687
+Provision for pension and post-retirement benefits,BS,,71,64,,61
+Non-current: Trade and other payables,BS,,7,5,,14
+Deferred taxation (liability),BS,,300,395,,600
+Total non-current liabilities,BS,,3054,3230,,3542
+Current: Borrowings,BS,,18,207,,19
+Current: Lease liabilities,BS,,71,73,,59
+Current: Environmental rehabilitation and other provisions,BS,,81,80,,131
+Current: Trade and other payables,BS,,667,772,,1001
+Taxation,BS,,45,64,,377
+Bank overdraft,BS,,2,9,,23
+Liabilities held for sale,BS,,,,,10
+Total current liabilities,BS,,884,1205,,1620
+Total liabilities,BS,,3938,4435,,5162
+Total equity and liabilities,BS,,8013,8175,,15078
+Current: Taxation (asset),BS,,,,,
+Net cash inflow from operating activities,CF,,1804,971,1968,4784
+Cash generated from operations,CF,,1244,871,,
+Dividends received from joint ventures,CF,,694,180,,
+Taxation refund,CF,,32,36,,
+Taxation paid,CF,,-166,-116,,
+Capital expenditure on tangible and intangible assets,CF,,-1028,-1042,,
+Interest capitalised and paid,CF,,-2,,,
+Acquisition of assets,CF,,-517,,,
+Dividends from associates and other investments,CF,,18,12,,
+Proceeds from disposal of tangible assets,CF,,8,14,,
+Other investments and assets acquired,CF,,-16,,,
+Proceeds from disposal of other investments,CF,,,20,,
+Loans advanced,CF,,-1,-1,,
+(Increase) decrease in cash restricted for use,CF,,-4,-9,,
+Interest received,CF,,81,109,,
+Net cash outflow from investing activities,CF,,-1461,-897,,
+Share issue expenses,CF,,,-19,,
+Proceeds from borrowings,CF,,266,343,,
+Repayment of borrowings,CF,,-184,-87,,
+Repayment of lease liabilities,CF,,-82,-94,,
+Finance costs - borrowings,CF,,-99,-111,,
+Finance costs - leases,CF,,-10,-11,,
+Other borrowing costs,CF,,-11,-1,,
+Dividends paid,CF,,-203,-107,,
+Net cash inflow (outflow) from financing activities,CF,,-323,-87,,
+Net increase (decrease) in cash and cash equivalents,CF,,20,-13,,
+Translation,CF,,-68,-138,,
+Cash and cash equivalents at beginning of period,CF,,1154,1106,,
+Cash and cash equivalents at end of period,CF,,1106,955,,
+"Proceeds from disposal of subsidiary, net of cash disposed",CF,,,,,
+Contingent consideration received,CF,,,,,
+Repayment of loans advanced to joint ventures,CF,,,,,
+Reclassification to disposal group held for sale,CF,,,,,
+Deferred compensation received,CF,,,,,
+DPS,META,,,,,3.57

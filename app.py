@@ -600,54 +600,84 @@ def bulk_price_upload():
 def upload_financial_statements():
     f = request.files.get('fs_file')
     ticker = request.form.get('ticker', '').strip().upper()
+    new_ticker = request.form.get('new_ticker', '').strip().upper()
+    new_company = request.form.get('new_company_name', '').strip()
+    if new_ticker:
+        ticker = new_ticker
     if not f or not ticker:
         flash('Please select a ticker and upload a file.', 'danger')
         return redirect(url_for('financial_statements'))
-    if not f.filename.endswith(('.xlsx', '.xls')):
-        flash('Please upload an Excel file (.xlsx).', 'danger')
+    if not f.filename.endswith(('.xlsx', '.xls', '.csv')):
+        flash('Please upload an Excel (.xlsx) or CSV (.csv) file.', 'danger')
         return redirect(url_for('financial_statements'))
 
-    import openpyxl
-    wb = openpyxl.load_workbook(f, data_only=True)
-    ws = wb.active
+    parsed_rows = []
+    if f.filename.endswith('.csv'):
+        import csv as csv_mod, io
+        text = io.TextIOWrapper(f, encoding='utf-8-sig')
+        reader = csv_mod.reader(text)
+        for row in reader:
+            parsed_rows.append(row)
+    else:
+        import openpyxl
+        wb = openpyxl.load_workbook(f, data_only=True)
+        ws = None
+        for name in wb.sheetnames:
+            if 'financial' in name.lower() or 'statement' in name.lower():
+                ws = wb[name]
+                break
+        if ws is None:
+            ws = wb.active
+        for row in ws.iter_rows(values_only=True):
+            parsed_rows.append(list(row))
 
-    rows = list(ws.iter_rows(values_only=True))
-    if not rows:
+    if not parsed_rows:
         flash('Empty file.', 'danger')
         return redirect(url_for('financial_statements'))
 
-    header = rows[0]
+    header = parsed_rows[0]
     periods = [str(h).strip() for h in header[2:] if h]
     items = []
-    for row in rows[1:]:
+    for row in parsed_rows[1:]:
         cells = list(row)
         if not cells or not cells[0]:
             continue
         item_name = str(cells[0]).strip()
+        if item_name.startswith('---') or not item_name:
+            continue
         stmt_type = str(cells[1]).strip() if len(cells) > 1 and cells[1] else ''
+        if stmt_type not in ('IS', 'BS', 'CF', 'META'):
+            continue
         item = {'item': item_name, 'stmt': stmt_type}
         for i, p in enumerate(periods):
             val = cells[i + 2] if i + 2 < len(cells) else None
-            if val is not None:
+            if val is not None and val != '':
                 try:
                     val = float(val)
                 except (ValueError, TypeError):
                     pass
+            else:
+                val = None
             item[p] = val
         items.append(item)
+
+    if not items:
+        flash('No valid financial statement items found. Check that Column B has IS/BS/CF/META.', 'danger')
+        return redirect(url_for('financial_statements'))
 
     cf = CompanyFinancials.query.filter_by(ticker=ticker).first()
     if not cf:
         cf = CompanyFinancials(ticker=ticker)
         db.session.add(cf)
-    cf.company_name = request.form.get('company_name', ticker)
+    company_name = new_company or request.form.get('company_name', '') or ticker
+    cf.company_name = company_name
     cf.set_data({'periods': periods, 'items': items})
-    cf.source = f'Excel upload: {f.filename}'
+    cf.source = f'Upload: {f.filename}'
     cf.updated_by = current_user.id
     db.session.commit()
     invalidate_live_cache()
     log_action(current_user.id, 'upload_fs', f'{ticker}: {len(items)} items, {len(periods)} periods')
-    flash(f'Financial statements uploaded for {ticker}: {len(items)} items across {len(periods)} periods.', 'success')
+    flash(f'Financial statements uploaded for {ticker} ({company_name}): {len(items)} items across {len(periods)} periods.', 'success')
     return redirect(url_for('financial_statements', ticker=ticker))
 
 
@@ -679,6 +709,35 @@ def save_financial_statements():
     log_action(current_user.id, 'manual_fs_edit', f'{ticker}')
     flash(f'Financial statements saved for {ticker}.', 'success')
     return redirect(url_for('financial_statements', ticker=ticker))
+
+
+@app.route('/financial-statements/clear', methods=['POST'])
+@login_required
+@role_required('super_admin', 'head_of_research')
+def clear_financial_statements():
+    ticker = request.form.get('ticker', '').strip().upper()
+    clear_all = request.form.get('clear_all') == '1'
+    if clear_all:
+        count = CompanyFinancials.query.count()
+        CompanyFinancials.query.delete()
+        db.session.commit()
+        invalidate_live_cache()
+        log_action(current_user.id, 'clear_all_fs', f'Cleared {count} companies')
+        flash(f'All financial statements cleared ({count} companies removed).', 'warning')
+        return redirect(url_for('financial_statements'))
+    if not ticker:
+        flash('No ticker specified.', 'danger')
+        return redirect(url_for('financial_statements'))
+    cf = CompanyFinancials.query.filter_by(ticker=ticker).first()
+    if cf:
+        db.session.delete(cf)
+        db.session.commit()
+        invalidate_live_cache()
+        log_action(current_user.id, 'clear_fs', f'Cleared {ticker}')
+        flash(f'Financial statements cleared for {ticker}.', 'warning')
+    else:
+        flash(f'No data found for {ticker}.', 'info')
+    return redirect(url_for('financial_statements'))
 
 
 @app.route('/fixed-income/upload', methods=['POST'])

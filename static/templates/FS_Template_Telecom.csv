@@ -1,0 +1,104 @@
+Line Item,Stmt Type,FY2020,FY2021,FY2022,FY2023,FY2024
+Revenue from contracts with customers,IS,6033428,7723259,9916109,13349471,17948326
+Other revenue,IS,12747,0,775,1464,2622
+Direct network operating costs,IS,-750393,-903720,-856288,-1367759,-1780442
+Government and regulatory costs,IS,,,-211088,-256835,-408240
+Cost of handsets and other accessories,IS,-92760,-145645,-66775,-63100,-72903
+Interconnect and roaming costs,IS,-267335,-308815,-415581,-592716,-694378
+Employee benefits expense,IS,-266820,-265988,-413399,-541009,-713017
+"Selling, distribution and marketing expenses",IS,-1035553,-1295786,-1449440,-1913660,-2377229
+Other operating expenses,IS,-455133,-553921,-940658,-815387,-1664014
+EBITDA (as reported),IS,3178181,4249384,5563655,7800469,10240725
+Depreciation,IS,-748728,-875255,-1027919,-1389990,-1733794
+Amortisation,IS,-128725,-160302,-170760,-334608,-362177
+Operating profit,IS,2300728,3213827,4364976,6075871,8144754
+Finance income,IS,119221,78812,205962,288748,372544
+Finance costs,IS,-447226,-444001,-474418,-774912,-926831
+Profit before income tax,IS,1972723,2848638,4096520,5589707,7590467
+Income tax expense,IS,-479191,-706549,-1034116,-1327972,-2183215
+Levy (NFSL to 2021; Growth & Sustainability levy from 2022),IS,-98637,-140706,-206603,-279485,-378187
+Profit after income tax,IS,1394895,2001383,2855801,3982250,5029065
+Other comprehensive income,IS,799,5966,0,0,0
+Total comprehensive income,IS,1395694,2007349,2855801,3982250,5029065
+Basic earnings per share (GHS),IS,0.113,0.163,0.232,0.301,0.38
+"Property, plant and equipment",BS,3371844,3906148,4981038,6432554,8128597
+Right-of-use assets,BS,1420085,1342204,1196562,1484549,2570430
+Intangible assets,BS,858648,778872,784079,1369559,1734116
+Investments,BS,,,20000,20000,20000
+IRU assets (non-current),BS,83459,88385,123399,123417,110207
+Deferred tax assets,BS,,,10084,73011,88170
+Contract asset,BS,3112,2273,1633,,
+Capitalised contract cost,BS,38818,39744,24968,45346,90719
+Total non-current assets,BS,5775966,6157626,7141763,9548436,12742239
+Inventories,BS,54786,29310,13749,80998,52270
+Trade and other receivables,BS,475078,568461,773372,1020917,1011318
+Other current assets,BS,48934,27431,149247,87769,203984
+Other financial assets at amortised cost,BS,103091,142389,344874,382007,506601
+Income tax assets,BS,501858,529488,149920,189533,386320
+Growth and Sustainability levy assets,BS,,,27071,14138,18272
+IRU assets (current),BS,13362,14753,25995,29129,33710
+Investments in securities,BS,13401,82540,188571,278285,351302
+Mobile Money float,BS,6559373,8977989,11663106,16381096,23865561
+Cash and cash equivalents,BS,671968,995422,1586207,2946133,3284768
+Total current assets,BS,8441851,11367783,14922112,21410005,29714106
+Total assets,BS,14217817,17525409,22063875,30958441,42456345
+Stated capital,BS,1097504,1097504,1097504,2222888,2222888
+Retained earnings,BS,2228282,3183254,4396714,6083422,7992987
+Integrity capital reserve,BS,,,,,
+Other reserves,BS,13401,82540,215482,312764,351302
+Total equity,BS,3339187,4363298,5709700,8619074,10567177
+Borrowings (non-current),BS,557093,369774,222318,73422,
+Deferred tax liabilities,BS,380294,420857,538113,575714,823376
+Lease liabilities (non-current),BS,1167858,1390212,1316020,1711375,2617681
+IRU liability (non-current),BS,6140,15703,26829,26071,22955
+Share-based payment liability (non-current),BS,,,33539,60959,56232
+Provisions (non-current),BS,3337,14442,10657,9990,12153
+Other non-current liabilities,BS,,,,245967,205713
+Total non-current liabilities,BS,2114722,2210988,2147476,2703498,3738110
+Trade and other payables,BS,1278884,1229416,1766990,1879444,2958352
+Obligations to electronic money holders,BS,6559373,8977989,11663106,16381096,23865561
+Contract liabilities,BS,100120,191558,217090,347476,251040
+Provisions (current),BS,81359,57702,107058,246416,243664
+Lease liabilities (current),BS,463555,293526,284278,448109,547835
+IRU liability (current),BS,615,1616,3431,3795,4036
+Borrowings (current),BS,280002,199316,164746,158216,70443
+Other current liabilities,BS,,,,171317,210127
+Total current liabilities,BS,8763908,10951123,14206699,19635869,28151058
+Total liabilities,BS,10878630,13162111,16354175,22339367,31889168
+Total equity and liabilities,BS,14217817,17525409,22063875,30958441,42456345
+Growth and Sustainability levy liabilities,BS,,,,,
+Deferred income (current),BS,,,,,
+Income tax liabilities,BS,,,,,
+Current investments,BS,,,,,
+Trade and other receivables incl. other assets and other financial assets at amortised cost,BS,,,,,
+Other non-current assets (incl. IRU and contract assets),BS,,,,,
+Cash generated from operations,CF,2924989,4264691,5908156,7867054,10991971
+Interest received,CF,53260,78812,156170,237330,300834
+Interest paid,CF,-106686,-236321,-126645,-169610,-798793
+Dividend paid,CF,-860333,-983238,-1536309,-1072177,-3176682
+Levy paid (NFSL / Growth & Sustainability),CF,-101391,-138108,-231404,-266552,-406019
+Income tax paid,CF,-950305,-699214,-698453,-1392910,-2135187
+Net cash from operating activities,CF,959534,2286622,3471515,5203135,4776124
+"Acquisition of property, plant and equipment",CF,-351029,-1211994,-1724994,-2361192,-2969456
+Acquisition of intangible assets,CF,-220974,-47003,-246674,-576867,-736440
+Investment in securities,CF,-12602,-63173,-84187,-38296,-1742
+Movement in current investments,CF,,,-20000,,
+Proceeds on disposal of PPE,CF,493,4354,,1830,2353
+Additional IRU capacity,CF,-39984,-8020,-69892,-43988,-27592
+Net cash from investing activities,CF,-624096,-1325836,-2145747,-3018513,-3732877
+Proceeds from borrowings,CF,945000,165000,,,
+Repayment of borrowings,CF,,,-189996,-150003,-384756
+Lease payments (finance lease obligations),CF,-615542,-444373,-579947,-688942,-156002
+Principal element of lease payments,CF,-451969,-359730,,,
+IRU liabilities,CF,,,,4961,2840
+Stamp duty on scrip dividend issue,CF,,,,-11733,
+Decrease in other non-current liabilities,CF,,,,,-146805
+Net cash from financing activities,CF,-122511,-639103,-769943,-845717,-684723
+Net increase in cash and cash equivalents,CF,212927,321683,555825,1338905,358523
+Cash and cash equivalents at beginning of year,CF,458735,671969,995422,1586207,2946133
+Exchange gain/(loss) on cash,CF,306,1770,34960,21021,-19889
+Cash and cash equivalents at end of year,CF,671968,995422,1586207,2946133,3284768
+Capital injection,CF,,,,,
+Deferred income,CF,,,,,
+DPS,META,,0.115,,0.225,0.24
+Shares (m),META,,,,,

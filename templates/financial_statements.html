@@ -51,16 +51,40 @@
     <div class="col-lg-4">
         <div class="stat-card">
             <div class="stat-label mb-2">Upload Financial Statements</div>
-            <form method="POST" action="{{ url_for('upload_financial_statements') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ url_for('upload_financial_statements') }}" enctype="multipart/form-data" id="uploadForm">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="ticker" value="{{ selected_ticker }}">
-                <input type="hidden" name="company_name" value="{{ selected.company_name if selected else '' }}">
+                <select name="ticker" class="form-select form-select-sm mb-2" id="uploadTicker" onchange="toggleNewCompany()" style="font-size:11px;">
+                    <option value="{{ selected_ticker }}" selected>{{ selected_ticker }} — {{ selected.company_name if selected else '' }}</option>
+                    {% for t in tickers %}{% if t != selected_ticker %}
+                    <option value="{{ t }}">{{ t }} — {{ fs_data[t].company_name }}</option>
+                    {% endif %}{% endfor %}
+                    <option value="__NEW__">-- New Company (not listed) --</option>
+                </select>
+                <div id="newCompanyFields" class="d-none mb-2">
+                    <input type="text" name="new_ticker" class="form-control form-control-sm mb-1" placeholder="Ticker (e.g. NEWCO)" style="font-size:11px;">
+                    <input type="text" name="new_company_name" class="form-control form-control-sm" placeholder="Company Name (e.g. New Company PLC)" style="font-size:11px;">
+                </div>
                 <div class="d-flex gap-2">
-                    <input type="file" name="fs_file" accept=".xlsx,.xls" class="form-control form-control-sm" required style="font-size:11px">
+                    <input type="file" name="fs_file" accept=".xlsx,.xls,.csv" class="form-control form-control-sm" required style="font-size:11px">
                     <button type="submit" class="btn btn-sm btn-success"><i class="bi bi-upload"></i></button>
                 </div>
-                <div class="text-muted mt-1" style="font-size:10px">Excel: Col A = Item | Col B = Stmt Type (IS/BS/CF) | Col C+ = Periods</div>
+                <div class="text-muted mt-1" style="font-size:10px">Excel or CSV: Col A = Item | Col B = Stmt Type (IS/BS/CF/META) | Col C+ = Periods</div>
             </form>
+            {% if current_user.can_edit_inputs() %}
+            <hr class="my-2">
+            <div class="d-flex gap-2 align-items-center">
+                <form method="POST" action="{{ url_for('clear_financial_statements') }}" onsubmit="return confirm('Delete financial statements for {{ selected_ticker }}?')">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="ticker" value="{{ selected_ticker }}">
+                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash me-1"></i>Clear {{ selected_ticker }}</button>
+                </form>
+                <form method="POST" action="{{ url_for('clear_financial_statements') }}" onsubmit="return confirm('DELETE ALL financial statements for ALL companies? This cannot be undone!')">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="clear_all" value="1">
+                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash-fill me-1"></i>Clear All</button>
+                </form>
+            </div>
+            {% endif %}
         </div>
     </div>
     {% endif %}
@@ -74,6 +98,93 @@
                 {% for t in tickers %}
                 <a href="{{ url_for('financial_statements', ticker=t) }}" class="ticker-btn {% if t == selected_ticker %}active{% endif %}">{{ t }}</a>
                 {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Template Downloads -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="card-panel">
+            <div class="panel-header d-flex justify-content-between align-items-center">
+                <h3><i class="bi bi-download me-2"></i>Download Upload Templates</h3>
+                <span class="badge bg-secondary">Excel & CSV formats</span>
+            </div>
+            <div class="panel-body p-3">
+                <p class="text-muted mb-3" style="font-size:12px">Download a pre-formatted template with the exact line items for each industry. Fill in your data and upload.</p>
+                <div class="row g-2">
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="border rounded p-2 text-center">
+                            <div class="fw-bold mb-1" style="font-size:12px"><i class="bi bi-bank me-1"></i>Bank</div>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Bank.xlsx') }}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-file-earmark-excel"></i> .xlsx</a>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Bank.csv') }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-filetype-csv"></i> .csv</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="border rounded p-2 text-center">
+                            <div class="fw-bold mb-1" style="font-size:12px"><i class="bi bi-shield-check me-1"></i>Insurance</div>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Insurance.xlsx') }}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-file-earmark-excel"></i> .xlsx</a>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Insurance.csv') }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-filetype-csv"></i> .csv</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="border rounded p-2 text-center">
+                            <div class="fw-bold mb-1" style="font-size:12px"><i class="bi bi-phone me-1"></i>Telecom</div>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Telecom.xlsx') }}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-file-earmark-excel"></i> .xlsx</a>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Telecom.csv') }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-filetype-csv"></i> .csv</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="border rounded p-2 text-center">
+                            <div class="fw-bold mb-1" style="font-size:12px"><i class="bi bi-minecart me-1"></i>Mining</div>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Mining.xlsx') }}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-file-earmark-excel"></i> .xlsx</a>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Mining.csv') }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-filetype-csv"></i> .csv</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="border rounded p-2 text-center">
+                            <div class="fw-bold mb-1" style="font-size:12px"><i class="bi bi-gear me-1"></i>Manufacturing</div>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Manufacturing.xlsx') }}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-file-earmark-excel"></i> .xlsx</a>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Manufacturing.csv') }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-filetype-csv"></i> .csv</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="border rounded p-2 text-center">
+                            <div class="fw-bold mb-1" style="font-size:12px"><i class="bi bi-fuel-pump me-1"></i>Oil & Gas</div>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Oil_Gas.xlsx') }}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-file-earmark-excel"></i> .xlsx</a>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Oil_Gas.csv') }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-filetype-csv"></i> .csv</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="border rounded p-2 text-center">
+                            <div class="fw-bold mb-1" style="font-size:12px"><i class="bi bi-cup-hot me-1"></i>FMCG</div>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_FMCG.xlsx') }}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-file-earmark-excel"></i> .xlsx</a>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_FMCG.csv') }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-filetype-csv"></i> .csv</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="border rounded p-2 text-center">
+                            <div class="fw-bold mb-1" style="font-size:12px"><i class="bi bi-droplet me-1"></i>Petroleum</div>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Petroleum.xlsx') }}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-file-earmark-excel"></i> .xlsx</a>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Petroleum.csv') }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-filetype-csv"></i> .csv</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="border rounded p-2 text-center">
+                            <div class="fw-bold mb-1" style="font-size:12px"><i class="bi bi-basket me-1"></i>Consumer</div>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Consumer.xlsx') }}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-file-earmark-excel"></i> .xlsx</a>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_Consumer.csv') }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-filetype-csv"></i> .csv</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="border rounded p-2 text-center">
+                            <div class="fw-bold mb-1" style="font-size:12px"><i class="bi bi-plus-circle me-1"></i>New / Unlisted</div>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_New_Company.xlsx') }}" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-file-earmark-excel"></i> .xlsx</a>
+                            <a href="{{ url_for('static', filename='templates/FS_Template_New_Company.csv') }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-filetype-csv"></i> .csv</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -221,6 +332,14 @@ function saveFS() {
     form.appendChild(dInp);
     document.body.appendChild(form);
     form.submit();
+}
+
+function toggleNewCompany() {
+    const sel = document.getElementById('uploadTicker');
+    const fields = document.getElementById('newCompanyFields');
+    if (sel && fields) {
+        fields.classList.toggle('d-none', sel.value !== '__NEW__');
+    }
 }
 </script>
 {% endblock %}

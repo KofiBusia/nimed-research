@@ -1,0 +1,103 @@
+Line Item,Stmt Type,FY2022,FY2023,FY2024,FY2025
+Revenue from contract with customers,IS,5686058,6058689,6137363,5603917
+Cost of sales,IS,-5194657,-5436745,-5339488,-4674849
+Gross profit,IS,491401,621944,797875,929068
+Other income,IS,43066,42443,73637,35609
+Impairment (charge)/release on trade receivables,IS,-10694,7180,-2591,-6292
+"General, administrative and selling expense",IS,-280689,-346621,-373434,-443840
+Operating profit before finance income/(costs),IS,243084,324946,495487,514545
+Finance income,IS,2693,3301,665,1067
+Finance costs,IS,-25304,-86257,-72540,-47740
+"Share of profit/(loss) from associate, net of tax",IS,-146,-73,709,0
+Profit before income tax,IS,220327,241917,424321,467872
+Income tax expense,IS,-61933,-69646,-132400,-148790
+Profit for the year,IS,158394,172271,291921,319082
+Profit attributable to owners of the company,IS,159805,171186,291661,321792
+Profit attributable to non-controlling interest,IS,-1411,1085,260,-2710
+OCI: Exchange difference on translation of foreign operation,IS,-15505,-3878,-9930,17808
+OCI: Remeasurement loss on employee benefit,IS,-5218,-2388,-5673,-5825
+OCI: Related income tax on remeasurement,IS,1305,597,1418,1456
+"Other comprehensive income for the year, net of tax",IS,-19418,-5669,-14185,13439
+Total comprehensive income,IS,138976,166602,277736,332521
+Total comprehensive income attributable to owners,IS,,167262,281945,327218
+Total comprehensive income attributable to non-controlling interest,IS,,-660,-4209,5303
+Basic earnings per share (GHS),IS,1.4284,1.5302,2.6094,2.8522
+Diluted earnings per share (GHS),IS,1.4284,1.5302,2.6094,2.8522
+"Property, plant and equipment",BS,,,589543,576002
+Right-of-use assets,BS,,,125042,111648
+Intangible assets,BS,,,12197,14801
+Investment in associates,BS,,,3400,
+Long term prepayments,BS,,,1300,1365
+Total non-current assets,BS,,,731482,703816
+Inventories,BS,,,363312,377561
+Current tax asset,BS,,,9203,3673
+Trade and other receivables,BS,,,657125,489716
+Amounts due from related companies,BS,,,3736,1182
+Cash and cash equivalents,BS,,,170892,95226
+Total current assets,BS,,,1204268,967358
+Total assets,BS,,,1935750,1671174
+Stated capital,BS,51222,51222,51222,51222
+Retained earnings,BS,412847,460086,592860,520540
+Foreign currency translation reserve,BS,-4025,-6158,-11619,-1825
+Non-controlling interest,BS,-17771,-18431,-22640,-17336
+Total equity,BS,442273,486719,609823,552601
+Trade and other payables,BS,,,766311,689249
+Amount due to related companies,BS,,,287514,217368
+Bank overdraft,BS,,,67350,59528
+Loans and borrowings (current),BS,,,18191,28162
+Lease liabilities (current),BS,,,28179,13865
+Total current liabilities,BS,,,1167545,1008172
+Loans and borrowings (non-current),BS,,,109146,64083
+Lease liabilities (non-current),BS,,,2430,3830
+Deferred tax liabilities,BS,,,25073,10880
+Employee benefit obligations,BS,,,20705,29032
+Provisions,BS,,,1028,2576
+Total non-current liabilities,BS,,,158382,110401
+Total liabilities,BS,,,1325927,1118573
+Total liabilities and equity,BS,,,1935750,1671174
+Profit before income tax,CF,220327,241917,424321,467872
+Foreign exchange (gains)/loss,CF,-41815,33154,-18008,22787
+"Depreciation of property, plant and equipment",CF,54051,59217,68542,73884
+Depreciation of right-of-use assets,CF,12667,17528,15279,15936
+OCI reclassification to profit,CF,,,,-3388
+Amortisation of intangible assets,CF,538,243,115,597
+Impairment loss/(gain) on trade receivables,CF,10694,-7180,2591,6292
+Reversal of provision,CF,,,-519,1548
+Interest income,CF,-2693,-3301,-665,-1067
+Interest expense,CF,25304,86257,72540,47740
+Employee benefit provision,CF,,3787,3613,5702
+(Profit)/loss on disposal of plant and equipment,CF,-255,141,-34479,-193
+(Profit)/loss on disposal of investment in associates,CF,,,,-862
+Share of (profit)/loss from associate,CF,146,73,-709,
+Operating cash flow before working capital changes,CF,278964,431786,532621,636848
+Change in inventories,CF,-175949,-54805,51265,-14601
+Change in trade and other receivables,CF,-296868,-15607,-57410,149383
+Change in trade and other payables,CF,376300,-8318,-62910,-77142
+Change in related party balances,CF,73423,23516,40749,-46915
+Cash generated from operations,CF,255834,376572,504315,647573
+Interest received,CF,2693,3301,665,1067
+Interest paid,CF,-22316,-84901,-68262,-33981
+Income taxes paid,CF,-62653,-66948,-118019,-159927
+Employee benefit paid,CF,,-3818,-7250,-3200
+Net cash flow generated from operating activities,CF,173558,224206,311449,451532
+"Purchase of property, plant and equipment",CF,-104592,-90668,-114642,-99426
+Purchase of software,CF,-114,,,-3213
+Proceeds from ROU disposal,CF,,173,,190
+Proceeds from sale of plant and equipment,CF,521,364,48947,239
+Proceeds from disposal of investment in associates,CF,,,,4262
+Payments for long term prepayments (net),CF,,,-629,-65
+Net cash flow used in investing activities,CF,-104185,-90131,-66324,-98013
+Dividend paid,CF,-115264,-122156,-154632,-386355
+Payments for loans,CF,-6743,-7765,-12376,-13029
+Principal elements of lease payments,CF,-20885,-29337,-24439,-15272
+Net cash flow used in financing activities,CF,-142892,-159258,-191447,-414656
+Net (decrease)/increase in cash and cash equivalents,CF,-73519,-25183,53678,-61137
+Cash and cash equivalents at 1 January,CF,141033,78960,48495,103542
+Effect of foreign exchange fluctuation on cash held,CF,11446,-5282,1369,-6707
+Cash and cash equivalents at 31 December,CF,78960,48495,103542,35698
+Profit on disposal of ROU,CF,,-50,,
+Change in employee benefits,CF,-36,,,
+Related party loan,CF,,,,
+Cash and cash equivalents at period end,CF,,,,
+DPS,META,,1.1272,3.2245,3.2245
+Shares (m),META,111.874,111.874,111.874,111.874

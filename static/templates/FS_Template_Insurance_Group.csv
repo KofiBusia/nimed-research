@@ -1,0 +1,116 @@
+Line Item,Stmt Type,FY2021,FY2022,FY2023,FY2024,FY2025
+Investment income,IS,249172,283567,288376,297374,532985
+Net fair value gain on investment property,IS,790,171982,47669,133590,-8776
+Investment expenses,IS,-4947,-4383,-5450,-6350,-12803
+Net investment income,IS,245015,451166,330595,424614,511406
+Insurance revenue,IS,,,1213039,1582763,1761825
+Insurance service expenses,IS,,,-806792,-1316356,-1071516
+Net income/(expenses) from reinsurance contracts,IS,,,-215433,6188,-202130
+Insurance service result,IS,,,190814,272595,488179
+Reinsurance finance income/(expenses),IS,,,3284,12414,6404
+Insurance service result after reinsurance,IS,,,194098,285009,494583
+Net insurance finance expense,IS,,,-118801,-89948,-451517
+Net insurance service result,IS,,,75297,195061,43066
+Other revenue,IS,66696,84382,112049,148147,178481
+Other income,IS,15855,49316,31131,53795,13429
+Net income,IS,1166263,1602239,549072,821617,746382
+Finance costs,IS,-5864,-27777,-3892,-9262,773
+Net impairment/derecognition loss,IS,-2581,-328851,-23990,,
+Operating expenses,IS,-246409,-324369,-248013,-300944,-341690
+Net expenses,IS,-1013193,-1321156,-275895,-310206,-340917
+Profit before tax,IS,153070,281083,273177,511411,405465
+Income tax expense,IS,-22890,-51466,-80038,-144923,-67650
+Profit for the year,IS,122852,222568,193139,366488,337815
+OCI: Foreign operations - translation difference,IS,-2812,26808,-21606,2572,-16167
+Total comprehensive income for the year,IS,120040,249376,171533,369060,321648
+Profit attributable to owners of the parent,IS,67612,145491,116371,241564,215877
+Profit attributable to non-controlling interest,IS,55240,77077,76768,124924,121938
+Total comprehensive income attributable to owners of the parent,IS,63547,172297,94003,243833,202296
+Total comprehensive income attributable to non-controlling interest,IS,56493,77079,77530,125227,119352
+Basic EPS (GHS),IS,0.396,0.851,0.681,1.414,1.263
+Diluted EPS (GHS),IS,0.396,0.851,0.681,1.414,1.263
+Gross insurance premium,IS,1002666,1250558,,,
+Insurance premium ceded to reinsurers,IS,-142210,-213129,,,
+Net insurance premium,IS,860456,1037429,,,
+Change in unearned premium,IS,-21759,-20054,,,
+Net insurance premium revenue,IS,838697,1017375,,,
+Insurance benefits and claims,IS,-402563,-535174,,,
+Change in life fund liability,IS,-241761,28158,,,
+Net benefits and claims,IS,-644324,-507016,,,
+Commission expense,IS,-146966,-178966,,,
+Commission income,IS,32951,45823,,,
+National fiscal stabilisation levy,IS,-7328,-7049,,,
+Growth and sustainability levy,IS,,,,,
+Deferred tax assets,BS,13102,7498,34147,42346,42346
+Investment property,BS,300934,471621,521005,654595,647735
+Property and equipment,BS,78209,89841,90377,98958,169883
+Intangible assets,BS,85,75,101,3399,7748
+Investment securities,BS,1411303,1477191,1680196,2418427,2960173
+Inventories,BS,947,1477,1451,3491,2688
+Trade and other receivables,BS,60168,70659,99609,79585,131229
+Prepayments,BS,3490,6157,435,7785,4475
+Reinsurance contract assets,BS,,,173903,195163,191075
+Current tax assets,BS,1382,4525,10638,21497,26665
+Cash and bank balances,BS,259509,252046,427038,409528,637582
+Total assets,BS,2163317,2422385,3038900,3934774,4821599
+Stated capital,BS,258886,258886,258886,258886,258886
+Retained earnings,BS,297017,403923,640806,697989,855287
+Foreign currency translation reserve,BS,-9734,17072,-7878,-5609,-19189
+Contingency reserve,BS,87873,110938,141662,180462,208825
+Statutory reserve,BS,9201,12007,15799,21544,30228
+Equity attributable to owners of the company,BS,644239,803822,1049275,1153272,1334037
+Non-controlling interest,BS,190156,227900,375130,399150,471053
+Total equity,BS,834395,1031722,1424405,1552422,1805090
+Deferred tax liabilities,BS,3326,17751,67194,138184,138184
+Insurance contract liabilities,BS,,,1268836,1630013,2054506
+Policy holder retention scheme,BS,,,,105,193
+Investment contract liabilities,BS,,,7506,300011,418419
+Reinsurance contract liabilities,BS,,,,,29546
+Lease liabilities,BS,13323,17143,12315,17963,11852
+Trade and other payables,BS,129081,161927,172906,196185,275186
+Due to re-insurers,BS,18028,15058,14100,20731,13379
+Due to related parties,BS,47420,52668,48828,49882,59484
+Current tax liabilities,BS,7096,10660,22810,29278,15760
+Total liabilities,BS,1328922,1390663,1614495,2382352,3016509
+Total equity and liabilities,BS,2163317,2422385,3038900,3934774,4821599
+Deferred commission expense,BS,20390,27717,,,
+Due from re-insurers,BS,11782,9792,,,
+National fiscal stabilisation levy assets,BS,2016,3786,,,
+Deposit for shares,BS,996,996,,,
+Life fund,BS,921023,896691,,,
+Borrowings,BS,26123,511,,,
+Unearned premiums reserve,BS,90380,110434,,,
+Outstanding claims,BS,61197,87827,,,
+Deferred commission income,BS,11629,19993,,,
+National fiscal stabilisation levy liabilities,BS,296,,,,
+Growth and sustainability levy assets,BS,,,,,
+Growth and sustainability levy liabilities,BS,,,,,
+Cash generated from operations,CF,464447,534270,508618,839817,1050746
+Income tax paid,CF,-23538,-31025,-34046,-58883,-57954
+Growth & sustainability levy paid,CF,,,-13383,-27640,-28315
+Net cash generated from operating activities,CF,428862,448290,461189,753294,964477
+Net acquisition of investment securities,CF,-261647,-404081,176078,-674644,-541745
+Acquisition of investment property,CF,-316,,-1715,,-1916
+Acquisition of property and equipment,CF,-15312,-21414,-20777,-36631,-103822
+Proceeds from sale of property and equipment,CF,334,245,1484,2155,1833
+Purchase of intangible assets,CF,-84,-21,-64,-3475,-5648
+Net cash used in investing activities,CF,-304846,-425271,154752,-712595,-651298
+Dividends paid to non-controlling interest,CF,-50534,-34509,-43977,-23145,-47449
+Dividends paid to equity shareholders,CF,-10595,-12714,-12714,-16577,-21532
+Interest paid on lease liabilities,CF,,,-1033,-3772,4471
+Principal lease payments,CF,-1675,-1565,-5806,-5749,-8163
+Net cash used in financing activities,CF,-66040,-55114,-63790,-49243,-72673
+Net increase/(decrease) in cash and cash equivalents,CF,57976,-32095,552151,-8544,240506
+Cash and cash equivalents at beginning of year,CF,204407,259509,252046,427038,409528
+Effects of exchange rate movements on cash,CF,-2874,24632,-14522,-8966,-12452
+Cash and cash equivalents at end of year,CF,259509,252046,789675,409528,637582
+Repayment of loan principal,CF,-3052,-2320,-254,,
+Interest paid on borrowings,CF,,,-260,,
+Interest paid on lease liabilities (operating),CF,-1333,-2541,,,
+Interest paid on borrowings (operating),CF,-1626,-43299,,,
+National fiscal stabilisation levy paid,CF,-9088,-9115,,,
+Net cash used in acquisition of shares in subsidiary,CF,-27821,,,,
+Prepaid lease,CF,,-4006,,,
+Tax on transfer to stated capital,CF,-184,,,,
+Investment income received,CF,,,,,
+Cash acquired on acquisition,CF,,,,,

@@ -1,0 +1,91 @@
+Line Item,Stmt Type,FY2021,FY2022,FY2023,FY2024,FY2025
+Gross revenue,IS,8437994,22000243,21720398,20364600,18549204
+Customs duties and levies,IS,-901170,-1256197,-1113620,-1016494,-1322945
+Net revenue,IS,7536824,20744046,20606778,19348106,17226259
+Cost of sales,IS,-7081710,-20104861,-19898015,-18519813,-16436734
+Gross profit,IS,455114,639185,708763,828293,789525
+Sundry income,IS,27386,31722,51307,64622,39826
+Depot and station expenses,IS,-80718,-107237,-138030,-159660,-142407
+"Staff, selling & administrative expenses",IS,-234883,-359956,-444890,-488336,-456924
+Operating profit before financing cost,IS,166899,203714,177150,244919,230020
+Net finance expenses,IS,-25529,-30403,-89878,-108080,-106649
+Profit before taxation,IS,141370,173311,87272,136839,123371
+Growth and sustainability levy,IS,,0,-4364,-5771,-5585
+Income tax expense,IS,-42630,-49417,-28202,-46370,-27114
+Net profit after tax attributable to equity holders of the company,IS,98740,123894,54706,84698,90672
+Gain on fair value through other comprehensive income equity investments,IS,2279,-1061,5203,4287,28479
+Total other comprehensive income,IS,2279,-1061,5203,4287,28479
+Total comprehensive income for the year,IS,101019,122833,59909,88985,119151
+Earning per share (GHÂ¢),IS,0.252,0.316,0.14,0.216,0.231
+Dividend per share (GHÂ¢),IS,0.047,0.056,0.056,0.056,0.06
+"General, selling & administrative expenses (interim)",IS,,,,,
+"Taxation (interim, total)",IS,,,,,
+"Property, plant and equipment",BS,1213045,1422560,1630013,1630174,1781759
+Intangible asset,BS,338,914,1212,918,624
+Right-of-use-asset,BS,3308,7854,8990,11681,7991
+Fair value through other comprehensive income investments,BS,8781,7719,13376,18541,47020
+TOTAL NON CURRENT ASSETS,BS,1225472,1439047,1653591,1661314,1837394
+Inventories,BS,195214,890645,684366,595478,338654
+Trade and other receivables,BS,965184,1864902,1440594,2341069,2431678
+Financial assets at amortised cost,BS,15955,13290,13318,9226,8424
+Cash and bank balances,BS,95402,401660,210673,201122,254514
+Current tax,BS,,,,,11270
+TOTAL CURRENT ASSETS,BS,1271755,3170497,2348951,3146895,3044540
+TOTAL ASSETS,BS,2497227,4609544,4002542,4808209,4881934
+Stated capital,BS,185589,185589,185589,185589,185589
+Building fund,BS,34751,40946,43681,47916,52450
+Retained earnings,BS,455136,554417,584444,643215,707662
+Capital surplus,BS,8933,7872,13075,17362,45841
+TOTAL EQUITY,BS,684409,788824,826789,894082,991541
+Deferred tax,BS,17269,19866,21667,34559,24084
+Non current term loan,BS,127567,86291,62223,262865,229157
+Lease liability,BS,3327,3714,3461,2936,2703
+TOTAL NON CURRENT LIABILITIES,BS,148163,109871,87351,300360,255944
+Bank overdraft,BS,103774,127040,350364,352586,274667
+Trade and other payables,BS,1488628,3514927,2725063,2632141,3091761
+Current tax (liability),BS,7138,7474,1197,5699,
+Current portion of term loan,BS,65115,61408,11778,623341,268021
+TOTAL CURRENT LIABILITIES,BS,1664655,3710849,3088402,3613767,3634449
+TOTAL LIABILITIES,BS,1812818,3820720,3175753,3914127,3890393
+TOTAL EQUITY AND LIABILITIES,BS,2497227,4609544,4002542,4808209,4881934
+Operating Profit,CF,141370,173311,87272,136839,123371
+Depreciation and amortisation charges,CF,50791,62901,67144,66946,80434
+Depreciation - right-of-use-assets,CF,719,1091,2295,3492,4419
+Finance cost on lease liability,CF,675,359,654,813,1356
+Transfer effect on capital work in progress,CF,,,,240909,0
+Impairment on financial instruments,CF,,,,-1627,0
+Net effect on over provision of corporate tax,CF,,,,0,1892
+"Net effect on sale of property, plant and equipment",CF,-81,-31,0,-24,-22
+Interest and dividend received,CF,-1472,-9633,-6216,-4517,-7284
+Interest paid,CF,27001,40036,96094,112597,113933
+Operating profit before working capital changes,CF,219003,268034,247243,555428,318099
+Changes in inventories,CF,-25893,-695431,206279,88888,256824
+Changes in trade and other receivables,CF,-148791,-899718,424308,-898848,-90609
+Changes in trade and other payables,CF,416876,2026299,-789864,-92922,459620
+Cash generated from operations,CF,461195,699184,87966,-347454,943934
+Company tax paid,CF,-41553,-46484,-37042,-34747,-62035
+Net cash inflows/(outflows) from operating activities,CF,419642,652700,50924,-382201,881899
+Interest and dividend received (investing),CF,1472,9633,6216,4517,7284
+Interest paid (investing),CF,-27001,-40036,-96094,-112597,-113933
+Acquisition of intangible assets,CF,-179,-712,-580,0,0
+"Acquisition of property, plant and equipment",CF,-246712,-272281,-274315,-307800,-232058
+Repayment of principal portion of lease liabilities,CF,-1849,-5609,-4338,-7521,-2318
+Investment in African Bitumen Terminal limited,CF,,,,0,0
+Acquisition of additional investment in JUHI,CF,,0,-454,-878,0
+"Receipt from disposal of property, plant and equipment",CF,81,33,0,99,355
+Net cash outflows from investing activities,CF,-274188,-308972,-369565,-424180,-340670
+Net cash inflows/(outflows) before financing,CF,145454,343728,-318641,-806381,541229
+Changes in term loans,CF,-53025,-44983,-73698,812208,-389028
+Dividend paid,CF,-17634,-18418,-21944,-21692,-21692
+Net cash flows from financing activities,CF,-70659,-63401,-95642,790516,-410720
+Net increase/(decrease) in cash and cash equivalents,CF,74795,280327,-414283,-15865,130509
+Cash and cash equivalents as at 1 January,CF,-67212,7583,287910,-126373,-142238
+Cash and cash equivalents as at 31 December,CF,7583,287910,-126373,-142238,-11729
+Cash at bank and in hand,CF,95402,401660,210673,201122,254514
+Bank overdraft,CF,-103774,-127040,-350364,-352586,-274667
+Financial assets at amortised cost (cash equivalents),CF,15955,13290,13318,9226,8424
+Investment in Gobitumen limited,CF,,0,0,,
+Cash and cash equivalents at period end,CF,,,,,
+Repayment of term loan,CF,,,,,
+Medium term loan drawdown,CF,,,,,
+DPS,META,0.047,0.056,0.056,0.056,0.06
