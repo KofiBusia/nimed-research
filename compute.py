@@ -431,6 +431,7 @@ def recalculate_all(inputs, base_data, db_prices, db_financials):
             else:
                 verdict = 'Fair Value'
             new_valuations.append({
+                'ticker': ticker,
                 'company': company_name,
                 'price_ghs': price,
                 'price_usd': price / usd_rate if usd_rate else 0,

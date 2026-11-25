@@ -135,7 +135,7 @@
                 <thead>
                     <tr>
                         <th>Company</th><th>Price (GHS)</th><th>Price (US$)</th>
-                        <th>Value (GHS)</th><th>Value (US$)</th><th>Upside</th><th>Verdict</th>
+                        <th>Value (GHS)</th><th>Value (US$)</th><th>Upside</th><th>Verdict</th><th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -154,6 +154,7 @@
                             <span class="badge-verdict verdict-{{ v.verdict|lower|replace(' ','') }}">{{ v.verdict }}</span>
                             {% endif %}
                         </td>
+                        <td>{% if v.ticker %}<a href="{{ url_for('recommendation', ticker=v.ticker) }}" class="btn btn-sm btn-outline-success" style="font-size:10px;padding:2px 8px;" title="Recommendation Sheet"><i class="bi bi-file-earmark-text"></i></a>{% endif %}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

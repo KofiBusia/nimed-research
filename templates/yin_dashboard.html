@@ -27,7 +27,10 @@
                     </div>
                     <h6 class="fw-bold mb-1" style="font-size:13px;">{{ co.company_name }}</h6>
                     <div class="text-muted" style="font-size:11px;">{{ co.periods|length }} periods &middot; {{ co.item_count }} line items</div>
-                    <a href="{{ url_for('pc_company_view', ticker=ticker) }}" class="btn btn-sm btn-outline-primary mt-2 w-100"><i class="bi bi-eye me-1"></i>View Financials</a>
+                    <div class="d-flex gap-2 mt-2">
+                        <a href="{{ url_for('pc_company_view', ticker=ticker) }}" class="btn btn-sm btn-outline-primary flex-fill"><i class="bi bi-eye me-1"></i>Financials</a>
+                        <a href="{{ url_for('recommendation', ticker=ticker) }}" class="btn btn-sm btn-outline-success flex-fill"><i class="bi bi-file-earmark-text me-1"></i>Rec Sheet</a>
+                    </div>
                 </div>
             </div>
             {% endfor %}

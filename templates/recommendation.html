@@ -141,7 +141,7 @@
             <div class="rec-card-value {% if m.value is number and m.value < 0 %}negative{% endif %}">
                 {% if m.fmt == 'pct' %}{{ "%.1f"|format(m.value * 100) }}%
                 {% elif m.fmt == 'ratio' %}{{ "%.2f"|format(m.value) }}x
-                {% elif m.fmt == 'money' %}{{ "{:,.0f}".format(m.value|float) }}
+                {% elif m.fmt == 'money' %}{{ currency }} {{ "{:,.0f}".format(m.value|float) }}
                 {% elif m.fmt == 'per_share' %}{{ "%.4f"|format(m.value) }}
                 {% else %}{{ m.display }}{% endif %}
             </div>
@@ -158,7 +158,7 @@
     </div>
 
     <!-- Financial Summary Table -->
-    <div class="rec-section-title">Financial Summary ({{ currency }})</div>
+    <div class="rec-section-title">Financial Summary (values in {{ currency }})</div>
     <table class="rec-table">
         <thead>
             <tr>
