@@ -509,37 +509,86 @@ def bulk_price_upload():
     import openpyxl
     wb = openpyxl.load_workbook(f, data_only=True)
     ws = wb.active
+    header = [str(ws.cell(1, c).value or '').strip().upper() for c in range(1, ws.max_column + 1)]
+
+    col_date = col_ticker = col_close = col_volume = None
+    for i, h in enumerate(header):
+        if 'DATE' in h and 'DAILY' in h:
+            col_date = i
+        elif 'SHARE CODE' in h or h == 'TICKER':
+            col_ticker = i
+        elif ('CLOSING' in h and 'VWAP' in h) or h == 'CLOSING PRICE':
+            col_close = i
+        elif 'TOTAL SHARES' in h or h == 'VOLUME':
+            col_volume = i
+
+    if col_ticker is None:
+        for i, h in enumerate(header):
+            if 'SHARE' in h and 'CODE' in h:
+                col_ticker = i
+            elif i == 1:
+                col_ticker = i
+    if col_close is None:
+        for i, h in enumerate(header):
+            if 'CLOSING' in h and 'PRICE' in h:
+                col_close = i
+            elif 'CLOSE' in h:
+                col_close = i
+    if col_ticker is None or col_close is None:
+        for i, h in enumerate(header):
+            if i == 0 and col_ticker is None:
+                col_ticker = 0
+            if i == 1 and col_close is None:
+                col_close = 1
+
     count = 0
+    price_date_str = ''
     for row in ws.iter_rows(min_row=2, values_only=False):
         cells = [c.value for c in row]
-        if len(cells) < 2 or not cells[0] or not cells[1]:
+        if len(cells) <= max(col_ticker, col_close):
             continue
-        ticker = str(cells[0]).strip().upper()
+        ticker_raw = cells[col_ticker]
+        price_raw = cells[col_close]
+        if not ticker_raw or not price_raw:
+            continue
+        ticker = str(ticker_raw).strip().upper().replace('*', '')
+        if not ticker or ticker in ('TOTAL', 'GRAND TOTAL', ''):
+            continue
         try:
-            price = float(cells[1])
+            price = float(price_raw)
         except (ValueError, TypeError):
             continue
+        if price <= 0:
+            continue
+
+        if col_date is not None and cells[col_date]:
+            dv = cells[col_date]
+            if hasattr(dv, 'strftime'):
+                price_date_str = dv.strftime('%Y-%m-%d')
+            else:
+                price_date_str = str(dv).strip()
+
+        volume = None
+        if col_volume is not None and cells[col_volume]:
+            try:
+                volume = float(cells[col_volume])
+            except (ValueError, TypeError):
+                pass
+
         sp = SharePrice.query.filter_by(ticker=ticker).first()
         if not sp:
             sp = SharePrice(ticker=ticker)
             db.session.add(sp)
         sp.price_ghs = price
-        if len(cells) > 2 and cells[2]:
-            try:
-                sp.shares_m = float(cells[2])
-            except (ValueError, TypeError):
-                pass
-        if len(cells) > 3 and cells[3]:
-            sp.company_name = str(cells[3]).strip()
-        if len(cells) > 4 and cells[4]:
-            sp.price_date = str(cells[4]).strip()
-        sp.source = f'Excel upload: {f.filename}'
+        sp.company_name = sp.company_name or ticker
+        sp.price_date = price_date_str
+        sp.source = f'GSE Daily: {f.filename}'
         sp.updated_by = current_user.id
         count += 1
     db.session.commit()
     invalidate_live_cache()
     log_action(current_user.id, 'bulk_price_upload', f'{count} prices from {f.filename}')
-    flash(f'{count} share prices uploaded successfully.', 'success')
+    flash(f'{count} share prices uploaded from GSE daily report.', 'success')
     return redirect(url_for('share_prices'))
 
 
@@ -639,57 +688,106 @@ def upload_yield_curve():
         flash('Please upload an Excel file (.xlsx).', 'danger')
         return redirect(url_for('fixed_income'))
     import openpyxl
+    from datetime import datetime as dt
     wb = openpyxl.load_workbook(f, data_only=True)
-    ws = wb.active
     YieldCurvePoint.query.delete()
     count = 0
-    for row in ws.iter_rows(min_row=2, values_only=True):
-        cells = list(row)
-        if len(cells) < 2 or not cells[0]:
-            continue
-        tenor = str(cells[0]).strip()
-        if not tenor or tenor.lower().startswith('instrument') or tenor.lower().startswith('market'):
-            continue
-        tenor_days = None
-        yield_pct = None
-        coupon_pct = None
-        price = None
-        maturity = None
-        for i, cell in enumerate(cells[1:], 1):
-            if cell is None:
+    for ws in wb.worksheets:
+        header_row = None
+        col_map = {}
+        for r in range(1, min(ws.max_row + 1, 200)):
+            row_vals = [ws.cell(r, c).value for c in range(1, min(ws.max_column + 1, 20))]
+            row_str = [str(v).strip().upper() if v else '' for v in row_vals]
+            if any('YIELD' in s for s in row_str) and any('SECURITY' in s or 'TENOR' in s for s in row_str):
+                header_row = r
+                for ci, hdr in enumerate(row_str):
+                    if 'SECURITY DESC' in hdr:
+                        col_map['desc'] = ci
+                    elif 'TENOR' in hdr and 'desc' not in col_map:
+                        col_map['tenor'] = ci
+                    elif 'YIELD' in hdr and 'OPEN' not in hdr:
+                        col_map['yield'] = ci
+                    elif 'CLOSING' in hdr and 'YIELD' in hdr:
+                        col_map['yield'] = ci
+                    elif 'CLOSING' in hdr and 'PRICE' in hdr:
+                        col_map['price'] = ci
+                    elif 'WEIGHTED' in hdr and 'PRICE' in hdr:
+                        col_map['price'] = ci
+                    elif 'DAYS' in hdr and 'MATURITY' in hdr:
+                        col_map['days'] = ci
+                    elif 'MATURITY' in hdr and 'DATE' in hdr:
+                        col_map['matdate'] = ci
+                    elif 'ISIN' in hdr:
+                        col_map['isin'] = ci
                 continue
-            try:
-                val = float(cell)
-            except (ValueError, TypeError):
-                if isinstance(cell, str) and ('-' in cell or '/' in cell):
-                    maturity = str(cell).strip()
+            if header_row is None:
                 continue
-            if i == 1:
-                tenor_days = int(val) if val > 10 else None
-            if tenor_days is None and val > 10:
-                tenor_days = int(val)
-            elif yield_pct is None and 0 < val < 1:
-                yield_pct = val
-            elif yield_pct is None and 1 <= val <= 100:
-                yield_pct = val / 100
-            elif coupon_pct is None and 0 < val < 1:
-                coupon_pct = val
-            elif coupon_pct is None and 1 <= val <= 100:
-                coupon_pct = val / 100
-            elif price is None and 50 <= val <= 200:
-                price = val
-        pt = YieldCurvePoint(
-            tenor=tenor, tenor_days=tenor_days,
-            yield_pct=yield_pct, coupon_pct=coupon_pct,
-            price=price, maturity_date=maturity,
-            source=f'Excel: {f.filename}',
-            updated_by=current_user.id,
-        )
-        db.session.add(pt)
-        count += 1
+            desc_ci = col_map.get('desc', col_map.get('tenor'))
+            if desc_ci is None:
+                continue
+            desc_val = row_vals[desc_ci]
+            if not desc_val:
+                continue
+            tenor_label = str(desc_val).strip()
+            if not tenor_label or tenor_label.upper() in ('', 'NO.', 'TOTAL', 'GRAND TOTAL'):
+                continue
+            if any(kw in tenor_label.upper() for kw in ['NEW BONDS', 'DDEP ', 'OLD ', 'CORPORATE', 'SELL', 'COMMERCIAL', 'GREEN']):
+                continue
+            yield_val = None
+            if 'yield' in col_map:
+                yv = row_vals[col_map['yield']]
+                if yv is not None:
+                    try:
+                        yield_val = float(yv) / 100
+                    except (ValueError, TypeError):
+                        pass
+            price_val = None
+            if 'price' in col_map:
+                pv = row_vals[col_map['price']]
+                if pv is not None:
+                    try:
+                        price_val = float(pv)
+                    except (ValueError, TypeError):
+                        pass
+            days_val = None
+            if 'days' in col_map:
+                dv = row_vals[col_map['days']]
+                if dv is not None:
+                    try:
+                        days_val = int(float(dv))
+                    except (ValueError, TypeError):
+                        pass
+            mat_val = None
+            if 'matdate' in col_map:
+                mv = row_vals[col_map['matdate']]
+                if mv is not None:
+                    if hasattr(mv, 'strftime'):
+                        mat_val = mv.strftime('%Y-%m-%d')
+                    else:
+                        mat_val = str(mv).strip()
+            coupon_val = None
+            import re
+            cpn_match = re.search(r'(\d+\.?\d*)\s*$', tenor_label.split('-')[0] if '-' in tenor_label else '')
+            if not cpn_match:
+                cpn_match = re.search(r'-(\d+\.?\d+)$', tenor_label)
+            if cpn_match:
+                try:
+                    coupon_val = float(cpn_match.group(1)) / 100
+                except (ValueError, TypeError):
+                    pass
+            if yield_val is not None or price_val is not None or days_val is not None:
+                pt = YieldCurvePoint(
+                    tenor=tenor_label, tenor_days=days_val,
+                    yield_pct=yield_val, coupon_pct=coupon_val,
+                    price=price_val, maturity_date=mat_val,
+                    source=f'GFIM: {f.filename} / {ws.title}',
+                    updated_by=current_user.id,
+                )
+                db.session.add(pt)
+                count += 1
     db.session.commit()
-    log_action(current_user.id, 'upload_yield_curve', f'{count} points from {f.filename}')
-    flash(f'Yield curve updated: {count} instruments uploaded.', 'success')
+    log_action(current_user.id, 'upload_yield_curve', f'{count} instruments from {f.filename}')
+    flash(f'Yield curve updated: {count} instruments from GFIM report.', 'success')
     return redirect(url_for('fixed_income'))
 
 

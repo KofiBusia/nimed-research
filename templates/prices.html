@@ -71,7 +71,7 @@
             <div class="panel-body p-3">
                 <form method="POST" action="{{ url_for('bulk_price_upload') }}" enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <p class="text-muted" style="font-size:11px">Upload Excel with columns: Ticker | Price (GHS) | Shares (m) | Company | Date</p>
+                    <p class="text-muted" style="font-size:11px">Upload GSE Daily Shares & ETFs report (.xlsx) — auto-detects Share Code and Closing Price (VWAP) columns</p>
                     <div class="mb-2">
                         <input type="file" name="price_file" accept=".xlsx,.xls" class="form-control form-control-sm" required>
                     </div>
