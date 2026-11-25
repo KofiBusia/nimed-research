@@ -26,9 +26,9 @@
                         <label class="form-label" style="font-size:13px;font-weight:500;">Password</label>
                         <input type="password" class="form-control" name="password" required minlength="6" style="border-radius:8px;">
                     </div>
-                    <div class="mb-4">
+                    <div class="mb-3">
                         <label class="form-label" style="font-size:13px;font-weight:500;">Role</label>
-                        <select class="form-select" name="role" style="border-radius:8px;">
+                        <select class="form-select" name="role" id="roleSelect" onchange="showRoleInfo()" style="border-radius:8px;">
                             <option value="viewer">Viewer</option>
                             <option value="analyst" selected>Analyst</option>
                             <option value="senior_analyst">Senior Analyst</option>
@@ -37,6 +37,12 @@
                             <option value="super_admin">Super Admin</option>
                             {% endif %}
                         </select>
+                    </div>
+                    <div class="mb-4" id="roleInfo">
+                        <div class="border rounded p-3" style="background:#f8f9fa;font-size:12px;">
+                            <div class="fw-bold mb-2" id="roleTitle" style="color:var(--nimed-navy);">Analyst</div>
+                            <div id="rolePerms"></div>
+                        </div>
                     </div>
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-primary" style="border-radius:8px;padding:8px 24px;font-size:13px;">Create User</button>
@@ -47,4 +53,101 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const roleData = {
+    viewer: {
+        label: 'Viewer',
+        color: '#6c757d',
+        permissions: [
+            {icon:'bi-eye', text:'View dashboard, financial statements, yield curve, and all reports', allowed:true},
+            {icon:'bi-graph-up', text:'View share prices and company data', allowed:true},
+            {icon:'bi-pencil', text:'Edit or upload data', allowed:false},
+            {icon:'bi-sliders', text:'Change market inputs or settings', allowed:false},
+            {icon:'bi-people', text:'Manage users', allowed:false},
+        ]
+    },
+    analyst: {
+        label: 'Analyst',
+        color: '#0d6efd',
+        permissions: [
+            {icon:'bi-eye', text:'View all pages and reports', allowed:true},
+            {icon:'bi-graph-up', text:'View share prices and company data', allowed:true},
+            {icon:'bi-pencil', text:'Edit or upload data', allowed:false},
+            {icon:'bi-sliders', text:'Change market inputs or settings', allowed:false},
+            {icon:'bi-people', text:'Manage users', allowed:false},
+        ]
+    },
+    senior_analyst: {
+        label: 'Senior Analyst',
+        color: '#198754',
+        permissions: [
+            {icon:'bi-eye', text:'View all pages and reports', allowed:true},
+            {icon:'bi-upload', text:'Upload financial statements (Excel & CSV)', allowed:true},
+            {icon:'bi-pencil-square', text:'Edit financial statements inline', allowed:true},
+            {icon:'bi-currency-exchange', text:'Update share prices (single & bulk upload)', allowed:true},
+            {icon:'bi-graph-up-arrow', text:'Upload GFIM yield curve data', allowed:true},
+            {icon:'bi-sliders', text:'Change market inputs or settings', allowed:false},
+            {icon:'bi-plus-circle', text:'Create new companies', allowed:false},
+            {icon:'bi-people', text:'Manage users', allowed:false},
+        ]
+    },
+    head_of_research: {
+        label: 'Head of Research',
+        color: '#fd7e14',
+        permissions: [
+            {icon:'bi-eye', text:'View all pages and reports', allowed:true},
+            {icon:'bi-upload', text:'Upload financial statements (Excel & CSV)', allowed:true},
+            {icon:'bi-pencil-square', text:'Edit financial statements inline', allowed:true},
+            {icon:'bi-currency-exchange', text:'Update share prices (single & bulk upload)', allowed:true},
+            {icon:'bi-graph-up-arrow', text:'Upload GFIM yield curve data', allowed:true},
+            {icon:'bi-sliders2', text:'Change market inputs and model settings', allowed:true},
+            {icon:'bi-plus-circle', text:'Create new companies and tickers', allowed:true},
+            {icon:'bi-trash', text:'Clear financial statements (single or all)', allowed:true},
+            {icon:'bi-person-plus', text:'Create new users (Viewer, Analyst, Senior Analyst)', allowed:true},
+            {icon:'bi-shield-lock', text:'Create admin-level users', allowed:false},
+            {icon:'bi-person-x', text:'Delete users', allowed:false},
+        ]
+    },
+    super_admin: {
+        label: 'Super Admin',
+        color: '#dc3545',
+        permissions: [
+            {icon:'bi-star', text:'Full access to all features', allowed:true},
+            {icon:'bi-upload', text:'Upload financial statements (Excel & CSV)', allowed:true},
+            {icon:'bi-pencil-square', text:'Edit all data inline', allowed:true},
+            {icon:'bi-currency-exchange', text:'Update share prices (single & bulk upload)', allowed:true},
+            {icon:'bi-sliders2', text:'Change all market inputs and model settings', allowed:true},
+            {icon:'bi-plus-circle', text:'Create new companies and tickers', allowed:true},
+            {icon:'bi-trash', text:'Clear financial statements (single or all)', allowed:true},
+            {icon:'bi-person-plus', text:'Create users at any role level', allowed:true},
+            {icon:'bi-person-x', text:'Delete users', allowed:true},
+            {icon:'bi-gear', text:'System configuration and admin settings', allowed:true},
+        ]
+    }
+};
+
+function showRoleInfo() {
+    const role = document.getElementById('roleSelect').value;
+    const info = roleData[role];
+    if (!info) return;
+    const levels = {viewer:20, analyst:40, senior_analyst:60, head_of_research:80, super_admin:100};
+    document.getElementById('roleTitle').innerHTML =
+        '<i class="bi bi-shield-check me-1"></i>' + info.label +
+        ' <span class="badge" style="background:' + info.color + ';font-size:10px;vertical-align:middle;">Level ' + levels[role] + '</span>';
+    document.getElementById('roleTitle').style.color = info.color;
+    let html = '';
+    info.permissions.forEach(p => {
+        const cls = p.allowed ? 'text-success' : 'text-danger';
+        const icon = p.allowed ? 'bi-check-circle-fill' : 'bi-x-circle';
+        html += '<div class="d-flex align-items-start gap-2 mb-1">' +
+            '<i class="bi ' + icon + ' ' + cls + '" style="margin-top:2px;font-size:11px;"></i>' +
+            '<span>' + p.text + '</span></div>';
+    });
+    document.getElementById('rolePerms').innerHTML = html;
+}
+showRoleInfo();
+</script>
 {% endblock %}
