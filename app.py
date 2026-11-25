@@ -5,7 +5,7 @@ from flask_wtf.csrf import CSRFProtect
 from functools import wraps
 from datetime import datetime
 from config import Config
-from models import db, User, AuditLog, MarketInput, SharePrice, CompanyFinancials
+from models import db, User, AuditLog, MarketInput, SharePrice, CompanyFinancials, YieldCurvePoint
 from data_loader import (
     get_dashboard_data, get_beta_data, get_valuation_data,
     get_credit_risk_data, get_fixed_income_data, get_peer_data,
@@ -129,6 +129,22 @@ def credit_risk():
 @login_required
 def fixed_income():
     data = get_fixed_income_data()
+    db_points = YieldCurvePoint.query.order_by(YieldCurvePoint.tenor_days).all()
+    if db_points:
+        data['yield_curve'] = [
+            {
+                'tenor': p.tenor,
+                'tenor_days': p.tenor_days,
+                'yield_pct': p.yield_pct,
+                'coupon_pct': p.coupon_pct,
+                'price': p.price,
+                'maturity_date': p.maturity_date or '',
+            }
+            for p in db_points
+        ]
+        data['yc_source'] = f'Database ({db_points[0].source or "manual"}) — updated {db_points[0].updated_at.strftime("%Y-%m-%d %H:%M")}'
+    else:
+        data['yc_source'] = 'Base JSON (upload Excel to update)'
     return render_template('fixed_income.html', data=data)
 
 
@@ -612,6 +628,102 @@ def save_financial_statements():
     log_action(current_user.id, 'manual_fs_edit', f'{ticker}')
     flash(f'Financial statements saved for {ticker}.', 'success')
     return redirect(url_for('financial_statements', ticker=ticker))
+
+
+@app.route('/fixed-income/upload', methods=['POST'])
+@login_required
+@role_required('super_admin', 'head_of_research', 'senior_analyst')
+def upload_yield_curve():
+    f = request.files.get('yc_file')
+    if not f or not f.filename.endswith(('.xlsx', '.xls')):
+        flash('Please upload an Excel file (.xlsx).', 'danger')
+        return redirect(url_for('fixed_income'))
+    import openpyxl
+    wb = openpyxl.load_workbook(f, data_only=True)
+    ws = wb.active
+    YieldCurvePoint.query.delete()
+    count = 0
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        cells = list(row)
+        if len(cells) < 2 or not cells[0]:
+            continue
+        tenor = str(cells[0]).strip()
+        if not tenor or tenor.lower().startswith('instrument') or tenor.lower().startswith('market'):
+            continue
+        tenor_days = None
+        yield_pct = None
+        coupon_pct = None
+        price = None
+        maturity = None
+        for i, cell in enumerate(cells[1:], 1):
+            if cell is None:
+                continue
+            try:
+                val = float(cell)
+            except (ValueError, TypeError):
+                if isinstance(cell, str) and ('-' in cell or '/' in cell):
+                    maturity = str(cell).strip()
+                continue
+            if i == 1:
+                tenor_days = int(val) if val > 10 else None
+            if tenor_days is None and val > 10:
+                tenor_days = int(val)
+            elif yield_pct is None and 0 < val < 1:
+                yield_pct = val
+            elif yield_pct is None and 1 <= val <= 100:
+                yield_pct = val / 100
+            elif coupon_pct is None and 0 < val < 1:
+                coupon_pct = val
+            elif coupon_pct is None and 1 <= val <= 100:
+                coupon_pct = val / 100
+            elif price is None and 50 <= val <= 200:
+                price = val
+        pt = YieldCurvePoint(
+            tenor=tenor, tenor_days=tenor_days,
+            yield_pct=yield_pct, coupon_pct=coupon_pct,
+            price=price, maturity_date=maturity,
+            source=f'Excel: {f.filename}',
+            updated_by=current_user.id,
+        )
+        db.session.add(pt)
+        count += 1
+    db.session.commit()
+    log_action(current_user.id, 'upload_yield_curve', f'{count} points from {f.filename}')
+    flash(f'Yield curve updated: {count} instruments uploaded.', 'success')
+    return redirect(url_for('fixed_income'))
+
+
+@app.route('/fixed-income/save', methods=['POST'])
+@login_required
+@role_required('super_admin', 'head_of_research', 'senior_analyst')
+def save_yield_curve():
+    data_raw = request.form.get('yc_data', '[]')
+    try:
+        rows = json.loads(data_raw)
+    except (json.JSONDecodeError, TypeError):
+        flash('Invalid data.', 'danger')
+        return redirect(url_for('fixed_income'))
+    YieldCurvePoint.query.delete()
+    count = 0
+    for r in rows:
+        if not r.get('tenor'):
+            continue
+        pt = YieldCurvePoint(
+            tenor=r['tenor'],
+            tenor_days=r.get('tenor_days'),
+            yield_pct=r.get('yield_pct'),
+            coupon_pct=r.get('coupon_pct'),
+            price=r.get('price'),
+            maturity_date=r.get('maturity_date'),
+            source='Manual edit',
+            updated_by=current_user.id,
+        )
+        db.session.add(pt)
+        count += 1
+    db.session.commit()
+    log_action(current_user.id, 'save_yield_curve', f'{count} points manually edited')
+    flash(f'Yield curve saved: {count} instruments.', 'success')
+    return redirect(url_for('fixed_income'))
 
 
 @app.route('/api/recalculate', methods=['POST'])

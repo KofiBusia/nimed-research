@@ -126,6 +126,20 @@ class CompanyFinancials(db.Model):
         self.data_json = _json.dumps(data)
 
 
+class YieldCurvePoint(db.Model):
+    __tablename__ = 'yield_curve_points'
+    id = db.Column(db.Integer, primary_key=True)
+    tenor = db.Column(db.String(100), nullable=False)
+    tenor_days = db.Column(db.Integer)
+    yield_pct = db.Column(db.Float)
+    coupon_pct = db.Column(db.Float)
+    price = db.Column(db.Float)
+    maturity_date = db.Column(db.String(20))
+    source = db.Column(db.String(200))
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+
 class ComputedData(db.Model):
     __tablename__ = 'computed_data'
     id = db.Column(db.Integer, primary_key=True)

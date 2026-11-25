@@ -2,6 +2,12 @@
 {% block title %}Fixed Income{% endblock %}
 {% block page_title %}Fixed Income{% endblock %}
 
+{% block extra_css %}
+<style>
+.edit-cell { width:80px; text-align:right; font-size:11px; padding:1px 4px; }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="row g-3 mb-4">
     <div class="col-lg-6">
@@ -12,7 +18,13 @@
                     {% for key, val in data.bond_calc.items() %}
                     <tr>
                         <td class="text-muted" style="width:50%;">{{ key }}</td>
-                        <td class="fw-semibold">{{ val }}</td>
+                        <td class="fw-semibold">
+                            {% if val is number and val|float|abs < 1 and val|float != 0 %}
+                            {{ "%.2f"|format(val|float * 100) }}%
+                            {% elif val is number %}
+                            {{ "{:,.2f}".format(val|float) }}
+                            {% else %}{{ val }}{% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -21,7 +33,10 @@
     </div>
     <div class="col-lg-6">
         <div class="card-panel">
-            <div class="panel-header"><h3><i class="bi bi-graph-up me-2"></i>Yield Curve</h3></div>
+            <div class="panel-header">
+                <h3><i class="bi bi-graph-up me-2"></i>Yield Curve</h3>
+                <span class="text-muted" style="font-size:10px"><i class="bi bi-database me-1"></i>{{ data.get('yc_source', '') }}</span>
+            </div>
             <div class="panel-body" style="padding:16px;">
                 <canvas id="yieldChart" height="260"></canvas>
             </div>
@@ -29,51 +44,160 @@
     </div>
 </div>
 
-<div class="card-panel">
-    <div class="panel-header"><h3>Yield Curve Data</h3></div>
+<div class="card-panel mb-4">
+    <div class="panel-header d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-table me-2"></i>Yield Curve Data</h3>
+        <div class="d-flex gap-2 align-items-center">
+            {% if current_user.can_edit_data() %}
+            <button class="btn btn-sm btn-outline-primary" id="btnEdit" onclick="toggleEdit()"><i class="bi bi-pencil me-1"></i>Edit</button>
+            <button class="btn btn-sm btn-primary d-none" id="btnSave" onclick="saveYC()"><i class="bi bi-save me-1"></i>Save</button>
+            <button class="btn btn-sm btn-secondary d-none" id="btnCancel" onclick="location.reload()">Cancel</button>
+            {% endif %}
+        </div>
+    </div>
     <div class="panel-body">
         <div class="table-responsive">
-            <table class="table table-research">
+            <table class="table table-research" id="ycTable">
                 <thead>
                     <tr>
-                        <th>Tenor</th>
-                        {% for key in data.yield_curve[0].keys() if key != 'tenor' %}
-                        <th>{{ key }}</th>
-                        {% endfor %}
+                        <th>Instrument</th>
+                        <th class="text-end">Tenor (days)</th>
+                        <th class="text-end">Yield (%)</th>
+                        <th class="text-end">Coupon (%)</th>
+                        <th class="text-end">Price</th>
+                        <th>Maturity</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for y in data.yield_curve %}
-                    <tr>
+                    {% set has_data = y.get('yield_pct') is not none or y.get('tenor_days') is not none %}
+                    {% if has_data or y.get('tenor','') not in ('', 'Instrument') %}
+                    <tr data-idx="{{ loop.index0 }}">
                         <td class="fw-semibold">{{ y.tenor }}</td>
-                        {% for key, val in y.items() if key != 'tenor' %}
-                        <td>{% if val is number %}{{ "%.2f"|format(val|float) }}{% else %}{{ val or '—' }}{% endif %}</td>
-                        {% endfor %}
+                        <td class="text-end" data-field="tenor_days" data-val="{{ y.get('tenor_days','') }}">
+                            <span class="dv">{{ y.get('tenor_days', '—') }}</span>
+                        </td>
+                        <td class="text-end" data-field="yield_pct" data-val="{{ y.get('yield_pct','') }}">
+                            <span class="dv">{% if y.get('yield_pct') is not none and y.yield_pct is number %}{{ "%.2f"|format(y.yield_pct * 100) }}%{% else %}—{% endif %}</span>
+                        </td>
+                        <td class="text-end" data-field="coupon_pct" data-val="{{ y.get('coupon_pct','') }}">
+                            <span class="dv">{% if y.get('coupon_pct') is not none and y.coupon_pct is number %}{{ "%.2f"|format(y.coupon_pct * 100) }}%{% else %}—{% endif %}</span>
+                        </td>
+                        <td class="text-end" data-field="price" data-val="{{ y.get('price','') }}">
+                            <span class="dv">{% if y.get('price') is not none and y.price is number %}{{ "%.2f"|format(y.price) }}{% else %}—{% endif %}</span>
+                        </td>
+                        <td data-field="maturity_date" data-val="{{ y.get('maturity_date','') }}">
+                            <span class="dv">{{ y.get('maturity_date', '—') }}</span>
+                        </td>
                     </tr>
+                    {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+{% if current_user.can_edit_data() %}
+<div class="card-panel mb-4">
+    <div class="panel-header"><h3><i class="bi bi-upload me-2"></i>Upload Yield Curve from Excel</h3></div>
+    <div class="panel-body p-3">
+        <form method="POST" action="{{ url_for('upload_yield_curve') }}" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="row align-items-end g-2">
+                <div class="col-md-6">
+                    <label class="form-label" style="font-size:12px">Excel file with yield curve data</label>
+                    <input type="file" name="yc_file" accept=".xlsx,.xls" class="form-control form-control-sm" required>
+                    <div class="text-muted mt-1" style="font-size:10px">Columns: Instrument | Tenor (days) | Yield (%) | Coupon (%) | Price | Maturity Date</div>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-cloud-upload me-1"></i>Upload & Replace</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
 {% endblock %}
 
 {% block extra_js %}
 <script>
 const yc = {{ data.yield_curve | tojson }};
-const tenors = yc.map(y => y.tenor);
-const keys = Object.keys(yc[0] || {}).filter(k => k !== 'tenor');
-const colors = ['#0066cc','#4caf50','#ff9800','#e53935','#9c27b0','#00b4d8','#795548','#607d8b'];
-const datasets = keys.slice(0,4).map((k,i) => ({
-    label: k, data: yc.map(y => y[k]),
-    borderColor: colors[i], backgroundColor: 'transparent',
-    tension: .3, pointRadius: 3, borderWidth: 2
-}));
-new Chart(document.getElementById('yieldChart'), {
-    type: 'line', data: { labels: tenors, datasets },
-    options: { responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { position: 'top', labels: { font: { size: 11 }, usePointStyle: true } } },
-        scales: { x: { ticks: { font: { size: 10 } } }, y: { ticks: { font: { size: 10 } } } } }
-});
+const validPts = yc.filter(y => y.yield_pct != null && y.tenor_days != null)
+                    .sort((a,b) => (a.tenor_days||0) - (b.tenor_days||0));
+if (validPts.length > 0) {
+    new Chart(document.getElementById('yieldChart'), {
+        type: 'line',
+        data: {
+            labels: validPts.map(y => y.tenor),
+            datasets: [{
+                label: 'Yield (%)',
+                data: validPts.map(y => (y.yield_pct * 100).toFixed(2)),
+                borderColor: '#0066cc',
+                backgroundColor: 'rgba(0,102,204,.08)',
+                fill: true, tension: .3, pointRadius: 4, borderWidth: 2,
+                pointBackgroundColor: '#0066cc'
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { ticks: { font: { size: 10 }, maxRotation: 45 }, grid: { display: false } },
+                y: { title: { display: true, text: 'Yield (%)' }, ticks: { font: { size: 10 } }, grid: { color: '#f0f0f0' } }
+            }
+        }
+    });
+} else {
+    document.getElementById('yieldChart').parentElement.innerHTML = '<div class="text-center text-muted py-5"><i class="bi bi-graph-up" style="font-size:48px;opacity:.3"></i><p class="mt-2">No yield curve data available. Upload an Excel file to populate.</p></div>';
+}
+
+let editMode = false;
+function toggleEdit() {
+    editMode = !editMode;
+    document.getElementById('btnEdit').classList.toggle('d-none', editMode);
+    document.getElementById('btnSave').classList.toggle('d-none', !editMode);
+    document.getElementById('btnCancel').classList.toggle('d-none', !editMode);
+    document.querySelectorAll('#ycTable td[data-field]').forEach(td => {
+        if (editMode) {
+            td.querySelector('.dv').classList.add('d-none');
+            const inp = document.createElement('input');
+            inp.type = 'text'; inp.className = 'form-control edit-cell';
+            inp.value = td.dataset.val || '';
+            td.appendChild(inp);
+        } else {
+            const inp = td.querySelector('input');
+            if (inp) inp.remove();
+            td.querySelector('.dv').classList.remove('d-none');
+        }
+    });
+}
+
+function saveYC() {
+    const rows = [];
+    document.querySelectorAll('#ycTable tbody tr[data-idx]').forEach(tr => {
+        const tenor = tr.querySelector('td').textContent.trim();
+        const get = f => { const inp = tr.querySelector(`td[data-field="${f}"] input`); return inp ? inp.value.trim() : ''; };
+        const num = v => { const n = parseFloat(v); return isNaN(n) ? null : n; };
+        let yld = num(get('yield_pct'));
+        if (yld !== null && yld > 1) yld = yld / 100;
+        let cpn = num(get('coupon_pct'));
+        if (cpn !== null && cpn > 1) cpn = cpn / 100;
+        rows.push({
+            tenor: tenor,
+            tenor_days: num(get('tenor_days')),
+            yield_pct: yld,
+            coupon_pct: cpn,
+            price: num(get('price')),
+            maturity_date: get('maturity_date') || null,
+        });
+    });
+    const form = document.createElement('form');
+    form.method = 'POST'; form.action = '/fixed-income/save';
+    form.innerHTML = `<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">` +
+        `<input type="hidden" name="yc_data" value='${JSON.stringify(rows)}'>`;
+    document.body.appendChild(form);
+    form.submit();
+}
 </script>
 {% endblock %}
