@@ -1,0 +1,96 @@
+﻿Line Item,Stmt Type,FY2022,FY2023,FY2024,FY2025
+Company Name,META
+Currency,META
+Reporting Period End,META
+Auditor,META
+Country of Incorporation,META
+Revenue / Gross Gaming Revenue,IS
+Cost of revenue / Direct costs,IS
+Gaming tax on revenue,IS
+Gross Profit,IS
+Other operating income,IS
+Foreign exchange gain / (loss),IS
+Staff costs / Employment costs,IS
+Administration expenses,IS
+Operating expenses,IS
+Marketing & promotion expenses,IS
+Platform & technology costs,IS
+Depreciation,IS
+Amortisation,IS
+Finance costs,IS
+Finance income,IS
+Profit / (Loss) before tax,IS
+Income tax expense,IS
+Profit / (Loss) after tax,IS
+Other comprehensive income,IS
+Total comprehensive income,IS
+NON-CURRENT ASSETS,BS
+Property and equipment,BS
+Intangible assets / Franchise,BS
+Right-of-use assets,BS
+Goodwill,BS
+Deferred tax asset,BS
+Other non-current assets,BS
+Total non-current assets,BS
+CURRENT ASSETS,BS
+Trade and other receivables,BS
+Prepayments,BS
+Income tax receivable,BS
+Player deposits / E-wallet balances,BS
+Other current assets,BS
+Cash and cash equivalents,BS
+Total current assets,BS
+TOTAL ASSETS,BS
+EQUITY,BS
+Ordinary share capital,BS
+Share premium,BS
+Retained earnings / (Accumulated losses),BS
+Other reserves,BS
+Total equity,BS
+NON-CURRENT LIABILITIES,BS
+Borrowings (non-current),BS
+Intercompany borrowings (non-current),BS
+Deferred tax liability,BS
+Lease liabilities (non-current),BS
+Other non-current liabilities,BS
+Total non-current liabilities,BS
+CURRENT LIABILITIES,BS
+Trade and other payables,BS
+Accruals,BS
+Intercompany borrowings (current),BS
+Player balances payable,BS
+Income tax payable,BS
+Lease liabilities (current),BS
+Other current liabilities,BS
+Total current liabilities,BS
+TOTAL LIABILITIES,BS
+TOTAL EQUITY AND LIABILITIES,BS
+OPERATING ACTIVITIES,CF
+Profit / (Loss) before tax,CF
+Adjustments:,CF
+Depreciation of property and equipment,CF
+Amortisation of intangible assets,CF
+Finance costs,CF
+Finance income,CF
+Prior year adjustments,CF
+Working capital changes:,CF
+Change in trade and other receivables,CF
+Change in trade and other payables,CF
+Change in intercompany balances,CF
+Tax paid,CF
+Net cash from operating activities,CF
+INVESTING ACTIVITIES,CF
+Purchase of property and equipment,CF
+Purchase of intangible assets / franchise,CF
+Proceeds from sale of assets,CF
+Net cash used in investing activities,CF
+FINANCING ACTIVITIES,CF
+Proceeds from issue of shares,CF
+Loans received,CF
+Loan repayments,CF
+Dividends paid,CF
+Lease payments,CF
+Net cash from financing activities,CF
+Net increase / (decrease) in cash,CF
+Cash at beginning of year,CF
+Cash at end of year,CF

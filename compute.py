@@ -333,6 +333,7 @@ def recalculate_all(inputs, base_data, db_prices, db_financials):
     fs_map = {}
     for cf in db_financials:
         d = cf.get_data()
+        d['company_name'] = cf.company_name or cf.ticker
         fs_map[cf.ticker] = d
 
     fs_data = data.get('financial_statements', {})
