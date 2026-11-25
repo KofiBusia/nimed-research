@@ -486,17 +486,29 @@ def share_prices():
 
     prices = SharePrice.query.order_by(SharePrice.ticker).all()
     base = load_workbook_data()
+    fs_tickers = set(base.get('financial_statements', {}).keys())
     all_peers = base.get('all_peers', {})
     base_tickers = {}
     for sector, peers in all_peers.items():
         for p in peers:
             t = p.get('Ticker', '')
-            if t:
+            if not t or t not in fs_tickers:
+                continue
+            price = p.get('Last close (GHS)')
+            shares = p.get('Shares (m)')
+            if t not in base_tickers:
                 base_tickers[t] = {
                     'company': p.get('Company', t),
-                    'price': p.get('Last close (GHS)', 0),
-                    'shares_m': p.get('Shares (m)', 0),
+                    'price': price if price is not None else 0,
+                    'shares_m': shares if shares is not None else 0,
                 }
+    for sp in prices:
+        if sp.ticker not in base_tickers:
+            base_tickers[sp.ticker] = {
+                'company': sp.company_name or sp.ticker,
+                'price': sp.price_ghs or 0,
+                'shares_m': sp.shares_m or 0,
+            }
     return render_template('prices.html', prices=prices, base_tickers=base_tickers)
 
 

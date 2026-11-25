@@ -16,17 +16,18 @@
                         <tr><th>Ticker</th><th>Company</th><th class="text-end">Price (GHS)</th><th class="text-end">Shares (m)</th><th>Date</th><th>Source</th><th>Updated</th></tr>
                     </thead>
                     <tbody>
-                        {% for t, info in base_tickers.items() %}
-                        {% set override = None %}
-                        {% for p in prices %}{% if p.ticker == t %}{% set override = p %}{% endif %}{% endfor %}
-                        <tr{% if override %} class="table-success"{% endif %}>
+                        {% for t in base_tickers.keys()|sort %}
+                        {% set info = base_tickers[t] %}
+                        {% set ns = namespace(override=none) %}
+                        {% for p in prices %}{% if p.ticker == t %}{% set ns.override = p %}{% endif %}{% endfor %}
+                        <tr{% if ns.override %} class="table-success"{% endif %}>
                             <td class="fw-bold">{{ t }}</td>
-                            <td>{{ override.company_name if override and override.company_name else info.company }}</td>
-                            <td class="text-end fw-semibold">{{ "{:,.2f}".format(override.price_ghs) if override else "{:,.2f}".format(info.price|float) }}</td>
-                            <td class="text-end">{{ "{:,.1f}".format(override.shares_m) if override and override.shares_m else "{:,.1f}".format(info.shares_m|float) }}</td>
-                            <td>{{ override.price_date if override else '—' }}</td>
-                            <td><span class="badge bg-{{ 'primary' if override else 'secondary' }}">{{ override.source if override else 'Base JSON' }}</span></td>
-                            <td class="text-muted">{{ override.updated_at.strftime('%Y-%m-%d %H:%M') if override else '—' }}</td>
+                            <td>{{ ns.override.company_name if ns.override and ns.override.company_name else info.company }}</td>
+                            <td class="text-end fw-semibold">{% if ns.override %}{{ "{:,.2f}".format(ns.override.price_ghs) }}{% elif info.price %}{{ "{:,.2f}".format(info.price|float) }}{% else %}—{% endif %}</td>
+                            <td class="text-end">{% if ns.override and ns.override.shares_m %}{{ "{:,.1f}".format(ns.override.shares_m) }}{% elif info.shares_m %}{{ "{:,.1f}".format(info.shares_m|float) }}{% else %}—{% endif %}</td>
+                            <td>{{ ns.override.price_date if ns.override else '—' }}</td>
+                            <td><span class="badge bg-{{ 'primary' if ns.override else 'secondary' }}">{{ ns.override.source if ns.override else 'Workbook' }}</span></td>
+                            <td class="text-muted">{{ ns.override.updated_at.strftime('%Y-%m-%d %H:%M') if ns.override else '—' }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
