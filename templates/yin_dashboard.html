@@ -287,9 +287,9 @@
 
 {% block extra_js %}
 <script>
-const dcf = {{ db.get('Enterprise value — DCF (method selected)',{}).get('value',0) | tojson }};
-const comps = {{ db.get('Enterprise value — trading comparables',{}).get('value',0) | tojson }};
-const prec = {{ db.get('Enterprise value — precedent transactions',{}).get('value',0) | tojson }};
+const dcf = {{ data.dashboard.get('Enterprise value — DCF (method selected)',{}).get('value',0) | tojson }};
+const comps = {{ data.dashboard.get('Enterprise value — trading comparables',{}).get('value',0) | tojson }};
+const prec = {{ data.dashboard.get('Enterprise value — precedent transactions',{}).get('value',0) | tojson }};
 new Chart(document.getElementById('yinValChart'), {
     type: 'bar',
     data: {
