@@ -464,6 +464,228 @@ def pc_assumptions():
     return render_template('pc_assumptions.html', data=data)
 
 
+@app.route('/recommendation/<ticker>')
+@login_required
+def recommendation(ticker):
+    from compute import extract_key_metrics, _safe
+    cf = CompanyFinancials.query.filter_by(ticker=ticker).first()
+    if cf:
+        fs = cf.get_data()
+        company_name = cf.company_name or ticker
+        currency = cf.currency or 'GHS'
+        is_private = getattr(cf, 'is_private', False) or False
+        industry = getattr(cf, 'industry', None) or ''
+    else:
+        fs_data = get_financial_statements_data()
+        if ticker not in fs_data:
+            flash('Company not found.', 'warning')
+            return redirect(url_for('dashboard'))
+        fs = fs_data[ticker]
+        company_name = fs.get('company_name', ticker)
+        currency = fs.get('currency', 'GHS')
+        is_private = False
+        industry = fs.get('industry', '')
+
+    items = fs.get('items', [])
+    periods = fs.get('periods', [])
+
+    if is_private:
+        back_url = url_for('pc_company_view', ticker=ticker)
+    else:
+        back_url = url_for('financial_statements', ticker=ticker)
+
+    fy_periods = [p for p in periods if p.startswith('FY')]
+    latest_fy = fy_periods[-1] if fy_periods else (periods[-1] if periods else '')
+    prev_fy = fy_periods[-2] if len(fy_periods) >= 2 else None
+
+    label_map = {}
+    for item in items:
+        label = (item.get('item') or '').strip()
+        label_map[label.lower()] = item
+
+    def find_val(fragments, period=None):
+        period = period or latest_fy
+        if not period:
+            return None
+        for frag in fragments:
+            for lbl, item in label_map.items():
+                if frag.lower() in lbl:
+                    v = item.get(period)
+                    if v is not None:
+                        return _safe(v)
+        return None
+
+    revenue = find_val(['revenue', 'turnover', 'net interest income', 'gross earned premium'])
+    cost_of_sales = find_val(['cost of sales', 'cost of goods'])
+    operating_income = find_val(['operating income', 'operating profit', 'profit from operations'])
+    net_income = find_val(['net income', 'net profit attributable', 'profit after tax', 'profit for the year'])
+    total_assets = find_val(['total assets'])
+    total_equity = find_val(['total equity', 'total shareholders'])
+    total_liabilities = find_val(['total liabilities'])
+    cash = find_val(['cash and cash equivalents', 'cash and bank'])
+    total_debt = find_val(['total borrowings', 'borrowings', 'loans and borrowings'])
+    ebitda = find_val(['ebitda', 'reported ebitda'])
+
+    rev_prev = find_val(['revenue', 'turnover', 'net interest income', 'gross earned premium'], prev_fy) if prev_fy else None
+    ni_prev = find_val(['net income', 'net profit attributable', 'profit after tax', 'profit for the year'], prev_fy) if prev_fy else None
+    ta_prev = find_val(['total assets'], prev_fy) if prev_fy else None
+
+    def growth(curr, prev):
+        if curr is not None and prev is not None and prev != 0:
+            return (curr - prev) / abs(prev)
+        return None
+
+    rev_growth = growth(revenue, rev_prev)
+    ni_growth = growth(net_income, ni_prev)
+    ta_growth = growth(total_assets, ta_prev)
+
+    gross_margin = ((revenue - cost_of_sales) / revenue) if revenue and cost_of_sales and revenue != 0 else None
+    operating_margin = (operating_income / revenue) if operating_income and revenue and revenue != 0 else None
+    net_margin = (net_income / revenue) if net_income and revenue and revenue != 0 else None
+    roe = (net_income / total_equity) if net_income and total_equity and total_equity != 0 else None
+    roa = (net_income / total_assets) if net_income and total_assets and total_assets != 0 else None
+    debt_equity = (total_liabilities / total_equity) if total_liabilities and total_equity and total_equity != 0 else None
+
+    highlights = []
+    if revenue is not None:
+        highlights.append({'label': 'Revenue / Interest Income', 'value': revenue, 'fmt': 'money', 'growth': rev_growth})
+    if net_income is not None:
+        highlights.append({'label': 'Net Income', 'value': net_income, 'fmt': 'money', 'growth': ni_growth})
+    if total_assets is not None:
+        highlights.append({'label': 'Total Assets', 'value': total_assets, 'fmt': 'money', 'growth': ta_growth})
+    if ebitda is not None:
+        highlights.append({'label': 'EBITDA', 'value': ebitda, 'fmt': 'money'})
+    if total_equity is not None:
+        highlights.append({'label': 'Total Equity', 'value': total_equity, 'fmt': 'money'})
+    if cash is not None:
+        highlights.append({'label': 'Cash & Equivalents', 'value': cash, 'fmt': 'money'})
+
+    summary_labels = [
+        ('Revenue / Interest Income', ['revenue', 'turnover', 'net interest income', 'gross earned premium'], False, True),
+        ('Cost of Sales / Interest Expense', ['cost of sales', 'interest expense', 'cost of goods'], True, False),
+        ('Gross Profit', ['gross profit'], False, True),
+        ('Operating Expenses', ['operating expenses', 'total operating expenses', 'admin expenses'], True, False),
+        ('Operating Income', ['operating income', 'operating profit', 'profit from operations'], False, True),
+        ('Net Income', ['net income', 'net profit attributable', 'profit after tax', 'profit for the year'], False, True),
+        ('Total Assets', ['total assets'], False, True),
+        ('Total Liabilities', ['total liabilities'], False, False),
+        ('Total Equity', ['total equity', 'total shareholders'], False, True),
+    ]
+
+    summary_periods = fy_periods[-3:] if len(fy_periods) >= 3 else fy_periods
+    summary_rows = []
+    for label, frags, indent, bold in summary_labels:
+        values = {}
+        for p in summary_periods:
+            v = find_val(frags, p)
+            if v is not None:
+                values[p] = v
+        if values:
+            summary_rows.append({'item': label, 'values': values, 'indent': indent, 'bold': bold})
+
+    ratios = []
+    if net_margin is not None:
+        ratios.append({'label': 'Net Profit Margin', 'display': '{:.1f}%'.format(net_margin * 100)})
+    if gross_margin is not None:
+        ratios.append({'label': 'Gross Margin', 'display': '{:.1f}%'.format(gross_margin * 100)})
+    if operating_margin is not None:
+        ratios.append({'label': 'Operating Margin', 'display': '{:.1f}%'.format(operating_margin * 100)})
+    if roe is not None:
+        ratios.append({'label': 'Return on Equity (ROE)', 'display': '{:.1f}%'.format(roe * 100)})
+    if roa is not None:
+        ratios.append({'label': 'Return on Assets (ROA)', 'display': '{:.1f}%'.format(roa * 100)})
+    if debt_equity is not None:
+        ratios.append({'label': 'Debt-to-Equity', 'display': '{:.2f}x'.format(debt_equity)})
+    if revenue and total_assets and total_assets != 0:
+        ratios.append({'label': 'Asset Turnover', 'display': '{:.2f}x'.format(revenue / total_assets)})
+    if ebitda and total_debt and total_debt != 0:
+        ratios.append({'label': 'Debt/EBITDA', 'display': '{:.1f}x'.format(total_debt / ebitda)})
+
+    # Determine recommendation signal
+    score = 0
+    reasons = []
+    if rev_growth is not None:
+        if rev_growth > 0.10:
+            score += 2; reasons.append('Strong revenue growth ({:.0f}%)'.format(rev_growth * 100))
+        elif rev_growth > 0:
+            score += 1; reasons.append('Positive revenue growth ({:.0f}%)'.format(rev_growth * 100))
+        else:
+            score -= 1; reasons.append('Revenue declined ({:.0f}%)'.format(rev_growth * 100))
+    if ni_growth is not None:
+        if ni_growth > 0.10:
+            score += 2
+        elif ni_growth > 0:
+            score += 1
+        else:
+            score -= 1
+    if roe is not None:
+        if roe > 0.15:
+            score += 2; reasons.append('ROE of {:.1f}% exceeds 15% threshold'.format(roe * 100))
+        elif roe > 0.08:
+            score += 1
+        elif roe > 0:
+            score += 0
+        else:
+            score -= 1; reasons.append('Negative ROE indicates losses')
+    if net_margin is not None:
+        if net_margin > 0.15:
+            score += 1
+        elif net_margin < 0:
+            score -= 2
+    if debt_equity is not None:
+        if debt_equity < 1.5:
+            score += 1
+        elif debt_equity > 3:
+            score -= 1; reasons.append('High leverage (D/E {:.1f}x)'.format(debt_equity))
+
+    if score >= 4:
+        signal = 'BUY'
+    elif score >= 1:
+        signal = 'HOLD'
+    else:
+        signal = 'SELL'
+
+    signal_rationale = '. '.join(reasons[:3]) + '.' if reasons else 'Assessment based on available financial data.'
+
+    # Auto-generate strengths and risks
+    strengths = []
+    risks = []
+    if rev_growth is not None and rev_growth > 0.05:
+        strengths.append('Revenue growing at {:.0f}% year-over-year'.format(rev_growth * 100))
+    if roe is not None and roe > 0.12:
+        strengths.append('Strong return on equity ({:.1f}%)'.format(roe * 100))
+    if net_margin is not None and net_margin > 0.10:
+        strengths.append('Healthy net profit margin ({:.1f}%)'.format(net_margin * 100))
+    if cash is not None and total_assets and total_assets != 0:
+        cash_ratio = cash / total_assets
+        if cash_ratio > 0.10:
+            strengths.append('Strong cash position ({:.0f}% of assets)'.format(cash_ratio * 100))
+    if debt_equity is not None and debt_equity < 1.0:
+        strengths.append('Conservative leverage (D/E {:.2f}x)'.format(debt_equity))
+
+    if rev_growth is not None and rev_growth < 0:
+        risks.append('Revenue decline may signal market or operational challenges')
+    if net_margin is not None and net_margin < 0.05:
+        risks.append('Thin profit margins leave limited buffer')
+    if debt_equity is not None and debt_equity > 2.0:
+        risks.append('Elevated leverage increases financial risk')
+    if ni_growth is not None and ni_growth < -0.10:
+        risks.append('Significant decline in profitability ({:.0f}%)'.format(ni_growth * 100))
+    if not strengths:
+        strengths.append('Financial data available for detailed due diligence')
+    if not risks:
+        risks.append('Standard market and operational risks apply')
+
+    return render_template('recommendation.html',
+        ticker=ticker, company_name=company_name, currency=currency,
+        is_private=is_private, industry=industry,
+        latest_fy=latest_fy, today=datetime.utcnow().strftime('%d %B %Y'),
+        signal=signal, signal_rationale=signal_rationale,
+        highlights=highlights, summary_periods=summary_periods,
+        summary_rows=summary_rows, ratios=ratios,
+        strengths=strengths, risks=risks, back_url=back_url)
+
+
 @app.route('/settings/save-inputs', methods=['POST'])
 @login_required
 @role_required('super_admin', 'head_of_research')

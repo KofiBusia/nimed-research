@@ -292,7 +292,10 @@
         <div class="d-flex align-items-center gap-3 p-2 rounded" style="background:#f0f4ff;">
             <span class="badge bg-dark" style="font-size:12px;" id="currencyBadge">{{ selected.currency or 'GHS' }}</span>
             <span class="text-muted" style="font-size:12px;" id="currencyLabel">Showing values in <strong>{{ selected.currency or 'GHS' }}</strong> (original currency)</span>
-            <button class="btn btn-sm btn-outline-primary ms-auto" id="btnToggleUSD" onclick="toggleCurrency()">
+            <a href="{{ url_for('recommendation', ticker=selected_ticker) }}" class="btn btn-sm btn-outline-success ms-auto">
+                <i class="bi bi-file-earmark-text me-1"></i>Recommendation Sheet
+            </a>
+            <button class="btn btn-sm btn-outline-primary" id="btnToggleUSD" onclick="toggleCurrency()">
                 <i class="bi bi-currency-dollar me-1"></i>Convert to USD
             </button>
             <span class="text-muted d-none" style="font-size:11px;" id="fxRateInfo"></span>
