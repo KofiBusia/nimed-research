@@ -5,7 +5,7 @@ from flask_wtf.csrf import CSRFProtect
 from functools import wraps
 from datetime import datetime
 from config import Config
-from models import db, User, AuditLog, MarketInput, SharePrice, CompanyFinancials, YieldCurvePoint, PendingAction
+from models import db, User, AuditLog, MarketInput, SharePrice, CompanyFinancials, YieldCurvePoint, PendingAction, CurrencyRate
 from data_loader import (
     get_dashboard_data, get_beta_data, get_valuation_data,
     get_credit_risk_data, get_fixed_income_data, get_peer_data,
@@ -721,7 +721,20 @@ def upload_financial_statements():
         return redirect(url_for('financial_statements'))
 
     company_name = new_company or request.form.get('company_name', '') or ticker
-    payload = {'periods': periods, 'items': items, 'company_name': company_name}
+
+    detected_currency = 'GHS'
+    for item in items:
+        if item.get('item', '').lower() == 'currency' and item.get('stmt') == 'META':
+            for p in periods:
+                v = item.get(p)
+                if v and isinstance(v, str) and len(v) <= 10:
+                    detected_currency = v.strip().upper()
+                    break
+            break
+
+    _ensure_currency(detected_currency)
+
+    payload = {'periods': periods, 'items': items, 'company_name': company_name, 'currency': detected_currency}
 
     if current_user.needs_approval():
         pa = PendingAction(
@@ -740,13 +753,14 @@ def upload_financial_statements():
         cf = CompanyFinancials(ticker=ticker)
         db.session.add(cf)
     cf.company_name = company_name
+    cf.currency = detected_currency
     cf.set_data({'periods': periods, 'items': items})
     cf.source = f'Upload: {f.filename}'
     cf.updated_by = current_user.id
     db.session.commit()
     invalidate_live_cache()
-    log_action(current_user.id, 'upload_fs', f'{ticker}: {len(items)} items, {len(periods)} periods')
-    flash(f'Financial statements uploaded for {ticker} ({company_name}): {len(items)} items across {len(periods)} periods.', 'success')
+    log_action(current_user.id, 'upload_fs', f'{ticker}: {len(items)} items, {len(periods)} periods ({detected_currency})')
+    flash(f'Financial statements uploaded for {ticker} ({company_name}): {len(items)} items across {len(periods)} periods. Currency: {detected_currency}', 'success')
     return redirect(url_for('financial_statements', ticker=ticker))
 
 
@@ -1136,6 +1150,7 @@ def approve_action(action_id):
             cf = CompanyFinancials(ticker=pa.ticker)
             db.session.add(cf)
         cf.company_name = data.get('company_name', pa.ticker)
+        cf.currency = data.get('currency', 'GHS')
         cf.set_data({'periods': data.get('periods', []), 'items': data.get('items', [])})
         cf.source = f'Approved: {pa.description[:100]}'
         cf.updated_by = pa.submitted_by
@@ -1218,6 +1233,83 @@ def api_recalculate():
     return jsonify({'status': 'ok', 'message': 'Recalculation complete'})
 
 
+def _ensure_currency(code):
+    """Make sure a currency code exists in the rates table. If not, add it with rate 0 so the user can fill it in."""
+    if not code or code == 'USD':
+        return
+    existing = CurrencyRate.query.filter_by(code=code).first()
+    if not existing:
+        defaults = CurrencyRate.DEFAULTS.get(code)
+        if defaults:
+            name, rate = defaults
+        else:
+            name, rate = code, 0.0
+        db.session.add(CurrencyRate(code=code, name=name, rate_to_usd=rate))
+        db.session.commit()
+
+
+@app.route('/api/currencies')
+@login_required
+def api_currencies():
+    rates = CurrencyRate.query.all()
+    result = {}
+    for r in rates:
+        result[r.code] = {'name': r.name, 'rate_to_usd': r.rate_to_usd}
+    company_currencies = {}
+    try:
+        for cf in CompanyFinancials.query.all():
+            company_currencies[cf.ticker] = cf.currency or 'GHS'
+    except Exception:
+        pass
+    return jsonify({'rates': result, 'company_currencies': company_currencies})
+
+
+@app.route('/api/currencies/save', methods=['POST'])
+@login_required
+@role_required('super_admin', 'head_of_research')
+def api_save_currencies():
+    data = request.get_json(silent=True) or {}
+    rates = data.get('rates', {})
+    updated = 0
+    for code, rate_val in rates.items():
+        cr = CurrencyRate.query.filter_by(code=code).first()
+        if cr:
+            try:
+                cr.rate_to_usd = float(rate_val)
+                cr.updated_by = current_user.id
+                updated += 1
+            except (ValueError, TypeError):
+                pass
+    db.session.commit()
+    invalidate_live_cache()
+    log_action(current_user.id, 'update_fx_rates', f'Updated {updated} currency rates')
+    return jsonify({'status': 'ok', 'updated': updated})
+
+
+@app.route('/api/currencies/add', methods=['POST'])
+@login_required
+@role_required('super_admin', 'head_of_research')
+def api_add_currency():
+    data = request.get_json(silent=True) or {}
+    code = data.get('code', '').strip().upper()
+    name = data.get('name', '').strip()
+    rate = data.get('rate_to_usd', 0)
+    if not code or len(code) > 10:
+        return jsonify({'status': 'error', 'message': 'Invalid currency code'}), 400
+    existing = CurrencyRate.query.filter_by(code=code).first()
+    if existing:
+        return jsonify({'status': 'error', 'message': f'{code} already exists'}), 400
+    try:
+        rate = float(rate)
+    except (ValueError, TypeError):
+        rate = 0.0
+    cr = CurrencyRate(code=code, name=name or code, rate_to_usd=rate, updated_by=current_user.id)
+    db.session.add(cr)
+    db.session.commit()
+    log_action(current_user.id, 'add_currency', f'{code} ({name}) = {rate} USD')
+    return jsonify({'status': 'ok', 'code': code})
+
+
 def init_db():
     with app.app_context():
         db.create_all()
@@ -1241,6 +1333,17 @@ def init_db():
             ).delete(synchronize_session=False)
             db.session.commit()
             print("Cleared %d stale GFIM yield curve points" % stale)
+        if CurrencyRate.query.count() == 0:
+            for code, (name, rate) in CurrencyRate.DEFAULTS.items():
+                db.session.add(CurrencyRate(code=code, name=name, rate_to_usd=rate))
+            db.session.commit()
+            print("Seeded %d default currency rates" % len(CurrencyRate.DEFAULTS))
+        currency_map = {'CLG-RW': 'RWF', 'CLG-TZ': 'TZS', 'CLG-UG': 'UGX'}
+        for tick, cur in currency_map.items():
+            cf = CompanyFinancials.query.filter_by(ticker=tick).first()
+            if cf and (not cf.currency or cf.currency == 'GHS'):
+                cf.currency = cur
+        db.session.commit()
 
 
 init_db()

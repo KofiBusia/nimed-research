@@ -118,6 +118,7 @@ class CompanyFinancials(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ticker = db.Column(db.String(20), unique=True, nullable=False)
     company_name = db.Column(db.String(200))
+    currency = db.Column(db.String(10), default='GHS')
     data_json = db.Column(db.Text)
     source = db.Column(db.String(200), default='manual')
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -170,6 +171,30 @@ class PendingAction(db.Model):
 
     def set_data(self, data):
         self.data_json = _json.dumps(data)
+
+
+class CurrencyRate(db.Model):
+    __tablename__ = 'currency_rates'
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(10), unique=True, nullable=False)
+    name = db.Column(db.String(100))
+    rate_to_usd = db.Column(db.Float, nullable=False)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    DEFAULTS = {
+        'USD': ('US Dollar', 1.0),
+        'GHS': ('Ghanaian Cedi', 0.0625),
+        'RWF': ('Rwandan Franc', 0.000714),
+        'TZS': ('Tanzanian Shilling', 0.000370),
+        'UGX': ('Ugandan Shilling', 0.000266),
+        'XOF': ('West African CFA Franc', 0.001554),
+        'NGN': ('Nigerian Naira', 0.000606),
+        'KES': ('Kenyan Shilling', 0.00772),
+        'ZAR': ('South African Rand', 0.0556),
+        'GBP': ('British Pound', 1.27),
+        'EUR': ('Euro', 1.09),
+    }
 
 
 class ComputedData(db.Model):

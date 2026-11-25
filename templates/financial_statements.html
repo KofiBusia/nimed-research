@@ -274,6 +274,19 @@
     </div>
 </div>
 
+<div class="row g-3 mb-3">
+    <div class="col-12">
+        <div class="d-flex align-items-center gap-3 p-2 rounded" style="background:#f0f4ff;">
+            <span class="badge bg-dark" style="font-size:12px;" id="currencyBadge">{{ selected.currency or 'GHS' }}</span>
+            <span class="text-muted" style="font-size:12px;" id="currencyLabel">Showing values in <strong>{{ selected.currency or 'GHS' }}</strong> (original currency)</span>
+            <button class="btn btn-sm btn-outline-primary ms-auto" id="btnToggleUSD" onclick="toggleCurrency()">
+                <i class="bi bi-currency-dollar me-1"></i>Convert to USD
+            </button>
+            <span class="text-muted d-none" style="font-size:11px;" id="fxRateInfo"></span>
+        </div>
+    </div>
+</div>
+
 <div class="card-panel mb-4">
     <div class="panel-header d-flex justify-content-between align-items-center">
         <h3><i class="bi bi-table me-2"></i>{{ selected.company_name }} ({{ selected_ticker }}) — Financial Data</h3>
@@ -396,6 +409,95 @@ function toggleNewCompany() {
     if (sel && fields) {
         fields.classList.toggle('d-none', sel.value !== '__NEW__');
     }
+}
+
+let showingUSD = false;
+let fxRates = null;
+const originalCurrency = '{{ selected.currency or "GHS" if selected else "GHS" }}';
+
+function toggleCurrency() {
+    if (!fxRates) {
+        fetch('/api/currencies').then(r => r.json()).then(data => {
+            fxRates = data.rates;
+            applyToggle();
+        });
+    } else {
+        applyToggle();
+    }
+}
+
+function applyToggle() {
+    showingUSD = !showingUSD;
+    const btn = document.getElementById('btnToggleUSD');
+    const badge = document.getElementById('currencyBadge');
+    const label = document.getElementById('currencyLabel');
+    const rateInfo = document.getElementById('fxRateInfo');
+
+    if (showingUSD && originalCurrency !== 'USD') {
+        const rateObj = fxRates[originalCurrency];
+        const rate = rateObj ? rateObj.rate_to_usd : 0;
+        if (!rate || rate === 0) {
+            alert('No exchange rate set for ' + originalCurrency + '. Please update rates in Settings.');
+            showingUSD = false;
+            return;
+        }
+        btn.innerHTML = '<i class="bi bi-arrow-left-right me-1"></i>Show ' + originalCurrency;
+        btn.className = 'btn btn-sm btn-primary ms-auto';
+        badge.textContent = 'USD';
+        badge.className = 'badge bg-success';
+        label.innerHTML = 'Converted to <strong>USD</strong> at 1 ' + originalCurrency + ' = ' + rate.toFixed(6) + ' USD';
+        rateInfo.classList.remove('d-none');
+        rateInfo.textContent = 'Rate source: system settings';
+        convertValues(rate);
+    } else {
+        showingUSD = false;
+        btn.innerHTML = '<i class="bi bi-currency-dollar me-1"></i>Convert to USD';
+        btn.className = 'btn btn-sm btn-outline-primary ms-auto';
+        badge.textContent = originalCurrency;
+        badge.className = 'badge bg-dark';
+        label.innerHTML = 'Showing values in <strong>' + originalCurrency + '</strong> (original currency)';
+        rateInfo.classList.add('d-none');
+        restoreValues();
+    }
+}
+
+function convertValues(rate) {
+    document.querySelectorAll('#fsTable td[data-period]').forEach(td => {
+        const raw = td.dataset.val;
+        if (!raw || raw === '' || isNaN(parseFloat(raw))) return;
+        const original = parseFloat(raw);
+        const converted = original * rate;
+        const span = td.querySelector('.display-val');
+        if (span) {
+            if (Math.abs(converted) >= 1) {
+                span.textContent = converted.toLocaleString('en-US', {maximumFractionDigits: 0});
+            } else if (Math.abs(converted) >= 0.0001) {
+                span.textContent = converted.toFixed(4);
+            } else {
+                span.textContent = '—';
+            }
+            td.classList.toggle('negative', converted < 0);
+        }
+    });
+}
+
+function restoreValues() {
+    document.querySelectorAll('#fsTable td[data-period]').forEach(td => {
+        const raw = td.dataset.val;
+        const span = td.querySelector('.display-val');
+        if (!span) return;
+        if (!raw || raw === '') { span.textContent = '—'; return; }
+        const v = parseFloat(raw);
+        if (isNaN(v)) { span.textContent = raw; return; }
+        if (Math.abs(v) >= 1) {
+            span.textContent = v.toLocaleString('en-US', {maximumFractionDigits: 0});
+        } else if (Math.abs(v) >= 0.0001) {
+            span.textContent = v.toFixed(4);
+        } else {
+            span.textContent = '—';
+        }
+        td.classList.toggle('negative', v < 0);
+    });
 }
 </script>
 {% endblock %}
