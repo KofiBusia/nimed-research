@@ -56,6 +56,12 @@ class User(UserMixin, db.Model):
     def can_delete_users(self):
         return self.role == 'super_admin'
 
+    def needs_approval(self):
+        return self.role == 'senior_analyst'
+
+    def can_approve(self):
+        return self.role in ('super_admin', 'head_of_research')
+
 
 class AuditLog(db.Model):
     __tablename__ = 'audit_log'
@@ -138,6 +144,32 @@ class YieldCurvePoint(db.Model):
     source = db.Column(db.String(200))
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     updated_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+
+class PendingAction(db.Model):
+    __tablename__ = 'pending_actions'
+    id = db.Column(db.Integer, primary_key=True)
+    action_type = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(500), nullable=False)
+    ticker = db.Column(db.String(20))
+    data_json = db.Column(db.Text)
+    filename = db.Column(db.String(200))
+    status = db.Column(db.String(20), default='pending')
+    submitted_by = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    submitted_at = db.Column(db.DateTime, default=datetime.utcnow)
+    reviewed_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    reviewed_at = db.Column(db.DateTime)
+    review_note = db.Column(db.String(500))
+    submitter = db.relationship('User', foreign_keys=[submitted_by], backref='submitted_actions')
+    reviewer = db.relationship('User', foreign_keys=[reviewed_by])
+
+    def get_data(self):
+        if self.data_json:
+            return _json.loads(self.data_json)
+        return {}
+
+    def set_data(self, data):
+        self.data_json = _json.dumps(data)
 
 
 class ComputedData(db.Model):

@@ -223,6 +223,12 @@
             <a href="{{ url_for('audit_log') }}" class="{% if request.endpoint == 'audit_log' %}active{% endif %}">
                 <i class="bi bi-journal-text"></i> Audit Log
             </a>
+            {% if current_user.can_approve() %}
+            <a href="{{ url_for('approvals') }}" class="{% if request.endpoint in ('approvals','approval_detail') %}active{% endif %}">
+                <i class="bi bi-clipboard-check"></i> Approvals
+                {% if pending_approval_count > 0 %}<span class="badge bg-warning text-dark ms-1" style="font-size:10px;">{{ pending_approval_count }}</span>{% endif %}
+            </a>
+            {% endif %}
             {% endif %}
         </div>
     </nav>

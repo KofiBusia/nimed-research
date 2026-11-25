@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block title %}Review Action #{{ action.id }}{% endblock %}
+{% block page_title %}Review Action{% endblock %}
+
+{% block content %}
+<div class="row g-3 mb-4">
+    <div class="col-lg-8">
+        <div class="card-panel">
+            <div class="panel-header d-flex justify-content-between align-items-center">
+                <h3><i class="bi bi-clipboard-check me-2"></i>Action #{{ action.id }}</h3>
+                <span class="badge {% if action.status == 'pending' %}bg-warning text-dark{% elif action.status == 'approved' %}bg-success{% else %}bg-danger{% endif %}" style="font-size:12px;">{{ action.status|upper }}</span>
+            </div>
+            <div class="panel-body p-3">
+                <table class="table table-sm" style="font-size:13px;">
+                    <tr><td class="text-muted" style="width:150px;">Type</td><td class="fw-semibold">
+                        {% if action.action_type == 'upload_fs' %}Financial Statements Upload
+                        {% elif action.action_type == 'edit_fs' %}Financial Statements Edit
+                        {% elif action.action_type == 'update_price' %}Share Price Update
+                        {% elif action.action_type == 'bulk_price' %}Bulk Price Upload
+                        {% elif action.action_type == 'upload_yc' %}Yield Curve Upload
+                        {% elif action.action_type == 'edit_yc' %}Yield Curve Edit
+                        {% else %}{{ action.action_type }}{% endif %}
+                    </td></tr>
+                    <tr><td class="text-muted">Description</td><td>{{ action.description }}</td></tr>
+                    {% if action.ticker and action.ticker not in ('BULK','YC') %}<tr><td class="text-muted">Ticker</td><td><span class="badge bg-dark">{{ action.ticker }}</span></td></tr>{% endif %}
+                    {% if action.filename %}<tr><td class="text-muted">Source File</td><td>{{ action.filename }}</td></tr>{% endif %}
+                    <tr><td class="text-muted">Submitted By</td><td>{{ action.submitter.full_name }} ({{ action.submitter.role_label }})</td></tr>
+                    <tr><td class="text-muted">Submitted At</td><td>{{ action.submitted_at.strftime('%Y-%m-%d %H:%M:%S') }}</td></tr>
+                    {% if action.reviewer %}
+                    <tr><td class="text-muted">Reviewed By</td><td>{{ action.reviewer.full_name }}</td></tr>
+                    <tr><td class="text-muted">Reviewed At</td><td>{{ action.reviewed_at.strftime('%Y-%m-%d %H:%M:%S') if action.reviewed_at else '—' }}</td></tr>
+                    {% if action.review_note %}<tr><td class="text-muted">Note</td><td>{{ action.review_note }}</td></tr>{% endif %}
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+    </div>
+    {% if action.status == 'pending' %}
+    <div class="col-lg-4">
+        <div class="card-panel mb-3">
+            <div class="panel-header"><h3><i class="bi bi-check-circle me-2"></i>Approve</h3></div>
+            <div class="panel-body p-3">
+                <form method="POST" action="{{ url_for('approve_action', action_id=action.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-2">
+                        <textarea name="note" class="form-control form-control-sm" rows="2" placeholder="Optional note..." style="font-size:12px;"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-sm w-100"><i class="bi bi-check-lg me-1"></i>Approve & Apply</button>
+                </form>
+            </div>
+        </div>
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-x-circle me-2"></i>Reject</h3></div>
+            <div class="panel-body p-3">
+                <form method="POST" action="{{ url_for('reject_action', action_id=action.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-2">
+                        <textarea name="note" class="form-control form-control-sm" rows="2" placeholder="Reason for rejection..." style="font-size:12px;"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-danger btn-sm w-100"><i class="bi bi-x-lg me-1"></i>Reject</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Data Preview -->
+<div class="card-panel">
+    <div class="panel-header"><h3><i class="bi bi-table me-2"></i>Data Preview</h3></div>
+    <div class="panel-body p-3">
+        {% if action.action_type in ('upload_fs', 'edit_fs') %}
+        <p class="text-muted" style="font-size:12px;">Showing {{ preview.items|length }} of {{ preview.total_items }} items{% if preview.periods %}, periods: {{ preview.periods|join(', ') }}{% endif %}</p>
+        <div class="table-responsive" style="max-height:400px;overflow-y:auto;">
+            <table class="table table-sm table-striped" style="font-size:11px;">
+                <thead>
+                    <tr>
+                        <th>Line Item</th><th>Stmt</th>
+                        {% for p in preview.periods %}<th class="text-end">{{ p }}</th>{% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in preview.items %}
+                    <tr>
+                        <td>{{ item.get('item','') }}</td>
+                        <td><span class="badge {% if item.get('stmt') == 'IS' %}bg-primary{% elif item.get('stmt') == 'BS' %}bg-success{% elif item.get('stmt') == 'CF' %}bg-info{% else %}bg-secondary{% endif %}" style="font-size:9px;">{{ item.get('stmt','') }}</span></td>
+                        {% for p in preview.periods %}
+                        {% set v = item.get(p) %}
+                        <td class="text-end">{% if v is none %}—{% elif v is number and v|abs >= 1 %}{{ "{:,.0f}".format(v) }}{% elif v is number %}{{ "%.4f"|format(v) }}{% else %}{{ v }}{% endif %}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if preview.total_items > preview.items|length %}
+        <div class="text-muted text-center mt-2" style="font-size:11px;">... and {{ preview.total_items - preview.items|length }} more items</div>
+        {% endif %}
+
+        {% elif action.action_type == 'update_price' %}
+        <table class="table table-sm" style="font-size:12px;max-width:400px;">
+            <tr><td class="text-muted">Ticker</td><td class="fw-bold">{{ action.ticker }}</td></tr>
+            <tr><td class="text-muted">Price (GHS)</td><td>{{ "{:,.2f}".format(preview.price_ghs) }}</td></tr>
+            {% if preview.shares_m %}<tr><td class="text-muted">Shares (m)</td><td>{{ "{:,.1f}".format(preview.shares_m) }}</td></tr>{% endif %}
+            {% if preview.price_date %}<tr><td class="text-muted">Date</td><td>{{ preview.price_date }}</td></tr>{% endif %}
+        </table>
+
+        {% elif action.action_type == 'bulk_price' %}
+        <p class="text-muted" style="font-size:12px;">Showing {{ preview.prices|length }} of {{ preview.total_prices }} price updates</p>
+        <div class="table-responsive" style="max-height:400px;overflow-y:auto;">
+            <table class="table table-sm table-striped" style="font-size:11px;">
+                <thead><tr><th>Ticker</th><th class="text-end">Price (GHS)</th><th>Date</th></tr></thead>
+                <tbody>
+                    {% for bp in preview.prices %}
+                    <tr><td class="fw-bold">{{ bp.ticker }}</td><td class="text-end">{{ "{:,.2f}".format(bp.price_ghs) }}</td><td>{{ bp.price_date }}</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if preview.total_prices > preview.prices|length %}
+        <div class="text-muted text-center mt-2" style="font-size:11px;">... and {{ preview.total_prices - preview.prices|length }} more prices</div>
+        {% endif %}
+
+        {% elif action.action_type in ('upload_yc', 'edit_yc') %}
+        <p class="text-muted" style="font-size:12px;">Showing {{ preview.points|length }} of {{ preview.total_points }} yield curve points</p>
+        <div class="table-responsive">
+            <table class="table table-sm table-striped" style="font-size:11px;">
+                <thead><tr><th>Instrument</th><th class="text-end">Days</th><th class="text-end">Yield (%)</th><th class="text-end">Coupon (%)</th><th class="text-end">Price</th><th>Maturity</th></tr></thead>
+                <tbody>
+                    {% for pt in preview.points %}
+                    <tr>
+                        <td>{{ pt.tenor }}</td>
+                        <td class="text-end">{{ pt.tenor_days if pt.tenor_days else '—' }}</td>
+                        <td class="text-end">{{ "%.4f"|format(pt.yield_pct * 100) if pt.yield_pct else '—' }}</td>
+                        <td class="text-end">{{ "%.2f"|format(pt.coupon_pct * 100) if pt.coupon_pct else '—' }}</td>
+                        <td class="text-end">{{ "%.4f"|format(pt.price) if pt.price else '—' }}</td>
+                        <td>{{ pt.maturity_date or '—' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="mt-3">
+    <a href="{{ url_for('approvals') }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>Back to Approvals</a>
+</div>
+{% endblock %}

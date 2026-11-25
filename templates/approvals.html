@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Pending Approvals{% endblock %}
+{% block page_title %}Pending Approvals{% endblock %}
+
+{% block extra_css %}
+<style>
+    .action-card { border-left: 4px solid #dee2e6; transition: all .15s; }
+    .action-card.pending { border-left-color: #ffc107; }
+    .action-card.approved { border-left-color: #198754; }
+    .action-card.rejected { border-left-color: #dc3545; }
+    .action-type { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row g-3 mb-4">
+    <div class="col-lg-4">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3">
+                <div class="stat-icon" style="background:linear-gradient(135deg,#ffc107,#fd7e14);">
+                    <i class="bi bi-clipboard-check"></i>
+                </div>
+                <div>
+                    <div class="stat-label">Pending Approvals</div>
+                    <div class="stat-value">{{ actions|selectattr('status','equalto','pending')|list|length if status_filter == 'all' else actions|length if status_filter == 'pending' else pending_approval_count }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="stat-card">
+            <div class="d-flex gap-2 align-items-center">
+                <span class="text-muted" style="font-size:12px;">Filter:</span>
+                <a href="{{ url_for('approvals', status='pending') }}" class="btn btn-sm {% if status_filter == 'pending' %}btn-warning{% else %}btn-outline-warning{% endif %}">Pending</a>
+                <a href="{{ url_for('approvals', status='approved') }}" class="btn btn-sm {% if status_filter == 'approved' %}btn-success{% else %}btn-outline-success{% endif %}">Approved</a>
+                <a href="{{ url_for('approvals', status='rejected') }}" class="btn btn-sm {% if status_filter == 'rejected' %}btn-danger{% else %}btn-outline-danger{% endif %}">Rejected</a>
+                <a href="{{ url_for('approvals', status='all') }}" class="btn btn-sm {% if status_filter == 'all' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">All</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if actions %}
+<div class="row g-3">
+    {% for a in actions %}
+    <div class="col-12">
+        <div class="card-panel action-card {{ a.status }}">
+            <div class="panel-body p-3">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <span class="badge {% if a.action_type in ('upload_fs','edit_fs') %}bg-primary{% elif a.action_type in ('update_price','bulk_price') %}bg-success{% else %}bg-info{% endif %} action-type">
+                                {% if a.action_type == 'upload_fs' %}Upload FS
+                                {% elif a.action_type == 'edit_fs' %}Edit FS
+                                {% elif a.action_type == 'update_price' %}Price Update
+                                {% elif a.action_type == 'bulk_price' %}Bulk Prices
+                                {% elif a.action_type == 'upload_yc' %}Yield Curve Upload
+                                {% elif a.action_type == 'edit_yc' %}Yield Curve Edit
+                                {% else %}{{ a.action_type }}{% endif %}
+                            </span>
+                            {% if a.ticker and a.ticker != 'BULK' and a.ticker != 'YC' %}
+                            <span class="badge bg-dark" style="font-size:11px;">{{ a.ticker }}</span>
+                            {% endif %}
+                            <span class="badge {% if a.status == 'pending' %}bg-warning text-dark{% elif a.status == 'approved' %}bg-success{% else %}bg-danger{% endif %}" style="font-size:10px;">{{ a.status|upper }}</span>
+                        </div>
+                        <div class="fw-semibold" style="font-size:13px;">{{ a.description }}</div>
+                        <div class="text-muted" style="font-size:11px;">
+                            Submitted by <strong>{{ a.submitter.full_name }}</strong> ({{ a.submitter.role_label }})
+                            on {{ a.submitted_at.strftime('%Y-%m-%d %H:%M') }}
+                            {% if a.filename %} &mdash; File: {{ a.filename }}{% endif %}
+                        </div>
+                        {% if a.status != 'pending' and a.reviewer %}
+                        <div class="text-muted" style="font-size:11px;">
+                            {{ a.status|capitalize }} by <strong>{{ a.reviewer.full_name }}</strong>
+                            on {{ a.reviewed_at.strftime('%Y-%m-%d %H:%M') if a.reviewed_at else '' }}
+                            {% if a.review_note %} &mdash; Note: {{ a.review_note }}{% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="{{ url_for('approval_detail', action_id=a.id) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye me-1"></i>Review</a>
+                        {% if a.status == 'pending' %}
+                        <form method="POST" action="{{ url_for('approve_action', action_id=a.id) }}" class="d-inline">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="btn btn-sm btn-success"><i class="bi bi-check-lg me-1"></i>Approve</button>
+                        </form>
+                        <form method="POST" action="{{ url_for('reject_action', action_id=a.id) }}" class="d-inline">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-x-lg me-1"></i>Reject</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card-panel">
+    <div class="panel-body p-4 text-center text-muted">
+        <i class="bi bi-check-circle" style="font-size:48px;color:#198754;"></i>
+        <div class="mt-2">No {{ status_filter if status_filter != 'all' else '' }} actions to review.</div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

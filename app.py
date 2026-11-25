@@ -5,7 +5,7 @@ from flask_wtf.csrf import CSRFProtect
 from functools import wraps
 from datetime import datetime
 from config import Config
-from models import db, User, AuditLog, MarketInput, SharePrice, CompanyFinancials, YieldCurvePoint
+from models import db, User, AuditLog, MarketInput, SharePrice, CompanyFinancials, YieldCurvePoint, PendingAction
 from data_loader import (
     get_dashboard_data, get_beta_data, get_valuation_data,
     get_credit_risk_data, get_fixed_income_data, get_peer_data,
@@ -61,6 +61,17 @@ def log_action(user_id, action, details=None):
     log = AuditLog(user_id=user_id, action=action, details=details)
     db.session.add(log)
     db.session.commit()
+
+
+@app.context_processor
+def inject_pending_count():
+    if current_user.is_authenticated and current_user.can_approve():
+        try:
+            count = PendingAction.query.filter_by(status='pending').count()
+        except Exception:
+            count = 0
+        return {'pending_approval_count': count}
+    return {'pending_approval_count': 0}
 
 
 @app.route('/')
@@ -467,21 +478,33 @@ def share_prices():
         company = request.form.get('company_name', '').strip()
         pdate = request.form.get('price_date', '').strip()
         if ticker and price:
-            sp = SharePrice.query.filter_by(ticker=ticker).first()
-            if not sp:
-                sp = SharePrice(ticker=ticker)
-                db.session.add(sp)
-            sp.price_ghs = float(price)
-            if shares:
-                sp.shares_m = float(shares)
-            sp.company_name = company or ticker
-            sp.price_date = pdate
-            sp.source = 'Manual update'
-            sp.updated_by = current_user.id
-            db.session.commit()
-            invalidate_live_cache()
-            log_action(current_user.id, 'update_price', f'{ticker}: GHS {price}')
-            flash(f'Price updated for {ticker}.', 'success')
+            if current_user.needs_approval():
+                pa = PendingAction(
+                    action_type='update_price', ticker=ticker,
+                    description=f'Update price for {ticker}: GHS {price}',
+                    submitted_by=current_user.id)
+                pa.set_data({'price_ghs': float(price), 'shares_m': float(shares) if shares else None,
+                             'company_name': company or ticker, 'price_date': pdate})
+                db.session.add(pa)
+                db.session.commit()
+                log_action(current_user.id, 'submit_price_approval', f'{ticker}: GHS {price}')
+                flash(f'Price update for {ticker} submitted for approval.', 'info')
+            else:
+                sp = SharePrice.query.filter_by(ticker=ticker).first()
+                if not sp:
+                    sp = SharePrice(ticker=ticker)
+                    db.session.add(sp)
+                sp.price_ghs = float(price)
+                if shares:
+                    sp.shares_m = float(shares)
+                sp.company_name = company or ticker
+                sp.price_date = pdate
+                sp.source = 'Manual update'
+                sp.updated_by = current_user.id
+                db.session.commit()
+                invalidate_live_cache()
+                log_action(current_user.id, 'update_price', f'{ticker}: GHS {price}')
+                flash(f'Price updated for {ticker}.', 'success')
         return redirect(url_for('share_prices'))
 
     prices = SharePrice.query.order_by(SharePrice.ticker).all()
@@ -557,6 +580,7 @@ def bulk_price_upload():
 
     count = 0
     price_date_str = ''
+    bulk_prices = []
     for row in ws.iter_rows(min_row=2, values_only=False):
         cells = [c.value for c in row]
         if len(cells) <= max(col_ticker, col_close):
@@ -589,16 +613,35 @@ def bulk_price_upload():
             except (ValueError, TypeError):
                 pass
 
-        sp = SharePrice.query.filter_by(ticker=ticker).first()
+        bulk_prices.append({'ticker': ticker, 'price_ghs': price, 'price_date': price_date_str})
+        count += 1
+
+    if not bulk_prices:
+        flash('No valid prices found in file.', 'danger')
+        return redirect(url_for('share_prices'))
+
+    if current_user.needs_approval():
+        pa = PendingAction(
+            action_type='bulk_price', ticker='BULK',
+            description=f'Bulk price upload: {count} prices from {f.filename}',
+            filename=f.filename, submitted_by=current_user.id)
+        pa.set_data({'prices': bulk_prices})
+        db.session.add(pa)
+        db.session.commit()
+        log_action(current_user.id, 'submit_bulk_price_approval', f'{count} prices from {f.filename}')
+        flash(f'Bulk upload ({count} prices) submitted for approval by Head of Research.', 'info')
+        return redirect(url_for('share_prices'))
+
+    for bp in bulk_prices:
+        sp = SharePrice.query.filter_by(ticker=bp['ticker']).first()
         if not sp:
-            sp = SharePrice(ticker=ticker)
+            sp = SharePrice(ticker=bp['ticker'])
             db.session.add(sp)
-        sp.price_ghs = price
-        sp.company_name = sp.company_name or ticker
-        sp.price_date = price_date_str
+        sp.price_ghs = bp['price_ghs']
+        sp.company_name = sp.company_name or bp['ticker']
+        sp.price_date = bp['price_date']
         sp.source = f'GSE Daily: {f.filename}'
         sp.updated_by = current_user.id
-        count += 1
     db.session.commit()
     invalidate_live_cache()
     log_action(current_user.id, 'bulk_price_upload', f'{count} prices from {f.filename}')
@@ -677,11 +720,25 @@ def upload_financial_statements():
         flash('No valid financial statement items found. Check that Column B has IS/BS/CF/META.', 'danger')
         return redirect(url_for('financial_statements'))
 
+    company_name = new_company or request.form.get('company_name', '') or ticker
+    payload = {'periods': periods, 'items': items, 'company_name': company_name}
+
+    if current_user.needs_approval():
+        pa = PendingAction(
+            action_type='upload_fs', ticker=ticker,
+            description=f'Upload financial statements for {ticker} ({company_name}): {len(items)} items, {len(periods)} periods',
+            filename=f.filename, submitted_by=current_user.id)
+        pa.set_data(payload)
+        db.session.add(pa)
+        db.session.commit()
+        log_action(current_user.id, 'submit_fs_approval', f'{ticker}: {len(items)} items')
+        flash(f'Financial statements for {ticker} submitted for approval by Head of Research.', 'info')
+        return redirect(url_for('financial_statements', ticker=ticker))
+
     cf = CompanyFinancials.query.filter_by(ticker=ticker).first()
     if not cf:
         cf = CompanyFinancials(ticker=ticker)
         db.session.add(cf)
-    company_name = new_company or request.form.get('company_name', '') or ticker
     cf.company_name = company_name
     cf.set_data({'periods': periods, 'items': items})
     cf.source = f'Upload: {f.filename}'
@@ -706,6 +763,19 @@ def save_financial_statements():
         data = json.loads(data_raw)
     except (json.JSONDecodeError, TypeError):
         flash('Invalid data format.', 'danger')
+        return redirect(url_for('financial_statements', ticker=ticker))
+
+    if current_user.needs_approval():
+        item_count = len(data.get('items', []))
+        pa = PendingAction(
+            action_type='edit_fs', ticker=ticker,
+            description=f'Edit financial statements for {ticker}: {item_count} items',
+            submitted_by=current_user.id)
+        pa.set_data(data)
+        db.session.add(pa)
+        db.session.commit()
+        log_action(current_user.id, 'submit_fs_edit_approval', f'{ticker}')
+        flash(f'Edits to {ticker} submitted for approval by Head of Research.', 'info')
         return redirect(url_for('financial_statements', ticker=ticker))
 
     cf = CompanyFinancials.query.filter_by(ticker=ticker).first()
@@ -791,7 +861,6 @@ def upload_yield_curve():
         return redirect(url_for('fixed_income'))
     import openpyxl
     wb = openpyxl.load_workbook(f, data_only=True)
-    YieldCurvePoint.query.delete()
 
     tbill_groups = {}
     ddep_gc = {}
@@ -922,36 +991,54 @@ def upload_yield_curve():
                 }
 
     tbill_groups.pop('_current', None)
-    count = 0
+    yc_points = []
     for key in sorted(tbill_groups.keys(), key=int):
         bills = tbill_groups[key]
         if not bills:
             continue
         target_days = int(key)
         best = min(bills, key=lambda b: abs(b['days'] - target_days))
-        pt = YieldCurvePoint(
-            tenor=f'{key}-day T-Bill', tenor_days=best['days'],
-            yield_pct=best['yield_pct'], coupon_pct=0,
-            price=best['price'], maturity_date='',
-            source=f'GFIM: {f.filename}', updated_by=current_user.id,
-        )
-        db.session.add(pt)
-        count += 1
-
+        yc_points.append({
+            'tenor': f'{key}-day T-Bill', 'tenor_days': best['days'],
+            'yield_pct': best['yield_pct'], 'coupon_pct': 0,
+            'price': best['price'], 'maturity_date': '',
+        })
     for key in sorted(ddep_gc.keys(), key=lambda x: int(x)):
         pt_data = ddep_gc[key]
+        yc_points.append({
+            'tenor': pt_data['tenor'], 'tenor_days': pt_data['tenor_days'],
+            'yield_pct': pt_data['yield_pct'], 'coupon_pct': pt_data['coupon_pct'],
+            'price': pt_data['price'], 'maturity_date': pt_data.get('maturity_date', ''),
+        })
+
+    if not yc_points:
+        flash('No valid yield curve data found in file.', 'danger')
+        return redirect(url_for('fixed_income'))
+
+    if current_user.needs_approval():
+        pa = PendingAction(
+            action_type='upload_yc', ticker='YC',
+            description=f'Upload yield curve: {len(yc_points)} market points from {f.filename}',
+            filename=f.filename, submitted_by=current_user.id)
+        pa.set_data({'points': yc_points})
+        db.session.add(pa)
+        db.session.commit()
+        log_action(current_user.id, 'submit_yc_approval', f'{len(yc_points)} points from {f.filename}')
+        flash(f'Yield curve upload ({len(yc_points)} points) submitted for approval.', 'info')
+        return redirect(url_for('fixed_income'))
+
+    YieldCurvePoint.query.delete()
+    for pt_data in yc_points:
         pt = YieldCurvePoint(
             tenor=pt_data['tenor'], tenor_days=pt_data['tenor_days'],
             yield_pct=pt_data['yield_pct'], coupon_pct=pt_data['coupon_pct'],
-            price=pt_data['price'], maturity_date=pt_data.get('maturity_date', ''),
+            price=pt_data['price'], maturity_date=pt_data['maturity_date'],
             source=f'GFIM: {f.filename}', updated_by=current_user.id,
         )
         db.session.add(pt)
-        count += 1
-
     db.session.commit()
-    log_action(current_user.id, 'upload_yield_curve', f'{count} market points from {f.filename}')
-    flash(f'Yield curve updated: {count} market points (T-Bills + DDEP GC bonds) from GFIM report.', 'success')
+    log_action(current_user.id, 'upload_yield_curve', f'{len(yc_points)} market points from {f.filename}')
+    flash(f'Yield curve updated: {len(yc_points)} market points from GFIM report.', 'success')
     return redirect(url_for('fixed_income'))
 
 
@@ -965,11 +1052,21 @@ def save_yield_curve():
     except (json.JSONDecodeError, TypeError):
         flash('Invalid data.', 'danger')
         return redirect(url_for('fixed_income'))
+    valid_rows = [r for r in rows if r.get('tenor')]
+    if current_user.needs_approval():
+        pa = PendingAction(
+            action_type='edit_yc', ticker='YC',
+            description=f'Edit yield curve: {len(valid_rows)} instruments',
+            submitted_by=current_user.id)
+        pa.set_data({'points': valid_rows})
+        db.session.add(pa)
+        db.session.commit()
+        log_action(current_user.id, 'submit_yc_edit_approval', f'{len(valid_rows)} points')
+        flash(f'Yield curve edits ({len(valid_rows)} instruments) submitted for approval.', 'info')
+        return redirect(url_for('fixed_income'))
+
     YieldCurvePoint.query.delete()
-    count = 0
-    for r in rows:
-        if not r.get('tenor'):
-            continue
+    for r in valid_rows:
         pt = YieldCurvePoint(
             tenor=r['tenor'],
             tenor_days=r.get('tenor_days'),
@@ -981,11 +1078,133 @@ def save_yield_curve():
             updated_by=current_user.id,
         )
         db.session.add(pt)
-        count += 1
     db.session.commit()
-    log_action(current_user.id, 'save_yield_curve', f'{count} points manually edited')
-    flash(f'Yield curve saved: {count} instruments.', 'success')
+    log_action(current_user.id, 'save_yield_curve', f'{len(valid_rows)} points manually edited')
+    flash(f'Yield curve saved: {len(valid_rows)} instruments.', 'success')
     return redirect(url_for('fixed_income'))
+
+
+@app.route('/approvals')
+@login_required
+@role_required('super_admin', 'head_of_research')
+def approvals():
+    status_filter = request.args.get('status', 'pending')
+    if status_filter == 'all':
+        actions = PendingAction.query.order_by(PendingAction.submitted_at.desc()).limit(100).all()
+    else:
+        actions = PendingAction.query.filter_by(status=status_filter).order_by(PendingAction.submitted_at.desc()).all()
+    return render_template('approvals.html', actions=actions, status_filter=status_filter)
+
+
+@app.route('/approvals/<int:action_id>')
+@login_required
+@role_required('super_admin', 'head_of_research')
+def approval_detail(action_id):
+    pa = PendingAction.query.get_or_404(action_id)
+    data = pa.get_data()
+    preview = {}
+    if pa.action_type in ('upload_fs', 'edit_fs'):
+        preview['periods'] = data.get('periods', [])[:5]
+        preview['items'] = data.get('items', [])[:20]
+        preview['total_items'] = len(data.get('items', []))
+    elif pa.action_type == 'update_price':
+        preview = data
+    elif pa.action_type == 'bulk_price':
+        preview['prices'] = data.get('prices', [])[:20]
+        preview['total_prices'] = len(data.get('prices', []))
+    elif pa.action_type in ('upload_yc', 'edit_yc'):
+        preview['points'] = data.get('points', [])[:15]
+        preview['total_points'] = len(data.get('points', []))
+    return render_template('approval_detail.html', action=pa, preview=preview)
+
+
+@app.route('/approvals/<int:action_id>/approve', methods=['POST'])
+@login_required
+@role_required('super_admin', 'head_of_research')
+def approve_action(action_id):
+    pa = PendingAction.query.get_or_404(action_id)
+    if pa.status != 'pending':
+        flash('This action has already been processed.', 'warning')
+        return redirect(url_for('approvals'))
+
+    note = request.form.get('note', '').strip()
+    data = pa.get_data()
+
+    if pa.action_type in ('upload_fs', 'edit_fs'):
+        cf = CompanyFinancials.query.filter_by(ticker=pa.ticker).first()
+        if not cf:
+            cf = CompanyFinancials(ticker=pa.ticker)
+            db.session.add(cf)
+        cf.company_name = data.get('company_name', pa.ticker)
+        cf.set_data({'periods': data.get('periods', []), 'items': data.get('items', [])})
+        cf.source = f'Approved: {pa.description[:100]}'
+        cf.updated_by = pa.submitted_by
+        invalidate_live_cache()
+    elif pa.action_type == 'update_price':
+        sp = SharePrice.query.filter_by(ticker=pa.ticker).first()
+        if not sp:
+            sp = SharePrice(ticker=pa.ticker)
+            db.session.add(sp)
+        sp.price_ghs = data['price_ghs']
+        if data.get('shares_m'):
+            sp.shares_m = data['shares_m']
+        sp.company_name = data.get('company_name', pa.ticker)
+        sp.price_date = data.get('price_date', '')
+        sp.source = f'Approved: manual update'
+        sp.updated_by = pa.submitted_by
+        invalidate_live_cache()
+    elif pa.action_type == 'bulk_price':
+        for bp in data.get('prices', []):
+            sp = SharePrice.query.filter_by(ticker=bp['ticker']).first()
+            if not sp:
+                sp = SharePrice(ticker=bp['ticker'])
+                db.session.add(sp)
+            sp.price_ghs = bp['price_ghs']
+            sp.company_name = sp.company_name or bp['ticker']
+            sp.price_date = bp.get('price_date', '')
+            sp.source = f'Approved: bulk upload'
+            sp.updated_by = pa.submitted_by
+        invalidate_live_cache()
+    elif pa.action_type in ('upload_yc', 'edit_yc'):
+        YieldCurvePoint.query.delete()
+        for pt_data in data.get('points', []):
+            pt = YieldCurvePoint(
+                tenor=pt_data['tenor'], tenor_days=pt_data.get('tenor_days'),
+                yield_pct=pt_data.get('yield_pct'), coupon_pct=pt_data.get('coupon_pct'),
+                price=pt_data.get('price'), maturity_date=pt_data.get('maturity_date', ''),
+                source=f'Approved: {pa.filename or "manual edit"}',
+                updated_by=pa.submitted_by,
+            )
+            db.session.add(pt)
+        invalidate_live_cache()
+
+    pa.status = 'approved'
+    pa.reviewed_by = current_user.id
+    pa.reviewed_at = datetime.utcnow()
+    pa.review_note = note
+    db.session.commit()
+    log_action(current_user.id, 'approve_action', f'Approved #{pa.id}: {pa.description}')
+    flash(f'Approved: {pa.description}', 'success')
+    return redirect(url_for('approvals'))
+
+
+@app.route('/approvals/<int:action_id>/reject', methods=['POST'])
+@login_required
+@role_required('super_admin', 'head_of_research')
+def reject_action(action_id):
+    pa = PendingAction.query.get_or_404(action_id)
+    if pa.status != 'pending':
+        flash('This action has already been processed.', 'warning')
+        return redirect(url_for('approvals'))
+    note = request.form.get('note', '').strip()
+    pa.status = 'rejected'
+    pa.reviewed_by = current_user.id
+    pa.reviewed_at = datetime.utcnow()
+    pa.review_note = note or 'Rejected'
+    db.session.commit()
+    log_action(current_user.id, 'reject_action', f'Rejected #{pa.id}: {pa.description}')
+    flash(f'Rejected: {pa.description}', 'warning')
+    return redirect(url_for('approvals'))
 
 
 @app.route('/api/recalculate', methods=['POST'])
