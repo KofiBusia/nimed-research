@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Fixed Income{% endblock %}
+{% block page_title %}Fixed Income{% endblock %}
+
+{% block content %}
+<div class="row g-3 mb-4">
+    <div class="col-lg-6">
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-calculator me-2"></i>Bond Calculator Inputs</h3></div>
+            <div class="panel-body" style="padding:20px;">
+                <table class="table table-sm" style="font-size:13px;">
+                    {% for key, val in data.bond_calc.items() %}
+                    <tr>
+                        <td class="text-muted" style="width:50%;">{{ key }}</td>
+                        <td class="fw-semibold">{{ val }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-graph-up me-2"></i>Yield Curve</h3></div>
+            <div class="panel-body" style="padding:16px;">
+                <canvas id="yieldChart" height="260"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-panel">
+    <div class="panel-header"><h3>Yield Curve Data</h3></div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-research">
+                <thead>
+                    <tr>
+                        <th>Tenor</th>
+                        {% for key in data.yield_curve[0].keys() if key != 'tenor' %}
+                        <th>{{ key }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for y in data.yield_curve %}
+                    <tr>
+                        <td class="fw-semibold">{{ y.tenor }}</td>
+                        {% for key, val in y.items() if key != 'tenor' %}
+                        <td>{% if val is number %}{{ "%.2f"|format(val|float) }}{% else %}{{ val or '—' }}{% endif %}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const yc = {{ data.yield_curve | tojson }};
+const tenors = yc.map(y => y.tenor);
+const keys = Object.keys(yc[0] || {}).filter(k => k !== 'tenor');
+const colors = ['#0066cc','#4caf50','#ff9800','#e53935','#9c27b0','#00b4d8','#795548','#607d8b'];
+const datasets = keys.slice(0,4).map((k,i) => ({
+    label: k, data: yc.map(y => y[k]),
+    borderColor: colors[i], backgroundColor: 'transparent',
+    tension: .3, pointRadius: 3, borderWidth: 2
+}));
+new Chart(document.getElementById('yieldChart'), {
+    type: 'line', data: { labels: tenors, datasets },
+    options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'top', labels: { font: { size: 11 }, usePointStyle: true } } },
+        scales: { x: { ticks: { font: { size: 10 } } }, y: { ticks: { font: { size: 10 } } } } }
+});
+</script>
+{% endblock %}

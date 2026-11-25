@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Bank Credit Risk{% endblock %}
+{% block page_title %}Bank Credit Risk{% endblock %}
+
+{% block content %}
+<div class="row g-3 mb-4">
+    {% set a_count = data.bank_credit_risk|selectattr('rating','equalto','A')|list|length %}
+    {% set b_count = data.bank_credit_risk|selectattr('rating','equalto','B')|list|length %}
+    {% set c_count = data.bank_credit_risk|selectattr('rating','equalto','C')|list|length %}
+    <div class="col-4 col-lg-2">
+        <div class="stat-card text-center">
+            <div class="stat-label">A Rated</div>
+            <div class="stat-value text-success">{{ a_count }}</div>
+        </div>
+    </div>
+    <div class="col-4 col-lg-2">
+        <div class="stat-card text-center">
+            <div class="stat-label">B Rated</div>
+            <div class="stat-value" style="color:#e65100;">{{ b_count }}</div>
+        </div>
+    </div>
+    <div class="col-4 col-lg-2">
+        <div class="stat-card text-center">
+            <div class="stat-label">C Rated</div>
+            <div class="stat-value text-danger">{{ c_count }}</div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6">
+        <div class="stat-card">
+            <div class="stat-label">Placement Guidance</div>
+            <div style="font-size:12px;margin-top:6px;line-height:1.8;">
+                <span class="badge-rating badge-rating-a me-1">A</span> Approved (&ge;2.5, max 15%)
+                <span class="badge-rating badge-rating-b mx-1">B</span> Reduced limit (&ge;2.0, max 10%)
+                <span class="badge-rating badge-rating-c mx-1">C</span> No new placements
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-lg-8">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Bank Ratings & Key Ratios</h3></div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-research">
+                        <thead>
+                            <tr><th>Bank</th><th>Rating</th><th>Score</th><th>Max Placement</th><th>CAR</th><th>NPL</th><th>Loan/Deposit</th><th>ROE</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for b in data.bank_credit_risk %}
+                            <tr>
+                                <td class="fw-semibold">{{ b.bank }}</td>
+                                <td><span class="badge-rating badge-rating-{{ b.rating|lower }}">{{ b.rating }}</span></td>
+                                <td>{{ "%.2f"|format(b.score|float) }}</td>
+                                <td>{{ "%.0f"|format(b.max_placement|float * 100) }}%</td>
+                                <td>{{ "%.1f"|format(b.car|float * 100) }}%</td>
+                                <td class="{{ 'text-danger fw-semibold' if b.npl|float > 0.2 else '' }}">{{ "%.1f"|format(b.npl|float * 100) }}%</td>
+                                <td>{{ "%.1f"|format(b.loan_to_deposit|float * 100) }}%</td>
+                                <td>{{ "%.1f"|format(b.roe|float * 100) }}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Rating Distribution</h3></div>
+            <div class="panel-body" style="padding:20px;">
+                <canvas id="ratingChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-panel mb-4">
+    <div class="panel-header"><h3>Scoring Methodology</h3></div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-research">
+                <thead><tr><th>#</th><th>Ratio</th><th>Description</th><th>Better When</th><th>Strong If</th><th>Weak If</th><th>Weight</th></tr></thead>
+                <tbody>
+                    {% for s in data.credit_scoring %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td class="fw-semibold">{{ s.ratio }}</td>
+                        <td style="font-size:12px;">{{ s.description }}</td>
+                        <td>{{ s.better_when }}</td>
+                        <td>{{ s.strong_if if s.strong_if is number else s.strong_if }}{% if s.strong_if is number and s.strong_if|float < 1 %}{{ "%.1f"|format(s.strong_if|float * 100) }}%{% endif %}</td>
+                        <td>{% if s.weak_if is number and s.weak_if|float < 1 %}{{ "%.1f"|format(s.weak_if|float * 100) }}%{% else %}{{ s.weak_if }}{% endif %}</td>
+                        <td class="fw-semibold">{{ "%.0f"|format(s.weight|float * 100) }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+new Chart(document.getElementById('ratingChart'), {
+    type: 'doughnut',
+    data: {
+        labels: ['A — Approved', 'B — Reduced', 'C — No placement'],
+        datasets: [{ data: [{{ a_count }}, {{ b_count }}, {{ c_count }}], backgroundColor: ['#4caf50','#ff9800','#e53935'], borderWidth: 0, hoverOffset: 8 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '55%',
+        plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 12, usePointStyle: true } } } }
+});
+</script>
+{% endblock %}

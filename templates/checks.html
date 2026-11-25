@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Model Checks{% endblock %}
+{% block page_title %}Model Checks{% endblock %}
+
+{% block content %}
+<div class="row g-3 mb-4">
+    <div class="col-12">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3">
+                {% if 'PASSED' in data.overall_status %}
+                <div class="stat-icon" style="background:#4caf50;"><i class="bi bi-check-lg"></i></div>
+                {% else %}
+                <div class="stat-icon" style="background:#e53935;"><i class="bi bi-x-lg"></i></div>
+                {% endif %}
+                <div>
+                    <div class="stat-label">Overall Status</div>
+                    <div class="stat-value" style="font-size:18px;">{{ data.overall_status }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-panel mb-4">
+    <div class="panel-header"><h3>System Checks</h3></div>
+    <div class="panel-body">
+        <table class="table table-research">
+            <thead><tr><th>Check</th><th>Value</th><th>Status</th></tr></thead>
+            <tbody>
+                {% for c in data.checks %}
+                <tr>
+                    <td>{{ c.check }}</td>
+                    <td class="fw-semibold">{{ c.value }}</td>
+                    <td>
+                        {% if c.status == 'OK' %}
+                        <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>OK</span>
+                        {% elif c.status == 'WARN' %}
+                        <span class="badge bg-warning text-dark"><i class="bi bi-exclamation-triangle me-1"></i>WARN</span>
+                        {% else %}
+                        <span class="badge bg-danger"><i class="bi bi-x-circle me-1"></i>{{ c.status }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card-panel">
+    <div class="panel-header"><h3>Financial Statement Checks</h3></div>
+    <div class="panel-body">
+        <table class="table table-research">
+            <thead><tr><th>Sheet</th><th>Periods Failing</th><th>Periods Checked</th><th>Notes</th></tr></thead>
+            <tbody>
+                {% for f in data.fs_checks %}
+                <tr>
+                    <td class="fw-semibold">{{ f.sheet }}</td>
+                    <td>
+                        {% if f.periods_failing and f.periods_failing|int > 0 %}
+                        <span class="badge bg-warning text-dark">{{ f.periods_failing }}</span>
+                        {% else %}
+                        <span class="badge bg-success">0</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ f.periods_checked }}</td>
+                    <td style="font-size:12px;max-width:400px;">{{ f.note or '' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block page_title %}My Profile{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card-panel mb-4">
+            <div class="panel-header"><h3><i class="bi bi-person me-2"></i>Profile Details</h3></div>
+            <div class="panel-body" style="padding:24px;">
+                <div class="text-center mb-4">
+                    <div class="user-avatar mx-auto" style="width:64px;height:64px;font-size:24px;">{{ current_user.full_name[0] }}</div>
+                    <h5 class="mt-2 mb-0">{{ current_user.full_name }}</h5>
+                    <span class="role-badge role-{{ current_user.role }} mt-2">{{ current_user.role_label }}</span>
+                </div>
+                <table class="table table-sm" style="font-size:13px;">
+                    <tr><td class="text-muted">Username</td><td class="fw-semibold">{{ current_user.username }}</td></tr>
+                    <tr><td class="text-muted">Email</td><td>{{ current_user.email }}</td></tr>
+                    <tr><td class="text-muted">Last Login</td><td>{{ current_user.last_login.strftime('%d %b %Y %H:%M') if current_user.last_login else 'N/A' }}</td></tr>
+                    <tr><td class="text-muted">Member Since</td><td>{{ current_user.created_at.strftime('%d %b %Y') }}</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-lock me-2"></i>Update Profile</h3></div>
+            <div class="panel-body" style="padding:24px;">
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-3">
+                        <label class="form-label" style="font-size:13px;font-weight:500;">Full Name</label>
+                        <input type="text" class="form-control" name="full_name" value="{{ current_user.full_name }}" style="border-radius:8px;">
+                    </div>
+                    <hr>
+                    <p class="text-muted" style="font-size:12px;">Leave password fields blank to keep your current password.</p>
+                    <div class="mb-3">
+                        <label class="form-label" style="font-size:13px;font-weight:500;">Current Password</label>
+                        <input type="password" class="form-control" name="current_password" style="border-radius:8px;">
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" style="font-size:13px;font-weight:500;">New Password</label>
+                        <input type="password" class="form-control" name="new_password" minlength="6" style="border-radius:8px;">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="border-radius:8px;padding:8px 24px;font-size:13px;">Update Profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

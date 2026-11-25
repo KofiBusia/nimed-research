@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | Nimed Capital Research</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        :root { --nimed-navy: #0a2240; --nimed-blue: #0066cc; --nimed-cyan: #00b4d8; }
+        body {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, var(--nimed-navy) 0%, #0d3b6e 50%, #0a4d8c 100%);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        .login-container { width: 100%; max-width: 440px; padding: 20px; }
+        .login-card {
+            background: #fff; border-radius: 16px; padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.3);
+        }
+        .login-logo { text-align: center; margin-bottom: 32px; }
+        .login-logo h2 { color: var(--nimed-navy); font-weight: 800; font-size: 22px; margin-bottom: 2px; letter-spacing: 1px; }
+        .login-logo small { color: #6b7280; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
+        .form-floating label { font-size: 14px; }
+        .form-control { border-radius: 10px; padding: 12px 16px; border: 1.5px solid #e0e0e0; font-size: 14px; }
+        .form-control:focus { border-color: var(--nimed-blue); box-shadow: 0 0 0 3px rgba(0,102,204,.12); }
+        .btn-login {
+            background: var(--nimed-navy); color: #fff; border: none; border-radius: 10px;
+            padding: 12px; font-weight: 600; font-size: 15px; width: 100%;
+            transition: all .2s;
+        }
+        .btn-login:hover { background: #0d3b6e; color: #fff; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(10,34,64,.3); }
+        .nimed-wave {
+            width: 60px; height: 60px; margin: 0 auto 12px;
+            background: linear-gradient(135deg, var(--nimed-cyan), var(--nimed-blue), var(--nimed-navy));
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+        }
+        .nimed-wave i { font-size: 28px; color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-logo">
+                <div class="nimed-wave"><i class="bi bi-graph-up-arrow"></i></div>
+                <h2>NIMED CAPITAL</h2>
+                <small>Research Platform</small>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} py-2 px-3" style="font-size:13px; border-radius:8px;">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="mb-3">
+                    <label class="form-label" style="font-size:13px;font-weight:500;color:#374151;">Username</label>
+                    <input type="text" class="form-control" name="username" required autofocus placeholder="Enter your username">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" style="font-size:13px;font-weight:500;color:#374151;">Password</label>
+                    <input type="password" class="form-control" name="password" required placeholder="Enter your password">
+                </div>
+                <div class="mb-4 form-check">
+                    <input type="checkbox" class="form-check-input" name="remember" id="remember">
+                    <label class="form-check-label" for="remember" style="font-size:13px;">Remember me</label>
+                </div>
+                <button type="submit" class="btn btn-login">Sign In</button>
+            </form>
+            <p class="text-center mt-4 mb-0" style="font-size:11px;color:#9ca3af;">Nimed Capital Ltd &middot; Research Department</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,4980 @@
+{
+  "at_a_glance": {
+    "Model checks": {
+      "value": "ALL CHECKS PASSED, 1 WARNING(S)",
+      "ytd": null
+    },
+    "Prices up to": {
+      "value": "2026-10-29",
+      "ytd": null
+    },
+    "Nimed Index": {
+      "value": 4438.221370280459,
+      "ytd": 0.5811073186134834
+    },
+    "GSE-CI": {
+      "value": 14246.71,
+      "ytd": 0.6244360194977336
+    },
+    "Banks rated A / B / C": {
+      "value": "1 / 8 / 1",
+      "ytd": null
+    },
+    "Undervalued / fair / overvalued": {
+      "value": "2 / 3 / 16",
+      "ytd": null
+    },
+    "Median cost of equity (GSE)": {
+      "value": 0.19971907527358185,
+      "ytd": null
+    },
+    "Securities / with statements": {
+      "value": "40 / 32",
+      "ytd": null
+    }
+  },
+  "nimed_index": {
+    "Measure": {
+      "nimed_index": "Nimed Index",
+      "bank_sub": "Bank sub-index",
+      "gse_ci": "GSE-CI"
+    },
+    "Level": {
+      "nimed_index": 4438.221370280459,
+      "bank_sub": 3679.9162204868735,
+      "gse_ci": 14246.71
+    },
+    "1 day": {
+      "nimed_index": 0.015858511567688804,
+      "bank_sub": 0.007750342749960781,
+      "gse_ci": 0.014088767850304329
+    },
+    "Year to date": {
+      "nimed_index": 0.5811073186134834,
+      "bank_sub": 0.5348813247561233,
+      "gse_ci": 0.6244360194977336
+    },
+    "1 year": {
+      "nimed_index": 0.6752707222565695,
+      "bank_sub": 0.8205925018710964,
+      "gse_ci": 0.707213053070038
+    },
+    "Since base": {
+      "nimed_index": 3.438221370280459,
+      "bank_sub": 2.6799162204868736,
+      "gse_ci": 3.9774165260440135
+    }
+  },
+  "bank_credit_risk": [
+    {
+      "bank": "Ecobank Ghana (9M-26)",
+      "rating": "A",
+      "score": 2.6,
+      "max_placement": 0.15,
+      "car": 0.1819,
+      "npl": 0.1499,
+      "loan_to_deposit": 0.4288994296147922,
+      "roe": 0.22127954606475453
+    },
+    {
+      "bank": "CalBank (9M-26)",
+      "rating": "B",
+      "score": 2.55,
+      "max_placement": 0.1,
+      "car": 0.184,
+      "npl": 0.085,
+      "loan_to_deposit": 0.1931751306083735,
+      "roe": 0.23423276977448965
+    },
+    {
+      "bank": "Access Bank Ghana (9M-26)",
+      "rating": "B",
+      "score": 2.45,
+      "max_placement": 0.1,
+      "car": 0.1635,
+      "npl": 0.0451,
+      "loan_to_deposit": 0.36096190146740764,
+      "roe": 0.2029625310851791
+    },
+    {
+      "bank": "GCB Bank (9M-26)",
+      "rating": "B",
+      "score": 2.45,
+      "max_placement": 0.1,
+      "car": 0.146,
+      "npl": 0.048,
+      "loan_to_deposit": 0.5005312877486944,
+      "roe": 0.3163736419693644
+    },
+    {
+      "bank": "Standard Chartered Bank Ghana (9M-26)",
+      "rating": "B",
+      "score": 2.25,
+      "max_placement": 0.1,
+      "car": 0.2312,
+      "npl": 0.2325,
+      "loan_to_deposit": 0.24262059179777645,
+      "roe": 0.18932656537170078
+    },
+    {
+      "bank": "Ecobank Transnational Inc. (H1-26)",
+      "rating": "B",
+      "score": 2.2222,
+      "max_placement": 0.1,
+      "car": 0.167,
+      "npl": 0.094,
+      "loan_to_deposit": 0.42669201324541634,
+      "roe": 0.1444601017424359
+    },
+    {
+      "bank": "First Atlantic Bank (9M-26)",
+      "rating": "B",
+      "score": 2.2,
+      "max_placement": 0.1,
+      "car": 0.1454,
+      "npl": 0.112,
+      "loan_to_deposit": 0.13275530854024462,
+      "roe": 0.1455505623168027
+    },
+    {
+      "bank": "Societe Generale Ghana (9M-26)",
+      "rating": "B",
+      "score": 2.2,
+      "max_placement": 0.1,
+      "car": 0.2339,
+      "npl": 0.1306,
+      "loan_to_deposit": 0.6532767272316181,
+      "roe": 0.07757779054337889
+    },
+    {
+      "bank": "Republic Bank (Ghana) (9M-26)",
+      "rating": "B",
+      "score": 2.15,
+      "max_placement": 0.1,
+      "car": 0.1783,
+      "npl": 0.116,
+      "loan_to_deposit": 0.5734600644827131,
+      "roe": 0.13390069517639303
+    },
+    {
+      "bank": "Agricultural Development Bank (H1-26)",
+      "rating": "C",
+      "score": 2.25,
+      "max_placement": 0,
+      "car": 0.2694,
+      "npl": 0.6784,
+      "loan_to_deposit": 0.13716362244562197,
+      "roe": 0.1444879753360227
+    }
+  ],
+  "valuations": [
+    {
+      "company": "Access Bank Ghana",
+      "price_ghs": 20.79,
+      "price_usd": 1.7799657534246576,
+      "value_ghs": 16.611839526420365,
+      "value_usd": 1.422246534796264,
+      "upside": -0.2009697197489002,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "Agricultural Development Bank",
+      "price_ghs": 5.3,
+      "price_usd": 0.4537671232876712,
+      "value_ghs": 1.392523962517875,
+      "value_usd": 0.1192229419963934,
+      "upside": -0.7372596297136085,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "CalBank",
+      "price_ghs": 0.74,
+      "price_usd": 0.06335616438356165,
+      "value_ghs": 0.6226225086983153,
+      "value_usd": 0.053306721635129735,
+      "upside": -0.1586182314887632,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "Ecobank Ghana",
+      "price_ghs": 39,
+      "price_usd": 3.339041095890411,
+      "value_ghs": 32.637816059581,
+      "value_usd": 2.7943335667449487,
+      "upside": -0.1631329215492051,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "First Atlantic Bank",
+      "price_ghs": 8.4,
+      "price_usd": 0.7191780821917809,
+      "value_ghs": 9.896730478808578,
+      "value_usd": 0.8473228149664879,
+      "upside": 0.17818219985816408,
+      "verdict": "Undervalued"
+    },
+    {
+      "company": "GCB Bank",
+      "price_ghs": 43.67,
+      "price_usd": 3.738869863013699,
+      "value_ghs": 44.8570824787536,
+      "value_usd": 3.840503636879589,
+      "upside": 0.027183019893601834,
+      "verdict": "Fair value"
+    },
+    {
+      "company": "Republic Bank (Ghana)",
+      "price_ghs": 4,
+      "price_usd": 0.3424657534246575,
+      "value_ghs": 1.522733335627244,
+      "value_usd": 0.1303710047626065,
+      "upside": -0.619316666093189,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "Standard Chartered Bank Ghana",
+      "price_ghs": 69.87,
+      "price_usd": 5.982020547945206,
+      "value_ghs": 21.246075039745314,
+      "value_usd": 1.8190132739507974,
+      "upside": -0.6959199221447644,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "Societe Generale Ghana",
+      "price_ghs": 4.62,
+      "price_usd": 0.3955479452054795,
+      "value_ghs": 2.5630672310063596,
+      "value_usd": 0.21944068758616092,
+      "upside": -0.44522354307221657,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "MTN Ghana",
+      "price_ghs": 6.67,
+      "price_usd": 0.5710616438356164,
+      "value_ghs": 5.1625273094505975,
+      "value_usd": 0.44199720115159224,
+      "upside": -0.22600789963259404,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "Enterprise Group",
+      "price_ghs": 8.3,
+      "price_usd": 0.7106164383561645,
+      "value_ghs": 11.936300620708597,
+      "value_usd": 1.0219435462935442,
+      "upside": 0.4381085085191079,
+      "verdict": "Undervalued"
+    },
+    {
+      "company": "SIC Insurance",
+      "price_ghs": 4.6,
+      "price_usd": 0.39383561643835613,
+      "value_ghs": 2.8485470970048654,
+      "value_usd": 0.24388245693534807,
+      "upside": -0.3807506310858988,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "GOIL",
+      "price_ghs": 5.5,
+      "price_usd": 0.4708904109589041,
+      "value_ghs": 1.9888653663572389,
+      "value_usd": 0.17027956903743485,
+      "upside": -0.6383881152077748,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "Fan Milk",
+      "price_ghs": 13.99,
+      "price_usd": 1.1977739726027399,
+      "value_ghs": 7.853217564519589,
+      "value_usd": 0.6723645175102388,
+      "upside": -0.4386549274825169,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "Clydestone (Ghana)",
+      "price_ghs": 3.85,
+      "price_usd": 0.3296232876712329,
+      "value_ghs": 0.9909143991830276,
+      "value_usd": 0.08483856157388935,
+      "upside": -0.7426196365758371,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "Digicut Advertising & Production",
+      "price_ghs": 0.4,
+      "price_usd": 0.03424657534246576,
+      "value_ghs": 0.0007562837344878099,
+      "value_usd": 6.475031973354537e-05,
+      "upside": -0.9981092906637805,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "TotalEnergies Marketing Ghana",
+      "price_ghs": 40,
+      "price_usd": 3.4246575342465753,
+      "value_ghs": 18.888144799033284,
+      "value_usd": 1.6171356848487402,
+      "upside": -0.5277963800241678,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "Guinness Ghana Breweries",
+      "price_ghs": 10.66,
+      "price_usd": 0.9126712328767124,
+      "value_ghs": 11.497272537863042,
+      "value_usd": 0.9843555255019728,
+      "upside": 0.07854339004343736,
+      "verdict": "Fair value"
+    },
+    {
+      "company": "Unilever Ghana",
+      "price_ghs": 39.5,
+      "price_usd": 3.3818493150684934,
+      "value_ghs": 15.954391996822274,
+      "value_usd": 1.3659582189060167,
+      "upside": -0.5960913418526006,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "Kasapreko",
+      "price_ghs": 1.83,
+      "price_usd": 0.15667808219178084,
+      "value_ghs": 0.9170792001600326,
+      "value_usd": 0.07851705480822198,
+      "upside": -0.4988638250491625,
+      "verdict": "Overvalued"
+    },
+    {
+      "company": "Dannex Ayrton Starwin",
+      "price_ghs": 0.93,
+      "price_usd": 0.07962328767123289,
+      "value_ghs": 1.0072887868624931,
+      "value_usd": 0.08624047832726825,
+      "upside": 0.08310622243278831,
+      "verdict": "Fair value"
+    },
+    {
+      "company": "Mega African Capital",
+      "price_ghs": 5.2,
+      "price_usd": 0.4452054794520548,
+      "value_ghs": null,
+      "value_usd": null,
+      "upside": null,
+      "verdict": "Not valued (loss-making)"
+    },
+    {
+      "company": "Samba Foods",
+      "price_ghs": 0.55,
+      "price_usd": 0.04708904109589042,
+      "value_ghs": 1.391903661799529,
+      "value_usd": 0.11916983405817887,
+      "upside": 1.530733930544598,
+      "verdict": "Not rated (data FY2022)"
+    },
+    {
+      "company": "Intravenous Infusions",
+      "price_ghs": 0.55,
+      "price_usd": 0.04708904109589042,
+      "value_ghs": null,
+      "value_usd": null,
+      "upside": null,
+      "verdict": "Not valued (loss-making)"
+    },
+    {
+      "company": "Hords",
+      "price_ghs": 0.75,
+      "price_usd": 0.0642123287671233,
+      "value_ghs": 0.009045212388833695,
+      "value_usd": 0.0007744188689069944,
+      "upside": -0.9879397168148885,
+      "verdict": "Not rated (data FY2023)"
+    },
+    {
+      "company": "Notes: ratings A approved, B reduced limit, C no new placements (Inputs, section C). Value = one weighted multi-model valuation per company (DDM, FCFE, residual income, comparables, justified multiples; weights by sector on Model_Weights), blended 50% with the analyst full-model run where one exists and is included (Model_Weights, company overrides). No method is counted twice. Breakdown in section 5. For internal research; not investment advice.",
+      "price_ghs": null,
+      "price_usd": null,
+      "value_ghs": null,
+      "value_usd": null,
+      "upside": null,
+      "verdict": null
+    }
+  ],
+  "betas": [
+    {
+      "ticker": "ACCESS",
+      "company": "Access Bank Ghana",
+      "category": "Banking",
+      "raw_beta": 0.7775412436753644,
+      "r_squared": 0.1392426787904081,
+      "blume_beta": 0.8509526332624942,
+      "dimson_blume": 1.14944669844031,
+      "beta_used": 1.14944669844031,
+      "reliable": "YES",
+      "cost_of_equity": 0.1914612688908217,
+      "zero_return_share": 0.6764705882352942,
+      "return_obs": 170
+    },
+    {
+      "ticker": "ADB",
+      "company": "Agricultural Development Bank",
+      "category": "Banking",
+      "raw_beta": 0.0022216888595889476,
+      "r_squared": 0.0003502594472064881,
+      "blume_beta": 0.33148853153592456,
+      "dimson_blume": 0.33103309366124756,
+      "beta_used": 1.2876014167827692,
+      "reliable": "NO",
+      "cost_of_equity": 0.20113209917479385,
+      "zero_return_share": 0.9941176470588236,
+      "return_obs": 170
+    },
+    {
+      "ticker": "AGA",
+      "company": "AngloGold Ashanti",
+      "category": "Mining",
+      "raw_beta": null,
+      "r_squared": null,
+      "blume_beta": null,
+      "dimson_blume": null,
+      "beta_used": null,
+      "reliable": "NO",
+      "cost_of_equity": null,
+      "zero_return_share": 1,
+      "return_obs": 170
+    },
+    {
+      "ticker": "ALW",
+      "company": "Aluworks",
+      "category": "Manufacturing",
+      "raw_beta": null,
+      "r_squared": null,
+      "blume_beta": null,
+      "dimson_blume": null,
+      "beta_used": null,
+      "reliable": "NO",
+      "cost_of_equity": null,
+      "zero_return_share": 1,
+      "return_obs": 170
+    },
+    {
+      "ticker": "ASG",
+      "company": "Asante Gold Corporation",
+      "category": "Mining",
+      "raw_beta": -1.1479241178397802e-05,
+      "r_squared": 8.334027505693412e-06,
+      "blume_beta": 0.3299923089084104,
+      "dimson_blume": 0.32990403811298485,
+      "beta_used": 1.267415361051169,
+      "reliable": "NO",
+      "cost_of_equity": 0.19971907527358185,
+      "zero_return_share": 0.9882352941176471,
+      "return_obs": 170
+    },
+    {
+      "ticker": "ALLGH",
+      "company": "Atlantic Lithium",
+      "category": "Mining",
+      "raw_beta": 0.07146393165328184,
+      "r_squared": 0.003812126260144028,
+      "blume_beta": 0.3778808342076988,
+      "dimson_blume": 0.45679059679995326,
+      "beta_used": 1.267415361051169,
+      "reliable": "NO",
+      "cost_of_equity": 0.19971907527358185,
+      "zero_return_share": 0.8285714285714286,
+      "return_obs": 140
+    },
+    {
+      "ticker": "BOPP",
+      "company": "Benso Oil Palm Plantation",
+      "category": "Agriculture",
+      "raw_beta": 0.2002798745459345,
+      "r_squared": 0.022891899997526617,
+      "blume_beta": 0.46418751594577606,
+      "dimson_blume": 0.4064198556323031,
+      "beta_used": 1.267415361051169,
+      "reliable": "NO",
+      "cost_of_equity": 0.19971907527358185,
+      "zero_return_share": 0.6235294117647059,
+      "return_obs": 170
+    },
+    {
+      "ticker": "CAL",
+      "company": "CalBank",
+      "category": "Banking",
+      "raw_beta": 0.5691013642936653,
+      "r_squared": 0.04390656235749855,
+      "blume_beta": 0.7112979140767557,
+      "dimson_blume": 0.8770020585780288,
+      "beta_used": 1.2876014167827692,
+      "reliable": "NO",
+      "cost_of_equity": 0.20113209917479385,
+      "zero_return_share": 0.32941176470588235,
+      "return_obs": 170
+    },
+    {
+      "ticker": "CLYD",
+      "company": "Clydestone (Ghana)",
+      "category": "Technology",
+      "raw_beta": 0.756972476093995,
+      "r_squared": 0.051974382981230645,
+      "blume_beta": 0.8371715589829767,
+      "dimson_blume": 0.7342532393263222,
+      "beta_used": 1.267415361051169,
+      "reliable": "NO",
+      "cost_of_equity": 0.19971907527358185,
+      "zero_return_share": 0.7294117647058823,
+      "return_obs": 170
+    },
+    {
+      "ticker": "CMLT",
+      "company": "Camelot Ghana",
+      "category": "Manufacturing",
+      "raw_beta": -0.008203032244771284,
+      "r_squared": 0.00035127583491602506,
+      "blume_beta": 0.3245039683960032,
+      "dimson_blume": 0.30805005257267165,
+      "beta_used": 1.267415361051169,
+      "reliable": "NO",
+      "cost_of_equity": 0.19971907527358185,
+      "zero_return_share": 0.9764705882352941,
+      "return_obs": 170
+    },
+    {
+      "ticker": "CPC",
+      "company": "Cocoa Processing Company",
+      "category": "Manufacturing",
+      "raw_beta": -0.02575757475750286,
+      "r_squared": 0.00016036549323294476,
+      "blume_beta": 0.31274242491247306,
+      "dimson_blume": 0.23452526603993967,
+      "beta_used": 1.267415361051169,
+      "reliable": "NO",
+      "cost_of_equity": 0.19971907527358185,
+      "zero_return_share": 0.8764705882352941,
+      "return_obs": 170
+    },
+    {
+      "ticker": "DASPHARMA",
+      "company": "Dannex Ayrton Starwin",
+      "category": "Health Care",
+      "raw_beta": -0.06949539009032825,
+      "r_squared": 0.0006119634725156933,
+      "blume_beta": 0.28343808863948006,
+      "dimson_blume": 0.20371940998390808,
+      "beta_used": 1.267415361051169,
+      "reliable": "NO",
+      "cost_of_equity": 0.19971907527358185,
+      "zero_return_share": 0.9058823529411765,
+      "return_obs": 170
+    },
+    {
+      "ticker": "EGH",
+      "company": "Ecobank Ghana",
+      "category": "Banking",
+      "raw_beta": 0.9265496094381163,
+      "r_squared": 0.18342026189031405,
+      "blume_beta": 0.9507882383235379,
+      "dimson_blume": 1.0183908007190905,
+      "beta_used": 1.0183908007190905,
+      "reliable": "YES",
+      "cost_of_equity": 0.18228735605033636,
+      "zero_return_share": 0.5411764705882353,
+      "return_obs": 170
+    },
+    {
+      "ticker": "EGL",
+      "company": "Enterprise Group",
+      "category": "Insurance",
+      "raw_beta": 0.787721641088143,
+      "r_squared": 0.11308852077833557,
+      "blume_beta": 0.8577734995290558,
+      "dimson_blume": 1.2341418890566769,
+      "beta_used": 1.2341418890566769,
+      "reliable": "YES",
+      "cost_of_equity": 0.1973899322339674,
+      "zero_return_share": 0.6411764705882353,
+      "return_obs": 170
+    },
+    {
+      "ticker": "ETI",
+      "company": "Ecobank Transnational Inc.",
+      "category": "Banking",
+      "raw_beta": 1.5869603998114659,
+      "r_squared": 0.32867926844981277,
+      "blume_beta": 1.3932634678736822,
+      "dimson_blume": 1.7052611786232514,
+      "beta_used": 1.7052611786232514,
+      "reliable": "YES",
+      "cost_of_equity": 0.23036828250362762,
+      "zero_return_share": 0.5352941176470588,
+      "return_obs": 170
+    },
+    {
+      "ticker": "FML",
+      "company": "Fan Milk",
+      "category": "Consumer Goods",
+      "raw_beta": 0.6886331914097834,
+      "r_squared": 0.0924741106636239,
+      "blume_beta": 0.7913842382445548,
+      "dimson_blume": 0.9595765666440994,
+      "beta_used": 1.0016345187417657,
+      "reliable": "NO",
+      "cost_of_equity": 0.1811144163119236,
+      "zero_return_share": 0.6470588235294118,
+      "return_obs": 170
+    },
+    {
+      "ticker": "FAB",
+      "company": "First Atlantic Bank",
+      "category": "Banking",
+      "raw_beta": 0.02363000117763252,
+      "r_squared": 0.0074960310889652226,
+      "blume_beta": 0.3458321007890138,
+      "dimson_blume": 0.3256680890024997,
+      "beta_used": 1.2876014167827692,
+      "reliable": "NO",
+      "cost_of_equity": 0.20113209917479385,
+      "zero_return_share": 0.7727272727272727,
+      "return_obs": 44
+    },
+    {
+      "ticker": "GCB",
+      "company": "GCB Bank",
+      "category": "Banking",
+      "raw_beta": 1.2647211484389322,
+      "r_squared": 0.31160756566691833,
+      "blume_beta": 1.1773631694540847,
+      "dimson_blume": 1.4647939524844045,
+      "beta_used": 1.4647939524844045,
+      "reliable": "YES",
+      "cost_of_equity": 0.21353557667390832,
+      "zero_return_share": 0.3588235294117647,
+      "return_obs": 170
+    },
+    {
+      "ticker": "GGBL",
+      "company": "Guinness Ghana Breweries",
+      "category": "Consumer Goods",
+      "raw_beta": 0.6068499798333319,
+      "r_squared": 0.1137630186686708,
+      "blume_beta": 0.7365894864883323,
+      "dimson_blume": 1.0016345187417657,
+      "beta_used": 1.0016345187417657,
+      "reliable": "YES",
+      "cost_of_equity": 0.1811144163119236,
+      "zero_return_share": 0.7352941176470589,
+      "return_obs": 170
+    },
+    {
+      "ticker": "GOIL",
+      "company": "GOIL",
+      "category": "Oil & Gas Marketing",
+      "raw_beta": 0.682166824755245,
+      "r_squared": 0.21246108752578252,
+      "blume_beta": 0.7870517725860142,
+      "dimson_blume": 0.971183851354609,
+      "beta_used": 0.971183851354609,
+      "reliable": "YES",
+      "cost_of_equity": 0.17898286959482262,
+      "zero_return_share": 0.5882352941176471,
+      "return_obs": 170
+    },
+    {
+      "ticker": "KASA",
+      "company": "Kasapreko",
+      "category": "Consumer Goods",
+      "raw_beta": 0.8614332176350457,
+      "r_squared": 0.18549029692995694,
+      "blume_beta": 0.9071602558154805,
+      "dimson_blume": 1.3037117602301007,
+      "beta_used": 1.0016345187417657,
+      "reliable": "NO",
+      "cost_of_equity": 0.1811144163119236,
+      "zero_return_share": 0.16666666666666666,
+      "return_obs": 18
+    },
+    {
+      "ticker": "MAC",
+      "company": "Mega African Capital",
+      "category": "Financial Services",
+      "raw_beta": 0.005277774700068652,
+      "r_squared": 0.003972519777176036,
+      "blume_beta": 0.33353610904904596,
+      "dimson_blume": 0.33308714719941895,
+      "beta_used": 1.267415361051169,
+      "reliable": "NO",
+      "cost_of_equity": 0.19971907527358185,
+      "zero_return_share": 0.9941176470588236,
+      "return_obs": 170
+    },
+    {
+      "ticker": "MTNGH",
+      "company": "MTN Ghana",
+      "category": "Telecoms",
+      "raw_beta": 1.1946585014640725,
+      "r_squared": 0.7508572724441319,
+      "blume_beta": 1.1304211959809285,
+      "dimson_blume": 0.9554282599200625,
+      "beta_used": 0.9554282599200625,
+      "reliable": "YES",
+      "cost_of_equity": 0.17787997819440438,
+      "zero_return_share": 0.24705882352941178,
+      "return_obs": 170
+    },
+    {
+      "ticker": "PBC",
+      "company": "Produce Buying Company",
+      "category": "Agriculture",
+      "raw_beta": null,
+      "r_squared": null,
+      "blume_beta": null,
+      "dimson_blume": null,
+      "beta_used": null,
+      "reliable": "NO",
+      "cost_of_equity": null,
+      "zero_return_share": 1,
+      "return_obs": 170
+    },
+    {
+      "ticker": "RBGH",
+      "company": "Republic Bank (Ghana)",
+      "category": "Banking",
+      "raw_beta": 1.0890728778295877,
+      "r_squared": 0.2742381034478564,
+      "blume_beta": 1.0596788281458238,
+      "dimson_blume": 1.2861771728262041,
+      "beta_used": 1.2861771728262041,
+      "reliable": "YES",
+      "cost_of_equity": 0.2010324020978343,
+      "zero_return_share": 0.6764705882352942,
+      "return_obs": 170
+    },
+    {
+      "ticker": "SCB",
+      "company": "Standard Chartered Bank Ghana",
+      "category": "Banking",
+      "raw_beta": 0.8121711804232425,
+      "r_squared": 0.19067582235603123,
+      "blume_beta": 0.8741546908835724,
+      "dimson_blume": 1.1496823567335883,
+      "beta_used": 1.1496823567335883,
+      "reliable": "YES",
+      "cost_of_equity": 0.1914777649713512,
+      "zero_return_share": 0.6764705882352942,
+      "return_obs": 170
+    },
+    {
+      "ticker": "SIC",
+      "company": "SIC Insurance",
+      "category": "Insurance",
+      "raw_beta": 1.9450268453842197,
+      "r_squared": 0.1316458420500963,
+      "blume_beta": 1.633167986407427,
+      "dimson_blume": 2.033385896061528,
+      "beta_used": 2.033385896061528,
+      "reliable": "YES",
+      "cost_of_equity": 0.253337012724307,
+      "zero_return_share": 0.6235294117647059,
+      "return_obs": 170
+    },
+    {
+      "ticker": "SOGEGH",
+      "company": "Societe Generale Ghana",
+      "category": "Banking",
+      "raw_beta": 0.8185710660974398,
+      "r_squared": 0.11135159406247962,
+      "blume_beta": 0.8784426142852847,
+      "dimson_blume": 1.2394577576525356,
+      "beta_used": 1.2394577576525356,
+      "reliable": "YES",
+      "cost_of_equity": 0.19776204303567751,
+      "zero_return_share": 0.611764705882353,
+      "return_obs": 170
+    },
+    {
+      "ticker": "TOTAL",
+      "company": "TotalEnergies Marketing Ghana",
+      "category": "Oil & Gas Marketing",
+      "raw_beta": 0.1832961484388113,
+      "r_squared": 0.012006204494236866,
+      "blume_beta": 0.4528084194540035,
+      "dimson_blume": 0.49948866665908315,
+      "beta_used": 0.971183851354609,
+      "reliable": "NO",
+      "cost_of_equity": 0.17898286959482262,
+      "zero_return_share": 0.5,
+      "return_obs": 170
+    },
+    {
+      "ticker": "TLW",
+      "company": "Tullow Oil",
+      "category": "Oil & Gas",
+      "raw_beta": 0.010324089739735521,
+      "r_squared": 0.0017072886880481447,
+      "blume_beta": 0.33691714012562274,
+      "dimson_blume": 0.33147872746800705,
+      "beta_used": 1.267415361051169,
+      "reliable": "NO",
+      "cost_of_equity": 0.19971907527358185,
+      "zero_return_share": 0.9941176470588236,
+      "return_obs": 170
+    },
+    {
+      "ticker": "UNIL",
+      "company": "Unilever Ghana",
+      "category": "Consumer Goods",
+      "raw_beta": 0.24813970275996958,
+      "r_squared": 0.05002596028985684,
+      "blume_beta": 0.4962536008491796,
+      "dimson_blume": 0.5568988871869904,
+      "beta_used": 1.0016345187417657,
+      "reliable": "NO",
+      "cost_of_equity": 0.1811144163119236,
+      "zero_return_share": 0.7705882352941177,
+      "return_obs": 170
+    },
+    {
+      "ticker": "ZEN",
+      "company": null,
+      "category": "To confirm",
+      "raw_beta": -0.4190831414230349,
+      "r_squared": 0.005758282685212029,
+      "blume_beta": 0.049214295246566564,
+      "dimson_blume": 0.1695924157011685,
+      "beta_used": 1.267415361051169,
+      "reliable": "NO",
+      "cost_of_equity": 0.19971907527358185,
+      "zero_return_share": 0.4230769230769231,
+      "return_obs": 26
+    },
+    {
+      "ticker": "AADS",
+      "company": "AngloGold Ashanti depositary shares",
+      "category": "Depositary Shares",
+      "raw_beta": 0.00261680650054768,
+      "r_squared": 0.00011342665944961944,
+      "blume_beta": 0.3317532603553669,
+      "dimson_blume": 0.317964583390276,
+      "beta_used": 1.267415361051169,
+      "reliable": "NO",
+      "cost_of_equity": 0.19971907527358185,
+      "zero_return_share": 0.9882352941176471,
+      "return_obs": 170
+    },
+    {
+      "ticker": "SCBPREF",
+      "company": "Standard Chartered Bank Ghana preference",
+      "category": "Preference Shares",
+      "raw_beta": -0.035351595556656776,
+      "r_squared": 0.000367312755784992,
+      "blume_beta": 0.3063144309770399,
+      "dimson_blume": 0.2747795437277947,
+      "beta_used": 0.2747795437277947,
+      "reliable": "NO",
+      "cost_of_equity": 0.13023456806094563,
+      "zero_return_share": 0.9882352941176471,
+      "return_obs": 170
+    },
+    {
+      "ticker": "GLD",
+      "company": "NewGold ETF",
+      "category": "ETF",
+      "raw_beta": 0.07628669345723177,
+      "r_squared": 0.0031621742866231417,
+      "blume_beta": 0.38111208461634527,
+      "dimson_blume": 0.5088319852620774,
+      "beta_used": 0.5088319852620774,
+      "reliable": "NO",
+      "cost_of_equity": 0.14661823896834542,
+      "zero_return_share": 0.3235294117647059,
+      "return_obs": 170
+    },
+    {
+      "ticker": "SAMBA",
+      "company": "Samba Foods",
+      "category": "Consumer Goods",
+      "raw_beta": null,
+      "r_squared": null,
+      "blume_beta": null,
+      "dimson_blume": null,
+      "beta_used": 1.0016345187417657,
+      "reliable": "NO",
+      "cost_of_equity": 0.1811144163119236,
+      "zero_return_share": 1,
+      "return_obs": 170
+    },
+    {
+      "ticker": "MMH",
+      "company": "Meridian-Marshalls Holding",
+      "category": "Financial Services",
+      "raw_beta": -0.016655402742694763,
+      "r_squared": 0.0011290580972286785,
+      "blume_beta": 0.3188408801623945,
+      "dimson_blume": 0.3219237198950068,
+      "beta_used": 1.267415361051169,
+      "reliable": "NO",
+      "cost_of_equity": 0.19971907527358185,
+      "zero_return_share": 0.9705882352941176,
+      "return_obs": 170
+    },
+    {
+      "ticker": "HORDS",
+      "company": "Hords",
+      "category": "Industrial",
+      "raw_beta": -0.10262696805673223,
+      "r_squared": 0.0017240782404916574,
+      "blume_beta": 0.26123993140198937,
+      "dimson_blume": 0.18576639116346788,
+      "beta_used": 1.267415361051169,
+      "reliable": "NO",
+      "cost_of_equity": 0.19971907527358185,
+      "zero_return_share": 0.9058823529411765,
+      "return_obs": 170
+    },
+    {
+      "ticker": "IIL",
+      "company": "Intravenous Infusions",
+      "category": "Health Care",
+      "raw_beta": 0.03166391353311834,
+      "r_squared": 7.192427906391274e-05,
+      "blume_beta": 0.35121482206718924,
+      "dimson_blume": 0.1604995208816218,
+      "beta_used": 1.267415361051169,
+      "reliable": "NO",
+      "cost_of_equity": 0.19971907527358185,
+      "zero_return_share": 0.8470588235294118,
+      "return_obs": 170
+    }
+  ],
+  "inputs": {
+    "return_frequency": "Weekly",
+    "return_basis": "Price only",
+    "beta_type": "Dimson + Blume",
+    "r_squared_threshold": 0.1,
+    "blume_weight": 0.67,
+    "risk_free_rate": 0.111,
+    "equity_risk_premium": 0.07,
+    "usd_ghs_rate": 11.68,
+    "long_term_growth": 0.064,
+    "undervalued_band": 0.15,
+    "pre_tax_cost_of_debt": 0.18,
+    "marginal_tax_rate": 0.25
+  },
+  "credit_scoring": [
+    {
+      "ratio": "Capital adequacy ratio",
+      "description": "Capital buffer to absorb losses before deposits are hit",
+      "better_when": "Higher",
+      "strong_if": 0.18,
+      "weak_if": 0.13,
+      "weight": 0.15
+    },
+    {
+      "ratio": "NPL ratio",
+      "description": "Share of loans not being repaid",
+      "better_when": "Lower",
+      "strong_if": 0.1,
+      "weak_if": 0.2,
+      "weight": 0.15
+    },
+    {
+      "ratio": "Cash to deposits",
+      "description": "Cash available to repay depositors on demand",
+      "better_when": "Higher",
+      "strong_if": 0.45,
+      "weak_if": 0.3,
+      "weight": 0.05
+    },
+    {
+      "ratio": "Loan-to-deposit",
+      "description": "How much of deposits is tied up in loans",
+      "better_when": "Lower",
+      "strong_if": 0.45,
+      "weak_if": 0.65,
+      "weight": 0.05
+    },
+    {
+      "ratio": "Equity to assets",
+      "description": "Own funds behind each cedi of assets",
+      "better_when": "Higher",
+      "strong_if": 0.12,
+      "weak_if": 0.08,
+      "weight": 0.1
+    },
+    {
+      "ratio": "Return on assets",
+      "description": "Earnings power to rebuild capital",
+      "better_when": "Higher",
+      "strong_if": 0.03,
+      "weak_if": 0.01,
+      "weight": 0.1
+    },
+    {
+      "ratio": "Return on equity",
+      "description": "Return on shareholder funds",
+      "better_when": "Higher",
+      "strong_if": 0.2,
+      "weak_if": 0.1,
+      "weight": 0.05
+    },
+    {
+      "ratio": "Cost-to-income",
+      "description": "Operating efficiency",
+      "better_when": "Lower",
+      "strong_if": 0.5,
+      "weak_if": 0.65,
+      "weight": 0.1
+    },
+    {
+      "ratio": "Cost of risk",
+      "description": "Loan impairment charge as a share of loans",
+      "better_when": "Lower",
+      "strong_if": 0.005,
+      "weak_if": 0.015,
+      "weight": 0.1
+    },
+    {
+      "ratio": "Deposit growth",
+      "description": "Stability of the funding base",
+      "better_when": "Higher",
+      "strong_if": 0.15,
+      "weak_if": 0,
+      "weight": 0.05
+    },
+    {
+      "ratio": "Securities to assets",
+      "description": "Exposure to government and other securities (sovereign risk)",
+      "better_when": "Lower",
+      "strong_if": 0.25,
+      "weak_if": 0.4,
+      "weight": 0.1
+    }
+  ],
+  "model_weights": [
+    {
+      "model": "Two-stage dividend discount model",
+      "family": "Dividend discount",
+      "default_weight": 0.125,
+      "companies_valued": 11,
+      "avg_effective_weight": 0.09992106225789077
+    },
+    {
+      "model": "Three-stage dividend discount model",
+      "family": "Dividend discount",
+      "default_weight": 0.125,
+      "companies_valued": 11,
+      "avg_effective_weight": 0.0676473328611325
+    },
+    {
+      "model": "DCF: average of FCFE and FCFF",
+      "family": "Free cash flow",
+      "default_weight": 0.25,
+      "companies_valued": 9,
+      "avg_effective_weight": 0.45856255656796563
+    },
+    {
+      "model": "Residual income (persistence factor)",
+      "family": "Residual income",
+      "default_weight": 0.25,
+      "companies_valued": 23,
+      "avg_effective_weight": 0.5295622185048914
+    },
+    {
+      "model": "Method of comparables (peer median P/E and P/B)",
+      "family": "Market multiples",
+      "default_weight": 0.125,
+      "companies_valued": 14,
+      "avg_effective_weight": 0.19864621524285392
+    },
+    {
+      "model": "Justified multiples (leading P/E and P/B)",
+      "family": "Market multiples",
+      "default_weight": 0.125,
+      "companies_valued": 20,
+      "avg_effective_weight": 0.12857058954618333
+    }
+  ],
+  "sector_weights": [
+    {
+      "sector": "Banking",
+      "ddm2": 0.1,
+      "ddm3": 0.05,
+      "dcf": 0,
+      "ri": 0.6,
+      "comps": 0.15,
+      "justified": 0.1
+    },
+    {
+      "sector": "Insurance",
+      "ddm2": 0.1,
+      "ddm3": 0.05,
+      "dcf": 0,
+      "ri": 0.55,
+      "comps": 0.15,
+      "justified": 0.15
+    },
+    {
+      "sector": "Financial Services",
+      "ddm2": 0.1,
+      "ddm3": 0.05,
+      "dcf": 0,
+      "ri": 0.55,
+      "comps": 0.15,
+      "justified": 0.15
+    },
+    {
+      "sector": "Telecoms",
+      "ddm2": 0.1,
+      "ddm3": 0.1,
+      "dcf": 0.4,
+      "ri": 0.2,
+      "comps": 0.1,
+      "justified": 0.1
+    },
+    {
+      "sector": "Consumer Goods",
+      "ddm2": 0.15,
+      "ddm3": 0.1,
+      "dcf": 0.35,
+      "ri": 0.15,
+      "comps": 0.15,
+      "justified": 0.1
+    },
+    {
+      "sector": "Oil & Gas Marketing",
+      "ddm2": 0.15,
+      "ddm3": 0.1,
+      "dcf": 0.35,
+      "ri": 0.15,
+      "comps": 0.15,
+      "justified": 0.1
+    },
+    {
+      "sector": "Oil & Gas",
+      "ddm2": 0,
+      "ddm3": 0,
+      "dcf": 0.5,
+      "ri": 0.2,
+      "comps": 0.2,
+      "justified": 0.1
+    },
+    {
+      "sector": "Mining",
+      "ddm2": 0,
+      "ddm3": 0,
+      "dcf": 0.5,
+      "ri": 0.2,
+      "comps": 0.2,
+      "justified": 0.1
+    },
+    {
+      "sector": "Manufacturing",
+      "ddm2": 0.05,
+      "ddm3": 0.05,
+      "dcf": 0.5,
+      "ri": 0.2,
+      "comps": 0.1,
+      "justified": 0.1
+    },
+    {
+      "sector": "Industrial",
+      "ddm2": 0.05,
+      "ddm3": 0.05,
+      "dcf": 0.5,
+      "ri": 0.2,
+      "comps": 0.1,
+      "justified": 0.1
+    },
+    {
+      "sector": "Health Care",
+      "ddm2": 0.1,
+      "ddm3": 0.05,
+      "dcf": 0.4,
+      "ri": 0.2,
+      "comps": 0.15,
+      "justified": 0.1
+    },
+    {
+      "sector": "Technology",
+      "ddm2": 0.05,
+      "ddm3": 0.05,
+      "dcf": 0.4,
+      "ri": 0.25,
+      "comps": 0.15,
+      "justified": 0.1
+    },
+    {
+      "sector": "Media",
+      "ddm2": 0.05,
+      "ddm3": 0.05,
+      "dcf": 0.4,
+      "ri": 0.25,
+      "comps": 0.15,
+      "justified": 0.1
+    },
+    {
+      "sector": "Agriculture",
+      "ddm2": 0.1,
+      "ddm3": 0.05,
+      "dcf": 0.4,
+      "ri": 0.2,
+      "comps": 0.15,
+      "justified": 0.1
+    },
+    {
+      "sector": "All other sectors (default)",
+      "ddm2": 0.125,
+      "ddm3": 0.125,
+      "dcf": 0.25,
+      "ri": 0.25,
+      "comps": 0.125,
+      "justified": 0.125
+    }
+  ],
+  "valuation_details": [
+    {
+      "ticker": "ACCESS",
+      "company": "Access Bank Ghana",
+      "method": "Weighted models + analyst full model",
+      "price_ghs": 20.79,
+      "price_usd": 1.7799657534246576,
+      "intrinsic_ghs": 16.611839526420365,
+      "intrinsic_usd": 1.422246534796264,
+      "upside": -0.2009697197489002,
+      "verdict": "Overvalued",
+      "models_used": "DDM2 DDM3 RI Comps Justified",
+      "analyst_weight": 0.5
+    },
+    {
+      "ticker": "ADB",
+      "company": "Agricultural Development Bank",
+      "method": "Weighted models (sector weights)",
+      "price_ghs": 5.3,
+      "price_usd": 0.4537671232876712,
+      "intrinsic_ghs": 1.392523962517875,
+      "intrinsic_usd": 0.1192229419963934,
+      "upside": -0.7372596297136085,
+      "verdict": "Overvalued",
+      "models_used": "RI Comps Justified",
+      "analyst_weight": null
+    },
+    {
+      "ticker": "CAL",
+      "company": "CalBank",
+      "method": "Weighted models (sector weights)",
+      "price_ghs": 0.74,
+      "price_usd": 0.06335616438356165,
+      "intrinsic_ghs": 0.6226225086983153,
+      "intrinsic_usd": 0.053306721635129735,
+      "upside": -0.1586182314887632,
+      "verdict": "Overvalued",
+      "models_used": "RI Comps Justified",
+      "analyst_weight": null
+    },
+    {
+      "ticker": "EGH",
+      "company": "Ecobank Ghana",
+      "method": "Weighted models (sector weights)",
+      "price_ghs": 39,
+      "price_usd": 3.339041095890411,
+      "intrinsic_ghs": 32.637816059581,
+      "intrinsic_usd": 2.7943335667449487,
+      "upside": -0.1631329215492051,
+      "verdict": "Overvalued",
+      "models_used": "RI Comps Justified",
+      "analyst_weight": 0
+    },
+    {
+      "ticker": "FAB",
+      "company": "First Atlantic Bank",
+      "method": "Weighted models + analyst full model",
+      "price_ghs": 8.4,
+      "price_usd": 0.7191780821917809,
+      "intrinsic_ghs": 9.896730478808578,
+      "intrinsic_usd": 0.8473228149664879,
+      "upside": 0.17818219985816408,
+      "verdict": "Undervalued",
+      "models_used": "RI Comps Justified",
+      "analyst_weight": 0.5
+    },
+    {
+      "ticker": "GCB",
+      "company": "GCB Bank",
+      "method": "Weighted models (sector weights)",
+      "price_ghs": 43.67,
+      "price_usd": 3.738869863013699,
+      "intrinsic_ghs": 44.8570824787536,
+      "intrinsic_usd": 3.840503636879589,
+      "upside": 0.027183019893601834,
+      "verdict": "Fair value",
+      "models_used": "RI Comps Justified",
+      "analyst_weight": null
+    },
+    {
+      "ticker": "RBGH",
+      "company": "Republic Bank (Ghana)",
+      "method": "Weighted models (sector weights)",
+      "price_ghs": 4,
+      "price_usd": 0.3424657534246575,
+      "intrinsic_ghs": 1.522733335627244,
+      "intrinsic_usd": 0.1303710047626065,
+      "upside": -0.619316666093189,
+      "verdict": "Overvalued",
+      "models_used": "DDM2 DDM3 RI Comps Justified",
+      "analyst_weight": null
+    },
+    {
+      "ticker": "SCB",
+      "company": "Standard Chartered Bank Ghana",
+      "method": "Weighted models (sector weights)",
+      "price_ghs": 69.87,
+      "price_usd": 5.982020547945206,
+      "intrinsic_ghs": 21.246075039745314,
+      "intrinsic_usd": 1.8190132739507974,
+      "upside": -0.6959199221447644,
+      "verdict": "Overvalued",
+      "models_used": "RI Comps Justified",
+      "analyst_weight": null
+    },
+    {
+      "ticker": "SOGEGH",
+      "company": "Societe Generale Ghana",
+      "method": "Weighted models (sector weights)",
+      "price_ghs": 4.62,
+      "price_usd": 0.3955479452054795,
+      "intrinsic_ghs": 2.5630672310063596,
+      "intrinsic_usd": 0.21944068758616092,
+      "upside": -0.44522354307221657,
+      "verdict": "Overvalued",
+      "models_used": "RI Comps Justified",
+      "analyst_weight": null
+    },
+    {
+      "ticker": "ETI",
+      "company": "Ecobank Transnational Inc.",
+      "method": "Justified P/B",
+      "price_ghs": null,
+      "price_usd": null,
+      "intrinsic_ghs": null,
+      "intrinsic_usd": null,
+      "upside": null,
+      "verdict": null,
+      "models_used": null,
+      "analyst_weight": null
+    }
+  ],
+  "checks": [
+    {
+      "check": "Price data loaded (at least one security)",
+      "value": 40,
+      "status": "OK"
+    },
+    {
+      "check": "Price_Data dates in ascending order",
+      "value": 0,
+      "status": "OK"
+    },
+    {
+      "check": "Start date before end date",
+      "value": 1200,
+      "status": "OK"
+    },
+    {
+      "check": "Number of periods cover the minimum observations",
+      "value": 67,
+      "status": "OK"
+    },
+    {
+      "check": "Dividend tickers match Price_Data headers",
+      "value": 0,
+      "status": "OK"
+    },
+    {
+      "check": "Betas calculated from prices and GSE-CI (count)",
+      "value": 37,
+      "status": "OK"
+    },
+    {
+      "check": "R\u00b2 threshold, zero-return warning and Blume weight between 0 and 1",
+      "value": 0.67,
+      "status": "OK"
+    },
+    {
+      "check": "Risk-free rate and equity risk premium between 0% and 40%",
+      "value": 0.111,
+      "status": "OK"
+    },
+    {
+      "check": "At least a quarter of securities have a reliable beta",
+      "value": 0.3,
+      "status": "OK"
+    },
+    {
+      "check": "Price columns within capacity (D = daily rows, E = securities)",
+      "value": 814,
+      "status": "OK"
+    },
+    {
+      "check": "FS sheets with a gap above tolerance (D; detail below)",
+      "value": 2,
+      "status": "WARN"
+    }
+  ],
+  "overall_status": "ALL CHECKS PASSED, 1 WARNING(S)",
+  "fs_checks": [
+    {
+      "sheet": "FS_ACCESS",
+      "periods_failing": 0,
+      "periods_checked": 13,
+      "note": null
+    },
+    {
+      "sheet": "FS_ADB",
+      "periods_failing": 0,
+      "periods_checked": 15,
+      "note": null
+    },
+    {
+      "sheet": "FS_AGA",
+      "periods_failing": 1,
+      "periods_checked": 12,
+      "note": "H1-25 cash flow: opening 1,397 + movement 618 + translation (9) = 2,006 vs closing 1,986 (US$m). Verify against the H1-25 report."
+    },
+    {
+      "sheet": "FS_ALLGH",
+      "periods_failing": 0,
+      "periods_checked": 6,
+      "note": null
+    },
+    {
+      "sheet": "FS_ALW",
+      "periods_failing": 0,
+      "periods_checked": 5,
+      "note": null
+    },
+    {
+      "sheet": "FS_ASG",
+      "periods_failing": 0,
+      "periods_checked": 13,
+      "note": null
+    },
+    {
+      "sheet": "FS_CAL",
+      "periods_failing": 0,
+      "periods_checked": 14,
+      "note": null
+    },
+    {
+      "sheet": "FS_CLYD",
+      "periods_failing": 0,
+      "periods_checked": 12,
+      "note": null
+    },
+    {
+      "sheet": "FS_DASPHARMA",
+      "periods_failing": 0,
+      "periods_checked": 5,
+      "note": null
+    },
+    {
+      "sheet": "FS_DIGICUT",
+      "periods_failing": 0,
+      "periods_checked": 13,
+      "note": null
+    },
+    {
+      "sheet": "FS_EGH",
+      "periods_failing": 0,
+      "periods_checked": 14,
+      "note": null
+    },
+    {
+      "sheet": "FS_EGL",
+      "periods_failing": 0,
+      "periods_checked": 22,
+      "note": null
+    },
+    {
+      "sheet": "FS_ETI",
+      "periods_failing": 0,
+      "periods_checked": 11,
+      "note": null
+    },
+    {
+      "sheet": "FS_FAB",
+      "periods_failing": 0,
+      "periods_checked": 11,
+      "note": null
+    },
+    {
+      "sheet": "FS_FML",
+      "periods_failing": 0,
+      "periods_checked": 23,
+      "note": null
+    },
+    {
+      "sheet": "FS_GCB",
+      "periods_failing": 0,
+      "periods_checked": 13,
+      "note": null
+    },
+    {
+      "sheet": "FS_GGBL",
+      "periods_failing": 2,
+      "periods_checked": 20,
+      "note": "9M-21 cash flow: opening (8,209) + movement 85,465 + FX (3,946) = 73,310 vs closing 71,060. Verify against the report."
+    },
+    {
+      "sheet": "FS_GOIL",
+      "periods_failing": 0,
+      "periods_checked": 5,
+      "note": null
+    },
+    {
+      "sheet": "FS_HORDS",
+      "periods_failing": 0,
+      "periods_checked": 6,
+      "note": null
+    },
+    {
+      "sheet": "FS_IIL",
+      "periods_failing": 0,
+      "periods_checked": 5,
+      "note": "Figures supplied in US$ (uploaded CSV), converted at the Inputs USD/GHS rate; H1 2026 not entered."
+    },
+    {
+      "sheet": "FS_KASA",
+      "periods_failing": 0,
+      "periods_checked": 16,
+      "note": "2023 interim gaps (whole cedis) are below 0.1% of total assets; as printed."
+    },
+    {
+      "sheet": "FS_MAC",
+      "periods_failing": 0,
+      "periods_checked": 7,
+      "note": "FY2023 equity components sum to 97,376,481 vs printed total 97,386,481 (GHS 10,000, as printed). Within tolerance."
+    },
+    {
+      "sheet": "FS_MMH",
+      "periods_failing": 0,
+      "periods_checked": 6,
+      "note": null
+    },
+    {
+      "sheet": "FS_MTNGH",
+      "periods_failing": 0,
+      "periods_checked": 24,
+      "note": null
+    },
+    {
+      "sheet": "FS_RBGH",
+      "periods_failing": 0,
+      "periods_checked": 15,
+      "note": null
+    },
+    {
+      "sheet": "FS_SAMBA",
+      "periods_failing": 0,
+      "periods_checked": 6,
+      "note": "No balance sheet totals recorded (see sheet notes); fixed tolerance of 2 applies."
+    },
+    {
+      "sheet": "FS_SCB",
+      "periods_failing": 0,
+      "periods_checked": 12,
+      "note": null
+    },
+    {
+      "sheet": "FS_SIC",
+      "periods_failing": 0,
+      "periods_checked": 5,
+      "note": null
+    },
+    {
+      "sheet": "FS_SOGEGH",
+      "periods_failing": 0,
+      "periods_checked": 23,
+      "note": null
+    },
+    {
+      "sheet": "FS_TLW",
+      "periods_failing": 0,
+      "periods_checked": 11,
+      "note": null
+    },
+    {
+      "sheet": "FS_TOTAL",
+      "periods_failing": 0,
+      "periods_checked": 12,
+      "note": null
+    },
+    {
+      "sheet": "FS_UNIL",
+      "periods_failing": 0,
+      "periods_checked": 23,
+      "note": null
+    }
+  ],
+  "index_timeseries": [
+    {
+      "date": "2026-01-08",
+      "nimed_index": 2818.768960940931,
+      "bank_sub": 0.001249598549428299,
+      "gse_ci": 2415.728708613487
+    },
+    {
+      "date": "2026-01-12",
+      "nimed_index": 2825.864803190668,
+      "bank_sub": 0.002517355039757696,
+      "gse_ci": 2415.728708613487
+    },
+    {
+      "date": "2026-01-13",
+      "nimed_index": 2794.6348663807057,
+      "bank_sub": -0.01105146175949423,
+      "gse_ci": 2369.667936284289
+    },
+    {
+      "date": "2026-01-14",
+      "nimed_index": 2827.743536143774,
+      "bank_sub": 0.011847225611246515,
+      "gse_ci": 2419.6951629950313
+    },
+    {
+      "date": "2026-01-15",
+      "nimed_index": 2836.5444588226296,
+      "bank_sub": 0.0031123482615604825,
+      "gse_ci": 2423.6684699391753
+    },
+    {
+      "date": "2026-01-16",
+      "nimed_index": 2812.653255614608,
+      "bank_sub": -0.008422643661978091,
+      "gse_ci": 2407.749982008333
+    },
+    {
+      "date": "2026-01-19",
+      "nimed_index": 2820.0814070529655,
+      "bank_sub": 0.0026409766022630343,
+      "gse_ci": 2426.318253930434
+    },
+    {
+      "date": "2026-01-20",
+      "nimed_index": 2822.6964014048012,
+      "bank_sub": 0.000927276193267268,
+      "gse_ci": 2432.316890051797
+    },
+    {
+      "date": "2026-01-21",
+      "nimed_index": 2856.0718417520475,
+      "bank_sub": 0.011823956813292291,
+      "gse_ci": 2510.243399029644
+    },
+    {
+      "date": "2026-01-22",
+      "nimed_index": 2869.081094857034,
+      "bank_sub": 0.004554946032802043,
+      "gse_ci": 2540.898064877544
+    },
+    {
+      "date": "2026-01-23",
+      "nimed_index": 2871.4395488989744,
+      "bank_sub": 0.0008220241826444319,
+      "gse_ci": 2546.4046915515582
+    },
+    {
+      "date": "2026-01-26",
+      "nimed_index": 2872.9294322537667,
+      "bank_sub": 0.000518862866315084,
+      "gse_ci": 2549.883339545868
+    },
+    {
+      "date": "2026-01-27",
+      "nimed_index": 2874.0404513764774,
+      "bank_sub": 0.00038671994871775084,
+      "gse_ci": 2552.6174304503284
+    },
+    {
+      "date": "2026-01-28",
+      "nimed_index": 2878.881733719404,
+      "bank_sub": 0.0016844865007408227,
+      "gse_ci": 2564.024154633302
+    },
+    {
+      "date": "2026-01-29",
+      "nimed_index": 2880.446568980629,
+      "bank_sub": 0.0005435566327356423,
+      "gse_ci": 2567.677803776622
+    },
+    {
+      "date": "2026-01-30",
+      "nimed_index": 2882.150556070169,
+      "bank_sub": 0.0005915704557377666,
+      "gse_ci": 2571.6563509912694
+    },
+    {
+      "date": "2026-02-02",
+      "nimed_index": 2882.448985660359,
+      "bank_sub": 0.0001035440669681087,
+      "gse_ci": 2567.3873967488207
+    },
+    {
+      "date": "2026-02-03",
+      "nimed_index": 2890.422029152743,
+      "bank_sub": 0.0027660657767225594,
+      "gse_ci": 2572.686964731337
+    },
+    {
+      "date": "2026-02-04",
+      "nimed_index": 2911.831033925506,
+      "bank_sub": 0.007406878496230673,
+      "gse_ci": 2603.3417675790497
+    },
+    {
+      "date": "2026-02-05",
+      "nimed_index": 2925.4429598088964,
+      "bank_sub": 0.004674696342198192,
+      "gse_ci": 2625.6917304105255
+    },
+    {
+      "date": "2026-02-06",
+      "nimed_index": 2929.951162560722,
+      "bank_sub": 0.0015410325252487311,
+      "gse_ci": 2625.00994424148
+    },
+    {
+      "date": "2026-02-09",
+      "nimed_index": 2937.4832720888776,
+      "bank_sub": 0.002570728694867519,
+      "gse_ci": 2629.7794593110575
+    },
+    {
+      "date": "2026-02-10",
+      "nimed_index": 3000.83784834263,
+      "bank_sub": 0.021567638139671885,
+      "gse_ci": 2629.228577643531
+    },
+    {
+      "date": "2026-02-11",
+      "nimed_index": 3030.6534323407827,
+      "bank_sub": 0.009935753114624246,
+      "gse_ci": 2680.5614531678625
+    },
+    {
+      "date": "2026-02-12",
+      "nimed_index": 3105.5653680105943,
+      "bank_sub": 0.02471808055332536,
+      "gse_ci": 2777.060039460341
+    },
+    {
+      "date": "2026-02-13",
+      "nimed_index": 3301.69645392197,
+      "bank_sub": 0.06315471183819121,
+      "gse_ci": 2925.7862054352563
+    },
+    {
+      "date": "2026-02-16",
+      "nimed_index": 3393.468150042498,
+      "bank_sub": 0.027795315953868416,
+      "gse_ci": 3071.7627188775264
+    },
+    {
+      "date": "2026-02-17",
+      "nimed_index": 3599.077418484876,
+      "bank_sub": 0.06058971510895228,
+      "gse_ci": 3169.0790857257175
+    },
+    {
+      "date": "2026-02-18",
+      "nimed_index": 3668.912878471249,
+      "bank_sub": 0.019403711525541878,
+      "gse_ci": 3256.1088064670207
+    },
+    {
+      "date": "2026-02-19",
+      "nimed_index": 3673.7187081227717,
+      "bank_sub": 0.001309878378340068,
+      "gse_ci": 3336.5789350896885
+    },
+    {
+      "date": "2026-02-20",
+      "nimed_index": 3796.4986932630222,
+      "bank_sub": 0.03342117208614215,
+      "gse_ci": 3457.8880415078816
+    },
+    {
+      "date": "2026-02-23",
+      "nimed_index": 3867.4908889265434,
+      "bank_sub": 0.018699386302831744,
+      "gse_ci": 3490.167084263002
+    },
+    {
+      "date": "2026-02-24",
+      "nimed_index": 3920.630174175238,
+      "bank_sub": 0.013739989769812722,
+      "gse_ci": 3552.1819145345676
+    },
+    {
+      "date": "2026-02-25",
+      "nimed_index": 3953.6572982555917,
+      "bank_sub": 0.008423932534596057,
+      "gse_ci": 3652.8798548157665
+    },
+    {
+      "date": "2026-02-26",
+      "nimed_index": 4020.844003200662,
+      "bank_sub": 0.01699355808474201,
+      "gse_ci": 3806.9633510433505
+    },
+    {
+      "date": "2026-02-27",
+      "nimed_index": 4106.488384965716,
+      "bank_sub": 0.02130010059999332,
+      "gse_ci": 3976.278867733373
+    },
+    {
+      "date": "2026-03-02",
+      "nimed_index": 4263.204769251019,
+      "bank_sub": 0.03816311397812733,
+      "gse_ci": 4143.970626561463
+    },
+    {
+      "date": "2026-03-03",
+      "nimed_index": 4372.947429887032,
+      "bank_sub": 0.02574182254334767,
+      "gse_ci": 4346.005332323965
+    },
+    {
+      "date": "2026-03-04",
+      "nimed_index": 4440.257441859134,
+      "bank_sub": 0.01539236705935898,
+      "gse_ci": 4461.713228144828
+    },
+    {
+      "date": "2026-03-05",
+      "nimed_index": 4510.575536223213,
+      "bank_sub": 0.015836490402826087,
+      "gse_ci": 4489.666035936478
+    },
+    {
+      "date": "2026-03-09",
+      "nimed_index": 4598.253012625297,
+      "bank_sub": 0.019438201554983436,
+      "gse_ci": 4648.541595260605
+    },
+    {
+      "date": "2026-03-10",
+      "nimed_index": 4770.6511134051125,
+      "bank_sub": 0.03749208673521598,
+      "gse_ci": 4716.064533958897
+    },
+    {
+      "date": "2026-03-11",
+      "nimed_index": 4812.598418847312,
+      "bank_sub": 0.008792784138905274,
+      "gse_ci": 4774.24910641373
+    },
+    {
+      "date": "2026-03-12",
+      "nimed_index": 4814.852137403978,
+      "bank_sub": 0.00046829557767380514,
+      "gse_ci": 4817.527639723767
+    },
+    {
+      "date": "2026-03-13",
+      "nimed_index": 4800.33819184546,
+      "bank_sub": -0.003014411480212975,
+      "gse_ci": 4793.5897810778415
+    },
+    {
+      "date": "2026-03-16",
+      "nimed_index": 4832.641218337033,
+      "bank_sub": 0.006729323060289394,
+      "gse_ci": 4814.921594607326
+    },
+    {
+      "date": "2026-03-17",
+      "nimed_index": 4816.4869983940425,
+      "bank_sub": -0.0033427310684051026,
+      "gse_ci": 4823.487705418976
+    },
+    {
+      "date": "2026-03-18",
+      "nimed_index": 4845.01553267166,
+      "bank_sub": 0.005923100028533357,
+      "gse_ci": 4747.824388039518
+    },
+    {
+      "date": "2026-03-19",
+      "nimed_index": 4817.127218650056,
+      "bank_sub": -0.005756083511712862,
+      "gse_ci": 4642.374664365665
+    },
+    {
+      "date": "2026-03-24",
+      "nimed_index": 4733.942465383463,
+      "bank_sub": -0.017268539835222585,
+      "gse_ci": 4489.853990416467
+    },
+    {
+      "date": "2026-03-25",
+      "nimed_index": 4475.768899511227,
+      "bank_sub": -0.05453669277987805,
+      "gse_ci": 4401.463992351389
+    },
+    {
+      "date": "2026-03-26",
+      "nimed_index": 4210.5853903153475,
+      "bank_sub": -0.05924870455774389,
+      "gse_ci": 4229.244326475679
+    },
+    {
+      "date": "2026-03-27",
+      "nimed_index": 4043.1380779940678,
+      "bank_sub": -0.03976817872080707,
+      "gse_ci": 4133.301053801718
+    },
+    {
+      "date": "2026-03-30",
+      "nimed_index": 4085.728809789976,
+      "bank_sub": 0.010534077979607037,
+      "gse_ci": 4038.647005945799
+    },
+    {
+      "date": "2026-03-31",
+      "nimed_index": 4101.717395793587,
+      "bank_sub": 0.003913276369518215,
+      "gse_ci": 3980.504481759797
+    },
+    {
+      "date": "2026-04-01",
+      "nimed_index": 4054.332566862021,
+      "bank_sub": -0.011552436299039015,
+      "gse_ci": 3938.395609586274
+    },
+    {
+      "date": "2026-04-02",
+      "nimed_index": 4089.000031013156,
+      "bank_sub": 0.008550720390943845,
+      "gse_ci": 3912.2305841622983
+    },
+    {
+      "date": "2026-04-07",
+      "nimed_index": 4102.956262774236,
+      "bank_sub": 0.003413116081004919,
+      "gse_ci": 3936.0889633576485
+    },
+    {
+      "date": "2026-04-08",
+      "nimed_index": 4118.47259599525,
+      "bank_sub": 0.003781744729231651,
+      "gse_ci": 3921.1525917678987
+    },
+    {
+      "date": "2026-04-09",
+      "nimed_index": 4093.5040390994723,
+      "bank_sub": -0.006062576917485685,
+      "gse_ci": 3870.055806680885
+    },
+    {
+      "date": "2026-04-10",
+      "nimed_index": 4096.115632131633,
+      "bank_sub": 0.0006379847209665446,
+      "gse_ci": 3868.9833803090282
+    },
+    {
+      "date": "2026-04-13",
+      "nimed_index": 4098.318795921154,
+      "bank_sub": 0.0005378666003073018,
+      "gse_ci": 3869.4270641096455
+    },
+    {
+      "date": "2026-04-14",
+      "nimed_index": 4109.738379881422,
+      "bank_sub": 0.0027864069460954433,
+      "gse_ci": 3856.316499598428
+    },
+    {
+      "date": "2026-04-15",
+      "nimed_index": 4182.183050504126,
+      "bank_sub": 0.01762756261501841,
+      "gse_ci": 3827.2605654177114
+    },
+    {
+      "date": "2026-04-16",
+      "nimed_index": 4230.705099859202,
+      "bank_sub": 0.011602086462769057,
+      "gse_ci": 3824.612817276137
+    },
+    {
+      "date": "2026-04-17",
+      "nimed_index": 4317.824685587318,
+      "bank_sub": 0.020592214222403538,
+      "gse_ci": 3883.81108470326
+    },
+    {
+      "date": "2026-04-20",
+      "nimed_index": 4404.241284236732,
+      "bank_sub": 0.02001392018945758,
+      "gse_ci": 3961.207355331294
+    },
+    {
+      "date": "2026-04-21",
+      "nimed_index": 4434.216354203451,
+      "bank_sub": 0.006805955448899503,
+      "gse_ci": 4030.5608851230013
+    },
+    {
+      "date": "2026-04-22",
+      "nimed_index": 4549.17644420703,
+      "bank_sub": 0.02592568355276592,
+      "gse_ci": 4096.8674245486145
+    },
+    {
+      "date": "2026-04-23",
+      "nimed_index": 4601.863666892826,
+      "bank_sub": 0.01158170568496808,
+      "gse_ci": 4161.321883974295
+    },
+    {
+      "date": "2026-04-24",
+      "nimed_index": 4588.0411718315,
+      "bank_sub": -0.0030036733075707867,
+      "gse_ci": 4144.467146407141
+    },
+    {
+      "date": "2026-04-27",
+      "nimed_index": 4567.479228561097,
+      "bank_sub": -0.004481638786644648,
+      "gse_ci": 4149.713079788445
+    },
+    {
+      "date": "2026-04-28",
+      "nimed_index": 4578.174855865093,
+      "bank_sub": 0.0023416915039513597,
+      "gse_ci": 4134.389733624548
+    },
+    {
+      "date": "2026-04-29",
+      "nimed_index": 4663.640312506418,
+      "bank_sub": 0.018668019316002038,
+      "gse_ci": 4153.620445796359
+    },
+    {
+      "date": "2026-04-30",
+      "nimed_index": 4672.328965088299,
+      "bank_sub": 0.001863062328923748,
+      "gse_ci": 4155.076424065444
+    },
+    {
+      "date": "2026-05-04",
+      "nimed_index": 4672.577521464797,
+      "bank_sub": 5.319753346899603e-05,
+      "gse_ci": 4149.373061973958
+    },
+    {
+      "date": "2026-05-06",
+      "nimed_index": 4682.228283282825,
+      "bank_sub": 0.0020654043242074316,
+      "gse_ci": 4154.41611415606
+    },
+    {
+      "date": "2026-05-07",
+      "nimed_index": 4660.1256510179865,
+      "bank_sub": -0.004720537087811949,
+      "gse_ci": 4125.0945669313505
+    },
+    {
+      "date": "2026-05-08",
+      "nimed_index": 4570.512554292649,
+      "bank_sub": -0.019229759761040355,
+      "gse_ci": 4106.546078992543
+    },
+    {
+      "date": "2026-05-11",
+      "nimed_index": 4603.793921299982,
+      "bank_sub": 0.007281758142437367,
+      "gse_ci": 4104.946192977832
+    },
+    {
+      "date": "2026-05-12",
+      "nimed_index": 4597.245394021802,
+      "bank_sub": -0.0014224197238460468,
+      "gse_ci": 4035.9872887424535
+    },
+    {
+      "date": "2026-05-13",
+      "nimed_index": 4515.757075204555,
+      "bank_sub": -0.01772546641151973,
+      "gse_ci": 4003.363412840606
+    },
+    {
+      "date": "2026-05-14",
+      "nimed_index": 4498.9652196861425,
+      "bank_sub": -0.003718502842106841,
+      "gse_ci": 3995.8700634798947
+    },
+    {
+      "date": "2026-05-15",
+      "nimed_index": 4496.612983515158,
+      "bank_sub": -0.0005228393766397721,
+      "gse_ci": 3998.519847471153
+    },
+    {
+      "date": "2026-05-18",
+      "nimed_index": 4491.005440565417,
+      "bank_sub": -0.0012470592800176705,
+      "gse_ci": 3991.7435952319347
+    },
+    {
+      "date": "2026-05-19",
+      "nimed_index": 4507.543746870203,
+      "bank_sub": 0.0036825398062094727,
+      "gse_ci": 4001.27936849932
+    },
+    {
+      "date": "2026-05-20",
+      "nimed_index": 4568.419841939201,
+      "bank_sub": 0.013505380865414196,
+      "gse_ci": 3987.4705894110402
+    },
+    {
+      "date": "2026-05-21",
+      "nimed_index": 4571.373860463232,
+      "bank_sub": 0.0006466171293872947,
+      "gse_ci": 3987.4705894110402
+    },
+    {
+      "date": "2026-05-22",
+      "nimed_index": 4568.099902878111,
+      "bank_sub": -0.0007161867930857158,
+      "gse_ci": 3986.139538009188
+    },
+    {
+      "date": "2026-05-25",
+      "nimed_index": 4557.880406325566,
+      "bank_sub": -0.0022371438387558396,
+      "gse_ci": 3962.2785887133755
+    },
+    {
+      "date": "2026-05-26",
+      "nimed_index": 4476.274286795505,
+      "bank_sub": -0.01790440122492143,
+      "gse_ci": 3956.9790207308592
+    },
+    {
+      "date": "2026-05-28",
+      "nimed_index": 4476.274286795505,
+      "bank_sub": 0,
+      "gse_ci": 3956.9790207308592
+    },
+    {
+      "date": "2026-05-29",
+      "nimed_index": 4467.401406015823,
+      "bank_sub": -0.0019822022090683067,
+      "gse_ci": 3944.546060685087
+    },
+    {
+      "date": "2026-06-01",
+      "nimed_index": 4467.139195435406,
+      "bank_sub": -5.8694206449549924e-05,
+      "gse_ci": 3944.546060685087
+    },
+    {
+      "date": "2026-06-02",
+      "nimed_index": 4479.172686645325,
+      "bank_sub": 0.002693780221179276,
+      "gse_ci": 3952.4954126588614
+    },
+    {
+      "date": "2026-06-03",
+      "nimed_index": 4483.67414194786,
+      "bank_sub": 0.001004974716861673,
+      "gse_ci": 3971.5343544641105
+    },
+    {
+      "date": "2026-06-04",
+      "nimed_index": 4446.358736209552,
+      "bank_sub": -0.008322506176172917,
+      "gse_ci": 3908.113557072842
+    },
+    {
+      "date": "2026-06-05",
+      "nimed_index": 4441.514188085128,
+      "bank_sub": -0.0010895540400219783,
+      "gse_ci": 3896.9477403697174
+    },
+    {
+      "date": "2026-06-08",
+      "nimed_index": 4398.737934378356,
+      "bank_sub": -0.009631006880834514,
+      "gse_ci": 3830.5236094441248
+    },
+    {
+      "date": "2026-06-09",
+      "nimed_index": 4400.61647016073,
+      "bank_sub": 0.0004270624461832906,
+      "gse_ci": 3835.016673588062
+    },
+    {
+      "date": "2026-06-10",
+      "nimed_index": 4403.985162994217,
+      "bank_sub": 0.0007655047551471394,
+      "gse_ci": 3834.153943611719
+    },
+    {
+      "date": "2026-06-11",
+      "nimed_index": 4408.667970163557,
+      "bank_sub": 0.0010633112955711344,
+      "gse_ci": 3836.8037276029777
+    },
+    {
+      "date": "2026-06-12",
+      "nimed_index": 4386.975982172534,
+      "bank_sub": -0.004920304304571688,
+      "gse_ci": 3843.6756174303555
+    },
+    {
+      "date": "2026-06-15",
+      "nimed_index": 4398.976365973099,
+      "bank_sub": 0.0027354569182351796,
+      "gse_ci": 3843.6756174303555
+    },
+    {
+      "date": "2026-06-16",
+      "nimed_index": 4402.641644578061,
+      "bank_sub": 0.0008332117065490419,
+      "gse_ci": 3848.446444865372
+    },
+    {
+      "date": "2026-06-17",
+      "nimed_index": 4405.765453750586,
+      "bank_sub": 0.0007095306465318973,
+      "gse_ci": 3849.765177454778
+    },
+    {
+      "date": "2026-06-18",
+      "nimed_index": 4439.404800747302,
+      "bank_sub": 0.007635301368137837,
+      "gse_ci": 3857.0300503718167
+    },
+    {
+      "date": "2026-06-19",
+      "nimed_index": 4442.596653388757,
+      "bank_sub": 0.000718982112403399,
+      "gse_ci": 3847.4394808883408
+    },
+    {
+      "date": "2026-06-22",
+      "nimed_index": 4436.94240020018,
+      "bank_sub": -0.0012727361112704338,
+      "gse_ci": 3754.2962816192735
+    },
+    {
+      "date": "2026-06-23",
+      "nimed_index": 4472.815322153397,
+      "bank_sub": 0.008085054688020898,
+      "gse_ci": 3752.681105183393
+    },
+    {
+      "date": "2026-06-24",
+      "nimed_index": 4462.780658212214,
+      "bank_sub": -0.002243478261103715,
+      "gse_ci": 3743.4611929224093
+    },
+    {
+      "date": "2026-06-25",
+      "nimed_index": 4430.921124276828,
+      "bank_sub": -0.007138942371447188,
+      "gse_ci": 3763.9528194988384
+    },
+    {
+      "date": "2026-06-26",
+      "nimed_index": 4425.953410471804,
+      "bank_sub": -0.001121146972760556,
+      "gse_ci": 3761.3030355075803
+    },
+    {
+      "date": "2026-06-29",
+      "nimed_index": 4412.41960662336,
+      "bank_sub": -0.0030578279058299795,
+      "gse_ci": 3769.9309635948352
+    },
+    {
+      "date": "2026-06-30",
+      "nimed_index": 4412.700904985724,
+      "bank_sub": 6.375149859771945e-05,
+      "gse_ci": 3770.374647395452
+    },
+    {
+      "date": "2026-07-01",
+      "nimed_index": 4368.966201319716,
+      "bank_sub": -0.009911096312146261,
+      "gse_ci": 3749.5761292042034
+    },
+    {
+      "date": "2026-07-02",
+      "nimed_index": 4414.0593073368445,
+      "bank_sub": 0.010321230226845834,
+      "gse_ci": 3765.7097254646164
+    },
+    {
+      "date": "2026-07-06",
+      "nimed_index": 4420.249892455152,
+      "bank_sub": 0.0014024698553591897,
+      "gse_ci": 3784.714260017107
+    },
+    {
+      "date": "2026-07-07",
+      "nimed_index": 4423.912894551715,
+      "bank_sub": 0.0008286866547557725,
+      "gse_ci": 3776.9433140250644
+    },
+    {
+      "date": "2026-07-08",
+      "nimed_index": 4436.994963389861,
+      "bank_sub": 0.0029571262251246733,
+      "gse_ci": 3790.1755198453384
+    },
+    {
+      "date": "2026-07-09",
+      "nimed_index": 4449.512008408639,
+      "bank_sub": 0.002821063607702401,
+      "gse_ci": 3795.311895845751
+    },
+    {
+      "date": "2026-07-10",
+      "nimed_index": 4457.830645930022,
+      "bank_sub": 0.0018695617644501894,
+      "gse_ci": 3795.311895845751
+    },
+    {
+      "date": "2026-07-13",
+      "nimed_index": 4443.108109178208,
+      "bank_sub": -0.0033026236125088815,
+      "gse_ci": 3809.139815937665
+    },
+    {
+      "date": "2026-07-14",
+      "nimed_index": 4460.672776939586,
+      "bank_sub": 0.003953238888132038,
+      "gse_ci": 3822.4991519514865
+    },
+    {
+      "date": "2026-07-15",
+      "nimed_index": 4497.180217094323,
+      "bank_sub": 0.008184290124007898,
+      "gse_ci": 3862.4998910224854
+    },
+    {
+      "date": "2026-07-16",
+      "nimed_index": 4530.989347533354,
+      "bank_sub": 0.0075178509214548495,
+      "gse_ci": 3862.6616528017244
+    },
+    {
+      "date": "2026-07-17",
+      "nimed_index": 4523.933991687007,
+      "bank_sub": -0.001557133620318063,
+      "gse_ci": 3862.1529702967214
+    },
+    {
+      "date": "2026-07-20",
+      "nimed_index": 4523.748082494306,
+      "bank_sub": -4.109458560674906e-05,
+      "gse_ci": 3861.987197496111
+    },
+    {
+      "date": "2026-07-21",
+      "nimed_index": 4585.253343411184,
+      "bank_sub": 0.01359608444044147,
+      "gse_ci": 3880.958391141669
+    },
+    {
+      "date": "2026-07-22",
+      "nimed_index": 4616.934898311099,
+      "bank_sub": 0.0069094448064555,
+      "gse_ci": 3880.958391141669
+    },
+    {
+      "date": "2026-07-23",
+      "nimed_index": 4678.951279247327,
+      "bank_sub": 0.013432370674950178,
+      "gse_ci": 3895.4956508991827
+    },
+    {
+      "date": "2026-07-24",
+      "nimed_index": 4697.301467252251,
+      "bank_sub": 0.003921859175220144,
+      "gse_ci": 3918.8698754327306
+    },
+    {
+      "date": "2026-07-27",
+      "nimed_index": 4719.3777984639455,
+      "bank_sub": 0.004699790159435446,
+      "gse_ci": 3917.8776061652493
+    },
+    {
+      "date": "2026-07-28",
+      "nimed_index": 4716.7449534732,
+      "bank_sub": -0.0005578796831230415,
+      "gse_ci": 3918.0584372174108
+    },
+    {
+      "date": "2026-07-29",
+      "nimed_index": 4718.746875482037,
+      "bank_sub": 0.00042442871696124485,
+      "gse_ci": 3924.4245958764013
+    },
+    {
+      "date": "2026-07-30",
+      "nimed_index": 4743.964538697867,
+      "bank_sub": 0.0053441440876724755,
+      "gse_ci": 3909.3763030927494
+    },
+    {
+      "date": "2026-07-31",
+      "nimed_index": 4741.711658730953,
+      "bank_sub": -0.0004748939307064326,
+      "gse_ci": 3914.6758710752656
+    },
+    {
+      "date": "2026-08-03",
+      "nimed_index": 4721.787512858714,
+      "bank_sub": -0.0042018889604036325,
+      "gse_ci": 3914.6758710752656
+    },
+    {
+      "date": "2026-08-04",
+      "nimed_index": 4724.25593099659,
+      "bank_sub": 0.0005227719653106977,
+      "gse_ci": 3914.6758710752656
+    },
+    {
+      "date": "2026-08-05",
+      "nimed_index": 4688.818187308387,
+      "bank_sub": -0.00750123283027293,
+      "gse_ci": 3902.721046083489
+    },
+    {
+      "date": "2026-08-06",
+      "nimed_index": 4681.328520544175,
+      "bank_sub": -0.0015973463813300226,
+      "gse_ci": 3898.413534086128
+    },
+    {
+      "date": "2026-08-07",
+      "nimed_index": 4669.617606109146,
+      "bank_sub": -0.0025016220040177117,
+      "gse_ci": 3869.4653407929964
+    },
+    {
+      "date": "2026-08-10",
+      "nimed_index": 4671.362872499511,
+      "bank_sub": 0.0003737493168778361,
+      "gse_ci": 3869.465340792996
+    },
+    {
+      "date": "2026-08-11",
+      "nimed_index": 4688.444514920866,
+      "bank_sub": 0.0036566721292228266,
+      "gse_ci": 3877.4146927667707
+    },
+    {
+      "date": "2026-08-12",
+      "nimed_index": 4679.041092986128,
+      "bank_sub": -0.002005659212732769,
+      "gse_ci": 3867.765274664008
+    },
+    {
+      "date": "2026-08-13",
+      "nimed_index": 4683.650265003346,
+      "bank_sub": 0.00098506765074724,
+      "gse_ci": 3872.070205842862
+    },
+    {
+      "date": "2026-08-14",
+      "nimed_index": 4690.480989084093,
+      "bank_sub": 0.0014584189028346017,
+      "gse_ci": 3861.7168934374686
+    },
+    {
+      "date": "2026-08-17",
+      "nimed_index": 4665.282411403419,
+      "bank_sub": -0.005372280100765292,
+      "gse_ci": 3840.6766251626645
+    },
+    {
+      "date": "2026-08-18",
+      "nimed_index": 4660.233985313699,
+      "bank_sub": -0.0010821265776709277,
+      "gse_ci": 3825.4869676873686
+    },
+    {
+      "date": "2026-08-19",
+      "nimed_index": 4647.626171741939,
+      "bank_sub": -0.0027054035508715657,
+      "gse_ci": 3802.4749981658088
+    },
+    {
+      "date": "2026-08-20",
+      "nimed_index": 4621.235752957723,
+      "bank_sub": -0.005678257632826145,
+      "gse_ci": 3767.4969372370356
+    },
+    {
+      "date": "2026-08-21",
+      "nimed_index": 4634.089126369303,
+      "bank_sub": 0.0027813714985982507,
+      "gse_ci": 3773.932786844471
+    },
+    {
+      "date": "2026-08-24",
+      "nimed_index": 4622.588294275802,
+      "bank_sub": -0.002481789145585944,
+      "gse_ci": 3768.633218861955
+    },
+    {
+      "date": "2026-08-25",
+      "nimed_index": 4601.738969740998,
+      "bank_sub": -0.00451031396428303,
+      "gse_ci": 3768.201853873783
+    },
+    {
+      "date": "2026-08-26",
+      "nimed_index": 4632.335496805664,
+      "bank_sub": 0.0066489053955156585,
+      "gse_ci": 3786.3805708866475
+    },
+    {
+      "date": "2026-08-27",
+      "nimed_index": 4592.090569364222,
+      "bank_sub": -0.00868782657672229,
+      "gse_ci": 3784.295366055663
+    },
+    {
+      "date": "2026-08-28",
+      "nimed_index": 4604.854496600011,
+      "bank_sub": 0.0027795460570709807,
+      "gse_ci": 3790.7553436424523
+    },
+    {
+      "date": "2026-08-31",
+      "nimed_index": 4619.268616170285,
+      "bank_sub": 0.0031302008740812237,
+      "gse_ci": 3783.0841953087283
+    },
+    {
+      "date": "2026-09-01",
+      "nimed_index": 4589.447859904604,
+      "bank_sub": -0.006455731143516941,
+      "gse_ci": 3791.0335472825027
+    },
+    {
+      "date": "2026-09-02",
+      "nimed_index": 4557.444057025938,
+      "bank_sub": -0.006973344911109125,
+      "gse_ci": 3769.965772614094
+    },
+    {
+      "date": "2026-09-03",
+      "nimed_index": 4535.562306392253,
+      "bank_sub": -0.004801320731507519,
+      "gse_ci": 3772.615556605352
+    },
+    {
+      "date": "2026-09-04",
+      "nimed_index": 4558.690230163951,
+      "bank_sub": 0.0050992406694760906,
+      "gse_ci": 3772.615556605352
+    },
+    {
+      "date": "2026-09-07",
+      "nimed_index": 4551.576057943775,
+      "bank_sub": -0.0015605737308280743,
+      "gse_ci": 3780.2869975791195
+    },
+    {
+      "date": "2026-09-08",
+      "nimed_index": 4574.79560464689,
+      "bank_sub": 0.0051014300118286116,
+      "gse_ci": 3823.506622556238
+    },
+    {
+      "date": "2026-09-09",
+      "nimed_index": 4567.230087888197,
+      "bank_sub": -0.0016537387486794675,
+      "gse_ci": 3796.834792154944
+    },
+    {
+      "date": "2026-09-10",
+      "nimed_index": 4530.494463466134,
+      "bank_sub": -0.008043304960589026,
+      "gse_ci": 3709.6447493361597
+    },
+    {
+      "date": "2026-09-11",
+      "nimed_index": 4503.7310452902475,
+      "bank_sub": -0.00590739452210054,
+      "gse_ci": 3674.741585702272
+    },
+    {
+      "date": "2026-09-14",
+      "nimed_index": 4501.20102032525,
+      "bank_sub": -0.000561762001228483,
+      "gse_ci": 3687.487498377755
+    },
+    {
+      "date": "2026-09-15",
+      "nimed_index": 4438.364252965996,
+      "bank_sub": -0.013960000247825954,
+      "gse_ci": 3610.0375154643907
+    },
+    {
+      "date": "2026-09-16",
+      "nimed_index": 4392.432534072981,
+      "bank_sub": -0.010348794347449064,
+      "gse_ci": 3612.57690840462
+    },
+    {
+      "date": "2026-09-17",
+      "nimed_index": 4355.4449066085035,
+      "bank_sub": -0.008420761657135789,
+      "gse_ci": 3615.226692395878
+    },
+    {
+      "date": "2026-09-18",
+      "nimed_index": 4433.445492844241,
+      "bank_sub": 0.017908752815903428,
+      "gse_ci": 3651.1622330838577
+    },
+    {
+      "date": "2026-09-22",
+      "nimed_index": 4421.471910336597,
+      "bank_sub": -0.0027007397580437464,
+      "gse_ci": 3632.766613853128
+    },
+    {
+      "date": "2026-09-23",
+      "nimed_index": 4399.125014403738,
+      "bank_sub": -0.005054175710268893,
+      "gse_ci": 3653.938637292853
+    },
+    {
+      "date": "2026-09-24",
+      "nimed_index": 4383.610503887095,
+      "bank_sub": -0.003526726443518924,
+      "gse_ci": 3654.2165482928594
+    },
+    {
+      "date": "2026-09-25",
+      "nimed_index": 4267.4431525384725,
+      "bank_sub": -0.026500381647870497,
+      "gse_ci": 3657.2976972722895
+    },
+    {
+      "date": "2026-09-28",
+      "nimed_index": 4368.357525562743,
+      "bank_sub": 0.023647502595141034,
+      "gse_ci": 3647.0493911449557
+    },
+    {
+      "date": "2026-09-29",
+      "nimed_index": 4361.04121808424,
+      "bank_sub": -0.0016748417307166363,
+      "gse_ci": 3649.699175136214
+    },
+    {
+      "date": "2026-09-30",
+      "nimed_index": 4347.404258760981,
+      "bank_sub": -0.003126996201436971,
+      "gse_ci": 3632.390315377245
+    },
+    {
+      "date": "2026-10-01",
+      "nimed_index": 4339.185991129487,
+      "bank_sub": -0.0018903849613094437,
+      "gse_ci": 3626.8518939029063
+    },
+    {
+      "date": "2026-10-02",
+      "nimed_index": 4347.288898847093,
+      "bank_sub": 0.0018673796730932501,
+      "gse_ci": 3633.9385159003373
+    },
+    {
+      "date": "2026-10-05",
+      "nimed_index": 4352.059335432333,
+      "bank_sub": 0.0010973359940502636,
+      "gse_ci": 3646.5346679282134
+    },
+    {
+      "date": "2026-10-06",
+      "nimed_index": 4385.8821430913395,
+      "bank_sub": 0.0077716788885753285,
+      "gse_ci": 3635.0909228418036
+    },
+    {
+      "date": "2026-10-07",
+      "nimed_index": 4292.567828232907,
+      "bank_sub": -0.02127606529633297,
+      "gse_ci": 3632.8725038387165
+    },
+    {
+      "date": "2026-10-08",
+      "nimed_index": 4341.272916051869,
+      "bank_sub": 0.011346375821628563,
+      "gse_ci": 3631.4542445024035
+    },
+    {
+      "date": "2026-10-09",
+      "nimed_index": 4352.267938892655,
+      "bank_sub": 0.0025326725717085274,
+      "gse_ci": 3630.580110123608
+    },
+    {
+      "date": "2026-10-12",
+      "nimed_index": 4464.1282169154965,
+      "bank_sub": 0.025701606517199327,
+      "gse_ci": 3630.580110123608
+    },
+    {
+      "date": "2026-10-13",
+      "nimed_index": 4459.303685905033,
+      "bank_sub": -0.0010807330739701637,
+      "gse_ci": 3631.4500801476565
+    },
+    {
+      "date": "2026-10-14",
+      "nimed_index": 4466.328804470694,
+      "bank_sub": 0.0015753846475776712,
+      "gse_ci": 3631.7816257488776
+    },
+    {
+      "date": "2026-10-15",
+      "nimed_index": 4393.184537008772,
+      "bank_sub": -0.016376821023276755,
+      "gse_ci": 3660.794817549956
+    },
+    {
+      "date": "2026-10-16",
+      "nimed_index": 4471.523038565671,
+      "bank_sub": 0.017831825842271165,
+      "gse_ci": 3666.029460606116
+    },
+    {
+      "date": "2026-10-19",
+      "nimed_index": 4393.307379480083,
+      "bank_sub": -0.017491950373731635,
+      "gse_ci": 3675.3615030445367
+    },
+    {
+      "date": "2026-10-20",
+      "nimed_index": 4387.96560199416,
+      "bank_sub": -0.0012158897669833912,
+      "gse_ci": 3651.4501078306416
+    },
+    {
+      "date": "2026-10-21",
+      "nimed_index": 4379.313442312056,
+      "bank_sub": -0.001971792959856389,
+      "gse_ci": 3651.893791631259
+    },
+    {
+      "date": "2026-10-22",
+      "nimed_index": 4383.153618779543,
+      "bank_sub": 0.0008768900692019965,
+      "gse_ci": 3654.819198444061
+    },
+    {
+      "date": "2026-10-23",
+      "nimed_index": 4378.375135095123,
+      "bank_sub": -0.0010901930664592996,
+      "gse_ci": 3644.550019544523
+    },
+    {
+      "date": "2026-10-26",
+      "nimed_index": 4357.116437878845,
+      "bank_sub": -0.004855385059603035,
+      "gse_ci": 3632.8607867403084
+    },
+    {
+      "date": "2026-10-27",
+      "nimed_index": 4370.705261033397,
+      "bank_sub": 0.0031187652082043105,
+      "gse_ci": 3635.0668869309497
+    },
+    {
+      "date": "2026-10-28",
+      "nimed_index": 4368.9365396282665,
+      "bank_sub": -0.00040467643080377425,
+      "gse_ci": 3651.614953010163
+    },
+    {
+      "date": "2026-10-29",
+      "nimed_index": 4438.221370280459,
+      "bank_sub": 0.015858511567688804,
+      "gse_ci": 3679.9162204868735
+    }
+  ],
+  "credit_scores_detail": [
+    {
+      "bank": "Ticker",
+      "Weight (from Inputs)": "Bank",
+      "0.15": "NPL ratio",
+      "0.05": "Deposit growth",
+      "0.1": "Securities to assets"
+    },
+    {
+      "bank": "ACCESS",
+      "Weight (from Inputs)": "Access Bank Ghana",
+      "0.15": 3,
+      "0.05": 2,
+      "0.1": 2
+    },
+    {
+      "bank": "ADB",
+      "Weight (from Inputs)": "Agricultural Development Bank",
+      "0.15": 1,
+      "0.05": 3,
+      "0.1": 2
+    },
+    {
+      "bank": "CAL",
+      "Weight (from Inputs)": "CalBank",
+      "0.15": 3,
+      "0.05": 3,
+      "0.1": 1
+    },
+    {
+      "bank": "EGH",
+      "Weight (from Inputs)": "Ecobank Ghana",
+      "0.15": 2,
+      "0.05": 2,
+      "0.1": 2
+    },
+    {
+      "bank": "FAB",
+      "Weight (from Inputs)": "First Atlantic Bank",
+      "0.15": 2,
+      "0.05": 3,
+      "0.1": 3
+    },
+    {
+      "bank": "GCB",
+      "Weight (from Inputs)": "GCB Bank",
+      "0.15": 3,
+      "0.05": 3,
+      "0.1": 2
+    },
+    {
+      "bank": "RBGH",
+      "Weight (from Inputs)": "Republic Bank (Ghana)",
+      "0.15": 2,
+      "0.05": 2,
+      "0.1": 2
+    },
+    {
+      "bank": "SCB",
+      "Weight (from Inputs)": "Standard Chartered Bank Ghana",
+      "0.15": 1,
+      "0.05": 1,
+      "0.1": 3
+    },
+    {
+      "bank": "SOGEGH",
+      "Weight (from Inputs)": "Societe Generale Ghana",
+      "0.15": 2,
+      "0.05": 2,
+      "0.1": 3
+    },
+    {
+      "bank": "ETI",
+      "Weight (from Inputs)": "Ecobank Transnational Inc.",
+      "0.15": 3,
+      "0.05": 0,
+      "0.1": 3
+    }
+  ],
+  "ratios": [
+    {
+      "bank": "Ticker"
+    },
+    {
+      "bank": "ACCESS"
+    },
+    {
+      "bank": "ADB"
+    },
+    {
+      "bank": "CAL"
+    },
+    {
+      "bank": "EGH"
+    },
+    {
+      "bank": "FAB"
+    },
+    {
+      "bank": "GCB"
+    },
+    {
+      "bank": "RBGH"
+    },
+    {
+      "bank": "SCB"
+    },
+    {
+      "bank": "SOGEGH"
+    },
+    {
+      "bank": "ETI"
+    },
+    {
+      "bank": "ROA uses the average of opening and closing assets; ROE uses closing equity. Cost of risk = impairment charges / loans. Cash to deposits = cash and cash equivalents / customer deposits."
+    }
+  ],
+  "overview": {
+    "Return frequency": "Weekly",
+    "Return basis": "Price only",
+    "Beta fed to cost of equity": "Dimson + Blume",
+    "Period analysed": "17 Jul 2023 to 29 Oct 2026",
+    "Number of periods": 171,
+    "Minimum observations for a reliable beta": 104,
+    "Securities loaded": 40,
+    "Statistically reliable betas": 12,
+    "Betas calculated from GSE-CI": 37,
+    "Share of securities with a reliable beta": 0.3,
+    "Average zero-return share (thin trading)": 0.7347760572760573,
+    "Median beta (vs GSE-CI)": 1.267415361051169,
+    "Median reliable calculated beta": 1.1919121228951326,
+    "Median cost of equity": 0.19971907527358185,
+    "Risk-free rate / equity risk premium": "11.1% / 7.0%",
+    "Model checks": "ALL CHECKS PASSED, 1 WARNING(S)"
+  },
+  "cost_of_equity_table": [
+    {
+      "company": "Notes: ratings A approved, B reduced limit, C no new placements (Inputs, section C). Value = one weighted multi-model valuation per company (DDM, FCFE, residual income, comparables, justified multiples; weights by sector on Model_Weights), blended 50% with the analyst full-model run where one exists and is included (Model_Weights, company overrides). No method is counted twice. Breakdown in section 5. For internal research; not investment advice.",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null,
+      "col_14": null
+    },
+    {
+      "company": "5. VALUATION BREAKDOWN BY MODEL (GHS per share)",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null,
+      "col_14": null
+    },
+    {
+      "company": "Access Bank Ghana",
+      "col_2": 17.758783783482812,
+      "col_3": 19.535197672478862,
+      "col_4": null,
+      "col_5": 14.704053320014037,
+      "col_6": 16.706967650448487,
+      "col_7": 15.13092696786174,
+      "col_8": 15.37069077551133,
+      "col_9": 17.8529882773294,
+      "col_10": 16.611839526420365,
+      "col_11": -0.2009697197489002,
+      "col_12": "DDM2 DDM3 RI Comps Justified",
+      "col_13": 14.704053320014037,
+      "col_14": 19.535197672478862
+    },
+    {
+      "company": "Agricultural Development Bank",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": 1.3122573380885052,
+      "col_6": 1.9729786868240273,
+      "col_7": 1.0034416226348633,
+      "col_8": 1.392523962517875,
+      "col_9": null,
+      "col_10": 1.392523962517875,
+      "col_11": -0.7372596297136085,
+      "col_12": "RI Comps Justified",
+      "col_13": 1.0034416226348633,
+      "col_14": 1.9729786868240273
+    },
+    {
+      "company": "CalBank",
+      "col_2": 0.6762462236662228,
+      "col_3": 0.7412405041591708,
+      "col_4": null,
+      "col_5": 0.52905889196251,
+      "col_6": 1.0374736714693258,
+      "col_7": 0.5617274649566313,
+      "col_8": 0.6226225086983153,
+      "col_9": null,
+      "col_10": 0.6226225086983153,
+      "col_11": -0.1586182314887632,
+      "col_12": "RI Comps Justified",
+      "col_13": 0.52905889196251,
+      "col_14": 1.0374736714693258
+    },
+    {
+      "company": "Ecobank Ghana",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": 29.885964421863257,
+      "col_6": 43.105590783910316,
+      "col_7": 33.44726379939346,
+      "col_8": 32.637816059581,
+      "col_9": "Excluded",
+      "col_10": 32.637816059581,
+      "col_11": -0.1631329215492051,
+      "col_12": "RI Comps Justified",
+      "col_13": 29.885964421863257,
+      "col_14": 43.105590783910316
+    },
+    {
+      "company": "First Atlantic Bank",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": 5.538607593939675,
+      "col_6": 10.979370223423885,
+      "col_7": 4.265455529501938,
+      "col_8": 6.348959579797155,
+      "col_9": 13.44450137782,
+      "col_10": 9.896730478808578,
+      "col_11": 0.17818219985816408,
+      "col_12": "RI Comps Justified",
+      "col_13": 4.265455529501938,
+      "col_14": 10.979370223423885
+    },
+    {
+      "company": "GCB Bank",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": 41.529889086211185,
+      "col_6": 55.641616278226564,
+      "col_7": 48.64344213479855,
+      "col_8": 44.8570824787536,
+      "col_9": null,
+      "col_10": 44.8570824787536,
+      "col_11": 0.027183019893601834,
+      "col_12": "RI Comps Justified",
+      "col_13": 41.529889086211185,
+      "col_14": 55.641616278226564
+    },
+    {
+      "company": "Republic Bank (Ghana)",
+      "col_2": 1.4893210264918724,
+      "col_3": 1.620732553552577,
+      "col_4": null,
+      "col_5": 1.3483510932949154,
+      "col_6": 2.594021860664479,
+      "col_7": 0.9543003521517163,
+      "col_8": 1.522733335627244,
+      "col_9": null,
+      "col_10": 1.522733335627244,
+      "col_11": -0.619316666093189,
+      "col_12": "DDM2 DDM3 RI Comps Justified",
+      "col_13": 0.9543003521517163,
+      "col_14": 2.594021860664479
+    },
+    {
+      "company": "Standard Chartered Bank Ghana",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": 18.389226657522443,
+      "col_6": 34.677885029321814,
+      "col_7": 18.23945034871779,
+      "col_8": 21.246075039745314,
+      "col_9": null,
+      "col_10": 21.246075039745314,
+      "col_11": -0.6959199221447644,
+      "col_12": "RI Comps Justified",
+      "col_13": 18.23945034871779,
+      "col_14": 34.677885029321814
+    },
+    {
+      "company": "Societe Generale Ghana",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": 2.3104572394613876,
+      "col_6": 4.818292395070483,
+      "col_7": 0.6958894341800073,
+      "col_8": 2.5630672310063596,
+      "col_9": null,
+      "col_10": 2.5630672310063596,
+      "col_11": -0.44522354307221657,
+      "col_12": "RI Comps Justified",
+      "col_13": 0.6958894341800073,
+      "col_14": 4.818292395070483
+    },
+    {
+      "company": "MTN Ghana",
+      "col_2": 4.693204962323718,
+      "col_3": 5.125295884806506,
+      "col_4": 4.361945697329338,
+      "col_5": 2.818771372888044,
+      "col_6": null,
+      "col_7": 4.385156385296985,
+      "col_8": 4.143220307502294,
+      "col_9": 6.1818343113989,
+      "col_10": 5.1625273094505975,
+      "col_11": -0.22600789963259404,
+      "col_12": "DDM2 DDM3 DCF RI Justified",
+      "col_13": 2.818771372888044,
+      "col_14": 5.125295884806506
+    },
+    {
+      "company": "Enterprise Group",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": 7.997397931120147,
+      "col_6": null,
+      "col_7": 5.017390777935297,
+      "col_8": 7.358824969723393,
+      "col_9": 16.5137762716938,
+      "col_10": 11.936300620708597,
+      "col_11": 0.4381085085191079,
+      "col_12": "RI Justified",
+      "col_13": 5.017390777935297,
+      "col_14": 7.997397931120147
+    },
+    {
+      "company": "SIC Insurance",
+      "col_2": 2.6580198953952183,
+      "col_3": 2.8713362514063845,
+      "col_4": null,
+      "col_5": 2.3022629709719338,
+      "col_6": null,
+      "col_7": 1.2298448059879363,
+      "col_8": 2.1360074270808704,
+      "col_9": 3.56108676692886,
+      "col_10": 2.8485470970048654,
+      "col_11": -0.3807506310858988,
+      "col_12": "DDM2 DDM3 RI Justified",
+      "col_13": 1.2298448059879363,
+      "col_14": 2.8713362514063845
+    },
+    {
+      "company": "GOIL",
+      "col_2": 1.863375963736095,
+      "col_3": 2.0551860671092235,
+      "col_4": 2.0505567060997016,
+      "col_5": 1.8159035701643453,
+      "col_6": null,
+      "col_7": 0.7952728254995594,
+      "col_8": 1.8289796076245177,
+      "col_9": 2.14875112508996,
+      "col_10": 1.9888653663572389,
+      "col_11": -0.6383881152077748,
+      "col_12": "DDM2 DDM3 DCF RI Justified",
+      "col_13": 0.7952728254995594,
+      "col_14": 2.0551860671092235
+    },
+    {
+      "company": "Fan Milk",
+      "col_2": 4.115225810951022,
+      "col_3": 4.551411088674828,
+      "col_4": 6.6830159808032255,
+      "col_5": 3.2348929472802963,
+      "col_6": 14.820814092984513,
+      "col_7": 3.4605653988819522,
+      "col_8": 6.776777919387559,
+      "col_9": 8.92965720965162,
+      "col_10": 7.853217564519589,
+      "col_11": -0.4386549274825169,
+      "col_12": "DDM2 DDM3 DCF RI Comps Justified",
+      "col_13": 3.2348929472802963,
+      "col_14": 14.820814092984513
+    },
+    {
+      "company": "Clydestone (Ghana)",
+      "col_2": 0.868446565526293,
+      "col_3": 0.9548321324172611,
+      "col_4": 1.3198990568432327,
+      "col_5": 0.58020434361802,
+      "col_6": null,
+      "col_7": 0.7017509074547263,
+      "col_8": 0.9909143991830276,
+      "col_9": null,
+      "col_10": 0.9909143991830276,
+      "col_11": -0.7426196365758371,
+      "col_12": "DCF RI Justified",
+      "col_13": 0.58020434361802,
+      "col_14": 1.3198990568432327
+    },
+    {
+      "company": "Digicut Advertising & Production",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": 0.0007562837344878099,
+      "col_6": null,
+      "col_7": 0,
+      "col_8": 0.0007562837344878099,
+      "col_9": null,
+      "col_10": 0.0007562837344878099,
+      "col_11": -0.9981092906637805,
+      "col_12": "RI",
+      "col_13": 0.0007562837344878099,
+      "col_14": 0.0007562837344878099
+    },
+    {
+      "company": "TotalEnergies Marketing Ghana",
+      "col_2": 19.402622209763578,
+      "col_3": 21.138864162541005,
+      "col_4": 20.57994699769352,
+      "col_5": 12.819076519204172,
+      "col_6": null,
+      "col_7": 20.55922178366455,
+      "col_8": 18.888144799033284,
+      "col_9": null,
+      "col_10": 18.888144799033284,
+      "col_11": -0.5277963800241678,
+      "col_12": "DDM2 DDM3 DCF RI Justified",
+      "col_13": 12.819076519204172,
+      "col_14": 21.138864162541005
+    },
+    {
+      "company": "Guinness Ghana Breweries",
+      "col_2": 9.379194024137956,
+      "col_3": 10.381763956767585,
+      "col_4": 12.08022973919293,
+      "col_5": 5.7686360666499015,
+      "col_6": 21.345394378116055,
+      "col_7": 7.570320631331706,
+      "col_8": 11.497272537863042,
+      "col_9": null,
+      "col_10": 11.497272537863042,
+      "col_11": 0.07854339004343736,
+      "col_12": "DDM2 DDM3 DCF RI Comps Justified",
+      "col_13": 5.7686360666499015,
+      "col_14": 21.345394378116055
+    },
+    {
+      "company": "Unilever Ghana",
+      "col_2": 12.48525127077604,
+      "col_3": 13.801153489519493,
+      "col_4": 17.35938132591563,
+      "col_5": 8.072371434225149,
+      "col_6": 24.333830945223212,
+      "col_7": 10.290801766289805,
+      "col_8": 15.954391996822274,
+      "col_9": null,
+      "col_10": 15.954391996822274,
+      "col_11": -0.5960913418526006,
+      "col_12": "DCF RI Comps Justified",
+      "col_13": 8.072371434225149,
+      "col_14": 24.333830945223212
+    },
+    {
+      "company": "Kasapreko",
+      "col_2": null,
+      "col_3": null,
+      "col_4": 0.8491680720497814,
+      "col_5": 0.49117427297343125,
+      "col_6": 1.6440892620860033,
+      "col_7": 0.7031104464368587,
+      "col_8": 0.9170792001600326,
+      "col_9": null,
+      "col_10": 0.9170792001600326,
+      "col_11": -0.4988638250491625,
+      "col_12": "DCF RI Comps Justified",
+      "col_13": 0.49117427297343125,
+      "col_14": 1.6440892620860033
+    },
+    {
+      "company": "Dannex Ayrton Starwin",
+      "col_2": null,
+      "col_3": null,
+      "col_4": 1.1158779951667892,
+      "col_5": 0.7925261962922002,
+      "col_6": null,
+      "col_7": 1.0024571347858957,
+      "col_8": 1.0072887868624931,
+      "col_9": null,
+      "col_10": 1.0072887868624931,
+      "col_11": 0.08310622243278831,
+      "col_12": "DCF RI Justified",
+      "col_13": 0.7925261962922002,
+      "col_14": 1.1158779951667892
+    },
+    {
+      "company": "Mega African Capital",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": 0,
+      "col_6": null,
+      "col_7": 0,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null,
+      "col_14": null
+    },
+    {
+      "company": "Samba Foods",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": 0.08431901791562837,
+      "col_6": 2.69948830568343,
+      "col_7": 0,
+      "col_8": 1.391903661799529,
+      "col_9": null,
+      "col_10": 1.391903661799529,
+      "col_11": 1.530733930544598,
+      "col_12": "RI Comps",
+      "col_13": 0.08431901791562837,
+      "col_14": 2.69948830568343
+    },
+    {
+      "company": "Intravenous Infusions",
+      "col_2": -0.01575227247946396,
+      "col_3": -0.016420003719789047,
+      "col_4": null,
+      "col_5": 0,
+      "col_6": null,
+      "col_7": 0,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null,
+      "col_14": null
+    },
+    {
+      "company": "Hords",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": 0.009045212388833695,
+      "col_6": null,
+      "col_7": 0,
+      "col_8": 0.009045212388833695,
+      "col_9": null,
+      "col_10": 0.009045212388833695,
+      "col_11": -0.9879397168148885,
+      "col_12": "RI",
+      "col_13": 0.009045212388833695,
+      "col_14": 0.009045212388833695
+    }
+  ],
+  "peer_banks": [
+    {
+      "Ticker": "ACCESS",
+      "Company": "Access Bank Ghana",
+      "Statements": "Captured",
+      "Last close (GHS)": 20.79,
+      "Shares (m)": 173.61757575757576,
+      "Market cap (GHS m)": 3609.5094,
+      "EPS (GHS)": 1.65,
+      "P/E": 12.6,
+      "Book value (GHS m)": 2044.433,
+      "P/B": 1.7655307853082003,
+      "DPS (GHS)": 0.6241,
+      "Dividend yield": 0.03001924001924002,
+      "Beta used": 1.14944669844031,
+      "Cost of equity": 0.1914612688908217,
+      "FY used": "FY2025",
+      "Latest quarter": "9M-26",
+      "Net income YTD (latest quarter)": 367086,
+      "FY number": 2025
+    },
+    {
+      "Ticker": "ADB",
+      "Company": "Agricultural Development Bank",
+      "Statements": "Captured",
+      "Last close (GHS)": 5.3,
+      "Shares (m)": 1669.5045454545455,
+      "Market cap (GHS m)": 8848.37409090909,
+      "EPS (GHS)": 0.22,
+      "P/E": 24.09090909090909,
+      "Book value (GHS m)": 2477.839,
+      "P/B": 3.5710044481942087,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": 1.2876014167827692,
+      "Cost of equity": 0.20113209917479385,
+      "FY used": "FY2025",
+      "Latest quarter": "H1-26",
+      "Net income YTD (latest quarter)": 192643,
+      "FY number": 2025
+    },
+    {
+      "Ticker": "CAL",
+      "Company": "CalBank",
+      "Statements": "Captured",
+      "Last close (GHS)": 0.74,
+      "Shares (m)": 4233.902,
+      "Market cap (GHS m)": 3133.08748,
+      "EPS (GHS)": 0.168,
+      "P/E": 4.404761904761904,
+      "Book value (GHS m)": 1582.169,
+      "P/B": 1.980248304700699,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": 1.2876014167827692,
+      "Cost of equity": 0.20113209917479385,
+      "FY used": "FY2025",
+      "Latest quarter": "9M-26",
+      "Net income YTD (latest quarter)": 337181,
+      "FY number": 2025
+    },
+    {
+      "Ticker": "EGH",
+      "Company": "Ecobank Ghana",
+      "Statements": "Captured",
+      "Last close (GHS)": 39,
+      "Shares (m)": 322.5969911504425,
+      "Market cap (GHS m)": 12581.282654867256,
+      "EPS (GHS)": 5.65,
+      "P/E": 6.902654867256636,
+      "Book value (GHS m)": 7175.274,
+      "P/B": 1.7534219118137169,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": 1.0183908007190905,
+      "Cost of equity": 0.18228735605033636,
+      "FY used": "FY2025",
+      "Latest quarter": "9M-26",
+      "Net income YTD (latest quarter)": 1354502,
+      "FY number": 2025
+    },
+    {
+      "Ticker": "ETI",
+      "Company": "Ecobank Transnational Inc.",
+      "Statements": "Captured",
+      "Last close (GHS)": 1.45,
+      "Shares (m)": null,
+      "Market cap (GHS m)": null,
+      "EPS (GHS)": null,
+      "P/E": null,
+      "Book value (GHS m)": 2863.523,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": 1.7052611786232514,
+      "Cost of equity": 0.23036828250362762,
+      "FY used": "FY2025",
+      "Latest quarter": "H1-26",
+      "Net income YTD (latest quarter)": 197957,
+      "FY number": 2025
+    },
+    {
+      "Ticker": "FAB",
+      "Company": "First Atlantic Bank",
+      "Statements": "Captured",
+      "Last close (GHS)": 8.4,
+      "Shares (m)": 352.4605839416058,
+      "Market cap (GHS m)": 2960.668905109489,
+      "EPS (GHS)": 1.37,
+      "P/E": 6.131386861313868,
+      "Book value (GHS m)": 2208.394,
+      "P/B": 1.340643429165941,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": 1.2876014167827692,
+      "Cost of equity": 0.20113209917479385,
+      "FY used": "FY2025",
+      "Latest quarter": "9M-26",
+      "Net income YTD (latest quarter)": 258362,
+      "FY number": 2025
+    },
+    {
+      "Ticker": "GCB",
+      "Company": "GCB Bank",
+      "Statements": "Captured",
+      "Last close (GHS)": 43.67,
+      "Shares (m)": 264.8766066838046,
+      "Market cap (GHS m)": 11567.161413881748,
+      "EPS (GHS)": 7.78,
+      "P/E": 5.613110539845758,
+      "Book value (GHS m)": 6230.13,
+      "P/B": 1.8566484830784826,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": 1.4647939524844045,
+      "Cost of equity": 0.21353557667390832,
+      "FY used": "FY2025",
+      "Latest quarter": "9M-26",
+      "Net income YTD (latest quarter)": 1865300,
+      "FY number": 2025
+    },
+    {
+      "Ticker": "RBGH",
+      "Company": "Republic Bank (Ghana)",
+      "Statements": "Captured",
+      "Last close (GHS)": 4,
+      "Shares (m)": null,
+      "Market cap (GHS m)": null,
+      "EPS (GHS)": null,
+      "P/E": null,
+      "Book value (GHS m)": 1343.633,
+      "P/B": null,
+      "DPS (GHS)": 0.05,
+      "Dividend yield": 0.0125,
+      "Beta used": 1.2861771728262041,
+      "Cost of equity": 0.2010324020978343,
+      "FY used": "FY2025",
+      "Latest quarter": "9M-26",
+      "Net income YTD (latest quarter)": 146064,
+      "FY number": 2025
+    },
+    {
+      "Ticker": "SCB",
+      "Company": "Standard Chartered Bank Ghana",
+      "Statements": "Captured",
+      "Last close (GHS)": 69.87,
+      "Shares (m)": 134.70804020100502,
+      "Market cap (GHS m)": 9412.050768844221,
+      "EPS (GHS)": 5.97,
+      "P/E": 11.7035175879397,
+      "Book value (GHS m)": 2829.945,
+      "P/B": 3.3258776297222106,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": 1.1496823567335883,
+      "Cost of equity": 0.1914777649713512,
+      "FY used": "FY2025",
+      "Latest quarter": "9M-26",
+      "Net income YTD (latest quarter)": 354262,
+      "FY number": 2025
+    },
+    {
+      "Ticker": "SOGEGH",
+      "Company": "Societe Generale Ghana",
+      "Statements": "Captured",
+      "Last close (GHS)": 4.62,
+      "Shares (m)": 708.9308928571428,
+      "Market cap (GHS m)": 3275.2607249999996,
+      "EPS (GHS)": 0.56,
+      "P/E": 8.25,
+      "Book value (GHS m)": 2601.775159,
+      "P/B": 1.2588561750504437,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": 1.2394577576525356,
+      "Cost of equity": 0.19776204303567751,
+      "FY used": "FY2025",
+      "Latest quarter": "9M-26",
+      "Net income YTD (latest quarter)": 150003,
+      "FY number": 2025
+    },
+    {
+      "Ticker": "Peer median",
+      "Company": null,
+      "Statements": null,
+      "Last close (GHS)": null,
+      "Shares (m)": null,
+      "Market cap (GHS m)": null,
+      "EPS (GHS)": null,
+      "P/E": 7.576327433628318,
+      "Book value (GHS m)": null,
+      "P/B": 1.8110896341933413,
+      "DPS (GHS)": null,
+      "Dividend yield": 0.02125962000962001,
+      "Beta used": 1.2868892948044865,
+      "Cost of equity": 0.20108225063631407,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "Net interest income",
+      "Company": null,
+      "Statements": "FY2021",
+      "Last close (GHS)": "FY2022",
+      "Shares (m)": "FY2023",
+      "Market cap (GHS m)": "FY2024",
+      "EPS (GHS)": "FY2025",
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "ACCESS",
+      "Company": "Access Bank Ghana",
+      "Statements": 461115,
+      "Last close (GHS)": 534892,
+      "Shares (m)": 597816,
+      "Market cap (GHS m)": 842076,
+      "EPS (GHS)": null,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "ADB",
+      "Company": "Agricultural Development Bank",
+      "Statements": null,
+      "Last close (GHS)": null,
+      "Shares (m)": 373920,
+      "Market cap (GHS m)": 723181,
+      "EPS (GHS)": 1370246,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "CAL",
+      "Company": "CalBank",
+      "Statements": 469547,
+      "Last close (GHS)": 593095,
+      "Shares (m)": 541335,
+      "Market cap (GHS m)": 455351,
+      "EPS (GHS)": 513591,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "EGH",
+      "Company": "Ecobank Ghana",
+      "Statements": 1545005,
+      "Last close (GHS)": 2521988,
+      "Shares (m)": 3520873,
+      "Market cap (GHS m)": 3766988,
+      "EPS (GHS)": 2679868,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "ETI",
+      "Company": "Ecobank Transnational Inc.",
+      "Statements": 944430,
+      "Last close (GHS)": 1013703,
+      "Shares (m)": 1168652,
+      "Market cap (GHS m)": 1174495,
+      "EPS (GHS)": 1411165,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "FAB",
+      "Company": "First Atlantic Bank",
+      "Statements": 298751,
+      "Last close (GHS)": 412497,
+      "Shares (m)": 662586,
+      "Market cap (GHS m)": 576088,
+      "EPS (GHS)": 962651,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "GCB",
+      "Company": "GCB Bank",
+      "Statements": 1894843,
+      "Last close (GHS)": 2107502,
+      "Shares (m)": 2895732,
+      "Market cap (GHS m)": 3388686,
+      "EPS (GHS)": 4587810,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "RBGH",
+      "Company": "Republic Bank (Ghana)",
+      "Statements": 303252,
+      "Last close (GHS)": null,
+      "Shares (m)": 557561,
+      "Market cap (GHS m)": 650151,
+      "EPS (GHS)": 754449,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "SCB",
+      "Company": "Standard Chartered Bank Ghana",
+      "Statements": 627501,
+      "Last close (GHS)": 807786,
+      "Shares (m)": 1266443,
+      "Market cap (GHS m)": 1404000,
+      "EPS (GHS)": 1003932,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "SOGEGH",
+      "Company": "Societe Generale Ghana",
+      "Statements": 401002.512,
+      "Last close (GHS)": 524566.553,
+      "Shares (m)": 873408.665,
+      "Market cap (GHS m)": 1123066.695,
+      "EPS (GHS)": 1187411.264,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "Peer median",
+      "Company": null,
+      "Statements": 469547,
+      "Last close (GHS)": 700440.5,
+      "Shares (m)": 767997.3325,
+      "Market cap (GHS m)": 982571.3475,
+      "EPS (GHS)": 1187411.264,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "Net fee and commission income",
+      "Company": null,
+      "Statements": "FY2021",
+      "Last close (GHS)": "FY2022",
+      "Shares (m)": "FY2023",
+      "Market cap (GHS m)": "FY2024",
+      "EPS (GHS)": "FY2025",
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "ACCESS",
+      "Company": "Access Bank Ghana",
+      "Statements": 52587,
+      "Last close (GHS)": 116805,
+      "Shares (m)": 229380,
+      "Market cap (GHS m)": 226897,
+      "EPS (GHS)": null,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "ADB",
+      "Company": "Agricultural Development Bank",
+      "Statements": null,
+      "Last close (GHS)": null,
+      "Shares (m)": 136495,
+      "Market cap (GHS m)": 207516,
+      "EPS (GHS)": 255581,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "CAL",
+      "Company": "CalBank",
+      "Statements": 51852,
+      "Last close (GHS)": 82908,
+      "Shares (m)": 115279,
+      "Market cap (GHS m)": 179590,
+      "EPS (GHS)": 211661,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "EGH",
+      "Company": "Ecobank Ghana",
+      "Statements": 317571,
+      "Last close (GHS)": 335984,
+      "Shares (m)": 448311,
+      "Market cap (GHS m)": 371112,
+      "EPS (GHS)": 531698,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "ETI",
+      "Company": "Ecobank Transnational Inc.",
+      "Statements": 451429,
+      "Last close (GHS)": 470697,
+      "Shares (m)": 475558,
+      "Market cap (GHS m)": 524338,
+      "EPS (GHS)": 598354,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "FAB",
+      "Company": "First Atlantic Bank",
+      "Statements": 56600,
+      "Last close (GHS)": 95187,
+      "Shares (m)": 123866,
+      "Market cap (GHS m)": 180199,
+      "EPS (GHS)": 176350,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "GCB",
+      "Company": "GCB Bank",
+      "Statements": 359528,
+      "Last close (GHS)": 385006,
+      "Shares (m)": 438179,
+      "Market cap (GHS m)": 613446,
+      "EPS (GHS)": 858362,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    },
+    {
+      "Ticker": "RBGH",
+      "Company": "Republic Bank (Ghana)",
+      "Statements": 75344,
+      "Last close (GHS)": null,
+      "Shares (m)": 106082,
+      "Market cap (GHS m)": 143485,
+      "EPS (GHS)": 167710,
+      "P/E": null,
+      "Book value (GHS m)": null,
+      "P/B": null,
+      "DPS (GHS)": null,
+      "Dividend yield": null,
+      "Beta used": null,
+      "Cost of equity": null,
+      "FY used": null,
+      "Latest quarter": null,
+      "Net income YTD (latest quarter)": null,
+      "FY number": null
+    }
+  ],
+  "bond_calc": {
+    "Measure": "Value",
+    "Security": "364-day bill",
+    "Tenor (days)": 364,
+    "Discount rate": 0.086316,
+    "Face value (GHS)": 1000000,
+    "Purchase date": "2026-11-23",
+    "Maturity date": "2027-11-22",
+    "Days in year (convention)": 364,
+    "Price per 100": 91.3684,
+    "Interest rate (yield)": 0.09447029826504569,
+    "Check: vs Bank of Ghana published interest rate (bp)": -0.007017349543114726,
+    "Effective annual yield": 0.09474175604869961,
+    "Bond-equivalent yield (semi-annual, compare with bond YTM)": 0.09259815162749252,
+    "Amount payable (GHS)": 913684
+  },
+  "yield_curve": [
+    {
+      "tenor": "1. MARKET POINTS (settlement 27 Nov 2026; 12 active bonds, 0 matured and dropped)"
+    },
+    {
+      "tenor": "Instrument"
+    },
+    {
+      "tenor": "91-day bill"
+    },
+    {
+      "tenor": "182-day bill"
+    },
+    {
+      "tenor": "364-day bill"
+    },
+    {
+      "tenor": "DDEP 8.35% Feb-2027"
+    },
+    {
+      "tenor": "DDEP 8.50% Feb-2028"
+    },
+    {
+      "tenor": "DDEP 8.65% Feb-2029"
+    },
+    {
+      "tenor": "DDEP 8.80% Feb-2030"
+    },
+    {
+      "tenor": "DDEP 8.95% Feb-2031"
+    },
+    {
+      "tenor": "DDEP 9.10% Feb-2032"
+    },
+    {
+      "tenor": "DDEP 9.25% Feb-2033"
+    },
+    {
+      "tenor": "DDEP 9.40% Feb-2034"
+    },
+    {
+      "tenor": "DDEP 9.55% Feb-2035"
+    },
+    {
+      "tenor": "DDEP 9.70% Feb-2036"
+    },
+    {
+      "tenor": "DDEP 9.85% Feb-2037"
+    },
+    {
+      "tenor": "DDEP 10.00% Feb-2038"
+    }
+  ],
+  "fs_gcb_sample": {
+    "headers": [
+      "FY2020",
+      "FY2021",
+      "FY2022",
+      "FY2023",
+      "FY2024",
+      "FY2025",
+      "FY2026",
+      "FY2027",
+      "FY2028",
+      "FY2029",
+      "FY2030",
+      "Q1-21",
+      "H1-21",
+      "9M-21",
+      "Q1-22",
+      "H1-22",
+      "9M-22",
+      "Q1-23",
+      "H1-23",
+      "9M-23",
+      "Q1-24",
+      "H1-24",
+      "9M-24",
+      "Q1-25",
+      "H1-25",
+      "9M-25",
+      "Q1-26",
+      "H1-26",
+      "9M-26",
+      "Q1-27",
+      "H1-27",
+      "9M-27",
+      "Q1-28",
+      "H1-28",
+      "9M-28",
+      "Q1-29",
+      "H1-29",
+      "9M-29",
+      "Q1-30",
+      "H1-30"
+    ],
+    "income_statement": [
+      {
+        "label": 1,
+        "values": [
+          null,
+          1894843,
+          2107502,
+          2895732,
+          3388686,
+          4587810,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          2083914,
+          null,
+          null,
+          2177707,
+          939067,
+          2005548,
+          3144391,
+          1131730,
+          2348607,
+          3578846,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": 1,
+        "values": [
+          null,
+          359528,
+          385006,
+          438179,
+          613446,
+          858362,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          314184,
+          null,
+          null,
+          423262,
+          148661,
+          337286,
+          579234,
+          320441,
+          665218,
+          1080711,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": 1,
+        "values": [
+          null,
+          2427493,
+          3005667,
+          3784175,
+          4476729,
+          6308890,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          2746314,
+          null,
+          null,
+          2926456,
+          1251446,
+          2764953,
+          4346527,
+          1804304,
+          3747975,
+          5741540,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": -1,
+        "values": [
+          null,
+          -324800,
+          null,
+          -199319,
+          -427179,
+          -188797,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": -1,
+        "values": [
+          null,
+          null,
+          null,
+          -233635,
+          251110,
+          25657,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": -1,
+        "values": [
+          null,
+          null,
+          null,
+          null,
+          -297212,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": -1,
+        "values": [
+          null,
+          -641555,
+          null,
+          -908230,
+          -1187153,
+          -1652157,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          -718253,
+          null,
+          null,
+          -872175,
+          -348010,
+          -755271,
+          -1195134,
+          -468967,
+          -923328,
+          -1460278,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": -1,
+        "values": [
+          null,
+          -148466,
+          null,
+          -151981,
+          -150603,
+          -185091,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          -110455,
+          null,
+          null,
+          -109892,
+          -38952,
+          -82115,
+          -129832,
+          -54910,
+          -112324,
+          -166715,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": -1,
+        "values": [
+          null,
+          -473725,
+          null,
+          -754456,
+          -773674,
+          -1141288,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          -550080,
+          null,
+          null,
+          -745197,
+          -261883,
+          -540050,
+          -825562,
+          -289819,
+          -619958,
+          -980936,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": 1,
+        "values": [
+          null,
+          831975,
+          -743459,
+          1547382,
+          1906758,
+          3185205,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          831923,
+          null,
+          null,
+          991461,
+          529511,
+          1305037,
+          2023672,
+          898884,
+          1894849,
+          2873469,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": 1,
+        "values": [
+          null,
+          572281,
+          -593398,
+          1009722,
+          1200872,
+          2060740,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          537045,
+          null,
+          null,
+          597450,
+          336731,
+          838652,
+          1297420,
+          580513,
+          1223501,
+          1865300,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": 0.01,
+        "values": [
+          null,
+          216,
+          -224,
+          381,
+          453,
+          778,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": -1,
+        "values": [
+          null,
+          null,
+          -2105259,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          -535603,
+          null,
+          null,
+          -207731,
+          -73090,
+          -82480,
+          -172327,
+          -91724,
+          -197516,
+          -260142,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": -1,
+        "values": [
+          null,
+          null,
+          -1631952,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": 1,
+        "values": [
+          null,
+          4306380,
+          5482215,
+          6692514,
+          10229504,
+          16038002,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          6262158,
+          null,
+          null,
+          10216053,
+          9453834,
+          10455593,
+          13768492,
+          18212036,
+          21462689,
+          25229224,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": 1,
+        "values": [
+          null,
+          18404927,
+          21494418,
+          27155660,
+          42796072,
+          52633491,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          25396078,
+          null,
+          null,
+          39894950,
+          47752592,
+          45888222,
+          50229864,
+          60405160,
+          67817851,
+          68031851,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": 1,
+        "values": [
+          null,
+          13154527,
+          17515911,
+          21437093,
+          33970718,
+          41042734,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          20171537,
+          null,
+          null,
+          30677766,
+          37672338,
+          34403496,
+          37539455,
+          44097287,
+          51177667,
+          50404889,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "label": 1,
+        "values": [
+          null,
+          2698471,
+          1998872,
+          3080096,
+          4342338,
+          6230130,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          2535777,
+          null,
+          null,
+          3677250,
+          4703265,
+          5206485,
+          5666157,
+          6833631,
+          7235424,
+          7861169,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    ],
+    "balance_sheet": []
+  }
+}

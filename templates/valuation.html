@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}Valuation{% endblock %}
+{% block page_title %}Equity Valuation{% endblock %}
+
+{% block content %}
+<div class="row g-3 mb-4">
+    <div class="col-lg-8">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Multi-Model Valuation Summary</h3></div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-research">
+                        <thead>
+                            <tr><th>Ticker</th><th>Company</th><th>Method</th><th>Price</th><th>Value</th><th>Upside</th><th>Verdict</th><th>Models</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for v in data.valuation_details %}
+                            <tr>
+                                <td><strong>{{ v.ticker }}</strong></td>
+                                <td>{{ v.company }}</td>
+                                <td style="font-size:11px;">{{ v.method }}</td>
+                                <td>{{ "%.2f"|format(v.price_ghs|float) if v.price_ghs else '—' }}</td>
+                                <td class="fw-semibold">{{ "%.2f"|format(v.intrinsic_ghs|float) if v.intrinsic_ghs else '—' }}</td>
+                                <td class="{{ 'text-success' if v.upside and v.upside|float > 0 else 'text-danger' }}">
+                                    {{ "%.1f"|format(v.upside|float * 100) if v.upside else '—' }}%
+                                </td>
+                                <td><span class="badge-verdict verdict-{{ v.verdict|lower|replace(' ','') if v.verdict else '' }}">{{ v.verdict or '—' }}</span></td>
+                                <td style="font-size:11px;">{{ v.models_used or '—' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card-panel mb-3">
+            <div class="panel-header"><h3>Model Weights</h3></div>
+            <div class="panel-body" style="padding:16px;">
+                <canvas id="weightsChart" height="220"></canvas>
+                <table class="table table-sm mt-3" style="font-size:12px;">
+                    {% for m in data.model_weights %}
+                    <tr>
+                        <td>{{ m.model[:30] }}</td>
+                        <td class="fw-semibold text-end">{{ "%.1f"|format(m.default_weight|float * 100) }}%</td>
+                        <td class="text-end text-muted">{{ m.companies_valued }} cos</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-panel mb-4">
+    <div class="panel-header"><h3>Sector Weights</h3></div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-research">
+                <thead>
+                    <tr><th>Sector</th><th>DDM 2-stage</th><th>DDM 3-stage</th><th>DCF</th><th>Residual Income</th><th>Comparables</th><th>Justified</th></tr>
+                </thead>
+                <tbody>
+                    {% for s in data.sector_weights %}
+                    <tr>
+                        <td class="fw-semibold">{{ s.sector }}</td>
+                        <td>{{ "%.0f"|format(s.ddm2|float * 100) }}%</td>
+                        <td>{{ "%.0f"|format(s.ddm3|float * 100) }}%</td>
+                        <td>{{ "%.0f"|format(s.dcf|float * 100) }}%</td>
+                        <td>{{ "%.0f"|format(s.ri|float * 100) }}%</td>
+                        <td>{{ "%.0f"|format(s.comps|float * 100) }}%</td>
+                        <td>{{ "%.0f"|format(s.justified|float * 100) }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Full valuation table from dashboard data -->
+<div class="card-panel">
+    <div class="panel-header"><h3>All Valued Companies — Price vs Intrinsic Value</h3></div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-research">
+                <thead>
+                    <tr><th>Company</th><th>Price (GHS)</th><th>Price (US$)</th><th>Value (GHS)</th><th>Value (US$)</th><th>Upside</th><th>Verdict</th></tr>
+                </thead>
+                <tbody>
+                    {% for v in data.valuations %}
+                    <tr>
+                        <td class="fw-semibold">{{ v.company }}</td>
+                        <td>{{ "%.2f"|format(v.price_ghs|float) if v.price_ghs else '—' }}</td>
+                        <td>{{ "%.2f"|format(v.price_usd|float) if v.price_usd else '—' }}</td>
+                        <td>{{ "%.2f"|format(v.value_ghs|float) if v.value_ghs else '—' }}</td>
+                        <td>{{ "%.2f"|format(v.value_usd|float) if v.value_usd else '—' }}</td>
+                        <td class="{{ 'text-success fw-semibold' if v.upside and v.upside|float > 0 else 'text-danger fw-semibold' }}">
+                            {{ "%.1f"|format(v.upside|float * 100) if v.upside else '—' }}%
+                        </td>
+                        <td><span class="badge-verdict verdict-{{ v.verdict|lower|replace(' ','') if v.verdict else '' }}">{{ v.verdict or '—' }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const mw = {{ data.model_weights | tojson }};
+new Chart(document.getElementById('weightsChart'), {
+    type: 'doughnut',
+    data: {
+        labels: mw.map(m => m.model.substring(0,20)),
+        datasets: [{ data: mw.map(m => m.default_weight*100), backgroundColor: ['#0066cc','#00b4d8','#4caf50','#ff9800','#9c27b0','#e53935'], borderWidth: 0 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '50%',
+        plugins: { legend: { display: false } } }
+});
+</script>
+{% endblock %}

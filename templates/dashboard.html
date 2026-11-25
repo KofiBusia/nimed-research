@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Research Dashboard{% endblock %}
+
+{% block content %}
+<!-- At a Glance -->
+<div class="row g-3 mb-4">
+    {% set glance = data.at_a_glance %}
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-start justify-content-between mb-2">
+                <div class="stat-icon" style="background:linear-gradient(135deg,#0066cc,#00b4d8);">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+            </div>
+            <div class="stat-label">Model Status</div>
+            <div class="stat-value" style="font-size:14px;margin-top:4px;">
+                {% if glance.get('Model checks',{}).get('value','') and 'PASSED' in glance.get('Model checks',{}).get('value','') %}
+                <span class="text-success"><i class="bi bi-check-circle-fill"></i> All Passed</span>
+                {% else %}
+                <span class="text-warning">{{ glance.get('Model checks',{}).get('value','N/A') }}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-start justify-content-between mb-2">
+                <div class="stat-icon" style="background:linear-gradient(135deg,#4caf50,#8bc34a);">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+            </div>
+            <div class="stat-label">Nimed Index</div>
+            <div class="stat-value">{{ "%.1f"|format(glance.get('Nimed Index',{}).get('value',0)|float) }}</div>
+            {% set ytd = glance.get('Nimed Index',{}).get('ytd') %}
+            {% if ytd %}
+            <div class="stat-change {{ 'positive' if ytd|float > 0 else 'negative' }}">
+                <i class="bi bi-{{ 'arrow-up' if ytd|float > 0 else 'arrow-down' }}"></i>
+                {{ "%.1f"|format(ytd|float * 100) }}% YTD
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-start justify-content-between mb-2">
+                <div class="stat-icon" style="background:linear-gradient(135deg,#ff9800,#ffc107);">
+                    <i class="bi bi-bank"></i>
+                </div>
+            </div>
+            <div class="stat-label">GSE-CI</div>
+            <div class="stat-value">{{ "%.1f"|format(glance.get('GSE-CI',{}).get('value',0)|float) }}</div>
+            {% set gytd = glance.get('GSE-CI',{}).get('ytd') %}
+            {% if gytd %}
+            <div class="stat-change {{ 'positive' if gytd|float > 0 else 'negative' }}">
+                <i class="bi bi-{{ 'arrow-up' if gytd|float > 0 else 'arrow-down' }}"></i>
+                {{ "%.1f"|format(gytd|float * 100) }}% YTD
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-start justify-content-between mb-2">
+                <div class="stat-icon" style="background:linear-gradient(135deg,#9c27b0,#e040fb);">
+                    <i class="bi bi-pie-chart"></i>
+                </div>
+            </div>
+            <div class="stat-label">Median Cost of Equity</div>
+            <div class="stat-value">{{ "%.1f"|format(glance.get('Median cost of equity (GSE)',{}).get('value',0)|float * 100) }}%</div>
+            <div class="stat-change" style="color:#6b7280;">
+                {{ glance.get('Securities / with statements',{}).get('value','') }} securities
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Index Chart + Bank Credit Risk -->
+<div class="row g-3 mb-4">
+    <div class="col-lg-7">
+        <div class="card-panel">
+            <div class="panel-header">
+                <h3><i class="bi bi-graph-up me-2"></i>Nimed Index Performance</h3>
+            </div>
+            <div class="panel-body" style="padding:16px;">
+                <canvas id="indexChart" height="260"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card-panel">
+            <div class="panel-header">
+                <h3><i class="bi bi-shield-check me-2"></i>Bank Credit Ratings</h3>
+                <a href="{{ url_for('credit_risk') }}" class="btn btn-sm btn-outline-primary" style="font-size:11px;">View Details</a>
+            </div>
+            <div class="panel-body">
+                <table class="table table-research">
+                    <thead>
+                        <tr><th>Bank</th><th>Rating</th><th>Score</th><th>CAR</th><th>NPL</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for b in data.bank_credit_risk[:8] %}
+                        <tr>
+                            <td style="font-weight:500;">{{ b.bank.split('(')[0]|trim }}</td>
+                            <td><span class="badge-rating badge-rating-{{ b.rating|lower }}">{{ b.rating }}</span></td>
+                            <td>{{ "%.2f"|format(b.score|float) }}</td>
+                            <td>{{ "%.1f"|format(b.car|float * 100) }}%</td>
+                            <td>{{ "%.1f"|format(b.npl|float * 100) }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Valuations -->
+<div class="card-panel mb-4">
+    <div class="panel-header">
+        <h3><i class="bi bi-currency-exchange me-2"></i>Intrinsic Value vs Market Price</h3>
+        <a href="{{ url_for('valuation') }}" class="btn btn-sm btn-outline-primary" style="font-size:11px;">Full Analysis</a>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-research">
+                <thead>
+                    <tr>
+                        <th>Company</th><th>Price (GHS)</th><th>Price (US$)</th>
+                        <th>Value (GHS)</th><th>Value (US$)</th><th>Upside</th><th>Verdict</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for v in data.valuations %}
+                    <tr>
+                        <td style="font-weight:500;">{{ v.company }}</td>
+                        <td>{{ "%.2f"|format(v.price_ghs|float) if v.price_ghs else '—' }}</td>
+                        <td>{{ "%.2f"|format(v.price_usd|float) if v.price_usd else '—' }}</td>
+                        <td>{{ "%.2f"|format(v.value_ghs|float) if v.value_ghs else '—' }}</td>
+                        <td>{{ "%.2f"|format(v.value_usd|float) if v.value_usd else '—' }}</td>
+                        <td class="{{ 'text-success' if v.upside and v.upside|float > 0 else 'text-danger' }}">
+                            {{ "%.1f"|format(v.upside|float * 100) if v.upside else '—' }}%
+                        </td>
+                        <td>
+                            {% if v.verdict %}
+                            <span class="badge-verdict verdict-{{ v.verdict|lower|replace(' ','') }}">{{ v.verdict }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Valuation Chart -->
+<div class="row g-3 mb-4">
+    <div class="col-lg-6">
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-bar-chart me-2"></i>Price vs Intrinsic Value</h3></div>
+            <div class="panel-body" style="padding:16px;">
+                <canvas id="valuationChart" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-pie-chart me-2"></i>Verdict Distribution</h3></div>
+            <div class="panel-body" style="padding:16px;">
+                <canvas id="verdictChart" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const tsData = {{ data.index_timeseries | tojson }};
+const labels = tsData.map(d => d.date);
+const nimedVals = tsData.map(d => d.nimed_index);
+const gseVals = tsData.map(d => d.gse_ci);
+
+new Chart(document.getElementById('indexChart'), {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [
+            { label: 'Nimed Index', data: nimedVals, borderColor: '#0066cc', backgroundColor: 'rgba(0,102,204,.08)', fill: true, tension: .3, pointRadius: 0, borderWidth: 2 },
+            { label: 'GSE-CI (rebased)', data: gseVals.map((v,i) => v ? v / gseVals.find(x=>x) * nimedVals.find(x=>x) : null), borderColor: '#ff9800', backgroundColor: 'transparent', tension: .3, pointRadius: 0, borderWidth: 2, borderDash: [5,3] }
+        ]
+    },
+    options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'top', labels: { font: { size: 11 }, usePointStyle: true, pointStyle: 'line' } } },
+        scales: {
+            x: { display: true, ticks: { maxTicksLimit: 8, font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { font: { size: 10 } }, grid: { color: '#f0f0f0' } }
+        }
+    }
+});
+
+// Valuation bar chart
+const vals = {{ data.valuations | tojson }};
+const valFiltered = vals.filter(v => v.price_ghs && v.value_ghs);
+new Chart(document.getElementById('valuationChart'), {
+    type: 'bar',
+    data: {
+        labels: valFiltered.map(v => v.company.length > 18 ? v.company.substring(0,18)+'...' : v.company),
+        datasets: [
+            { label: 'Market Price', data: valFiltered.map(v => v.price_ghs), backgroundColor: '#0066cc', borderRadius: 4 },
+            { label: 'Intrinsic Value', data: valFiltered.map(v => v.value_ghs), backgroundColor: '#4caf50', borderRadius: 4 }
+        ]
+    },
+    options: {
+        responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+        plugins: { legend: { position: 'top', labels: { font: { size: 11 }, usePointStyle: true } } },
+        scales: { x: { ticks: { font: { size: 10 } }, grid: { color: '#f0f0f0' } }, y: { ticks: { font: { size: 10 } } } }
+    }
+});
+
+// Verdict pie
+const verdicts = {};
+vals.forEach(v => { if(v.verdict) verdicts[v.verdict] = (verdicts[v.verdict]||0) + 1; });
+new Chart(document.getElementById('verdictChart'), {
+    type: 'doughnut',
+    data: {
+        labels: Object.keys(verdicts),
+        datasets: [{ data: Object.values(verdicts), backgroundColor: ['#e53935','#2196f3','#4caf50'], borderWidth: 0, hoverOffset: 8 }]
+    },
+    options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { font: { size: 12 }, padding: 16, usePointStyle: true } } },
+        cutout: '55%'
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,3518 @@
+{
+  "dashboard": {
+    "OVERVIEW": {
+      "unit": null,
+      "value": "Value",
+      "assessment": null,
+      "usd": "US$",
+      "summary_key": "INVESTMENT SUMMARY",
+      "summary_text": null
+    },
+    "Target company": {
+      "unit": null,
+      "value": "Target Co. Ltd",
+      "assessment": null,
+      "usd": "US$ at spot",
+      "summary_key": "Value",
+      "summary_text": "Concluded equity value (100%) is GHS 99,084k (US$ 9,090k), 5.2x FY0 EBITDA. The 60% stake is worth GHS 59,451k, or GHS 9.91 per share, on a controlling, non-marketable basis."
+    },
+    "Sector": {
+      "unit": null,
+      "value": "Consumer goods manufacturing",
+      "assessment": null,
+      "usd": null,
+      "summary_key": "Methods",
+      "summary_text": "DCF EV GHS 105,504k vs trading comps 135,290k and precedents 157,869k. The DCF terminal value implies an exit at 3.4x EBITDA against a 6.6x peer median: the 24% WACC (with size and company-specific premiums) drives the gap."
+    },
+    "Valuation date": {
+      "unit": null,
+      "value": "2026-10-03",
+      "assessment": null,
+      "usd": null,
+      "summary_key": "Buyout",
+      "summary_text": "Buying at 6.0x (15% above concluded EV) gives the sponsor a 23.5% IRR and 2.88x MOIC, below the 25% hurdle (18.2% in US$). EBITDA growth creates 78% of the gain."
+    },
+    "FY0 adjusted EBITDA": {
+      "unit": "GHS '000",
+      "value": 20950,
+      "assessment": null,
+      "usd": 1731.40495867769,
+      "summary_key": "Credit",
+      "summary_text": "Structure tested: Post-LBO (senior + mezzanine). Peak leverage 3.0x vs 3.5x covenant, minimum interest cover 1.9x vs 2.5x; 5 covenant test(s) breached. Verdict: COVENANT BREACH FORECAST \u2014 RESTRUCTURE TERMS."
+    },
+    "Model integrity": {
+      "unit": null,
+      "value": "ALL CHECKS PASSED \u2014 1 WARNING(S)",
+      "assessment": null,
+      "usd": null,
+      "summary_key": "Loan",
+      "summary_text": "Loan YTM 19.9% vs required 19.0%: UNDERPRICED \u2014 attractive. Loss-adjusted return 18.7% (meets hurdle). Senior recovery in distress 75%; fulcrum: Senior debt (incl. our loan)."
+    },
+    "PRIVATE EQUITY \u2014 TARGET VALUATION": {
+      "unit": null,
+      "value": "Value",
+      "assessment": "Assessment",
+      "usd": "US$",
+      "summary_key": "Fund",
+      "summary_text": "Standalone fund case: LP net IRR 13.4% and TVPI 1.70x after a carry true-up of GHS 15,177k (14.9% before it). KS-PME 1.30x: outperformed public market."
+    },
+    "Enterprise value \u2014 DCF (method selected)": {
+      "unit": "GHS '000",
+      "value": 105503.815428984,
+      "assessment": null,
+      "usd": 9679.24912192515,
+      "summary_key": "Venture",
+      "summary_text": "Standalone VC case: round 1 pre-money GHS 15,835k, round 2 pre-money GHS 48,537k; founders keep 63% at exit."
+    },
+    "Enterprise value \u2014 trading comparables": {
+      "unit": "GHS '000",
+      "value": 135289.778697439,
+      "assessment": null,
+      "usd": 12411.9063025173,
+      "summary_key": "Integrity",
+      "summary_text": "Checks: ALL CHECKS PASSED \u2014 1 WARNING(S). FX 10.90 GHS per US$. WACC 24.1% (17.7% in US$)."
+    },
+    "Enterprise value \u2014 precedent transactions": {
+      "unit": "GHS '000",
+      "value": 157869.166666667,
+      "assessment": null,
+      "usd": 14483.4097859327,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Concluded equity value \u2014 100% (level-of-value adjusted)": {
+      "unit": "GHS '000",
+      "value": 99084.2947151718,
+      "assessment": "Controlling, non-marketable",
+      "usd": 9090.30226744695,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Value of stake": {
+      "unit": "GHS '000",
+      "value": 59450.5768291031,
+      "assessment": "60% stake",
+      "usd": 5454.18136046817,
+      "summary_key": "ADVANCED ANALYTICS",
+      "summary_text": null
+    },
+    "Implied EV / FY0 adjusted EBITDA": {
+      "unit": null,
+      "value": 5.20764621491006,
+      "assessment": null,
+      "usd": null,
+      "summary_key": "DCF method",
+      "summary_text": "FCFF: EV GHS 105,504k. FCFF 105,504k, APV 101,012k, FCFE 92,443k, scenario-weighted 103,468k."
+    },
+    "Value per share": {
+      "unit": "per share",
+      "value": 9.90842947151718,
+      "assessment": null,
+      "usd": 0.909030226744695,
+      "summary_key": "Monte Carlo",
+      "summary_text": "EV 5th to 95th percentile GHS 81,354k to 137,098k (median 107,110k). Probability EV exceeds the LBO entry price: 14%."
+    },
+    "PRIVATE EQUITY \u2014 LEVERAGED BUYOUT": {
+      "unit": null,
+      "value": "Value",
+      "assessment": "Assessment",
+      "usd": "US$",
+      "summary_key": "Qualitative",
+      "summary_text": "Score 2.9 of 5 (Weak), implying a 3.2% company-specific premium; premium used 3.0%."
+    },
+    "Entry EV / EBITDA": {
+      "unit": null,
+      "value": 6,
+      "assessment": "Entry EV above DCF value",
+      "usd": null,
+      "summary_key": "Bridge and DLOM",
+      "summary_text": "Net claims GHS 10,016k incl. US$ debt cost 516k. DLOM used 20.0% (put model 9.3%)."
+    },
+    "Entry leverage (debt / EBITDA)": {
+      "unit": null,
+      "value": 3.5,
+      "assessment": null,
+      "usd": null,
+      "summary_key": "Real option",
+      "summary_text": "Expansion option worth GHS 4,452k; excluded from the concluded value."
+    },
+    "Equity contribution (% of total sources)": {
+      "unit": null,
+      "value": 0.448879485370315,
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Exit year / exit EV / EBITDA": {
+      "unit": null,
+      "value": 5,
+      "assessment": "6.0x exit multiple",
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Sponsor IRR": {
+      "unit": null,
+      "value": 0.235216544803083,
+      "assessment": "BELOW target of 25%",
+      "usd": 0.181615501111084,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Sponsor MOIC": {
+      "unit": null,
+      "value": 2.87551409281523,
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Total equity IRR": {
+      "unit": null,
+      "value": 0.254149939477529,
+      "assessment": null,
+      "usd": 0.199727299184146,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Management MOIC": {
+      "unit": null,
+      "value": 16.4467486536278,
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Largest value-creation driver": {
+      "unit": null,
+      "value": "EBITDA growth",
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "PRIVATE EQUITY \u2014 VENTURE CAPITAL METHOD (standalone case)": {
+      "unit": null,
+      "value": "Round 1",
+      "assessment": "Round 2",
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Pre-money valuation": {
+      "unit": "GHS '000",
+      "value": 15834.6406054738,
+      "assessment": 48537.2098315885,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Post-money valuation": {
+      "unit": "GHS '000",
+      "value": 20834.6406054738,
+      "assessment": 58537.2098315885,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Ownership acquired": {
+      "unit": "%",
+      "value": 0.239984941169869,
+      "assessment": 0.17083151091024,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Price per share": {
+      "unit": "per share",
+      "value": 15.8346406054738,
+      "assessment": 36.8890103856052,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Founders' ownership at exit": {
+      "unit": null,
+      "value": 0.630180538015645,
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "PRIVATE EQUITY \u2014 FUND PERFORMANCE (10-YEAR, standalone case)": {
+      "unit": null,
+      "value": "Value",
+      "assessment": "Assessment",
+      "usd": "US$",
+      "summary_key": null,
+      "summary_text": null
+    },
+    "LP net IRR (after carry true-up)": {
+      "unit": null,
+      "value": 0.133589917501198,
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "TVPI (after carry true-up)": {
+      "unit": null,
+      "value": 1.69628617522277,
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "DPI (after final settlement)": {
+      "unit": null,
+      "value": 1.69628617522277,
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "RVPI": {
+      "unit": null,
+      "value": 0,
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "KS-PME (after carry true-up)": {
+      "unit": null,
+      "value": 1.29967814005728,
+      "assessment": "Outperformed public market",
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Carry true-up (+ clawback owed by GP; \u2212 carry still due to GP)": {
+      "unit": "GHS '000",
+      "value": -15176.7966615409,
+      "assessment": null,
+      "usd": -1392.36666619641,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "PRIVATE DEBT \u2014 LOAN": {
+      "unit": null,
+      "value": "Value",
+      "assessment": "Assessment",
+      "usd": "US$",
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Instrument": {
+      "unit": null,
+      "value": "Unitranche \u2014 senior secured",
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Face amount / maturity (years)": {
+      "unit": "GHS '000",
+      "value": 20000,
+      "assessment": "5 years",
+      "usd": 1834.8623853211,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Yield to maturity at net issue price": {
+      "unit": null,
+      "value": 0.199277156598723,
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Required yield": {
+      "unit": null,
+      "value": 0.19,
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Fair value (% of par) vs net issue price": {
+      "unit": null,
+      "value": 0.989999802501613,
+      "assessment": "UNDERPRICED \u2014 attractive",
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Expected-loss value (% of par; excess over fair value = credit risk premium)": {
+      "unit": null,
+      "value": 1.13144776313866,
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Expected (loss-adjusted) return": {
+      "unit": null,
+      "value": 0.186723446074914,
+      "assessment": "MEETS HURDLE",
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Annual expected loss rate (PD \u00d7 LGD)": {
+      "unit": null,
+      "value": 0.00749236676658155,
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Modified duration (years)": {
+      "unit": null,
+      "value": 2.77619203694345,
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "PRIVATE DEBT \u2014 BORROWER CREDIT & RECOVERY": {
+      "unit": null,
+      "value": "Value",
+      "assessment": "Assessment",
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Credit verdict": {
+      "unit": null,
+      "value": "COVENANT BREACH FORECAST \u2014 RESTRUCTURE TERMS",
+      "assessment": "Post-LBO (senior + mezzanine)",
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Peak total debt / EBITDA": {
+      "unit": null,
+      "value": 2.97119765777176,
+      "assessment": "Covenant 3.5x",
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Minimum DSCR": {
+      "unit": null,
+      "value": 1.04423453545987,
+      "assessment": "Covenant 1.30x",
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Minimum EBITDA headroom to leverage covenant": {
+      "unit": null,
+      "value": 0.151086383493782,
+      "assessment": null,
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    },
+    "Modelled recovery on our loan (senior class) in distress": {
+      "unit": null,
+      "value": 0.750254441113948,
+      "assessment": "Fulcrum: Senior debt (incl. our loan)",
+      "usd": null,
+      "summary_key": null,
+      "summary_text": null
+    }
+  },
+  "target": {
+    "income_statement": [
+      {
+        "item": "Revenue",
+        "unit": "GHS '000",
+        "fy2023": 80000,
+        "fy2024": 92000,
+        "fy2025": 105000
+      },
+      {
+        "item": "Cost of sales (positive)",
+        "unit": "GHS '000",
+        "fy2023": 48000,
+        "fy2024": 54700,
+        "fy2025": 61950
+      },
+      {
+        "item": "Operating expenses excl. D&A (positive)",
+        "unit": "GHS '000",
+        "fy2023": 17600,
+        "fy2024": 20000,
+        "fy2025": 22300
+      },
+      {
+        "item": "Reported EBITDA",
+        "unit": "GHS '000",
+        "fy2023": 14400,
+        "fy2024": 17300,
+        "fy2025": 20750
+      },
+      {
+        "item": "Add-back: excess owner / related-party compensation",
+        "unit": "GHS '000",
+        "fy2023": 600,
+        "fy2024": 650,
+        "fy2025": 700
+      },
+      {
+        "item": "Add-back / (deduct): non-recurring costs / (gains)",
+        "unit": "GHS '000",
+        "fy2023": 0,
+        "fy2024": 400,
+        "fy2025": -200
+      },
+      {
+        "item": "Adjustment: related-party rent to market rate",
+        "unit": "GHS '000",
+        "fy2023": -300,
+        "fy2024": -300,
+        "fy2025": -300
+      },
+      {
+        "item": "Adjusted (normalised) EBITDA",
+        "unit": "GHS '000",
+        "fy2023": 14700,
+        "fy2024": 18050,
+        "fy2025": 20950
+      },
+      {
+        "item": "Depreciation & amortisation",
+        "unit": "GHS '000",
+        "fy2023": 2400,
+        "fy2024": 2760,
+        "fy2025": 3150
+      },
+      {
+        "item": "Adjusted EBIT",
+        "unit": "GHS '000",
+        "fy2023": 12300,
+        "fy2024": 15290,
+        "fy2025": 17800
+      },
+      {
+        "item": "Finance costs",
+        "unit": "GHS '000",
+        "fy2023": 1800,
+        "fy2024": 1900,
+        "fy2025": 1950
+      },
+      {
+        "item": "Income tax expense",
+        "unit": "GHS '000",
+        "fy2023": 2600,
+        "fy2024": 3300,
+        "fy2025": 3900
+      },
+      {
+        "item": "Reported net income",
+        "unit": "GHS '000",
+        "fy2023": 7600,
+        "fy2024": 9340,
+        "fy2025": 11750
+      }
+    ],
+    "balance_sheet": [
+      {
+        "item": "Cash & equivalents",
+        "unit": "GHS '000",
+        "fy2023": 5000,
+        "fy2024": 5500,
+        "fy2025": 6000
+      },
+      {
+        "item": "Net operating working capital",
+        "unit": "GHS '000",
+        "fy2023": 12000,
+        "fy2024": 13800,
+        "fy2025": 15750
+      },
+      {
+        "item": "Net PP&E and intangibles",
+        "unit": "GHS '000",
+        "fy2023": 20000,
+        "fy2024": 21000,
+        "fy2025": 22000
+      },
+      {
+        "item": "Other net operating assets / (liabilities)",
+        "unit": "GHS '000",
+        "fy2023": 0,
+        "fy2024": 0,
+        "fy2025": 0
+      },
+      {
+        "item": "Total debt incl. leases",
+        "unit": "GHS '000",
+        "fy2023": 16000,
+        "fy2024": 15500,
+        "fy2025": 15000
+      },
+      {
+        "item": "Book equity (derived)",
+        "unit": "GHS '000",
+        "fy2023": 21000,
+        "fy2024": 24800,
+        "fy2025": 28750
+      },
+      {
+        "item": "Net debt",
+        "unit": "GHS '000",
+        "fy2023": 11000,
+        "fy2024": 10000,
+        "fy2025": 9000
+      },
+      {
+        "item": "Shares in issue",
+        "unit": "units",
+        "fy2023": 10000,
+        "fy2024": 10000,
+        "fy2025": 10000
+      }
+    ],
+    "ratios": [
+      {
+        "item": "Revenue growth",
+        "unit": "%",
+        "fy2023": null,
+        "fy2024": 0.15,
+        "fy2025": 0.141304347826087
+      },
+      {
+        "item": "Adjusted EBITDA margin",
+        "unit": "%",
+        "fy2023": 0.18375,
+        "fy2024": 0.196195652173913,
+        "fy2025": 0.19952380952381
+      },
+      {
+        "item": "Capex / revenue",
+        "unit": "%",
+        "fy2023": 0.04,
+        "fy2024": 0.0402173913043478,
+        "fy2025": 0.04
+      },
+      {
+        "item": "NWC / revenue",
+        "unit": "%",
+        "fy2023": 0.15,
+        "fy2024": 0.15,
+        "fy2025": 0.15
+      },
+      {
+        "item": "Net debt / adjusted EBITDA",
+        "unit": "x",
+        "fy2023": 0.748299319727891,
+        "fy2024": 0.554016620498615,
+        "fy2025": 0.429594272076372
+      },
+      {
+        "item": "Cash conversion (EBITDA \u2212 capex) / EBITDA",
+        "unit": "%",
+        "fy2023": 0.782312925170068,
+        "fy2024": 0.795013850415512,
+        "fy2025": 0.799522673031026
+      }
+    ]
+  },
+  "market_inputs": {
+    "Target company": {
+      "value": "Target Co. Ltd",
+      "unit": null
+    },
+    "Sector": {
+      "value": "Consumer goods manufacturing",
+      "unit": null
+    },
+    "Reporting units": {
+      "value": "GHS '000",
+      "unit": null
+    },
+    "Valuation date": {
+      "value": "2026-10-03",
+      "unit": null
+    },
+    "COST OF CAPITAL (BUILD-UP / CAPM FOR PRIVATE FIRMS)": {
+      "value": "Value",
+      "unit": null
+    },
+    "Risk-free rate": {
+      "value": 0.11,
+      "unit": "%"
+    },
+    "Equity risk premium": {
+      "value": 0.075,
+      "unit": "%"
+    },
+    "Country risk premium": {
+      "value": 0.035,
+      "unit": "%"
+    },
+    "Peer unlevered (asset) beta": {
+      "value": 0.75,
+      "unit": "x"
+    },
+    "Size premium": {
+      "value": 0.03,
+      "unit": "%"
+    },
+    "Company-specific risk premium (key-person, concentration, governance)": {
+      "value": 0.03,
+      "unit": "%"
+    },
+    "Marginal tax rate": {
+      "value": 0.25,
+      "unit": "%"
+    },
+    "Pre-tax cost of debt": {
+      "value": 0.2,
+      "unit": "%"
+    },
+    "Target debt / (debt + equity)": {
+      "value": 0.3,
+      "unit": "%"
+    },
+    "Long-run growth": {
+      "value": 0.06,
+      "unit": "%"
+    },
+    "LEVEL OF VALUE (CFA PRIVATE COMPANY VALUATION)": {
+      "value": "Value",
+      "unit": null
+    },
+    "Stake being valued": {
+      "value": 0.6,
+      "unit": "%"
+    },
+    "Basis: 1 = Controlling interest, 2 = Non-controlling": {
+      "value": 1,
+      "unit": "selector"
+    },
+    "Control premium (applied to trading-comps value if controlling)": {
+      "value": 0.25,
+      "unit": "%"
+    },
+    "DLOC (applied to DCF / precedent value if non-controlling)": {
+      "value": 0.2,
+      "unit": "%"
+    },
+    "Discount for lack of marketability (DLOM)": {
+      "value": 0.2,
+      "unit": "%"
+    },
+    "Weight: DCF": {
+      "value": 0.5,
+      "unit": "%"
+    },
+    "Weight: trading comparables": {
+      "value": 0.25,
+      "unit": "%"
+    },
+    "Weight: precedent transactions": {
+      "value": 0.25,
+      "unit": "%"
+    },
+    "VALUATION TIMING": {
+      "value": "Value",
+      "unit": null
+    },
+    "Latest audited balance-sheet date (FY0 year-end)": {
+      "value": "2025-12-31",
+      "unit": "date"
+    },
+    "Year fraction: valuation date to end of first forecast year": {
+      "value": 0.243835616438356,
+      "unit": "years"
+    },
+    "CURRENCY (GLOBAL PRESENTATION)": {
+      "value": "Value",
+      "unit": null
+    },
+    "Presentation currency": {
+      "value": "USD",
+      "unit": "text"
+    },
+    "Spot rate on valuation date (reporting currency per 1 US$)": {
+      "value": 10.9,
+      "unit": "rate"
+    },
+    "SCENARIO": {
+      "value": "Value",
+      "unit": null
+    },
+    "Capital structure for credit analysis: 1 = Post-LBO, 2 = Standalone loan": {
+      "value": 1,
+      "unit": "selector"
+    },
+    "MODEL OPTIONS": {
+      "value": "Value",
+      "unit": null
+    },
+    "DCF used: 1 FCFF, 2 APV, 3 FCFE, 4 Scenario-weighted FCFF": {
+      "value": 1,
+      "unit": "selector"
+    },
+    "Mid-year discounting (1 = Yes, 0 = No)": {
+      "value": 1,
+      "unit": "selector"
+    }
+  },
+  "trading_comps": [
+    {
+      "name": "Listed peer A",
+      "ev_ebitda_ltm": 6.2,
+      "ev_ebitda_ntm": 5.6,
+      "ev_revenue": 1.1,
+      "pe_ltm": 9.5,
+      "ev_ebit": 7.3
+    },
+    {
+      "name": "Listed peer B",
+      "ev_ebitda_ltm": 7,
+      "ev_ebitda_ntm": 6.3,
+      "ev_revenue": 1.3,
+      "pe_ltm": 10.8,
+      "ev_ebit": 8.2
+    },
+    {
+      "name": "Listed peer C",
+      "ev_ebitda_ltm": 5.4,
+      "ev_ebitda_ntm": 4.9,
+      "ev_revenue": 0.95,
+      "pe_ltm": 8.2,
+      "ev_ebit": 6.4
+    },
+    {
+      "name": "Listed peer D",
+      "ev_ebitda_ltm": 6.6,
+      "ev_ebitda_ntm": 6,
+      "ev_revenue": 1.2,
+      "pe_ltm": 10.1,
+      "ev_ebit": 7.8
+    },
+    {
+      "name": "Listed peer E",
+      "ev_ebitda_ltm": 7.8,
+      "ev_ebitda_ntm": 6.9,
+      "ev_revenue": 1.45,
+      "pe_ltm": 12,
+      "ev_ebit": 9.2
+    }
+  ],
+  "precedent_transactions": [
+    {
+      "deal": "Deal 1 / PE fund / 2024",
+      "ev_ebitda": 7.5,
+      "ev_revenue": 1.4,
+      "ev_ebit": 8.9
+    },
+    {
+      "deal": "Deal 2 / strategic / 2023",
+      "ev_ebitda": 8.2,
+      "ev_revenue": 1.55,
+      "ev_ebit": 9.7
+    },
+    {
+      "deal": "Deal 3 / PE fund / 2025",
+      "ev_ebitda": 6.9,
+      "ev_revenue": 1.25,
+      "ev_ebit": 8.1
+    },
+    {
+      "deal": "Deal 4 / strategic / 2022",
+      "ev_ebitda": 7.8,
+      "ev_revenue": 1.5,
+      "ev_ebit": 9.2
+    }
+  ],
+  "assumptions": [
+    {
+      "driver": "Revenue growth",
+      "unit": "%",
+      "FY0": 0.141304347826087,
+      "Y1": 0.12,
+      "Y2": 0.11,
+      "Y3": 0.1,
+      "Y4": 0.09,
+      "Y5": 0.08
+    },
+    {
+      "driver": "Adjusted EBITDA margin",
+      "unit": "%",
+      "FY0": 0.19952380952381,
+      "Y1": 0.205,
+      "Y2": 0.21,
+      "Y3": 0.215,
+      "Y4": 0.22,
+      "Y5": 0.22
+    },
+    {
+      "driver": "D&A % of revenue",
+      "unit": "%",
+      "FY0": 0.03,
+      "Y1": 0.03,
+      "Y2": 0.03,
+      "Y3": 0.03,
+      "Y4": 0.03,
+      "Y5": 0.03
+    },
+    {
+      "driver": "Capex % of revenue",
+      "unit": "%",
+      "FY0": 0.04,
+      "Y1": 0.04,
+      "Y2": 0.04,
+      "Y3": 0.04,
+      "Y4": 0.04,
+      "Y5": 0.04
+    },
+    {
+      "driver": "NWC % of revenue",
+      "unit": "%",
+      "FY0": 0.15,
+      "Y1": 0.15,
+      "Y2": 0.15,
+      "Y3": 0.15,
+      "Y4": 0.15,
+      "Y5": 0.15
+    },
+    {
+      "driver": "Tax rate",
+      "unit": "%",
+      "FY0": 0.25,
+      "Y1": 0.25,
+      "Y2": 0.25,
+      "Y3": 0.25,
+      "Y4": 0.25,
+      "Y5": 0.25
+    },
+    {
+      "driver": "CURRENCY: FORECAST EXCHANGE RATES",
+      "unit": null,
+      "FY0": "FY2025",
+      "Y1": "FY2026E",
+      "Y2": "FY2027E",
+      "Y3": "FY2028E",
+      "Y4": "FY2029E",
+      "Y5": "FY2030E"
+    },
+    {
+      "driver": "Domestic inflation",
+      "unit": "%",
+      "FY0": null,
+      "Y1": 0.08,
+      "Y2": 0.08,
+      "Y3": 0.08,
+      "Y4": 0.08,
+      "Y5": 0.08
+    },
+    {
+      "driver": "US inflation",
+      "unit": "%",
+      "FY0": null,
+      "Y1": 0.025,
+      "Y2": 0.025,
+      "Y3": 0.025,
+      "Y4": 0.025,
+      "Y5": 0.025
+    },
+    {
+      "driver": "Implied rate: relative PPP from today's spot",
+      "unit": "rate",
+      "FY0": 10.9,
+      "Y1": 11.0398084894659,
+      "Y2": 11.6321884571933,
+      "Y3": 12.2563546670915,
+      "Y4": 12.9140127223988,
+      "Y5": 13.6069597465275
+    },
+    {
+      "driver": "Analyst path (method 3; also overrides PPP in method 1 when entered)",
+      "unit": "rate",
+      "FY0": null,
+      "Y1": null,
+      "Y2": null,
+      "Y3": null,
+      "Y4": null,
+      "Y5": null
+    },
+    {
+      "driver": "Rate used (reporting currency per 1 US$)",
+      "unit": "rate",
+      "FY0": 10.9,
+      "Y1": 11.0398084894659,
+      "Y2": 11.6321884571933,
+      "Y3": 12.2563546670915,
+      "Y4": 12.9140127223988,
+      "Y5": 13.6069597465275
+    },
+    {
+      "driver": "WORKING CAPITAL BY DAYS",
+      "unit": null,
+      "FY0": "FY2025",
+      "Y1": "FY2026E",
+      "Y2": "FY2027E",
+      "Y3": "FY2028E",
+      "Y4": "FY2029E",
+      "Y5": "FY2030E"
+    },
+    {
+      "driver": "NWC method: 1 = % of revenue (row 11), 2 = Days (rows 24 to 26)",
+      "unit": "selector",
+      "FY0": 2,
+      "Y1": null,
+      "Y2": null,
+      "Y3": null,
+      "Y4": null,
+      "Y5": null
+    },
+    {
+      "driver": "Cost of sales % of revenue",
+      "unit": "%",
+      "FY0": 0.59,
+      "Y1": 0.59,
+      "Y2": 0.59,
+      "Y3": 0.59,
+      "Y4": 0.59,
+      "Y5": 0.59
+    },
+    {
+      "driver": "Receivable days (DSO)",
+      "unit": "days",
+      "FY0": 48.6666666666667,
+      "Y1": 49,
+      "Y2": 49,
+      "Y3": 49,
+      "Y4": 49,
+      "Y5": 49
+    },
+    {
+      "driver": "Inventory days (DIO, on cost of sales)",
+      "unit": "days",
+      "FY0": 64.8103309120258,
+      "Y1": 65,
+      "Y2": 65,
+      "Y3": 65,
+      "Y4": 65,
+      "Y5": 65
+    },
+    {
+      "driver": "Payable days (DPO, on cost of sales)",
+      "unit": "days",
+      "FY0": 54.499596448749,
+      "Y1": 55,
+      "Y2": 55,
+      "Y3": 55,
+      "Y4": 55,
+      "Y5": 55
+    },
+    {
+      "driver": "FX FORECAST METHOD",
+      "unit": null,
+      "FY0": "FY2025",
+      "Y1": "FY2026E",
+      "Y2": "FY2027E",
+      "Y3": "FY2028E",
+      "Y4": "FY2029E",
+      "Y5": "FY2030E"
+    },
+    {
+      "driver": "FX method: 1 = PPP (row 17), 2 = Interest-rate parity (row 32), 3 = Analyst path (row 18)",
+      "unit": "selector",
+      "FY0": 1,
+      "Y1": null,
+      "Y2": null,
+      "Y3": null,
+      "Y4": null,
+      "Y5": null
+    },
+    {
+      "driver": "GHS interest rate (364-day T-bill or bond)",
+      "unit": "%",
+      "FY0": null,
+      "Y1": 0.11,
+      "Y2": 0.11,
+      "Y3": 0.11,
+      "Y4": 0.11,
+      "Y5": 0.11
+    },
+    {
+      "driver": "US$ interest rate (Treasury yield)",
+      "unit": "%",
+      "FY0": null,
+      "Y1": 0.04,
+      "Y2": 0.04,
+      "Y3": 0.04,
+      "Y4": 0.04,
+      "Y5": 0.04
+    },
+    {
+      "driver": "Implied rate: interest-rate parity from spot",
+      "unit": "rate",
+      "FY0": 10.9,
+      "Y1": 11.0745099997146,
+      "Y2": 11.8199097112339,
+      "Y3": 12.6154805571823,
+      "Y4": 13.4645994408388,
+      "Y5": 14.3708705570491
+    },
+    {
+      "driver": "US$ DEBT AND HEDGING",
+      "unit": null,
+      "FY0": null,
+      "Y1": null,
+      "Y2": null,
+      "Y3": null,
+      "Y4": null,
+      "Y5": null
+    },
+    {
+      "driver": "Share of total debt denominated in US$",
+      "unit": "%",
+      "FY0": 0.3,
+      "Y1": null,
+      "Y2": null,
+      "Y3": null,
+      "Y4": null,
+      "Y5": null
+    },
+    {
+      "driver": "Hedge ratio on US$ debt",
+      "unit": "%",
+      "FY0": 0.5,
+      "Y1": null,
+      "Y2": null,
+      "Y3": null,
+      "Y4": null,
+      "Y5": null
+    },
+    {
+      "driver": "Hedging cost (% of hedged amount a year)",
+      "unit": "%",
+      "FY0": 0.04,
+      "Y1": null,
+      "Y2": null,
+      "Y3": null,
+      "Y4": null,
+      "Y5": null
+    }
+  ],
+  "forecast": [
+    {
+      "item": "Unlevered operating forecast",
+      "unit": null,
+      "FY0": null,
+      "Y1": null,
+      "Y2": null,
+      "Y3": null,
+      "Y4": null,
+      "Y5": null
+    },
+    {
+      "item": "Feeds the DCF, the LBO and the borrower credit analysis.",
+      "unit": null,
+      "FY0": null,
+      "Y1": null,
+      "Y2": null,
+      "Y3": null,
+      "Y4": null,
+      "Y5": null
+    },
+    {
+      "item": "Created by Young Investors Network  |  Kofi Busia Kyei",
+      "unit": null,
+      "FY0": null,
+      "Y1": null,
+      "Y2": null,
+      "Y3": null,
+      "Y4": null,
+      "Y5": null
+    },
+    {
+      "item": "FORECAST",
+      "unit": null,
+      "FY0": "FY2025",
+      "Y1": "FY2026E",
+      "Y2": "FY2027E",
+      "Y3": "FY2028E",
+      "Y4": "FY2029E",
+      "Y5": "FY2030E"
+    },
+    {
+      "item": "Discount period from valuation date (years)",
+      "unit": null,
+      "FY0": 0,
+      "Y1": 0.243835616438356,
+      "Y2": 1.24383561643836,
+      "Y3": 2.24383561643836,
+      "Y4": 3.24383561643836,
+      "Y5": 4.24383561643836
+    },
+    {
+      "item": "Revenue",
+      "unit": "GHS '000",
+      "FY0": 105000,
+      "Y1": 117600,
+      "Y2": 130536,
+      "Y3": 143589.6,
+      "Y4": 156512.664,
+      "Y5": 169033.67712
+    },
+    {
+      "item": "Adjusted EBITDA",
+      "unit": "GHS '000",
+      "FY0": 20950,
+      "Y1": 24108,
+      "Y2": 27412.56,
+      "Y3": 30871.764,
+      "Y4": 34432.78608,
+      "Y5": 37187.4089664
+    },
+    {
+      "item": "D&A",
+      "unit": "GHS '000",
+      "FY0": 3150,
+      "Y1": 3528,
+      "Y2": 3916.08,
+      "Y3": 4307.688,
+      "Y4": 4695.37992,
+      "Y5": 5071.0103136
+    },
+    {
+      "item": "EBIT",
+      "unit": "GHS '000",
+      "FY0": 17800,
+      "Y1": 20580,
+      "Y2": 23496.48,
+      "Y3": 26564.076,
+      "Y4": 29737.40616,
+      "Y5": 32116.3986528
+    },
+    {
+      "item": "Tax on EBIT",
+      "unit": "GHS '000",
+      "FY0": 4450,
+      "Y1": 5145,
+      "Y2": 5874.12,
+      "Y3": 6641.019,
+      "Y4": 7434.35154,
+      "Y5": 8029.0996632
+    },
+    {
+      "item": "NOPAT",
+      "unit": "GHS '000",
+      "FY0": 13350,
+      "Y1": 15435,
+      "Y2": 17622.36,
+      "Y3": 19923.057,
+      "Y4": 22303.05462,
+      "Y5": 24087.2989896
+    },
+    {
+      "item": "Capex",
+      "unit": "GHS '000",
+      "FY0": 4200,
+      "Y1": 4704,
+      "Y2": 5221.44,
+      "Y3": 5743.584,
+      "Y4": 6260.50656,
+      "Y5": 6761.3470848
+    },
+    {
+      "item": "Net working capital",
+      "unit": "GHS '000",
+      "FY0": 15750,
+      "Y1": 17688.3287671233,
+      "Y2": 19634.0449315069,
+      "Y3": 21597.4494246575,
+      "Y4": 23541.2198728767,
+      "Y5": 25424.5174627069
+    },
+    {
+      "item": "Increase in NWC",
+      "unit": "GHS '000",
+      "FY0": 1950,
+      "Y1": 1938.32876712329,
+      "Y2": 1945.71616438356,
+      "Y3": 1963.40449315068,
+      "Y4": 1943.77044821918,
+      "Y5": 1883.29758983013
+    },
+    {
+      "item": "FCFF = NOPAT + D&A \u2212 capex \u2212 \u0394NWC",
+      "unit": "GHS '000",
+      "FY0": 10350,
+      "Y1": 12320.6712328767,
+      "Y2": 14371.2838356164,
+      "Y3": 16523.7565068493,
+      "Y4": 18794.1575317808,
+      "Y5": 20513.6646285699
+    },
+    {
+      "item": "EBITDA margin",
+      "unit": null,
+      "FY0": 0.19952380952381,
+      "Y1": 0.205,
+      "Y2": 0.21,
+      "Y3": 0.215,
+      "Y4": 0.22,
+      "Y5": 0.22
+    }
+  ],
+  "pe_valuation": [
+    {
+      "item": "Private equity \u2014 target company valuation",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "CFA private company valuation: income approach (FCFF DCF), market approach (guideline public companies and precedent transactions), level-of-value adjustments.",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Created by Young Investors Network  |  Kofi Busia Kyei",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "A. DISCOUNT RATE",
+      "col_2": null,
+      "col_3": "Value",
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Target D/E = D/V \u00f7 (1 \u2212 D/V)",
+      "col_2": "x",
+      "col_3": 0.428571428571429,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Relevered beta = \u03b2U \u00d7 [1 + (1 \u2212 t) D/E]",
+      "col_2": "x",
+      "col_3": 0.991071428571429,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Cost of equity = Rf + \u03b2\u00d7ERP + CRP + size + company-specific",
+      "col_2": "%",
+      "col_3": 0.279330357142857,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "After-tax cost of debt",
+      "col_2": "%",
+      "col_3": 0.15,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "WACC",
+      "col_2": "%",
+      "col_3": 0.24053125,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "B. INCOME APPROACH \u2014 FCFF DCF",
+      "col_2": null,
+      "col_3": "Value",
+      "col_4": "FY2026E",
+      "col_5": "FY2027E",
+      "col_6": "FY2028E",
+      "col_7": "FY2029E",
+      "col_8": "FY2030E",
+      "col_9": null
+    },
+    {
+      "item": "FCFF",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": 12320.6712328767,
+      "col_5": 14371.2838356164,
+      "col_6": 16523.7565068493,
+      "col_7": 18794.1575317808,
+      "col_8": 20513.6646285699,
+      "col_9": null
+    },
+    {
+      "item": "Discount factor",
+      "col_2": "x",
+      "col_3": null,
+      "col_4": 0.974064135791719,
+      "col_5": 0.85186593570937,
+      "col_6": 0.686694459095142,
+      "col_7": 0.553548698668527,
+      "col_8": 0.446219068377784,
+      "col_9": null
+    },
+    {
+      "item": "PV of FCFF",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": 12001.1239768259,
+      "col_5": 12242.4071519723,
+      "col_6": 11346.7720366907,
+      "col_7": 10403.4814442886,
+      "col_8": 9153.58831957474,
+      "col_9": null
+    },
+    {
+      "item": "Sum of PV, Y1\u2013Y5",
+      "col_2": "GHS '000",
+      "col_3": 55147.3729293523,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Terminal value method: 1 = Gordon growth, 2 = Exit EV/EBITDA (trading median)",
+      "col_2": "selector",
+      "col_3": 1,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "TV \u2014 Gordon: normalised FCFF6/(WACC \u2212 g)",
+      "col_2": "GHS '000",
+      "col_3": 125692.906972932,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "TV \u2014 Exit multiple \u00d7 EBITDA5",
+      "col_2": "GHS '000",
+      "col_3": 245436.89917824,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Terminal value applied",
+      "col_2": "GHS '000",
+      "col_3": 125692.906972932,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "PV of terminal value",
+      "col_2": "GHS '000",
+      "col_3": 50356.4424996318,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Enterprise value \u2014 DCF",
+      "col_2": "GHS '000",
+      "col_3": 105503.815428984,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "TV as % of EV",
+      "col_2": "%",
+      "col_3": 0.477294989710844,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "C. MARKET APPROACH",
+      "col_2": null,
+      "col_3": "Multiple (median)",
+      "col_4": "Metric",
+      "col_5": "Implied EV",
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Trading: EV/EBITDA LTM \u00d7 FY0 adj. EBITDA",
+      "col_2": null,
+      "col_3": 6.6,
+      "col_4": 20950,
+      "col_5": 138270,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Trading: EV/EBITDA NTM \u00d7 Y1 EBITDA",
+      "col_2": null,
+      "col_3": 6,
+      "col_4": 24108,
+      "col_5": 144648,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Trading: EV/Revenue LTM \u00d7 FY0 revenue",
+      "col_2": null,
+      "col_3": 1.2,
+      "col_4": 105000,
+      "col_5": 126000,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Enterprise value \u2014 trading comparables (average of five multiples)",
+      "col_2": "GHS '000",
+      "col_3": 135289.778697439,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Precedent: EV/EBITDA \u00d7 FY0 adj. EBITDA",
+      "col_2": null,
+      "col_3": 7.65,
+      "col_4": 20950,
+      "col_5": 160267.5,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Precedent: EV/Revenue \u00d7 FY0 revenue",
+      "col_2": null,
+      "col_3": 1.45,
+      "col_4": 105000,
+      "col_5": 152250,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Enterprise value \u2014 precedent transactions (average of three multiples)",
+      "col_2": "GHS '000",
+      "col_3": 157869.166666667,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "D. LEVEL-OF-VALUE RECONCILIATION (100% EQUITY)",
+      "col_2": null,
+      "col_3": "DCF",
+      "col_4": "Trading comps",
+      "col_5": "Precedents",
+      "col_6": "Concluded",
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Enterprise value",
+      "col_2": "GHS '000",
+      "col_3": 105503.815428984,
+      "col_4": 135289.778697439,
+      "col_5": 157869.166666667,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Less: net debt and other claims (Valuation_Plus)",
+      "col_2": "GHS '000",
+      "col_3": 10015.893487194,
+      "col_4": 10015.893487194,
+      "col_5": 10015.893487194,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Equity value \u2014 source basis",
+      "col_2": "GHS '000",
+      "col_3": 95487.9219417901,
+      "col_4": 125273.885210245,
+      "col_5": 147853.273179473,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Source basis",
+      "col_2": null,
+      "col_3": "Control",
+      "col_4": "Minority, marketable",
+      "col_5": "Control",
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Control adjustment factor",
+      "col_2": "x",
+      "col_3": 1,
+      "col_4": 1.25,
+      "col_5": 1,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Marketability factor (1 \u2212 DLOM)",
+      "col_2": "x",
+      "col_3": 0.8,
+      "col_4": 0.8,
+      "col_5": 0.8,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Equity value \u2014 100%, private, stated level of value",
+      "col_2": "GHS '000",
+      "col_3": 76390.3375534321,
+      "col_4": 125273.885210245,
+      "col_5": 118282.618543578,
+      "col_6": 99084.2947151718,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Weight (input on Inputs_Market)",
+      "col_2": "%",
+      "col_3": 0.5,
+      "col_4": 0.25,
+      "col_5": 0.25,
+      "col_6": 1,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "helper: numeric value",
+      "col_2": null,
+      "col_3": 76390.3375534321,
+      "col_4": 125273.885210245,
+      "col_5": 118282.618543578,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Effective weight (valid methods only)",
+      "col_2": "%",
+      "col_3": 0.5,
+      "col_4": 0.25,
+      "col_5": 0.25,
+      "col_6": 1,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "E. CONCLUSION",
+      "col_2": null,
+      "col_3": "Value",
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Concluded equity value \u2014 100%",
+      "col_2": "GHS '000",
+      "col_3": 99084.2947151718,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Implied enterprise value (concluded equity + net claims)",
+      "col_2": "GHS '000",
+      "col_3": 109100.188202366,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Implied EV / FY0 adjusted EBITDA",
+      "col_2": "x",
+      "col_3": 5.20764621491006,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Value of stake being valued",
+      "col_2": "GHS '000",
+      "col_3": 59450.5768291031,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Value per share",
+      "col_2": "per share",
+      "col_3": 9.90842947151718,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Implied P/E on FY0 reported net income",
+      "col_2": "x",
+      "col_3": 8.43270593320611,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "F. DCF CROSS-CHECKS",
+      "col_2": null,
+      "col_3": "Value",
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Gordon-implied exit EV / EBITDA5 = TV \u00f7 EBITDA5",
+      "col_2": "x",
+      "col_3": 3.37998560444206,
+      "col_4": "Well below the peer median means the discount rate, not the business, drives the DCF\u2013multiples gap.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Peer median EV / EBITDA (LTM)",
+      "col_2": "x",
+      "col_3": 6.6,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "DCF enterprise value / FY0 adjusted EBITDA",
+      "col_2": "x",
+      "col_3": 5.03598164338826,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "WACC in US$ = (1 + WACC)(1 + US inflation)/(1 + domestic inflation) \u2212 1",
+      "col_2": "%",
+      "col_3": 0.177356047453704,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "G. DCF ENTERPRISE VALUE SENSITIVITY (rows: WACC; columns: long-run growth)",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    }
+  ],
+  "lbo": [
+    {
+      "item": "Private equity \u2014 leveraged buyout model",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "CFA LBO framework: sources & uses, debt schedule with sweep, PIK mezzanine, sponsor preferred + common, management equity, exit waterfall, IRR/MOIC and value-creation attribution.",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Created by Young Investors Network  |  Kofi Busia Kyei",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "A. DEAL INPUTS",
+      "col_2": null,
+      "col_3": "Value",
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Entry EV / FY0 adjusted EBITDA",
+      "col_2": null,
+      "col_3": 6,
+      "col_4": "Negotiated price; test against precedents and the DCF.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": "Close assumed at FY0 year-end on a pro forma basis; year 1 = first forecast year."
+    },
+    {
+      "item": "Transaction fees (% of EV)",
+      "col_2": null,
+      "col_3": 0.02,
+      "col_4": "Advisers' engagement letters (legal, financial, tax).",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Financing fees (% of debt raised)",
+      "col_2": null,
+      "col_3": 0.025,
+      "col_4": "Lender term sheet: arrangement and underwriting fees.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Minimum operating cash funded at close",
+      "col_2": null,
+      "col_3": 3000,
+      "col_4": "Management cash forecast: working cash needed at close.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Senior term loan (\u00d7 EBITDA)",
+      "col_2": null,
+      "col_3": 2.5,
+      "col_4": "Lender term sheet: senior leverage.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Senior term loan interest rate",
+      "col_2": null,
+      "col_3": 0.19,
+      "col_4": "Lender term sheet: base rate plus margin.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Mandatory amortisation (% of original per year)",
+      "col_2": null,
+      "col_3": 0.05,
+      "col_4": "Lender term sheet: amortisation.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Cash sweep (% of excess cash above minimum)",
+      "col_2": null,
+      "col_3": 0.5,
+      "col_4": "Lender term sheet: excess cash flow sweep.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Mezzanine (\u00d7 EBITDA)",
+      "col_2": null,
+      "col_3": 1,
+      "col_4": "Mezzanine term sheet: amount.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Mezzanine cash coupon",
+      "col_2": null,
+      "col_3": 0.12,
+      "col_4": "Mezzanine term sheet: cash coupon.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Mezzanine PIK rate",
+      "col_2": null,
+      "col_3": 0.06,
+      "col_4": "Mezzanine term sheet: PIK coupon.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Management equity investment",
+      "col_2": null,
+      "col_3": 1000,
+      "col_4": "Management rollover / co-investment.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Sponsor preferred as % of sponsor investment",
+      "col_2": null,
+      "col_3": 0.8,
+      "col_4": "Sponsor investment memo: equity structure.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Preferred dividend (accrues, compounding)",
+      "col_2": null,
+      "col_3": 0.1,
+      "col_4": "Shareholders' agreement: preferred dividend.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Management share of common equity (incl. 'sweet' equity)",
+      "col_2": null,
+      "col_3": 0.15,
+      "col_4": "Management incentive plan.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Exit year (1\u20135)",
+      "col_2": null,
+      "col_3": 5,
+      "col_4": "Investment committee holding period.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Exit EV / EBITDA",
+      "col_2": null,
+      "col_3": 6,
+      "col_4": "At or below entry and the peer median unless justified.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Exit costs (% of EV)",
+      "col_2": null,
+      "col_3": 0.015,
+      "col_4": "Sell-side advisory and legal costs.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Sponsor target IRR (hurdle)",
+      "col_2": null,
+      "col_3": 0.25,
+      "col_4": "Fund investment policy: target buyout return.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "B. SOURCES & USES AT CLOSE",
+      "col_2": null,
+      "col_3": "Amount",
+      "col_4": "% of total",
+      "col_5": "x EBITDA",
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Use: enterprise value (cash-free, debt-free)",
+      "col_2": "GHS '000",
+      "col_3": 125700,
+      "col_4": 0.94477802507946,
+      "col_5": 6,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Use: transaction fees",
+      "col_2": "GHS '000",
+      "col_3": 2514,
+      "col_4": 0.0188955605015892,
+      "col_5": 0.12,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Use: financing fees",
+      "col_2": "GHS '000",
+      "col_3": 1833.125,
+      "col_4": 0.0137780128657421,
+      "col_5": 0.0875,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Use: minimum cash",
+      "col_2": "GHS '000",
+      "col_3": 3000,
+      "col_4": 0.0225484015532091,
+      "col_5": 0.143198090692124,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Total uses",
+      "col_2": "GHS '000",
+      "col_3": 133047.125,
+      "col_4": 1,
+      "col_5": 6.35069809069212,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Source: senior term loan",
+      "col_2": "GHS '000",
+      "col_3": 52375,
+      "col_4": 0.393657510449775,
+      "col_5": 2.5,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Source: mezzanine",
+      "col_2": "GHS '000",
+      "col_3": 20950,
+      "col_4": 0.15746300417991,
+      "col_5": 1,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Source: total equity (plug)",
+      "col_2": "GHS '000",
+      "col_3": 59722.125,
+      "col_4": 0.448879485370315,
+      "col_5": 2.85069809069212,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "   Sponsor preferred",
+      "col_2": "GHS '000",
+      "col_3": 46977.7,
+      "col_4": 0.353090681215396,
+      "col_5": 2.2423723150358,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "   Sponsor common",
+      "col_2": "GHS '000",
+      "col_3": 11744.425,
+      "col_4": 0.0882726703038491,
+      "col_5": 0.56059307875895,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "   Management common",
+      "col_2": "GHS '000",
+      "col_3": 1000,
+      "col_4": 0.00751613385106969,
+      "col_5": 0.0477326968973747,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "Total sources",
+      "col_2": "GHS '000",
+      "col_3": 133047.125,
+      "col_4": 1,
+      "col_5": 6.35069809069212,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    },
+    {
+      "item": "C. CASH FLOW & DEBT SCHEDULE",
+      "col_2": null,
+      "col_3": "Close",
+      "col_4": "FY2026E",
+      "col_5": "FY2027E",
+      "col_6": "FY2028E",
+      "col_7": "FY2029E",
+      "col_8": "FY2030E",
+      "col_9": null
+    },
+    {
+      "item": "Year",
+      "col_2": null,
+      "col_3": 0,
+      "col_4": 1,
+      "col_5": 2,
+      "col_6": 3,
+      "col_7": 4,
+      "col_8": 5,
+      "col_9": null
+    },
+    {
+      "item": "Adjusted EBITDA",
+      "col_2": "GHS '000",
+      "col_3": 20950,
+      "col_4": 24108,
+      "col_5": 27412.56,
+      "col_6": 30871.764,
+      "col_7": 34432.78608,
+      "col_8": 37187.4089664,
+      "col_9": null
+    },
+    {
+      "item": "Less: capex",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": -4704,
+      "col_5": -5221.44,
+      "col_6": -5743.584,
+      "col_7": -6260.50656,
+      "col_8": -6761.3470848,
+      "col_9": null
+    },
+    {
+      "item": "Less: increase in NWC",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": -1938.32876712329,
+      "col_5": -1945.71616438356,
+      "col_6": -1963.40449315068,
+      "col_7": -1943.77044821918,
+      "col_8": -1883.29758983013,
+      "col_9": null
+    },
+    {
+      "item": "Less: cash interest (senior + mezzanine)",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": -12465.25,
+      "col_5": -12055.1402953767,
+      "col_6": -11396.5676497271,
+      "col_7": -10365.5248542947,
+      "col_8": -8862.45678445776,
+      "col_9": null
+    },
+    {
+      "item": "Less: cash taxes  [(EBIT \u2212 cash interest \u2212 PIK) \u00d7 t, floored at 0]",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": -1714.4375,
+      "col_5": -2527.22992615582,
+      "col_6": -3438.78578756823,
+      "col_7": -4468.69354842634,
+      "col_8": -5416.75208240556,
+      "col_9": null
+    },
+    {
+      "item": "Cash flow available for debt repayment",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": 3285.98373287671,
+      "col_5": 5663.0336140839,
+      "col_6": 8329.422069554,
+      "col_7": 11394.2906690598,
+      "col_8": 14263.5554249066,
+      "col_9": null
+    },
+    {
+      "item": "Senior term loan \u2014 opening",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": 52375,
+      "col_5": 49422.6331335617,
+      "col_6": 45114.9328933005,
+      "col_7": 38796.371738393,
+      "col_8": 29939.9458264093,
+      "col_9": null
+    },
+    {
+      "item": "Mandatory amortisation",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": 2618.75,
+      "col_5": 2618.75,
+      "col_6": 2618.75,
+      "col_7": 2618.75,
+      "col_8": 2618.75,
+      "col_9": null
+    },
+    {
+      "item": "Cash sweep",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": 333.616866438354,
+      "col_5": 1688.95024026113,
+      "col_6": 3699.81115490756,
+      "col_7": 6237.6759119837,
+      "col_8": 8941.24066844513,
+      "col_9": null
+    },
+    {
+      "item": "Senior term loan \u2014 closing",
+      "col_2": "GHS '000",
+      "col_3": 52375,
+      "col_4": 49422.6331335617,
+      "col_5": 45114.9328933005,
+      "col_6": 38796.371738393,
+      "col_7": 29939.9458264093,
+      "col_8": 18379.9551579641,
+      "col_9": null
+    },
+    {
+      "item": "Mezzanine \u2014 opening",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": 20950,
+      "col_5": 22207,
+      "col_6": 23539.42,
+      "col_7": 24951.7852,
+      "col_8": 26448.892312,
+      "col_9": null
+    },
+    {
+      "item": "PIK interest accrued",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": 1257,
+      "col_5": 1332.42,
+      "col_6": 1412.3652,
+      "col_7": 1497.107112,
+      "col_8": 1586.93353872,
+      "col_9": null
+    },
+    {
+      "item": "Mezzanine \u2014 closing",
+      "col_2": "GHS '000",
+      "col_3": 20950,
+      "col_4": 22207,
+      "col_5": 23539.42,
+      "col_6": 24951.7852,
+      "col_7": 26448.892312,
+      "col_8": 28035.82585072,
+      "col_9": null
+    },
+    {
+      "item": "Cash \u2014 closing",
+      "col_2": "GHS '000",
+      "col_3": 3000,
+      "col_4": 3333.61686643835,
+      "col_5": 4688.95024026113,
+      "col_6": 6699.81115490756,
+      "col_7": 9237.6759119837,
+      "col_8": 11941.2406684451,
+      "col_9": null
+    },
+    {
+      "item": "Sponsor preferred \u2014 accreted value",
+      "col_2": "GHS '000",
+      "col_3": 46977.7,
+      "col_4": 51675.47,
+      "col_5": 56843.017,
+      "col_6": 62527.3187,
+      "col_7": 68780.05057,
+      "col_8": 75658.055627,
+      "col_9": null
+    },
+    {
+      "item": "Net debt (senior + mezzanine \u2212 cash)",
+      "col_2": "GHS '000",
+      "col_3": 70325,
+      "col_4": 68296.0162671233,
+      "col_5": 63965.4026530394,
+      "col_6": 57048.3457834854,
+      "col_7": 47151.1622264256,
+      "col_8": 34474.540340239,
+      "col_9": null
+    },
+    {
+      "item": "Total debt / EBITDA",
+      "col_2": null,
+      "col_3": 3.5,
+      "col_4": 2.97119765777176,
+      "col_5": 2.50448527584802,
+      "col_6": 2.06493405878566,
+      "col_7": 1.6376495938318,
+      "col_8": 1.24815851114075,
+      "col_9": null
+    },
+    {
+      "item": "EBITDA / cash interest",
+      "col_2": null,
+      "col_3": null,
+      "col_4": 1.93401656605363,
+      "col_5": 2.27393123002584,
+      "col_6": 2.70886506787324,
+      "col_7": 3.32185649680187,
+      "col_8": 4.19606096490267,
+      "col_9": null
+    },
+    {
+      "item": "Enterprise value at exit multiple",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": 144648,
+      "col_5": 164475.36,
+      "col_6": 185230.584,
+      "col_7": 206596.71648,
+      "col_8": 223124.4537984,
+      "col_9": null
+    },
+    {
+      "item": "Equity value if exited this year (after exit costs)",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": 74182.2637328767,
+      "col_5": 98042.8269469607,
+      "col_6": 125403.779456515,
+      "col_7": 156346.603506375,
+      "col_8": 185303.046651185,
+      "col_9": null
+    },
+    {
+      "item": "D. EXIT WATERFALL",
+      "col_2": null,
+      "col_3": "Value",
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null
+    }
+  ],
+  "checks": [
+    {
+      "check": "Model integrity checks",
+      "value": null,
+      "status": null
+    },
+    {
+      "check": "Every line must read OK before outputs are relied on. WARN flags a finding to discuss, not a model error.",
+      "value": null,
+      "status": null
+    },
+    {
+      "check": "Created by Young Investors Network  |  Kofi Busia Kyei",
+      "value": null,
+      "status": null
+    },
+    {
+      "check": "CHECKS",
+      "value": null,
+      "status": "Value"
+    },
+    {
+      "check": "LBO: sources equal uses",
+      "value": null,
+      "status": 0
+    },
+    {
+      "check": "LBO: value-creation attribution reconciles",
+      "value": null,
+      "status": 0
+    },
+    {
+      "check": "LBO: closed-form IRR equals IRR() function",
+      "value": null,
+      "status": 0
+    },
+    {
+      "check": "LBO: cash balance never negative",
+      "value": null,
+      "status": 3333.61686643835
+    },
+    {
+      "check": "LBO: exit year between 1 and 5",
+      "value": null,
+      "status": 5
+    },
+    {
+      "check": "PE valuation: method weights sum to 100%",
+      "value": null,
+      "status": 1
+    },
+    {
+      "check": "PE valuation: WACC above long-run growth",
+      "value": null,
+      "status": 0.18053125
+    },
+    {
+      "check": "PE valuation: terminal value below 80% of DCF EV",
+      "value": null,
+      "status": 0.477294989710844
+    },
+    {
+      "check": "VC method: ownership fractions between 0 and 100%",
+      "value": null,
+      "status": 0.410816452080109
+    },
+    {
+      "check": "VC method: round-1 IRR equals compounded hurdle",
+      "value": null,
+      "status": 0
+    },
+    {
+      "check": "Fund: NAV never negative",
+      "value": null,
+      "status": 0
+    },
+    {
+      "check": "Fund: capital called within commitment",
+      "value": null,
+      "status": -5000
+    },
+    {
+      "check": "Fund: waterfall distributes total value",
+      "value": null,
+      "status": 0
+    },
+    {
+      "check": "PD loan: maturity between 1 and 7 years",
+      "value": null,
+      "status": 5
+    },
+    {
+      "check": "PD loan: fully repaid at maturity",
+      "value": null,
+      "status": 0
+    },
+    {
+      "check": "PD borrower: no covenant breach forecast",
+      "value": null,
+      "status": 5
+    },
+    {
+      "check": "Distressed: waterfall distributes all value",
+      "value": null,
+      "status": 0
+    },
+    {
+      "check": "Target: derived equity equals reported equity (all years)",
+      "value": null,
+      "status": 0
+    },
+    {
+      "check": "PE valuation: Gordon-implied exit multiple \u00f7 peer median (0.5 to 1.5)",
+      "value": null,
+      "status": 0.512119030976069
+    },
+    {
+      "check": "Fund: reported TVPI reconciles to the waterfall LP total",
+      "value": null,
+      "status": 0
+    },
+    {
+      "check": "PD loan: recovery used equals the distressed waterfall (unless overridden)",
+      "value": null,
+      "status": 0
+    },
+    {
+      "check": "Currency: spot and forecast exchange rates positive",
+      "value": null,
+      "status": 10.9
+    },
+    {
+      "check": "Target: cash flow statement ties to balance-sheet cash",
+      "value": null,
+      "status": 0
+    },
+    {
+      "check": "Qualitative weights sum to 100%",
+      "value": null,
+      "status": 1
+    },
+    {
+      "check": "Scenario probabilities sum to 100%",
+      "value": null,
+      "status": 1
+    }
+  ],
+  "overall_status": "",
+  "qualitative": [
+    {
+      "item": "Qualitative risk scorecard",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null
+    },
+    {
+      "item": "Score each factor from 1 (high risk) to 5 (low risk). The weighted score can set the company-specific premium (Inputs_Market row 44).",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null
+    },
+    {
+      "item": "Created by Young Investors Network  |  Kofi Busia Kyei",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null
+    },
+    {
+      "item": "FACTOR",
+      "col_2": "Weight",
+      "col_3": "Score (1\u20135)",
+      "col_4": "Weighted",
+      "col_5": "EVIDENCE TO RECORD"
+    },
+    {
+      "item": "Management depth and track record",
+      "col_2": 0.15,
+      "col_3": 3,
+      "col_4": 0.45,
+      "col_5": "CVs, tenure, delivery against past budgets."
+    },
+    {
+      "item": "Governance and board independence",
+      "col_2": 0.12,
+      "col_3": 3,
+      "col_4": 0.36,
+      "col_5": "Board composition, committees, related-party controls."
+    },
+    {
+      "item": "Financial reporting quality",
+      "col_2": 0.1,
+      "col_3": 4,
+      "col_4": 0.4,
+      "col_5": "Audit opinion, restatements, timeliness of accounts."
+    },
+    {
+      "item": "Customer concentration",
+      "col_2": 0.12,
+      "col_3": 3,
+      "col_4": 0.36,
+      "col_5": "Top-10 customer share of revenue."
+    },
+    {
+      "item": "Supplier and input-cost dependence",
+      "col_2": 0.1,
+      "col_3": 2,
+      "col_4": 0.2,
+      "col_5": "Import share of inputs, FX exposure, single-source suppliers."
+    },
+    {
+      "item": "Market position and competition",
+      "col_2": 0.12,
+      "col_3": 3,
+      "col_4": 0.36,
+      "col_5": "Market share, pricing power, barriers to entry."
+    },
+    {
+      "item": "Regulatory and licence risk",
+      "col_2": 0.09,
+      "col_3": 3,
+      "col_4": 0.27,
+      "col_5": "Licences, product approvals, pending regulation."
+    },
+    {
+      "item": "Environmental, social and safety (ESG)",
+      "col_2": 0.1,
+      "col_3": 3,
+      "col_4": 0.3,
+      "col_5": "Permits, incidents, labour practices, community issues."
+    },
+    {
+      "item": "Key-person dependence",
+      "col_2": 0.1,
+      "col_3": 2,
+      "col_4": 0.2,
+      "col_5": "Reliance on founders; succession plan."
+    },
+    {
+      "item": "Total weight (must be 100%)",
+      "col_2": 1,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null
+    },
+    {
+      "item": "Weighted score (1 = high risk, 5 = low risk)",
+      "col_2": null,
+      "col_3": null,
+      "col_4": 2.9,
+      "col_5": null
+    },
+    {
+      "item": "Maximum company-specific premium (score of 1)",
+      "col_2": null,
+      "col_3": null,
+      "col_4": 0.06,
+      "col_5": null
+    },
+    {
+      "item": "Implied company-specific premium",
+      "col_2": null,
+      "col_3": null,
+      "col_4": 0.0315,
+      "col_5": null
+    },
+    {
+      "item": "Assessment",
+      "col_2": null,
+      "col_3": null,
+      "col_4": "Weak",
+      "col_5": null
+    }
+  ],
+  "fund_economics": [
+    {
+      "item": "Private equity \u2014 fund economics, waterfall & performance",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "CFA: NAV roll, management fees, carried interest (NAV-over-committed rule), DPI/RVPI/TVPI, LP net IRR, KS-PME, European whole-fund waterfall and clawback.  Standalone case: not linked to Target Co.",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Created by Young Investors Network  |  Kofi Busia Kyei",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "FUND TERMS",
+      "col_2": null,
+      "col_3": "Value",
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Committed capital",
+      "col_2": "GHS '000",
+      "col_3": 100000,
+      "col_4": "Limited partnership agreement (LPA): fund size.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Fee basis: 1 = Committed, 2 = Paid-in, 3 = Prior-year NAV",
+      "col_2": null,
+      "col_3": 1,
+      "col_4": "LPA: management fee basis.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Management fee \u2014 investment period",
+      "col_2": null,
+      "col_3": 0.02,
+      "col_4": "LPA: fee in the investment period.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Investment period (years)",
+      "col_2": null,
+      "col_3": 5,
+      "col_4": "LPA: investment period.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Management fee \u2014 after investment period (on prior-year NAV)",
+      "col_2": null,
+      "col_3": 0.015,
+      "col_4": "LPA: fee after the investment period.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Carried interest",
+      "col_2": null,
+      "col_3": 0.2,
+      "col_4": "LPA: carried interest.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Hurdle / preferred return (European waterfall)",
+      "col_2": null,
+      "col_3": 0.08,
+      "col_4": "LPA: hurdle rate.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "GP catch-up rate (1.0 = full catch-up)",
+      "col_2": null,
+      "col_3": 1,
+      "col_4": "LPA: GP catch-up.",
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Preferred return accrues on actual call and distribution timing (rows 56\u201357)",
+      "col_2": null,
+      "col_3": null,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "YEAR",
+      "col_2": null,
+      "col_3": "Year 1",
+      "col_4": "Year 2",
+      "col_5": "Year 3",
+      "col_6": "Year 4",
+      "col_7": "Year 5",
+      "col_8": "Year 6",
+      "col_9": "Year 7",
+      "col_10": "Year 8",
+      "col_11": "Year 9",
+      "col_12": "Year 10",
+      "col_13": null
+    },
+    {
+      "item": "Year",
+      "col_2": null,
+      "col_3": 1,
+      "col_4": 2,
+      "col_5": 3,
+      "col_6": 4,
+      "col_7": 5,
+      "col_8": 6,
+      "col_9": 7,
+      "col_10": 8,
+      "col_11": 9,
+      "col_12": 10,
+      "col_13": null
+    },
+    {
+      "item": "Capital called",
+      "col_2": "GHS '000",
+      "col_3": 25000,
+      "col_4": 25000,
+      "col_5": 20000,
+      "col_6": 15000,
+      "col_7": 10000,
+      "col_8": 0,
+      "col_9": 0,
+      "col_10": 0,
+      "col_11": 0,
+      "col_12": 0,
+      "col_13": "Capital call notices / fund model."
+    },
+    {
+      "item": "Paid-in capital (cumulative)",
+      "col_2": "GHS '000",
+      "col_3": 25000,
+      "col_4": 50000,
+      "col_5": 70000,
+      "col_6": 85000,
+      "col_7": 95000,
+      "col_8": 95000,
+      "col_9": 95000,
+      "col_10": 95000,
+      "col_11": 95000,
+      "col_12": 95000,
+      "col_13": null
+    },
+    {
+      "item": "Management fees",
+      "col_2": "GHS '000",
+      "col_3": 2000,
+      "col_4": 2000,
+      "col_5": 2000,
+      "col_6": 2000,
+      "col_7": 2000,
+      "col_8": 1265.1,
+      "col_9": 1082.6235,
+      "col_10": 802.3841475,
+      "col_11": 485.8483852875,
+      "col_12": 180.060659508187,
+      "col_13": null
+    },
+    {
+      "item": "Operating results (realised + unrealised gains / losses)",
+      "col_2": "GHS '000",
+      "col_3": -1500,
+      "col_4": 2000,
+      "col_5": 6000,
+      "col_6": 12000,
+      "col_7": 16000,
+      "col_8": 20000,
+      "col_9": 18000,
+      "col_10": 12000,
+      "col_11": 8000,
+      "col_12": 4000,
+      "col_13": "Quarterly NAV reports: realised and unrealised gains."
+    },
+    {
+      "item": "NAV before distributions",
+      "col_2": "GHS '000",
+      "col_3": 21500,
+      "col_4": 46500,
+      "col_5": 70500,
+      "col_6": 92000,
+      "col_7": 106800,
+      "col_8": 103074.9,
+      "col_9": 89092.2765,
+      "col_10": 64689.8923525,
+      "col_11": 39904.0439672125,
+      "col_12": 15823.9833077043,
+      "col_13": null
+    },
+    {
+      "item": "Carried interest (when NAV before distributions > committed capital)",
+      "col_2": "GHS '000",
+      "col_3": 0,
+      "col_4": 0,
+      "col_5": 0,
+      "col_6": 0,
+      "col_7": 1360,
+      "col_8": 0,
+      "col_9": 0,
+      "col_10": 0,
+      "col_11": 0,
+      "col_12": 0,
+      "col_13": null
+    },
+    {
+      "item": "Distributions to LPs",
+      "col_2": "GHS '000",
+      "col_3": 0,
+      "col_4": 0,
+      "col_5": 3500,
+      "col_6": 9200,
+      "col_7": 21100,
+      "col_8": 30900,
+      "col_9": 35600,
+      "col_10": 32300,
+      "col_11": 27900,
+      "col_12": 15823.9833077043,
+      "col_13": "Distribution notices. The final year distributes all remaining NAV."
+    },
+    {
+      "item": "NAV after distributions",
+      "col_2": "GHS '000",
+      "col_3": 21500,
+      "col_4": 46500,
+      "col_5": 67000,
+      "col_6": 82800,
+      "col_7": 84340,
+      "col_8": 72174.9,
+      "col_9": 53492.2765,
+      "col_10": 32389.8923525,
+      "col_11": 12004.0439672125,
+      "col_12": 0,
+      "col_13": null
+    },
+    {
+      "item": "PERFORMANCE",
+      "col_2": null,
+      "col_3": "Year 1",
+      "col_4": "Year 2",
+      "col_5": "Year 3",
+      "col_6": "Year 4",
+      "col_7": "Year 5",
+      "col_8": "Year 6",
+      "col_9": "Year 7",
+      "col_10": "Year 8",
+      "col_11": "Year 9",
+      "col_12": "Year 10",
+      "col_13": null
+    },
+    {
+      "item": "Cumulative distributions",
+      "col_2": "GHS '000",
+      "col_3": 0,
+      "col_4": 0,
+      "col_5": 3500,
+      "col_6": 12700,
+      "col_7": 33800,
+      "col_8": 64700,
+      "col_9": 100300,
+      "col_10": 132600,
+      "col_11": 160500,
+      "col_12": 176323.983307704,
+      "col_13": null
+    },
+    {
+      "item": "DPI = cumulative distributions / paid-in",
+      "col_2": "x",
+      "col_3": 0,
+      "col_4": 0,
+      "col_5": 0.05,
+      "col_6": 0.149411764705882,
+      "col_7": 0.355789473684211,
+      "col_8": 0.681052631578947,
+      "col_9": 1.05578947368421,
+      "col_10": 1.39578947368421,
+      "col_11": 1.68947368421053,
+      "col_12": 1.85604192955478,
+      "col_13": null
+    },
+    {
+      "item": "RVPI = NAV after distributions / paid-in",
+      "col_2": "x",
+      "col_3": 0.86,
+      "col_4": 0.93,
+      "col_5": 0.957142857142857,
+      "col_6": 0.974117647058824,
+      "col_7": 0.887789473684211,
+      "col_8": 0.759735789473684,
+      "col_9": 0.563076594736842,
+      "col_10": 0.340946235289474,
+      "col_11": 0.126358357549605,
+      "col_12": 0,
+      "col_13": null
+    },
+    {
+      "item": "TVPI = DPI + RVPI (interim, before carry true-up)",
+      "col_2": "x",
+      "col_3": 0.86,
+      "col_4": 0.93,
+      "col_5": 1.00714285714286,
+      "col_6": 1.12352941176471,
+      "col_7": 1.24357894736842,
+      "col_8": 1.44078842105263,
+      "col_9": 1.61886606842105,
+      "col_10": 1.73673570897368,
+      "col_11": 1.81583204176013,
+      "col_12": 1.85604192955478,
+      "col_13": null
+    },
+    {
+      "item": "LP net cash flow (distributions \u2212 calls)",
+      "col_2": "GHS '000",
+      "col_3": -25000,
+      "col_4": -25000,
+      "col_5": -16500,
+      "col_6": -5800,
+      "col_7": 11100,
+      "col_8": 30900,
+      "col_9": 35600,
+      "col_10": 32300,
+      "col_11": 27900,
+      "col_12": 15823.9833077043,
+      "col_13": null
+    },
+    {
+      "item": "Cumulative LP net cash flow (J-curve)",
+      "col_2": "GHS '000",
+      "col_3": -25000,
+      "col_4": -50000,
+      "col_5": -66500,
+      "col_6": -72300,
+      "col_7": -61200,
+      "col_8": -30300,
+      "col_9": 5300,
+      "col_10": 37600,
+      "col_11": 65500,
+      "col_12": 81323.9833077043,
+      "col_13": null
+    },
+    {
+      "item": "LP cash flow incl. final NAV and carry true-up",
+      "col_2": "GHS '000",
+      "col_3": -25000,
+      "col_4": -25000,
+      "col_5": -16500,
+      "col_6": -5800,
+      "col_7": 11100,
+      "col_8": 30900,
+      "col_9": 35600,
+      "col_10": 32300,
+      "col_11": 27900,
+      "col_12": 647.186646163445,
+      "col_13": null
+    },
+    {
+      "item": "Public market index level (end of year)",
+      "col_2": "index",
+      "col_3": 105,
+      "col_4": 112,
+      "col_5": 108,
+      "col_6": 120,
+      "col_7": 131,
+      "col_8": 140,
+      "col_9": 149,
+      "col_10": 158,
+      "col_11": 170,
+      "col_12": 181,
+      "col_13": "Public index (e.g. GSE Composite Index) at each year end."
+    },
+    {
+      "item": "Index future-value factor to year 10 (I10 / It)",
+      "col_2": "x",
+      "col_3": 1.72380952380952,
+      "col_4": 1.61607142857143,
+      "col_5": 1.67592592592593,
+      "col_6": 1.50833333333333,
+      "col_7": 1.38167938931298,
+      "col_8": 1.29285714285714,
+      "col_9": 1.21476510067114,
+      "col_10": 1.14556962025316,
+      "col_11": 1.06470588235294,
+      "col_12": 1,
+      "col_13": null
+    },
+    {
+      "item": "FUND RESULTS",
+      "col_2": null,
+      "col_3": "Value",
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "LP net IRR (after carry true-up)",
+      "col_2": "%",
+      "col_3": 0.133589917501198,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "TVPI (year 10, after carry true-up)",
+      "col_2": "x",
+      "col_3": 1.69628617522277,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "DPI (year 10, after final settlement)",
+      "col_2": "x",
+      "col_3": 1.69628617522277,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "RVPI (year 10)",
+      "col_2": "x",
+      "col_3": 0,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Kaplan-Schoar PME (after carry true-up)",
+      "col_2": "x",
+      "col_3": 1.29967814005728,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": "> 1.0x: fund outperformed the public index on a like-for-like cash-flow basis."
+    },
+    {
+      "item": "Total management fees",
+      "col_2": "GHS '000",
+      "col_3": 13816.0166922957,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Total carried interest paid (NAV rule)",
+      "col_2": "GHS '000",
+      "col_3": 1360,
+      "col_4": null,
+      "col_5": null,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "EUROPEAN (WHOLE-FUND) DISTRIBUTION WATERFALL \u2014 LIFETIME",
+      "col_2": null,
+      "col_3": "To LPs",
+      "col_4": "To GP",
+      "col_5": "Total",
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Total value available (distributions + carry paid + final NAV)",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": null,
+      "col_5": 177683.983307704,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Contributed capital",
+      "col_2": "GHS '000",
+      "col_3": null,
+      "col_4": null,
+      "col_5": 95000,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Tier 1 \u2014 return of capital",
+      "col_2": "GHS '000",
+      "col_3": 95000,
+      "col_4": 0,
+      "col_5": 95000,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Tier 2 \u2014 preferred return (accrued on actual timing)",
+      "col_2": "GHS '000",
+      "col_3": 31479.650828288,
+      "col_4": 0,
+      "col_5": 31479.650828288,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Tier 3 \u2014 GP catch-up",
+      "col_2": "GHS '000",
+      "col_3": 0,
+      "col_4": 7869.912707072,
+      "col_5": 7869.912707072,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Tier 4 \u2014 carried-interest split",
+      "col_2": "GHS '000",
+      "col_3": 34667.5358178754,
+      "col_4": 8666.88395446886,
+      "col_5": 43334.4197723443,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    },
+    {
+      "item": "Total",
+      "col_2": "GHS '000",
+      "col_3": 161147.186646163,
+      "col_4": 16536.7966615409,
+      "col_5": 177683.983307704,
+      "col_6": null,
+      "col_7": null,
+      "col_8": null,
+      "col_9": null,
+      "col_10": null,
+      "col_11": null,
+      "col_12": null,
+      "col_13": null
+    }
+  ]
+}

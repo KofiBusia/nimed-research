@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Nimed Index{% endblock %}
+{% block page_title %}Nimed Index{% endblock %}
+
+{% block content %}
+<div class="row g-3 mb-4">
+    {% set idx = data.nimed_index %}
+    {% if idx.get('Level') %}
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-label">Nimed Index Level</div>
+            <div class="stat-value">{{ "%.1f"|format(idx['Level']['nimed_index']|float) }}</div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-label">Bank Sub-Index</div>
+            <div class="stat-value">{{ "%.1f"|format(idx['Level']['bank_sub']|float) if idx['Level']['bank_sub'] else '—' }}</div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-label">Year to Date</div>
+            <div class="stat-value {{ 'text-success' if idx.get('Year to date',{}).get('nimed_index',0)|float > 0 else 'text-danger' }}">
+                {{ "%.1f"|format(idx.get('Year to date',{}).get('nimed_index',0)|float * 100) }}%
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-label">Since Base (17 Jul 2023)</div>
+            <div class="stat-value text-success">{{ "%.1f"|format(idx.get('Since base',{}).get('nimed_index',0)|float * 100) }}%</div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-lg-8">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Index Performance</h3></div>
+            <div class="panel-body" style="padding:16px;">
+                <canvas id="indexFullChart" height="350"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Performance Summary</h3></div>
+            <div class="panel-body" style="padding:20px;">
+                <table class="table table-sm" style="font-size:13px;">
+                    <thead><tr><th>Period</th><th>Nimed</th><th>Bank</th><th>GSE-CI</th></tr></thead>
+                    <tbody>
+                        {% for period, vals in idx.items() %}
+                        {% if period != 'Measure' %}
+                        <tr>
+                            <td class="fw-semibold">{{ period }}</td>
+                            <td>{% if vals.nimed_index is number and vals.nimed_index|float|abs < 10 %}{{ "%.1f"|format(vals.nimed_index|float * 100) }}%{% else %}{{ "%.1f"|format(vals.nimed_index|float) if vals.nimed_index else '—' }}{% endif %}</td>
+                            <td>{% if vals.bank_sub is number and vals.bank_sub|float|abs < 10 %}{{ "%.1f"|format(vals.bank_sub|float * 100) }}%{% else %}{{ "%.1f"|format(vals.bank_sub|float) if vals.bank_sub else '—' }}{% endif %}</td>
+                            <td>{% if vals.gse_ci is number and vals.gse_ci|float|abs < 10 %}{{ "%.1f"|format(vals.gse_ci|float * 100) }}%{% else %}{{ "%.1f"|format(vals.gse_ci|float) if vals.gse_ci else '—' }}{% endif %}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const ts = {{ data.index_timeseries | tojson }};
+new Chart(document.getElementById('indexFullChart'), {
+    type: 'line',
+    data: {
+        labels: ts.map(d => d.date),
+        datasets: [
+            { label: 'Nimed Index', data: ts.map(d => d.nimed_index), borderColor: '#0066cc', backgroundColor: 'rgba(0,102,204,.06)', fill: true, tension: .3, pointRadius: 0, borderWidth: 2 },
+            { label: 'Bank Sub-Index', data: ts.map(d => d.bank_sub), borderColor: '#4caf50', backgroundColor: 'transparent', tension: .3, pointRadius: 0, borderWidth: 2 },
+        ]
+    },
+    options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'top', labels: { font: { size: 11 }, usePointStyle: true, pointStyle: 'line' } } },
+        scales: { x: { ticks: { maxTicksLimit: 10, font: { size: 10 } }, grid: { display: false } }, y: { ticks: { font: { size: 10 } }, grid: { color: '#f0f0f0' } } }
+    }
+});
+</script>
+{% endblock %}

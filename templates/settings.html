@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block page_title %}Settings & Inputs{% endblock %}
+
+{% block content %}
+<div class="row g-3 mb-4">
+    <div class="col-lg-6">
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-sliders me-2"></i>Market & Beta Settings</h3></div>
+            <div class="panel-body" style="padding:20px;">
+                <table class="table table-sm" style="font-size:13px;">
+                    {% for key, val in data.inputs.items() %}
+                    <tr>
+                        <td class="text-muted" style="width:55%;">{{ key|replace('_',' ')|title }}</td>
+                        <td class="fw-semibold">
+                            {% if val is number and val|float|abs < 1 and val|float != 0 %}
+                            {{ "%.1f"|format(val|float * 100) }}%
+                            {% else %}
+                            {{ val }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-shield me-2"></i>Credit Scoring Thresholds</h3></div>
+            <div class="panel-body">
+                <table class="table table-research">
+                    <thead><tr><th>Ratio</th><th>Strong If</th><th>Weak If</th><th>Weight</th></tr></thead>
+                    <tbody>
+                        {% for s in data.credit_scoring %}
+                        <tr>
+                            <td class="fw-semibold">{{ s.ratio }}</td>
+                            <td>{{ s.strong_if }}</td>
+                            <td>{{ s.weak_if }}</td>
+                            <td>{{ "%.0f"|format(s.weight|float * 100) }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

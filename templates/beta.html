@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Beta & Cost of Equity{% endblock %}
+{% block page_title %}Beta & Cost of Equity{% endblock %}
+
+{% block content %}
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-label">Securities Loaded</div>
+            <div class="stat-value">{{ data.overview.get('Securities loaded', 'N/A') }}</div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-label">Reliable Betas</div>
+            <div class="stat-value">{{ data.overview.get('Statistically reliable betas', 'N/A') }}</div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-label">Median Beta</div>
+            <div class="stat-value">{{ "%.2f"|format(data.overview.get('Median beta (vs GSE-CI)', 0)|float) }}</div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-label">Median Cost of Equity</div>
+            <div class="stat-value">{{ "%.1f"|format(data.overview.get('Median cost of equity', 0)|float * 100) }}%</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-lg-4">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Settings</h3></div>
+            <div class="panel-body" style="padding:16px;">
+                <table class="table table-sm" style="font-size:13px;">
+                    <tr><td class="text-muted">Return frequency</td><td class="fw-semibold">{{ data.inputs.return_frequency }}</td></tr>
+                    <tr><td class="text-muted">Return basis</td><td class="fw-semibold">{{ data.inputs.return_basis }}</td></tr>
+                    <tr><td class="text-muted">Beta type</td><td class="fw-semibold">{{ data.inputs.beta_type }}</td></tr>
+                    <tr><td class="text-muted">Risk-free rate</td><td class="fw-semibold">{{ "%.1f"|format(data.inputs.risk_free_rate|float * 100) }}%</td></tr>
+                    <tr><td class="text-muted">Equity risk premium</td><td class="fw-semibold">{{ "%.1f"|format(data.inputs.equity_risk_premium|float * 100) }}%</td></tr>
+                    <tr><td class="text-muted">Blume weight</td><td class="fw-semibold">{{ data.inputs.blume_weight }}</td></tr>
+                    <tr><td class="text-muted">R&sup2; threshold</td><td class="fw-semibold">{{ data.inputs.r_squared_threshold }}</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Cost of Equity Distribution</h3></div>
+            <div class="panel-body" style="padding:16px;">
+                <canvas id="coeChart" height="220"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-panel">
+    <div class="panel-header">
+        <h3>Beta Summary — All Securities</h3>
+        <input type="text" class="form-control form-control-sm" style="width:200px;" placeholder="Search..." onkeyup="filterTable(this,'betaTable')">
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-research" id="betaTable">
+                <thead>
+                    <tr>
+                        <th>Ticker</th><th>Company</th><th>Category</th><th>Raw Beta</th>
+                        <th>R&sup2;</th><th>Beta Used</th><th>Reliable</th>
+                        <th>Cost of Equity</th><th>Zero Return %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for b in data.betas %}
+                    <tr>
+                        <td><strong>{{ b.ticker }}</strong></td>
+                        <td>{{ b.company or '—' }}</td>
+                        <td><span class="badge bg-light text-dark" style="font-size:11px;">{{ b.category or '—' }}</span></td>
+                        <td>{{ "%.3f"|format(b.raw_beta|float) if b.raw_beta else '—' }}</td>
+                        <td>{{ "%.3f"|format(b.r_squared|float) if b.r_squared else '—' }}</td>
+                        <td class="fw-semibold">{{ "%.3f"|format(b.beta_used|float) if b.beta_used else '—' }}</td>
+                        <td>
+                            {% if b.reliable == 'YES' %}
+                            <span class="badge bg-success" style="font-size:10px;">YES</span>
+                            {% else %}
+                            <span class="badge bg-secondary" style="font-size:10px;">NO</span>
+                            {% endif %}
+                        </td>
+                        <td class="fw-semibold">{{ "%.1f"|format(b.cost_of_equity|float * 100) if b.cost_of_equity else '—' }}%</td>
+                        <td>{{ "%.0f"|format(b.zero_return_share|float * 100) if b.zero_return_share else '—' }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function filterTable(input, tableId) {
+    const filter = input.value.toLowerCase();
+    const rows = document.getElementById(tableId).querySelectorAll('tbody tr');
+    rows.forEach(r => r.style.display = r.textContent.toLowerCase().includes(filter) ? '' : 'none');
+}
+const betas = {{ data.betas | tojson }};
+const coeVals = betas.filter(b => b.cost_of_equity).map(b => b.cost_of_equity * 100).sort((a,b) => a-b);
+const coeBins = {};
+coeVals.forEach(v => { const bin = Math.floor(v/2)*2; coeBins[bin] = (coeBins[bin]||0)+1; });
+new Chart(document.getElementById('coeChart'), {
+    type: 'bar',
+    data: {
+        labels: Object.keys(coeBins).map(k => k+'%–'+(+k+2)+'%'),
+        datasets: [{ label: 'Securities', data: Object.values(coeBins), backgroundColor: '#0066cc', borderRadius: 6 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+        scales: { x: { ticks: { font: { size: 10 } } }, y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } } } }
+});
+</script>
+{% endblock %}
