@@ -58,10 +58,10 @@
                             </td>
                             <td>{{ "%.2f"|format(p.get('Last close (GHS)', 0)|float) if p.get('Last close (GHS)') else '—' }}</td>
                             <td>{{ "%.1f"|format(p.get('Shares (m)', 0)|float) if p.get('Shares (m)') else '—' }}</td>
-                            <td>{{ "{:,.0f}"|format(p.get('Market cap (GHS m)', 0)|float) if p.get('Market cap (GHS m)') else '—' }}</td>
+                            <td>{{ "{:,.0f}".format(p.get('Market cap (GHS m)', 0)|float) if p.get('Market cap (GHS m)') else '—' }}</td>
                             <td>{{ "%.2f"|format(p.get('EPS (GHS)', 0)|float) if p.get('EPS (GHS)') else '—' }}</td>
                             <td class="fw-semibold">{{ "%.1f"|format(p.get('P/E', 0)|float) if p.get('P/E') else '—' }}</td>
-                            <td>{{ "{:,.0f}"|format(p.get('Book value (GHS m)', 0)|float) if p.get('Book value (GHS m)') else '—' }}</td>
+                            <td>{{ "{:,.0f}".format(p.get('Book value (GHS m)', 0)|float) if p.get('Book value (GHS m)') else '—' }}</td>
                             <td>{{ "%.2f"|format(p.get('P/B', 0)|float) if p.get('P/B') else '—' }}</td>
                             <td>{{ "%.2f"|format(p.get('DPS (GHS)', 0)|float) if p.get('DPS (GHS)') else '—' }}</td>
                             <td>{{ "%.1f"|format(p.get('Dividend yield', 0)|float * 100) if p.get('Dividend yield') else '—' }}{% if p.get('Dividend yield') %}%{% endif %}</td>

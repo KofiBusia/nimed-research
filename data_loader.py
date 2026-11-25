@@ -98,13 +98,39 @@ def get_index_data():
 
 _yin_cache = None
 
+
+def _normalize_yin_data(data):
+    for key, val in data.items():
+        if not isinstance(val, list):
+            continue
+        for row in val:
+            if 'c1' not in row:
+                row['c1'] = ''
+            elif row['c1'] is None:
+                row['c1'] = ''
+            if 'c2' not in row:
+                row['c2'] = ''
+            elif row['c2'] is None:
+                row['c2'] = ''
+            for i in range(3, 13):
+                k = f'c{i}'
+                if k not in row:
+                    row[k] = None
+                elif isinstance(row[k], str):
+                    try:
+                        row[k] = float(row[k])
+                    except (ValueError, TypeError):
+                        pass
+    return data
+
+
 def load_yin_data():
     global _yin_cache
     if _yin_cache is not None:
         return _yin_cache
     data_path = os.path.join(os.path.dirname(__file__), 'yin_workbook_data.json')
     with open(data_path, 'r') as f:
-        _yin_cache = json.load(f)
+        _yin_cache = _normalize_yin_data(json.load(f))
     return _yin_cache
 
 def get_yin_dashboard():

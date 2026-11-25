@@ -11,10 +11,10 @@
 {% set sponsor_irr = namespace(val=0) %}
 {% set total_debt_ebitda = namespace(val=0) %}
 {% for r in lbo %}
-    {% if r.item and r.item.startswith('Use: enterprise value') %}{% set entry_ev.val = r.col_3 or 0 %}{% endif %}
-    {% if r.item and 'Equity value if exited' in r.item %}{% set exit_equity.val = r.col_8 or 0 %}{% endif %}
-    {% if r.item and 'Sponsor target IRR' in r.item %}{% set sponsor_irr.val = r.col_3 or 0 %}{% endif %}
-    {% if r.item and r.item == 'Entry EV / FY0 adjusted EBITDA' %}{% set entry_ev.val = r.col_3 or 0 %}{% endif %}
+    {% if r.c1 and r.c1.startswith('Use: enterprise value') %}{% set entry_ev.val = r.c3 or 0 %}{% endif %}
+    {% if r.c1 and 'Equity value if exited' in r.c1 %}{% set exit_equity.val = r.c8 or 0 %}{% endif %}
+    {% if r.c1 and 'Sponsor target IRR' in r.c1 %}{% set sponsor_irr.val = r.c3 or 0 %}{% endif %}
+    {% if r.c1 and r.c1 == 'Entry EV / FY0 adjusted EBITDA' %}{% set entry_ev.val = r.c3 or 0 %}{% endif %}
 {% endfor %}
 
 <div class="row g-3 mb-4">
@@ -76,33 +76,33 @@
                 <table class="table table-research">
                     <tbody>
                         {% for row in lbo %}
-                        {% set item = row.get('item', '') %}
+                        {% set item = row.get('c1', '') %}
                         {% if item and not item.startswith('Private equity — leveraged') and not item.startswith('CFA LBO') and not item.startswith('Created') %}
                         {% set is_section = item.startswith('A.') or item.startswith('B.') or item.startswith('C.') or item.startswith('D.') %}
                         {% if is_section %}
                         <tr class="table-primary">
                             <td colspan="8"><strong>{{ item }}</strong></td>
                         </tr>
-                        {% if row.col_3 is not none and (row.col_4 is not none or row.col_5 is not none) %}
+                        {% if row.get('c3') is not none and (row.get('c4') is not none or row.get('c5') is not none) %}
                         <tr class="table-light">
                             <td></td><td></td>
-                            <td class="text-end"><strong>{{ row.col_3 or '' }}</strong></td>
-                            <td class="text-end"><strong>{{ row.col_4 or '' }}</strong></td>
-                            <td class="text-end"><strong>{{ row.col_5 or '' }}</strong></td>
-                            <td class="text-end"><strong>{{ row.col_6 or '' }}</strong></td>
-                            <td class="text-end">{{ row.col_7 or '' }}</td>
-                            <td class="text-end">{{ row.col_8 or '' }}</td>
+                            <td class="text-end"><strong>{{ row.get('c3') or '' }}</strong></td>
+                            <td class="text-end"><strong>{{ row.get('c4') or '' }}</strong></td>
+                            <td class="text-end"><strong>{{ row.get('c5') or '' }}</strong></td>
+                            <td class="text-end"><strong>{{ row.get('c6') or '' }}</strong></td>
+                            <td class="text-end">{{ row.get('c7') or '' }}</td>
+                            <td class="text-end">{{ row.get('c8') or '' }}</td>
                         </tr>
                         {% endif %}
                         {% else %}
                         {% set hi = 'Total uses' in item or 'Total sources' in item or 'Enterprise value at exit' in item or 'Equity value if exited' in item or 'Net debt' in item %}
                         <tr{% if hi %} class="table-warning"{% endif %}>
                             <td style="min-width:320px">{{ item }}</td>
-                            <td class="text-muted">{{ row.col_2 or '' }}</td>
-                            {% for col in ['col_3','col_4','col_5','col_6','col_7','col_8'] %}
+                            <td class="text-muted">{{ row.get('c2', '') or '' }}</td>
+                            {% for col in ['c3','c4','c5','c6','c7','c8'] %}
                             {% set v = row.get(col) %}
                             <td class="text-end">
-                                {% if v is none %}—{% elif "GHS" in (row.col_2 or '') %}{{ "{:,.0f}".format(v) }}{% elif v is number and v < 1 and v > -1 and v != 0 %}{{ "%.1f"|format(v * 100) }}%{% elif v is number %}{{ "%.2f"|format(v) }}{% else %}{{ v }}{% endif %}
+                                {% if v is none %}—{% elif v is not number %}{{ v }}{% elif "GHS" in (row.get('c2', '') or '') %}{{ "{:,.0f}".format(v) }}{% elif v is number and v < 1 and v > -1 and v != 0 %}{{ "%.1f"|format(v * 100) }}%{% elif v is number %}{{ "%.2f"|format(v) }}{% else %}{{ v }}{% endif %}
                             </td>
                             {% endfor %}
                         </tr>
@@ -135,14 +135,14 @@
 
 {% block extra_js %}
 <script>
-const lbo = {{ lbo | tojson }};
+const lbo = {{ data.get('lbo', []) | tojson }};
 const lbl = ['Close','FY2026E','FY2027E','FY2028E','FY2029E','FY2030E'];
 let senior = [], mezz = [], cash = [];
 lbo.forEach(r => {
-    if (!r.item) return;
-    if (r.item.startsWith('Senior term loan — closing')) { for (let c of ['col_3','col_4','col_5','col_6','col_7','col_8']) senior.push((r[c]||0)/1000); }
-    if (r.item.startsWith('Mezzanine — closing')) { for (let c of ['col_3','col_4','col_5','col_6','col_7','col_8']) mezz.push((r[c]||0)/1000); }
-    if (r.item.startsWith('Cash — closing')) { for (let c of ['col_3','col_4','col_5','col_6','col_7','col_8']) cash.push((r[c]||0)/1000); }
+    if (!r.c1) return;
+    if (r.c1.startsWith('Senior term loan — closing')) { for (let c of ['c3','c4','c5','c6','c7','c8']) senior.push((r[c]||0)/1000); }
+    if (r.c1.startsWith('Mezzanine — closing')) { for (let c of ['c3','c4','c5','c6','c7','c8']) mezz.push((r[c]||0)/1000); }
+    if (r.c1.startsWith('Cash — closing')) { for (let c of ['c3','c4','c5','c6','c7','c8']) cash.push((r[c]||0)/1000); }
 });
 new Chart(document.getElementById('debtChart'), {
     type: 'bar',
@@ -159,10 +159,10 @@ new Chart(document.getElementById('debtChart'), {
 
 let suLabels = [], suAmts = [];
 lbo.forEach(r => {
-    if (!r.item) return;
-    if (r.item.startsWith('Source:') || r.item.startsWith('Use:')) {
-        suLabels.push(r.item.replace('Source: ','').replace('Use: ',''));
-        suAmts.push((r.col_3||0)/1000);
+    if (!r.c1) return;
+    if (r.c1.startsWith('Source:') || r.c1.startsWith('Use:')) {
+        suLabels.push(r.c1.replace('Source: ','').replace('Use: ',''));
+        suAmts.push((r.c3||0)/1000);
     }
 });
 const colors = suLabels.map((l,i) => ['#0066cc','#4caf50','#ffc107','#e53935','#00b4d8','#8bc34a','#9c27b0','#ff5722'][i%8]);

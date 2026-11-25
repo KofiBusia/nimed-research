@@ -16,8 +16,8 @@
     {% if c1 == '75th percentile' %}{% set stats.p75 = r.c3 %}{% endif %}
     {% if c1 == '95th percentile' %}{% set stats.p95 = r.c3 %}{% endif %}
     {% if c1 == 'Standard deviation' %}{% set stats.std = r.c3 %}{% endif %}
-    {% if c1 and 'LBO' in c1|string %}{% set stats.prob_lbo = r.c3 %}{% endif %}
-    {% if c1 and 'DCF EV' in c1|string %}{% set stats.prob_dcf = r.c3 %}{% endif %}
+    {% if c1 and 'LBO' in c1|string %}{% set stats.prob_lbo = r.c3 if r.c3 is not none else stats.prob_lbo %}{% endif %}
+    {% if c1 and 'DCF EV' in c1|string %}{% set stats.prob_dcf = r.c3 if r.c3 is not none else stats.prob_dcf %}{% endif %}
 {% endfor %}
 
 <!-- Summary Cards -->
@@ -86,7 +86,7 @@
                         {% if 'INPUTS' in c1 %}
                         <tr class="table-light"><td colspan="2"><strong>{{ c1 }}</strong></td></tr>
                         {% else %}
-                        <tr><td>{{ c1 }}</td><td class="text-end">{{ "%.1f"|format(r.c3 * 100) }}%</td></tr>
+                        <tr><td>{{ c1 }}</td><td class="text-end">{{ "%.1f"|format((r.c3 or 0)|sf * 100) }}%</td></tr>
                         {% endif %}
                         {% endif %}
                         {% endfor %}
@@ -107,8 +107,8 @@
                         <tr><td>95th Percentile</td><td class="text-end">{% if stats.p95 != '—' %}{{ "{:,.0f}".format(stats.p95) }}{% endif %}</td></tr>
                         <tr><td>Mean</td><td class="text-end">{% if stats.mean != '—' %}{{ "{:,.0f}".format(stats.mean) }}{% endif %}</td></tr>
                         <tr><td>Std Deviation</td><td class="text-end">{% if stats.std != '—' %}{{ "{:,.0f}".format(stats.std) }}{% endif %}</td></tr>
-                        <tr><td>P(EV > LBO entry)</td><td class="text-end">{% if stats.prob_lbo != '—' %}{{ "%.0f"|format(stats.prob_lbo * 100) }}%{% endif %}</td></tr>
-                        <tr><td>P(EV > DCF)</td><td class="text-end">{% if stats.prob_dcf != '—' %}{{ "%.0f"|format(stats.prob_dcf * 100) }}%{% endif %}</td></tr>
+                        <tr><td>P(EV > LBO entry)</td><td class="text-end">{% if stats.prob_lbo != '—' %}{{ "%.0f"|format((stats.prob_lbo|sf) * 100) }}%{% endif %}</td></tr>
+                        <tr><td>P(EV > DCF)</td><td class="text-end">{% if stats.prob_dcf != '—' %}{{ "%.0f"|format((stats.prob_dcf|sf) * 100) }}%{% endif %}</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -149,11 +149,11 @@
                         {% if r.get('c1') is number and r.c1 >= 1 and r.c1 <= 500 %}
                         <tr>
                             <td>{{ r.c1|int }}</td>
-                            <td class="text-end {% if r.c2 is number and r.c2 < 0 %}text-danger{% else %}text-success{% endif %}">{{ "%.2f"|format(r.c2 * 100) }}%</td>
-                            <td class="text-end {% if r.c3 is number and r.c3 < 0 %}text-danger{% else %}text-success{% endif %}">{{ "%.2f"|format(r.c3 * 100) }}%</td>
-                            <td class="text-end">{{ "%.1f"|format(r.c4 * 100) }}%</td>
-                            <td class="text-end">{{ "%.1f"|format(r.c5 * 100) }}%</td>
-                            <td class="text-end"><strong>{{ "{:,.0f}".format(r.c6) }}</strong></td>
+                            <td class="text-end {% if r.c2 is number and r.c2 < 0 %}text-danger{% else %}text-success{% endif %}">{{ "%.2f"|format((r.c2 or 0)|sf * 100) }}%</td>
+                            <td class="text-end {% if r.c3 is number and r.c3 < 0 %}text-danger{% else %}text-success{% endif %}">{{ "%.2f"|format((r.c3 or 0)|sf * 100) }}%</td>
+                            <td class="text-end">{{ "%.1f"|format((r.c4 or 0)|sf * 100) }}%</td>
+                            <td class="text-end">{{ "%.1f"|format((r.c5 or 0)|sf * 100) }}%</td>
+                            <td class="text-end"><strong>{{ "{:,.0f}".format((r.c6 or 0)|sf) }}</strong></td>
                         </tr>
                         {% endif %}
                         {% endfor %}
@@ -167,7 +167,7 @@
 
 {% block extra_js %}
 <script>
-const mc = {{ mc | tojson }};
+const mc = {{ data.get('monte_carlo', []) | tojson }};
 const evs = mc.filter(r => typeof r.c1 === 'number' && r.c1 >= 1 && r.c6 != null).map(r => r.c6 / 1000);
 const nbins = 25;
 const mn = Math.min(...evs), mx = Math.max(...evs);

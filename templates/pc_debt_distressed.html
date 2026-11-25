@@ -10,8 +10,8 @@
 {% set fulcrum = namespace(v='') %}
 {% for r in pdd %}
     {% set c1 = r.get('c1','') %}
-    {% if 'Distributable value' in c1 %}{% set dist_val.v = r.c3 or 0 %}{% endif %}
-    {% if 'Recovery on our loan' in c1 %}{% set recovery.v = r.c3 or 0 %}{% endif %}
+    {% if 'Distributable value' in c1 %}{% set dist_val.v = (r.c3 or 0)|sf %}{% endif %}
+    {% if 'Recovery on our loan' in c1 %}{% set recovery.v = (r.c3 or 0)|sf %}{% endif %}
     {% if 'Fulcrum security' in c1 %}{% set fulcrum.v = r.c3 or '' %}{% endif %}
 {% endfor %}
 
@@ -57,7 +57,7 @@
                 <div>
                     <div class="stat-label">Resolution</div>
                     {% set res_time = namespace(v=0) %}
-                    {% for r in pdd %}{% if 'Years to resolution' in (r.get('c1','')|string) %}{% set res_time.v = r.c3 or 0 %}{% endif %}{% endfor %}
+                    {% for r in pdd %}{% if 'Years to resolution' in (r.get('c1','')|string) %}{% set res_time.v = (r.c3 or 0)|sf %}{% endif %}{% endfor %}
                     <div class="stat-value">{{ "%.1f"|format(res_time.v) }} yrs</div>
                 </div>
             </div>
@@ -101,12 +101,12 @@
                             <td class="text-end">
                                 {% if v is none %}—
                                 {% elif v == 'n/a' %}n/a
-                                {% elif unit == '%' or ('Recovery %' in c1 and v is number and v <= 1) %}{{ "%.1f"|format(v * 100) }}%
-                                {% elif unit == 'x' %}{{ "%.1f"|format(v) }}x
-                                {% elif "GHS" in unit %}{{ "{:,.0f}".format(v) }}
-                                {% elif 'years' in unit %}{{ "%.1f"|format(v) }}
-                                {% elif v is number and v <= 1 and v >= -1 and v != 0 %}{{ "%.1f"|format(v * 100) }}%
-                                {% elif v is number %}{{ "{:,.0f}".format(v) }}
+                                {% elif unit == '%' or ('Recovery %' in c1 and v is number and v <= 1) %}{{ "%.1f"|format((v or 0)|sf * 100) }}%
+                                {% elif unit == 'x' %}{{ "%.1f"|format((v or 0)|sf) }}x
+                                {% elif "GHS" in unit %}{{ "{:,.0f}".format((v or 0)|sf) }}
+                                {% elif 'years' in unit %}{{ "%.1f"|format((v or 0)|sf) }}
+                                {% elif v is number and v <= 1 and v >= -1 and v != 0 %}{{ "%.1f"|format((v or 0)|sf * 100) }}%
+                                {% elif v is number %}{{ "{:,.0f}".format((v or 0)|sf) }}
                                 {% else %}{{ v }}{% endif %}
                             </td>
                             {% endfor %}
@@ -139,7 +139,7 @@
 
 {% block extra_js %}
 <script>
-const pdd = {{ pdd | tojson }};
+const pdd = {{ data.get('pd_distressed', []) | tojson }};
 let wfLabels = [], claims = [], recoveries = [], recovPct = [];
 pdd.forEach((r, i) => {
     if (i >= 14 && i <= 20 && r.c1 && !r.c1.startsWith('B.') && r.c1 !== 'Total distributed') {

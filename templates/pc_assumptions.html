@@ -44,7 +44,7 @@
                             {% for col in ['c3','c4','c5','c6','c7','c8'] %}
                             {% set v = row.get(col) %}
                             <td class="text-end">
-                                {% if v is none or v == '' %}—{% elif unit == '%' %}{{ (v * 100)|round(2) }}%{% elif 'rate' in (unit|string) %}{{ v|round(2) }}{% elif 'days' in (unit|string) %}{{ v|round(1) }}{% elif "GHS" in (unit|string) %}{{ "{:,.0f}".format(v) }}{% elif 'selector' in (unit|string) %}{{ v }}{% else %}{{ v }}{% endif %}
+                                {% if v is none or v == '' %}—{% elif unit == '%' %}{{ ((v or 0)|sf * 100)|round(2) }}%{% elif 'rate' in (unit|string) %}{{ v|round(2) }}{% elif 'days' in (unit|string) %}{{ v|round(1) }}{% elif "GHS" in (unit|string) %}{{ "{:,.0f}".format((v or 0)|sf) }}{% elif 'selector' in (unit|string) %}{{ v }}{% else %}{{ v }}{% endif %}
                             </td>
                             {% endfor %}
                             <td class="text-muted" style="font-size:11px">{{ row.get('c10', '') or '' }}</td>
@@ -96,7 +96,7 @@
                             {% for col in ['c3','c4','c5','c6','c7','c8'] %}
                             {% set v = row.get(col) %}
                             <td class="text-end">
-                                {% if v is none or v == '' %}—{% elif 'margin' in c1|lower or unit == '%' %}{{ (v * 100)|round(1) }}%{% elif "GHS" in unit %}{{ "{:,.0f}".format(v) }}{% else %}{{ v|round(2) if v is number else v }}{% endif %}
+                                {% if v is none or v == '' %}—{% elif 'margin' in c1|lower or unit == '%' %}{{ ((v or 0)|sf * 100)|round(1) }}%{% elif "GHS" in unit %}{{ "{:,.0f}".format((v or 0)|sf) }}{% else %}{{ v|round(2) if v is number else v }}{% endif %}
                             </td>
                             {% endfor %}
                         </tr>
@@ -132,7 +132,7 @@
 
 {% block extra_js %}
 <script>
-const forecast = {{ forecast | tojson }};
+const forecast = {{ data.get('forecast', []) | tojson }};
 const labels = [];
 const revenue = [];
 const ebitda = [];

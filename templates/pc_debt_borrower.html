@@ -13,12 +13,12 @@
 {% set capacity = namespace(v=0) %}
 {% for r in pdb %}
     {% set c1 = r.get('c1','') %}
-    {% if 'Number of covenant breaches' in c1 %}{% set breaches.v = r.c3 or 0 %}{% endif %}
-    {% if 'Minimum EBITDA headroom' in c1 %}{% set headroom.v = r.c3 or 0 %}{% endif %}
-    {% if 'Peak total debt' in c1 %}{% set peak_lev.v = r.c3 or 0 %}{% endif %}
-    {% if 'Minimum DSCR' in c1 and loop.index0 >= 36 %}{% set min_dscr.v = r.c3 or 0 %}{% endif %}
+    {% if 'Number of covenant breaches' in c1 %}{% set breaches.v = (r.c3 or 0)|sf %}{% endif %}
+    {% if 'Minimum EBITDA headroom' in c1 %}{% set headroom.v = (r.c3 or 0)|sf %}{% endif %}
+    {% if 'Peak total debt' in c1 %}{% set peak_lev.v = (r.c3 or 0)|sf %}{% endif %}
+    {% if 'Minimum DSCR' in c1 and loop.index0 >= 36 %}{% set min_dscr.v = (r.c3 or 0)|sf %}{% endif %}
     {% if 'CREDIT VERDICT' in c1 %}{% set verdict.v = r.c3 or '' %}{% endif %}
-    {% if 'Debt capacity (binding' in c1 %}{% set capacity.v = r.c3 or 0 %}{% endif %}
+    {% if 'Debt capacity (binding' in c1 %}{% set capacity.v = (r.c3 or 0)|sf %}{% endif %}
 {% endfor %}
 
 <div class="row g-3 mb-4">
@@ -95,10 +95,10 @@
                                 {% if v is none %}—
                                 {% elif v == 'OK' %}<span class="badge bg-success">OK</span>
                                 {% elif v == 'BREACH' %}<span class="badge bg-danger">BREACH</span>
-                                {% elif unit == '%' %}{{ "%.1f"|format(v * 100) }}%
-                                {% elif "GHS" in unit %}{{ "{:,.0f}".format(v) }}
-                                {% elif v is number and v > -1 and v < 10 %}{{ "%.2f"|format(v) }}
-                                {% elif v is number %}{{ "{:,.0f}".format(v) }}
+                                {% elif unit == '%' %}{{ "%.1f"|format((v or 0)|sf * 100) }}%
+                                {% elif "GHS" in unit %}{{ "{:,.0f}".format((v or 0)|sf) }}
+                                {% elif v is number and v > -1 and v < 10 %}{{ "%.2f"|format((v or 0)|sf) }}
+                                {% elif v is number %}{{ "{:,.0f}".format((v or 0)|sf) }}
                                 {% else %}{{ v }}{% endif %}
                             </td>
                             {% endfor %}
@@ -131,7 +131,7 @@
 
 {% block extra_js %}
 <script>
-const pdb = {{ pdb | tojson }};
+const pdb = {{ data.get('pd_borrower', []) | tojson }};
 const lbl = ['FY2026E','FY2027E','FY2028E','FY2029E','FY2030E'];
 const cols = ['c4','c5','c6','c7','c8'];
 let leverage = [], intCover = [], dscr = [], headroom = [];

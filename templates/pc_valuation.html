@@ -13,10 +13,10 @@
     {% set vps = namespace(val='—') %}
     {% set wacc_val = namespace(val='—') %}
     {% for r in pe %}
-        {% if r.item and 'Concluded equity value' in r.item %}{% set concluded_equity.val = r.col_3 %}{% endif %}
-        {% if r.item and 'Implied enterprise value' in r.item and 'concluded' in r.item %}{% set concluded_ev.val = r.col_3 %}{% endif %}
-        {% if r.item and 'Value per share' in r.item %}{% set vps.val = r.col_3 %}{% endif %}
-        {% if r.item and r.item == 'WACC' %}{% set wacc_val.val = r.col_3 %}{% endif %}
+        {% if r.c1 and 'Concluded equity value' in r.c1 %}{% set concluded_equity.val = r.c3 %}{% endif %}
+        {% if r.c1 and 'Implied enterprise value' in r.c1 and 'concluded' in r.c1 %}{% set concluded_ev.val = r.c3 %}{% endif %}
+        {% if r.c1 and 'Value per share' in r.c1 %}{% set vps.val = r.c3 %}{% endif %}
+        {% if r.c1 and r.c1 == 'WACC' %}{% set wacc_val.val = r.c3 %}{% endif %}
     {% endfor %}
     <div class="col-sm-6 col-lg-3">
         <div class="stat-card">
@@ -77,32 +77,32 @@
                 <table class="table table-research">
                     <tbody>
                         {% for row in pe %}
-                        {% set item = row.get('item', '') %}
+                        {% set item = row.get('c1', '') %}
                         {% if item and not item.startswith('Private equity') and not item.startswith('CFA private') and not item.startswith('Created') and not item.startswith('helper') %}
                         {% set is_section = item.startswith('A.') or item.startswith('B.') or item.startswith('C.') or item.startswith('D.') or item.startswith('E.') or item.startswith('F.') or item.startswith('G.') %}
                         {% if is_section %}
                         <tr class="table-primary">
                             <td colspan="8"><strong>{{ item }}</strong></td>
                         </tr>
-                        {% if row.col_3 is not none and row.col_4 is not none %}
+                        {% if row.get('c3') is not none and row.get('c4') is not none %}
                         <tr class="table-light">
                             <td></td><td></td>
-                            <td class="text-end"><strong>{{ row.col_3 or '' }}</strong></td>
-                            <td class="text-end"><strong>{{ row.col_4 or '' }}</strong></td>
-                            <td class="text-end"><strong>{{ row.col_5 or '' }}</strong></td>
-                            <td class="text-end"><strong>{{ row.col_6 or '' }}</strong></td>
-                            <td class="text-end">{{ row.col_7 or '' }}</td>
-                            <td class="text-end">{{ row.col_8 or '' }}</td>
+                            <td class="text-end"><strong>{{ row.get('c3') or '' }}</strong></td>
+                            <td class="text-end"><strong>{{ row.get('c4') or '' }}</strong></td>
+                            <td class="text-end"><strong>{{ row.get('c5') or '' }}</strong></td>
+                            <td class="text-end"><strong>{{ row.get('c6') or '' }}</strong></td>
+                            <td class="text-end">{{ row.get('c7') or '' }}</td>
+                            <td class="text-end">{{ row.get('c8') or '' }}</td>
                         </tr>
                         {% endif %}
                         {% else %}
                         <tr{% if 'Concluded' in item or 'Enterprise value —' in item or item == 'WACC' %} class="table-warning"{% endif %}>
                             <td style="min-width:300px">{{ item }}</td>
-                            <td class="text-muted">{{ row.col_2 or '' }}</td>
-                            {% for col in ['col_3','col_4','col_5','col_6','col_7','col_8'] %}
+                            <td class="text-muted">{{ row.get('c2', '') or '' }}</td>
+                            {% for col in ['c3','c4','c5','c6','c7','c8'] %}
                             {% set v = row.get(col) %}
                             <td class="text-end">
-                                {% if v is none %}—{% elif row.col_2 == '%' %}{{ "%.1f"|format(v * 100) }}%{% elif row.col_2 == 'x' %}{{ "%.2f"|format(v) }}x{% elif "GHS" in (row.col_2 or '') %}{{ "{:,.0f}".format(v) }}{% elif v is number %}{{ "%.2f"|format(v) }}{% else %}{{ v }}{% endif %}
+                                {% if v is none %}—{% elif v is not number %}{{ v }}{% elif row.get('c2', '') == '%' %}{{ "%.1f"|format(v * 100) }}%{% elif row.get('c2', '') == 'x' %}{{ "%.2f"|format(v) }}x{% elif "GHS" in (row.get('c2', '') or '') %}{{ "{:,.0f}".format(v) }}{% elif v is number %}{{ "%.2f"|format(v) }}{% else %}{{ v }}{% endif %}
                             </td>
                             {% endfor %}
                         </tr>
@@ -190,16 +190,16 @@
 
 {% block extra_js %}
 <script>
-const pe = {{ pe | tojson }};
+const pe = {{ data.get('pe_valuation', []) | tojson }};
 let dcfEV = 0, tradingEV = 0, precedentEV = 0, concludedEV = 0;
 let wDCF = 0, wTrading = 0, wPrecedent = 0;
 pe.forEach(r => {
-    if (!r.item) return;
-    if (r.item.startsWith('Enterprise value — DCF')) dcfEV = r.col_3 || 0;
-    if (r.item.includes('trading comparables (average')) tradingEV = r.col_3 || 0;
-    if (r.item.includes('precedent transactions (average')) precedentEV = r.col_3 || 0;
-    if (r.item.includes('Implied enterprise value') && r.item.includes('concluded')) concludedEV = r.col_3 || 0;
-    if (r.item.startsWith('Weight') && r.col_3 != null) { wDCF = r.col_3; wTrading = r.col_4; wPrecedent = r.col_5; }
+    if (!r.c1) return;
+    if (r.c1.startsWith('Enterprise value — DCF')) dcfEV = r.c3 || 0;
+    if (r.c1.includes('trading comparables (average')) tradingEV = r.c3 || 0;
+    if (r.c1.includes('precedent transactions (average')) precedentEV = r.c3 || 0;
+    if (r.c1.includes('Implied enterprise value') && r.c1.includes('concluded')) concludedEV = r.c3 || 0;
+    if (r.c1.startsWith('Weight') && r.c3 != null) { wDCF = r.c3; wTrading = r.c4; wPrecedent = r.c5; }
 });
 new Chart(document.getElementById('footballChart'), {
     type: 'bar',

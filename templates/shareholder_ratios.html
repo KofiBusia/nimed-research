@@ -96,7 +96,7 @@
                         <td>{{ r.get('Latest FY', '') }}</td>
                         <td>{{ "%.2f"|format(r.get('Price (GHS)', 0)|float) if r.get('Price (GHS)') else '—' }}</td>
                         <td>{{ "%.1f"|format(r.get('Shares (m)', 0)|float) if r.get('Shares (m)') else '—' }}</td>
-                        <td>{{ "{:,.0f}"|format(r.get('Market cap (GHS m)', 0)|float) if r.get('Market cap (GHS m)') else '—' }}</td>
+                        <td>{{ "{:,.0f}".format(r.get('Market cap (GHS m)', 0)|float) if r.get('Market cap (GHS m)') else '—' }}</td>
                         <td>{{ "%.2f"|format(r.get('EPS', 0)|float) if r.get('EPS') else '—' }}</td>
                         <td>{{ "%.2f"|format(r.get('DPS (latest FY)', 0)|float) if r.get('DPS (latest FY)') else '—' }}</td>
                         <td>{{ "%.2f"|format(r.get('Book value per share', 0)|float) if r.get('Book value per share') else '—' }}</td>

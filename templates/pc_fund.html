@@ -12,11 +12,11 @@
 {% set carry = namespace(v=0) %}
 {% for r in fe %}
     {% set c1 = r.get('c1','') %}
-    {% if 'LP net IRR (after' in c1 %}{% set net_irr.v = r.c3 or 0 %}{% endif %}
-    {% if 'TVPI (year 10' in c1 %}{% set tvpi.v = r.c3 or 0 %}{% endif %}
-    {% if 'DPI (year 10' in c1 %}{% set dpi.v = r.c3 or 0 %}{% endif %}
-    {% if 'Kaplan-Schoar' in c1 %}{% set pme.v = r.c3 or 0 %}{% endif %}
-    {% if 'Total carried interest' in c1 %}{% set carry.v = r.c3 or 0 %}{% endif %}
+    {% if 'LP net IRR (after' in c1 %}{% set net_irr.v = (r.c3 or 0)|sf %}{% endif %}
+    {% if 'TVPI (year 10' in c1 %}{% set tvpi.v = (r.c3 or 0)|sf %}{% endif %}
+    {% if 'DPI (year 10' in c1 %}{% set dpi.v = (r.c3 or 0)|sf %}{% endif %}
+    {% if 'Kaplan-Schoar' in c1 %}{% set pme.v = (r.c3 or 0)|sf %}{% endif %}
+    {% if 'Total carried interest' in c1 %}{% set carry.v = (r.c3 or 0)|sf %}{% endif %}
 {% endfor %}
 
 <div class="row g-3 mb-4">
@@ -47,7 +47,7 @@
     <div class="col-6 col-lg-2">
         <div class="stat-card">
             <div class="stat-label">Total Carry</div>
-            <div class="stat-value">{{ "{:,.0f}".format(carry.v) }}</div>
+            <div class="stat-value">{{ "{:,.0f}".format(carry.v|sf) }}</div>
             <div class="text-muted" style="font-size:11px">GHS '000</div>
         </div>
     </div>
@@ -139,9 +139,9 @@
                         {% else %}
                         <tr{% if 'Total' == c1 or 'LP TVPI' in c1 %} class="table-warning"{% endif %}>
                             <td>{{ c1 }}</td>
-                            <td class="text-end">{% if r.get('c3') is not none %}{{ "{:,.0f}".format(r.c3) }}{% else %}—{% endif %}</td>
-                            <td class="text-end">{% if r.get('c4') is not none %}{{ "{:,.0f}".format(r.c4) }}{% else %}—{% endif %}</td>
-                            <td class="text-end">{% if r.get('c5') is not none %}{{ "{:,.0f}".format(r.c5) }}{% else %}—{% endif %}</td>
+                            <td class="text-end">{% if r.get('c3') is not none %}{{ "{:,.0f}".format((r.c3 or 0)|sf) }}{% else %}—{% endif %}</td>
+                            <td class="text-end">{% if r.get('c4') is not none %}{{ "{:,.0f}".format((r.c4 or 0)|sf) }}{% else %}—{% endif %}</td>
+                            <td class="text-end">{% if r.get('c5') is not none %}{{ "{:,.0f}".format((r.c5 or 0)|sf) }}{% else %}—{% endif %}</td>
                         </tr>
                         {% endif %}
                         {% endif %}
@@ -196,7 +196,7 @@
 
 {% block extra_js %}
 <script>
-const fe = {{ fe | tojson }};
+const fe = {{ data.get('fund_economics', []) | tojson }};
 const lbl = ['Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9','Y10'];
 const cols = ['c3','c4','c5','c6','c7','c8','c9','c10','c11','c12'];
 let jcurve = [], dpiArr = [], rvpiArr = [];

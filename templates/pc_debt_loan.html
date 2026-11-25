@@ -13,12 +13,12 @@
 {% set dur = namespace(v=0) %}
 {% for r in pdl %}
     {% set c1 = r.get('c1','') %}
-    {% if 'Yield to maturity' in c1 %}{% set ytm.v = r.c3 or 0 %}{% endif %}
-    {% if c1 == 'Fair value — contractual CFs at required yield' %}{% set fv.v = r.c3 or 0 %}{% endif %}
-    {% if 'Expected (loss-adjusted) return' in c1 %}{% set exp_return.v = r.c3 or 0 %}{% endif %}
+    {% if 'Yield to maturity' in c1 %}{% set ytm.v = (r.c3 or 0)|sf %}{% endif %}
+    {% if c1 == 'Fair value — contractual CFs at required yield' %}{% set fv.v = (r.c3 or 0)|sf %}{% endif %}
+    {% if 'Expected (loss-adjusted) return' in c1 %}{% set exp_return.v = (r.c3 or 0)|sf %}{% endif %}
     {% if c1 == 'PRICING VERDICT (fair value vs net issue price)' %}{% set pricing_v.v = r.c3 or '' %}{% endif %}
     {% if c1 == 'RETURN VERDICT (loss-adjusted return vs hurdle)' %}{% set return_v.v = r.c3 or '' %}{% endif %}
-    {% if 'Macaulay duration' in c1 %}{% set dur.v = r.c3 or 0 %}{% endif %}
+    {% if 'Macaulay duration' in c1 %}{% set dur.v = (r.c3 or 0)|sf %}{% endif %}
 {% endfor %}
 
 <div class="row g-3 mb-4">
@@ -101,7 +101,7 @@
                             {% for col in ['c3','c4','c5','c6','c7','c8','c9','c10'] %}
                             {% set v = row.get(col) %}
                             <td class="text-end">
-                                {% if v is none %}—{% elif unit == '%' or 'rate' in c1|lower and v is number and v < 1 %}{{ "%.2f"|format(v * 100) }}%{% elif unit == 'x' %}{{ "%.4f"|format(v) }}x{% elif "GHS" in unit %}{{ "{:,.0f}".format(v) }}{% elif 'years' in unit %}{{ "%.1f"|format(v) }}{% elif v is number and v < 2 and v > -2 and v != 0 %}{{ "%.4f"|format(v) }}{% elif v is number %}{{ "%.2f"|format(v) }}{% else %}{{ v }}{% endif %}
+                                {% if v is none %}—{% elif unit == '%' or 'rate' in c1|lower and v is number and v < 1 %}{{ "%.2f"|format((v or 0)|sf * 100) }}%{% elif unit == 'x' %}{{ "%.4f"|format((v or 0)|sf) }}x{% elif "GHS" in unit %}{{ "{:,.0f}".format((v or 0)|sf) }}{% elif 'years' in unit %}{{ "%.1f"|format(v) }}{% elif v is number and v < 2 and v > -2 and v != 0 %}{{ "%.4f"|format((v or 0)|sf) }}{% elif v is number %}{{ "%.2f"|format(v) }}{% else %}{{ v }}{% endif %}
                             </td>
                             {% endfor %}
                         </tr>
@@ -133,7 +133,7 @@
 
 {% block extra_js %}
 <script>
-const pdl = {{ pdl | tojson }};
+const pdl = {{ data.get('pd_loan', []) | tojson }};
 const lbl = ['Close','Y1','Y2','Y3','Y4','Y5'];
 const cols = ['c3','c4','c5','c6','c7','c8'];
 let lenderCF = [], principal = [];

@@ -10,8 +10,8 @@
 {% set assessment = namespace(v='') %}
 {% for r in qual %}
     {% set c1 = r.get('c1','') %}
-    {% if 'Weighted score' in c1 %}{% set wscore.v = r.c4 or 0 %}{% endif %}
-    {% if 'Implied company-specific premium' in c1 %}{% set impl_prem.v = r.c4 or 0 %}{% endif %}
+    {% if 'Weighted score' in c1 %}{% set wscore.v = (r.c4 or 0)|sf %}{% endif %}
+    {% if 'Implied company-specific premium' in c1 %}{% set impl_prem.v = (r.c4 or 0)|sf %}{% endif %}
     {% if c1 == 'Assessment' %}{% set assessment.v = r.c4 or '' %}{% endif %}
 {% endfor %}
 
@@ -77,7 +77,7 @@
                         {% if 'Total weight' in c1 or 'Weighted score' in c1 or 'Maximum' in c1 or 'Implied' in c1 or c1 == 'Assessment' %}
                         <tr class="table-warning">
                             <td><strong>{{ c1 }}</strong></td>
-                            <td class="text-end">{% if row.c2 is not none %}{{ "%.0f"|format(row.c2 * 100) }}%{% endif %}</td>
+                            <td class="text-end">{% if row.c2 is not none %}{{ "%.0f"|format((row.c2 or 0)|sf * 100) }}%{% endif %}</td>
                             <td></td>
                             <td class="text-end"><strong>{% if row.c4 is not none %}{% if row.c4 is number and row.c4 < 1 %}{{ "%.2f"|format(row.c4 * 100) }}%{% else %}{{ row.c4 }}{% endif %}{% endif %}</strong></td>
                             <td></td>
@@ -85,7 +85,7 @@
                         {% else %}
                         <tr>
                             <td>{{ c1 }}</td>
-                            <td class="text-end">{{ "%.0f"|format((row.c2 or 0) * 100) }}%</td>
+                            <td class="text-end">{{ "%.0f"|format((row.c2 or 0)|sf * 100) }}%</td>
                             <td class="text-center">
                                 {% set s = row.get('c3', 0) or 0 %}
                                 <div class="d-flex align-items-center justify-content-center gap-1">
@@ -95,7 +95,7 @@
                                     <span class="ms-2 fw-bold">{{ s|int }}</span>
                                 </div>
                             </td>
-                            <td class="text-end">{{ "%.2f"|format(row.c4 or 0) }}</td>
+                            <td class="text-end">{{ "%.2f"|format((row.c4 or 0)|sf) }}</td>
                             <td class="text-muted" style="font-size:11px">{{ row.c5 or '' }}</td>
                         </tr>
                         {% endif %}
@@ -117,7 +117,7 @@
 
 {% block extra_js %}
 <script>
-const qual = {{ qual | tojson }};
+const qual = {{ data.get('qualitative', []) | tojson }};
 const labels = [], scores = [];
 qual.forEach((r, i) => {
     if (i >= 4 && i <= 12 && r.c1 && r.c3 != null) {

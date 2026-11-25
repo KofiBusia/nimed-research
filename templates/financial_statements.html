@@ -85,7 +85,7 @@
     <div class="col-sm-6 col-lg-3">
         <div class="stat-card">
             <div class="stat-label">Line Items</div>
-            <div class="stat-value">{{ selected.items|length }}</div>
+            <div class="stat-value">{{ selected['items']|length }}</div>
         </div>
     </div>
 </div>
@@ -107,7 +107,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in selected.items %}
+                    {% for item in selected['items'] %}
                     {% set label = item.get('item', '') %}
                     {% set stmt = item.get('stmt', '') %}
                     {% set is_section = label == label|upper and label|length > 3 %}

@@ -11,10 +11,10 @@
 {% set vps_r1 = namespace(v=0) %}
 {% for r in vc %}
     {% set c1 = r.get('c1','') %}
-    {% if c1 and 'Exit value (V)' in c1|string %}{% set exit_val.v = r.c3 or 0 %}{% endif %}
-    {% if c1 and 'Round 1 implied IRR' in c1|string %}{% set r1_irr.v = r.c3 or 0 %}{% endif %}
-    {% if c1 and 'Round 2 implied IRR' in c1|string %}{% set r2_irr.v = r.c3 or 0 %}{% endif %}
-    {% if c1 and 'Round 1 price per share' in c1|string %}{% set vps_r1.v = r.c3 or 0 %}{% endif %}
+    {% if c1 and 'Exit value (V)' in c1|string %}{% set exit_val.v = (r.c3 or 0)|sf %}{% endif %}
+    {% if c1 and 'Round 1 implied IRR' in c1|string %}{% set r1_irr.v = (r.c3 or 0)|sf %}{% endif %}
+    {% if c1 and 'Round 2 implied IRR' in c1|string %}{% set r2_irr.v = (r.c3 or 0)|sf %}{% endif %}
+    {% if c1 and 'Round 1 price per share' in c1|string %}{% set vps_r1.v = (r.c3 or 0)|sf %}{% endif %}
 {% endfor %}
 
 <div class="row g-3 mb-4">
@@ -91,7 +91,7 @@
                             <td class="text-muted">{{ unit }}</td>
                             <td class="text-end">
                                 {% set v = row.get('c3') %}
-                                {% if v is none %}—{% elif unit == '%' or 'ownership' in c1|lower %}{{ "%.2f"|format(v * 100) }}%{% elif "GHS" in unit %}{{ "{:,.0f}".format(v) }}{% elif unit == 'shares' %}{{ "{:,.0f}".format(v) }}{% elif 'per share' in unit %}{{ "%.2f"|format(v) }}{% elif v is number %}{{ "%.2f"|format(v) }}{% else %}{{ v }}{% endif %}
+                                {% if v is none %}—{% elif unit == '%' or 'ownership' in c1|lower %}{{ "%.2f"|format((v or 0)|sf * 100) }}%{% elif "GHS" in unit %}{{ "{:,.0f}".format((v or 0)|sf) }}{% elif unit == 'shares' %}{{ "{:,.0f}".format((v or 0)|sf) }}{% elif 'per share' in unit %}{{ "%.2f"|format(v) }}{% elif v is number %}{{ "%.2f"|format(v) }}{% else %}{{ v }}{% endif %}
                             </td>
                             <td class="text-muted" style="font-size:11px">{{ row.get('c4', '') or '' }}</td>
                         </tr>
@@ -123,7 +123,7 @@
 
 {% block extra_js %}
 <script>
-const vc = {{ vc | tojson }};
+const vc = {{ data.get('vc_method', []) | tojson }};
 let r1Own = 0, r2Own = 0, fOwn = 0, r1Val = 0, r2Val = 0, r1Inv = 0, r2Inv = 0;
 vc.forEach(r => {
     if (!r.c1) return;

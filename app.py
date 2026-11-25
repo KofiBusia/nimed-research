@@ -18,6 +18,18 @@ app.config.from_object(Config)
 
 db.init_app(app)
 csrf = CSRFProtect(app)
+
+
+@app.template_filter('sf')
+def safe_float_filter(value, default=0):
+    if value is None:
+        return default
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
