@@ -12,7 +12,7 @@ from data_loader import (
     get_checks_data, get_inputs_data, get_index_data,
     get_yin_full, get_financial_statements_data,
     get_shareholder_ratios_data, load_workbook_data,
-    invalidate_live_cache
+    invalidate_live_cache, get_pc_companies
 )
 
 app = Flask(__name__)
@@ -196,6 +196,7 @@ def settings():
     yin = get_yin_full()
     data['yin_market'] = yin.get('market_inputs', {})
     data['yin_target'] = yin.get('target', {})
+    data['pc_companies'] = get_pc_companies()
     return render_template('settings.html', data=data)
 
 
@@ -353,6 +354,7 @@ def api_credit_risk():
 @login_required
 def yin_dashboard():
     data = get_yin_full()
+    data['pc_companies'] = get_pc_companies()
     return render_template('yin_dashboard.html', data=data)
 
 
@@ -375,6 +377,21 @@ def financial_statements(ticker=None):
 def shareholder_ratios():
     data = get_shareholder_ratios_data()
     return render_template('shareholder_ratios.html', ratios=data)
+
+
+@app.route('/private-capital/company/<ticker>')
+@login_required
+def pc_company_view(ticker):
+    cf = CompanyFinancials.query.filter_by(ticker=ticker).first()
+    if not cf or not cf.is_private:
+        flash('Company not found or not in Private Capital.', 'warning')
+        return redirect(url_for('yin_dashboard'))
+    fs = cf.get_data()
+    fs['company_name'] = cf.company_name
+    fs['currency'] = cf.currency or 'GHS'
+    fs['industry'] = cf.industry or ''
+    pc_cos = get_pc_companies()
+    return render_template('pc_company.html', selected=fs, selected_ticker=ticker, pc_companies=pc_cos)
 
 
 @app.route('/private-capital/valuation')
@@ -870,6 +887,38 @@ def create_company():
     return redirect(url_for('financial_statements', ticker=ticker))
 
 
+@app.route('/api/company/<ticker>/toggle-private', methods=['POST'])
+@login_required
+@role_required('super_admin', 'head_of_research')
+def toggle_private(ticker):
+    cf = CompanyFinancials.query.filter_by(ticker=ticker).first()
+    if not cf:
+        return jsonify({'error': 'Company not found'}), 404
+    cf.is_private = not (cf.is_private or False)
+    cf.updated_by = current_user.id
+    db.session.commit()
+    invalidate_live_cache()
+    log_action(current_user.id, 'toggle_private', f'{ticker}: is_private={cf.is_private}')
+    return jsonify({'status': 'ok', 'ticker': ticker, 'is_private': cf.is_private})
+
+
+@app.route('/api/pc-companies')
+@login_required
+def api_pc_companies():
+    pcs = CompanyFinancials.query.filter_by(is_private=True).all()
+    result = {}
+    for cf in pcs:
+        d = cf.get_data()
+        result[cf.ticker] = {
+            'company_name': cf.company_name,
+            'currency': cf.currency or 'GHS',
+            'industry': cf.industry or '',
+            'periods': d.get('periods', []),
+            'item_count': len(d.get('items', [])),
+        }
+    return jsonify(result)
+
+
 @app.route('/fixed-income/upload', methods=['POST'])
 @login_required
 @role_required('super_admin', 'head_of_research', 'senior_analyst')
@@ -1322,6 +1371,12 @@ def init_db():
         try:
             db.session.execute(db.text(
                 "ALTER TABLE company_financials ADD COLUMN IF NOT EXISTS currency VARCHAR(10) DEFAULT 'GHS'"
+            ))
+            db.session.execute(db.text(
+                "ALTER TABLE company_financials ADD COLUMN IF NOT EXISTS is_private BOOLEAN DEFAULT FALSE"
+            ))
+            db.session.execute(db.text(
+                "ALTER TABLE company_financials ADD COLUMN IF NOT EXISTS industry VARCHAR(100)"
             ))
             db.session.commit()
         except Exception:

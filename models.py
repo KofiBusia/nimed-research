@@ -119,6 +119,8 @@ class CompanyFinancials(db.Model):
     ticker = db.Column(db.String(20), unique=True, nullable=False)
     company_name = db.Column(db.String(200))
     currency = db.Column(db.String(10), default='GHS')
+    is_private = db.Column(db.Boolean, default=False)
+    industry = db.Column(db.String(100))
     data_json = db.Column(db.Text)
     source = db.Column(db.String(200), default='manual')
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block title %}{{ selected.company_name }} — Private Capital{% endblock %}
+{% block page_title %}Private Capital — {{ selected.company_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .fs-section-header td { background: #f0f4f8 !important; font-weight: 700; color: var(--nimed-navy);
+        font-size: 12px; text-transform: uppercase; letter-spacing: .5px; border-top: 2px solid #d0d5dd !important; }
+    .fs-subtotal td { font-weight: 600; border-top: 1px solid #c0c5cc !important; }
+    .fs-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .fs-table td.num.negative { color: var(--nimed-red); }
+    .pc-nav { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .pc-nav a {
+        padding: 5px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;
+        text-decoration: none; border: 1px solid #e0e0e0; color: var(--nimed-navy);
+        background: #fff; transition: all .15s;
+    }
+    .pc-nav a:hover { background: #f0f7ff; border-color: var(--nimed-blue); color: var(--nimed-blue); }
+    .pc-nav a.active { background: var(--nimed-blue); color: #fff; border-color: var(--nimed-blue); }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Company Selector -->
+<div class="pc-nav">
+    {% for t, co in pc_companies.items() %}
+    <a href="{{ url_for('pc_company_view', ticker=t) }}" class="{% if t == selected_ticker %}active{% endif %}">{{ t }} — {{ co.company_name }}</a>
+    {% endfor %}
+</div>
+
+<!-- Company Info Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-label">Company</div>
+            <div class="stat-value" style="font-size:16px">{{ selected.company_name }}</div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-label">Ticker</div>
+            <div class="stat-value">{{ selected_ticker }}</div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="stat-label">Currency</div>
+                    <div class="stat-value">{{ selected.currency }}</div>
+                </div>
+                <span class="badge bg-warning text-dark" style="font-size:11px;">Private Capital</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-label">Periods / Items</div>
+            <div class="stat-value">{{ selected.periods|length }} / {{ selected['items']|length }}</div>
+        </div>
+    </div>
+</div>
+
+{% if current_user.can_edit_inputs() %}
+<div class="row g-3 mb-3">
+    <div class="col-12">
+        <div class="d-flex align-items-center gap-2 p-2 rounded" style="background:#fdf6ec;border:1px solid #f0d9a8;">
+            <i class="bi bi-arrow-left-right text-warning"></i>
+            <span class="text-muted" style="font-size:12px;">Move this company back to the public Financial Statements section</span>
+            <button class="btn btn-sm btn-outline-secondary ms-auto" onclick="moveToPublic('{{ selected_ticker }}')">
+                <i class="bi bi-arrow-left-circle me-1"></i>Move to Public FS
+            </button>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Financial Data Table -->
+{% set stmt_order = {'META': 0, 'IS': 1, 'BS': 2, 'CF': 3} %}
+{% set stmt_labels = {'META': 'Company Information', 'IS': 'Income Statement', 'BS': 'Balance Sheet', 'CF': 'Cash Flow Statement'} %}
+
+<div class="card-panel mb-4">
+    <div class="panel-header">
+        <h3><i class="bi bi-table me-2"></i>{{ selected.company_name }} ({{ selected_ticker }}) — Financial Data</h3>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive" style="max-height:600px;overflow-y:auto">
+            <table class="table table-research fs-table" id="fsTable">
+                <thead style="position:sticky;top:0;z-index:1">
+                    <tr>
+                        <th style="min-width:260px">Line Item</th>
+                        <th class="text-muted">Stmt</th>
+                        {% for p in selected.periods %}
+                        <th class="text-end" style="min-width:100px">{{ p }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set current_stmt = namespace(val='') %}
+                    {% for item in selected['items']|sort(attribute='stmt') %}
+                    {% set s = item.stmt|default('') %}
+                    {% if s != current_stmt.val %}
+                    {% set current_stmt.val = s %}
+                    <tr class="fs-section-header">
+                        <td colspan="{{ selected.periods|length + 2 }}">{{ stmt_labels.get(s, s) }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td style="font-size:12px;">{{ item.item }}</td>
+                        <td><span class="badge bg-{{ 'info' if s == 'META' else 'success' if s == 'IS' else 'primary' if s == 'BS' else 'secondary' }}" style="font-size:9px;">{{ s }}</span></td>
+                        {% for p in selected.periods %}
+                        {% set v = item.get(p, '') %}
+                        <td class="num text-end {% if v is number and v < 0 %}negative{% endif %}">
+                            {% if v is number %}
+                            {{ "{:,.0f}".format(v|float) }}
+                            {% elif v %}{{ v }}{% else %}—{% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-12">
+        <div class="d-flex gap-2">
+            <a href="{{ url_for('yin_dashboard') }}" class="btn btn-outline-primary"><i class="bi bi-arrow-left me-1"></i>Back to PC Dashboard</a>
+            <a href="{{ url_for('settings') }}" class="btn btn-outline-secondary"><i class="bi bi-gear me-1"></i>Settings & Inputs</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function moveToPublic(ticker) {
+    if (!confirm('Move ' + ticker + ' back to public Financial Statements?')) return;
+    fetch('/api/company/' + ticker + '/toggle-private', {
+        method: 'POST',
+        headers: {'X-CSRFToken': '{{ csrf_token() }}'}
+    }).then(r => r.json()).then(data => {
+        if (data.status === 'ok') {
+            alert(ticker + ' moved back to Financial Statements.');
+            window.location.href = '/yin';
+        } else {
+            alert('Error: ' + (data.error || 'Unknown'));
+        }
+    });
+}
+</script>
+{% endblock %}

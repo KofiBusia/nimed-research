@@ -331,16 +331,23 @@ def recalculate_all(inputs, base_data, db_prices, db_financials):
         }
 
     fs_map = {}
+    pc_map = {}
     for cf in db_financials:
         d = cf.get_data()
         d['company_name'] = cf.company_name or cf.ticker
         d['currency'] = getattr(cf, 'currency', None) or 'GHS'
-        fs_map[cf.ticker] = d
+        d['is_private'] = getattr(cf, 'is_private', False) or False
+        d['industry'] = getattr(cf, 'industry', None) or ''
+        if d['is_private']:
+            pc_map[cf.ticker] = d
+        else:
+            fs_map[cf.ticker] = d
 
     fs_data = data.get('financial_statements', {})
     for ticker, cf_data in fs_map.items():
         fs_data[ticker] = cf_data
     data['financial_statements'] = fs_data
+    data['pc_companies'] = pc_map
 
     beta_map = {}
     for b in betas:

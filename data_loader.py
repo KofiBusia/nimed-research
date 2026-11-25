@@ -127,6 +127,10 @@ def get_inputs_data():
         'credit_scoring': data.get('credit_scoring', []),
     }
 
+def get_pc_companies():
+    data = get_live_data()
+    return data.get('pc_companies', {})
+
 def get_index_data():
     data = get_live_data()
     return {

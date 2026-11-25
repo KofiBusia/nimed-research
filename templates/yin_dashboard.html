@@ -4,6 +4,37 @@
 
 {% block content %}
 {% set db = data.dashboard %}
+{% set pc_cos = data.get('pc_companies', {}) %}
+
+{% if pc_cos %}
+<!-- Private Capital Companies -->
+<div class="card-panel mb-4">
+    <div class="panel-header d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-briefcase me-2"></i>Private Capital Companies</h3>
+        <span class="badge bg-dark">{{ pc_cos|length }} {{ 'company' if pc_cos|length == 1 else 'companies' }}</span>
+    </div>
+    <div class="panel-body p-3">
+        <div class="row g-3">
+            {% for ticker, co in pc_cos.items() %}
+            <div class="col-md-6 col-lg-4">
+                <div class="border rounded p-3" style="background:#fafbff;">
+                    <div class="d-flex align-items-start justify-content-between mb-2">
+                        <div>
+                            <span class="badge bg-primary me-1">{{ ticker }}</span>
+                            <span class="badge bg-secondary">{{ co.currency }}</span>
+                        </div>
+                        <span class="text-muted" style="font-size:11px;">{{ co.industry }}</span>
+                    </div>
+                    <h6 class="fw-bold mb-1" style="font-size:13px;">{{ co.company_name }}</h6>
+                    <div class="text-muted" style="font-size:11px;">{{ co.periods|length }} periods &middot; {{ co.items|length }} line items</div>
+                    <a href="{{ url_for('pc_company_view', ticker=ticker) }}" class="btn btn-sm btn-outline-primary mt-2 w-100"><i class="bi bi-eye me-1"></i>View Financials</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <!-- Overview Cards -->
 <div class="row g-3 mb-4">

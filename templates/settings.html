@@ -23,14 +23,15 @@
                 </div>
                 <div class="panel-body" style="padding:20px;">
                     <table class="table table-sm" style="font-size:13px;">
-                        <thead><tr><th style="width:50%">Parameter</th><th>Current</th><th>New Value</th></tr></thead>
+                        <thead><tr><th style="width:50%">Parameter</th><th>Current Value</th><th>Change To</th></tr></thead>
                         <tbody>
                         {% for key, val in data.inputs.items() %}
                         <tr>
                             <td class="text-muted">{{ key|replace('_',' ')|title }}</td>
-                            <td class="fw-semibold">
+                            <td class="fw-semibold" style="color:var(--nimed-blue);">
                                 {% if val is number and val|float|abs < 1 and val|float != 0 %}
-                                {{ "%.1f"|format(val|float * 100) }}%
+                                {{ "%.2f"|format(val|float * 100) }}%
+                                {% elif val is number %}{{ "%.4f"|format(val|float) }}
                                 {% else %}{{ val }}{% endif %}
                             </td>
                             <td>
@@ -53,7 +54,7 @@
                                     {% endfor %}
                                 </select>
                                 {% elif val is number %}
-                                <input type="number" step="any" name="{{ key }}" class="form-control form-control-sm" placeholder="{{ val }}" style="max-width:120px">
+                                <input type="number" step="any" name="{{ key }}" class="form-control form-control-sm" value="{{ val }}" style="max-width:140px">
                                 {% else %}
                                 <input type="text" name="{{ key }}" class="form-control form-control-sm" value="{{ val }}" style="max-width:160px">
                                 {% endif %}
@@ -62,7 +63,7 @@
                         {% endfor %}
                         </tbody>
                     </table>
-                    <div class="text-muted mt-2" style="font-size:11px"><i class="bi bi-info-circle me-1"></i>Leave blank to keep current value. Changes trigger full recalculation of betas, valuations, and dashboard.</div>
+                    <div class="text-muted mt-2" style="font-size:11px"><i class="bi bi-info-circle me-1"></i>Current values are shown in blue. Edit and click Save & Recalculate to update. Changes trigger full recalculation of betas, valuations, and dashboard.</div>
                 </div>
             </div>
         </div>
@@ -101,16 +102,47 @@
 
 <!-- Private Capital Tab -->
 <div class="tab-pane fade" id="yin-tab">
+
+{% if data.pc_companies %}
+<div class="card-panel mb-4">
+    <div class="panel-header"><h3><i class="bi bi-briefcase me-2"></i>Private Capital Companies</h3></div>
+    <div class="panel-body" style="padding:20px;">
+        <table class="table table-sm" style="font-size:13px;">
+            <thead><tr><th>Ticker</th><th>Company</th><th>Currency</th><th>Industry</th><th>Periods</th><th>Items</th><th></th></tr></thead>
+            <tbody>
+                {% for ticker, co in data.pc_companies.items() %}
+                <tr>
+                    <td class="fw-bold">{{ ticker }}</td>
+                    <td>{{ co.company_name }}</td>
+                    <td><span class="badge bg-dark">{{ co.currency }}</span></td>
+                    <td>{{ co.industry }}</td>
+                    <td>{{ co.periods|length }}</td>
+                    <td>{{ co.items|length }}</td>
+                    <td><a href="{{ url_for('pc_company_view', ticker=ticker) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-info mb-4" style="font-size:13px;">
+    <i class="bi bi-info-circle me-2"></i>No private capital companies yet. Upload company financials in the Financial Statements section and move them to Private Capital.
+</div>
+{% endif %}
+
 <div class="row g-3 mb-4">
     <div class="col-lg-6">
         <div class="card-panel mb-3">
             <div class="panel-header"><h3><i class="bi bi-gear me-2"></i>Cost of Capital & Valuation Inputs</h3></div>
             <div class="panel-body" style="padding:20px;">
                 <table class="table table-sm" style="font-size:13px;">
+                    <thead><tr><th style="width:60%">Parameter</th><th>Current Value</th></tr></thead>
+                    <tbody>
                     {% for key, val in data.yin_market.items() %}
                     {% if val.value is not none and val.value != 'Value' %}
                     <tr>
-                        <td class="text-muted" style="width:60%;">{{ key }}</td>
+                        <td class="text-muted">{{ key }}</td>
                         <td class="fw-semibold">
                             {% if val.unit == '%' and val.value is number %}{{ "%.1f"|format(val.value|float * 100) }}%
                             {% elif val.unit == 'x' and val.value is number %}{{ "%.2f"|format(val.value|float) }}x
@@ -120,6 +152,7 @@
                     </tr>
                     {% endif %}
                     {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </div>
