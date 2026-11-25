@@ -604,7 +604,7 @@ def recommendation(ticker):
             if v is not None:
                 values[p] = v
         if values:
-            summary_rows.append({'item': label, 'values': values, 'indent': indent, 'bold': bold})
+            summary_rows.append({'item': label, 'vals': values, 'indent': indent, 'bold': bold})
 
     ratios = []
     if net_margin is not None:

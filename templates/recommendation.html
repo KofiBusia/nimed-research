@@ -171,7 +171,7 @@
             <tr{% if row.bold %} style="font-weight:700;border-top:1.5px solid #bbb;"{% endif %}>
                 <td{% if row.indent %} style="padding-left:24px;color:#555;"{% endif %}>{{ row.item }}</td>
                 {% for p in summary_periods %}
-                {% set v = row.values.get(p) %}
+                {% set v = row.vals.get(p) %}
                 <td class="num {% if v is number and v < 0 %}negative{% endif %}">
                     {% if v is number %}{{ "{:,.0f}".format(v|float) }}{% elif v %}{{ v }}{% else %}&mdash;{% endif %}
                 </td>
