@@ -1313,6 +1313,13 @@ def api_add_currency():
 def init_db():
     with app.app_context():
         db.create_all()
+        try:
+            db.session.execute(db.text(
+                "ALTER TABLE company_financials ADD COLUMN IF NOT EXISTS currency VARCHAR(10) DEFAULT 'GHS'"
+            ))
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
         if not User.query.filter_by(username='admin').first():
             admin = User(
                 username='admin',
