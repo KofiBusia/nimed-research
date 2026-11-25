@@ -683,111 +683,174 @@ def save_financial_statements():
 @login_required
 @role_required('super_admin', 'head_of_research', 'senior_analyst')
 def upload_yield_curve():
+    import re as _re
     f = request.files.get('yc_file')
     if not f or not f.filename.endswith(('.xlsx', '.xls')):
         flash('Please upload an Excel file (.xlsx).', 'danger')
         return redirect(url_for('fixed_income'))
     import openpyxl
-    from datetime import datetime as dt
     wb = openpyxl.load_workbook(f, data_only=True)
     YieldCurvePoint.query.delete()
-    count = 0
+
+    tbill_groups = {}
+    ddep_gc = {}
+
     for ws in wb.worksheets:
+        sheet_name = ws.title.upper()
         header_row = None
         col_map = {}
         for r in range(1, min(ws.max_row + 1, 200)):
             row_vals = [ws.cell(r, c).value for c in range(1, min(ws.max_column + 1, 20))]
             row_str = [str(v).strip().upper() if v else '' for v in row_vals]
+
             if any('YIELD' in s for s in row_str) and any('SECURITY' in s or 'TENOR' in s for s in row_str):
                 header_row = r
+                col_map = {}
                 for ci, hdr in enumerate(row_str):
                     if 'SECURITY DESC' in hdr:
                         col_map['desc'] = ci
                     elif 'TENOR' in hdr and 'desc' not in col_map:
                         col_map['tenor'] = ci
-                    elif 'YIELD' in hdr and 'OPEN' not in hdr:
+                    if 'CLOSING' in hdr and 'YIELD' in hdr:
                         col_map['yield'] = ci
-                    elif 'CLOSING' in hdr and 'YIELD' in hdr:
-                        col_map['yield'] = ci
-                    elif 'CLOSING' in hdr and 'PRICE' in hdr:
+                    elif hdr.strip() == 'YIELD' or ('YIELD' in hdr and 'OPEN' not in hdr and 'yield' not in col_map):
+                        col_map.setdefault('yield', ci)
+                    if ('END OF DAY' in hdr and 'PRICE' in hdr) or ('CLOSING' in hdr and 'PRICE' in hdr):
                         col_map['price'] = ci
                     elif 'WEIGHTED' in hdr and 'PRICE' in hdr:
-                        col_map['price'] = ci
-                    elif 'DAYS' in hdr and 'MATURITY' in hdr:
+                        col_map.setdefault('price', ci)
+                    if 'DAYS' in hdr and 'MATURITY' in hdr:
                         col_map['days'] = ci
-                    elif 'MATURITY' in hdr and 'DATE' in hdr:
+                    if 'MATURITY' in hdr and 'DATE' in hdr:
                         col_map['matdate'] = ci
-                    elif 'ISIN' in hdr:
-                        col_map['isin'] = ci
                 continue
             if header_row is None:
                 continue
-            desc_ci = col_map.get('desc', col_map.get('tenor'))
-            if desc_ci is None:
-                continue
-            desc_val = row_vals[desc_ci]
-            if not desc_val:
-                continue
-            tenor_label = str(desc_val).strip()
-            if not tenor_label or tenor_label.upper() in ('', 'NO.', 'TOTAL', 'GRAND TOTAL'):
-                continue
-            if any(kw in tenor_label.upper() for kw in ['NEW BONDS', 'DDEP ', 'OLD ', 'CORPORATE', 'SELL', 'COMMERCIAL', 'GREEN']):
-                continue
-            yield_val = None
-            if 'yield' in col_map:
-                yv = row_vals[col_map['yield']]
-                if yv is not None:
+
+            if 'TREASURY' in sheet_name:
+                tenor_col2 = row_vals[2] if len(row_vals) > 2 else None
+                if tenor_col2 and isinstance(tenor_col2, str):
+                    up = tenor_col2.strip().upper()
+                    if '91-DAY' in up:
+                        tbill_groups.setdefault('_current', [None])
+                        tbill_groups['_current'][0] = '91'
+                    elif '182-DAY' in up:
+                        tbill_groups['_current'][0] = '182'
+                    elif '364-DAY' in up:
+                        tbill_groups['_current'][0] = '364'
+                cur_grp = tbill_groups.get('_current', [None])[0]
+                if not cur_grp:
+                    continue
+                yield_ci = col_map.get('yield', 9)
+                price_ci = col_map.get('price', 8)
+                days_ci = col_map.get('days', 14)
+                close_yield = row_vals[yield_ci] if yield_ci < len(row_vals) else None
+                close_price = row_vals[price_ci] if price_ci < len(row_vals) else None
+                days_val = row_vals[days_ci] if days_ci < len(row_vals) else None
+                if close_yield is not None and days_val is not None:
                     try:
-                        yield_val = float(yv) / 100
+                        yld = float(close_yield)
+                        prc = float(close_price) if close_price else None
+                        days = int(float(days_val))
                     except (ValueError, TypeError):
-                        pass
-            price_val = None
-            if 'price' in col_map:
-                pv = row_vals[col_map['price']]
-                if pv is not None:
-                    try:
-                        price_val = float(pv)
-                    except (ValueError, TypeError):
-                        pass
-            days_val = None
-            if 'days' in col_map:
-                dv = row_vals[col_map['days']]
-                if dv is not None:
-                    try:
-                        days_val = int(float(dv))
-                    except (ValueError, TypeError):
-                        pass
-            mat_val = None
-            if 'matdate' in col_map:
-                mv = row_vals[col_map['matdate']]
-                if mv is not None:
-                    if hasattr(mv, 'strftime'):
-                        mat_val = mv.strftime('%Y-%m-%d')
-                    else:
-                        mat_val = str(mv).strip()
-            coupon_val = None
-            import re
-            cpn_match = re.search(r'(\d+\.?\d*)\s*$', tenor_label.split('-')[0] if '-' in tenor_label else '')
-            if not cpn_match:
-                cpn_match = re.search(r'-(\d+\.?\d+)$', tenor_label)
-            if cpn_match:
-                try:
-                    coupon_val = float(cpn_match.group(1)) / 100
-                except (ValueError, TypeError):
-                    pass
-            if yield_val is not None or price_val is not None or days_val is not None:
-                pt = YieldCurvePoint(
-                    tenor=tenor_label, tenor_days=days_val,
-                    yield_pct=yield_val, coupon_pct=coupon_val,
-                    price=price_val, maturity_date=mat_val,
-                    source=f'GFIM: {f.filename} / {ws.title}',
-                    updated_by=current_user.id,
-                )
-                db.session.add(pt)
-                count += 1
+                        continue
+                    tbill_groups.setdefault(cur_grp, []).append({
+                        'yield_pct': yld / 100,
+                        'price': prc,
+                        'days': days,
+                    })
+            elif 'DDEP' in sheet_name:
+                tenor_ci = col_map.get('tenor', 1)
+                tenor_val = row_vals[tenor_ci] if tenor_ci < len(row_vals) else None
+                if not tenor_val:
+                    continue
+                tenor_str = str(tenor_val).strip().upper()
+                if 'GC-' not in tenor_str:
+                    continue
+                gc_match = _re.search(r'GC-(\d+)', tenor_str)
+                if not gc_match:
+                    continue
+                gc_num = gc_match.group(1)
+                desc_ci = col_map.get('desc', 2)
+                desc_val = str(row_vals[desc_ci]).strip() if desc_ci < len(row_vals) and row_vals[desc_ci] else ''
+                cpn_match = _re.search(r'-(\d+\.\d+)$', desc_val)
+                coupon = float(cpn_match.group(1)) / 100 if cpn_match else None
+                close_yield = None
+                if 'yield' in col_map:
+                    yv = row_vals[col_map['yield']]
+                    if yv is not None:
+                        try:
+                            close_yield = float(yv) / 100
+                        except (ValueError, TypeError):
+                            pass
+                close_price = None
+                if 'price' in col_map:
+                    pv = row_vals[col_map['price']]
+                    if pv is not None:
+                        try:
+                            close_price = float(pv)
+                        except (ValueError, TypeError):
+                            pass
+                days_val = None
+                if 'days' in col_map:
+                    dv = row_vals[col_map['days']]
+                    if dv is not None:
+                        try:
+                            days_val = int(float(dv))
+                        except (ValueError, TypeError):
+                            pass
+                mat_val = None
+                if 'matdate' in col_map:
+                    mv = row_vals[col_map['matdate']]
+                    if mv is not None:
+                        mat_val = mv.strftime('%Y-%m-%d') if hasattr(mv, 'strftime') else str(mv).strip()
+
+                cpn_label = f'{coupon*100:.2f}' if coupon else gc_num
+                mat_short = mat_val[:7] if mat_val and len(mat_val) >= 7 else ''
+                label = f'DDEP {cpn_label}% {mat_short}'.strip()
+                if not label.endswith('%'):
+                    label = f'DDEP GC-{gc_num}'
+
+                ddep_gc[gc_num] = {
+                    'tenor': label,
+                    'tenor_days': days_val,
+                    'yield_pct': close_yield,
+                    'coupon_pct': coupon,
+                    'price': close_price,
+                    'maturity_date': mat_val or '',
+                }
+
+    tbill_groups.pop('_current', None)
+    count = 0
+    for key in sorted(tbill_groups.keys(), key=int):
+        bills = tbill_groups[key]
+        if not bills:
+            continue
+        target_days = int(key)
+        best = min(bills, key=lambda b: abs(b['days'] - target_days))
+        pt = YieldCurvePoint(
+            tenor=f'{key}-day T-Bill', tenor_days=best['days'],
+            yield_pct=best['yield_pct'], coupon_pct=0,
+            price=best['price'], maturity_date='',
+            source=f'GFIM: {f.filename}', updated_by=current_user.id,
+        )
+        db.session.add(pt)
+        count += 1
+
+    for key in sorted(ddep_gc.keys(), key=lambda x: int(x)):
+        pt_data = ddep_gc[key]
+        pt = YieldCurvePoint(
+            tenor=pt_data['tenor'], tenor_days=pt_data['tenor_days'],
+            yield_pct=pt_data['yield_pct'], coupon_pct=pt_data['coupon_pct'],
+            price=pt_data['price'], maturity_date=pt_data.get('maturity_date', ''),
+            source=f'GFIM: {f.filename}', updated_by=current_user.id,
+        )
+        db.session.add(pt)
+        count += 1
+
     db.session.commit()
-    log_action(current_user.id, 'upload_yield_curve', f'{count} instruments from {f.filename}')
-    flash(f'Yield curve updated: {count} instruments from GFIM report.', 'success')
+    log_action(current_user.id, 'upload_yield_curve', f'{count} market points from {f.filename}')
+    flash(f'Yield curve updated: {count} market points (T-Bills + DDEP GC bonds) from GFIM report.', 'success')
     return redirect(url_for('fixed_income'))
 
 
