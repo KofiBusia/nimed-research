@@ -139,12 +139,14 @@ def fixed_income():
                 'coupon_pct': p.coupon_pct,
                 'price': p.price,
                 'maturity_date': p.maturity_date or '',
+                'source': p.source or '',
+                'in_curve': 1,
             }
             for p in db_points
         ]
         data['yc_source'] = f'Database ({db_points[0].source or "manual"}) — updated {db_points[0].updated_at.strftime("%Y-%m-%d %H:%M")}'
     else:
-        data['yc_source'] = 'Base JSON (upload Excel to update)'
+        data['yc_source'] = 'T-bills from Bank of Ghana Tender auction of 20 Nov 2026 (official). Bond yields from GFIM trading.'
     return render_template('fixed_income.html', data=data)
 
 

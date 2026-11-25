@@ -7,109 +7,174 @@
 .edit-cell { width:80px; text-align:right; font-size:11px; padding:1px 4px; }
 .yc-tbill td { background: #f0f7ff !important; }
 .yc-ddep td { background: #fff !important; }
+.yc-excluded td { background: #f5f5f5 !important; color: #999; }
+.fi-label { font-size:12px; color:#6b7280; font-weight:500; }
+.fi-value { font-size:15px; font-weight:700; color:var(--nimed-navy); }
+.fi-value-sm { font-size:13px; font-weight:600; color:var(--nimed-navy); }
+.bench-table th { font-size:10px; padding:6px 10px; }
+.bench-table td { font-size:12px; padding:6px 10px; }
+.spread-pos { color: var(--nimed-green); }
+.spread-neg { color: var(--nimed-red); }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Summary Cards -->
-<div class="row g-3 mb-4">
-    <div class="col-sm-6 col-lg-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center gap-3">
-                <div class="stat-icon" style="background:var(--nimed-blue)"><i class="bi bi-graph-up"></i></div>
-                <div>
-                    <div class="stat-label">Market Points</div>
-                    <div class="stat-value">{{ data.yield_curve|length }}</div>
-                    <div class="text-muted" style="font-size:10px">Active instruments</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center gap-3">
-                <div class="stat-icon" style="background:var(--nimed-green)"><i class="bi bi-percent"></i></div>
-                <div>
-                    <div class="stat-label">Short End (91-day)</div>
-                    {% set short_y = data.yield_curve[0].get('yield_pct', 0) if data.yield_curve else 0 %}
-                    <div class="stat-value">{{ "%.2f"|format(short_y|float * 100) }}%</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center gap-3">
-                <div class="stat-icon" style="background:var(--nimed-gold)"><i class="bi bi-percent"></i></div>
-                <div>
-                    <div class="stat-label">Long End (10yr+)</div>
-                    {% set long_y = data.yield_curve[-1].get('yield_pct', 0) if data.yield_curve else 0 %}
-                    <div class="stat-value">{{ "%.2f"|format(long_y|float * 100) }}%</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center gap-3">
-                <div class="stat-icon" style="background:var(--nimed-cyan)"><i class="bi bi-arrow-left-right"></i></div>
-                <div>
-                    <div class="stat-label">Spread (Long - Short)</div>
-                    <div class="stat-value">{{ "%.0f"|format((long_y|float - short_y|float) * 10000) }} bps</div>
-                </div>
-            </div>
-        </div>
-    </div>
+{% set bc = data.bond_calc %}
+{% set yc = data.yield_curve %}
+{% set bench = data.benchmark_curve %}
+
+<!-- Section 7: FIXED INCOME header -->
+<div class="d-flex align-items-center gap-2 mb-3">
+    <h5 class="fw-bold mb-0" style="color:var(--nimed-navy);">7. FIXED INCOME</h5>
+    <span class="badge bg-secondary" style="font-size:10px;">T-Bills, Bonds &amp; Yield Curve</span>
 </div>
 
-<!-- Yield Curve Chart + Price Curve -->
+<!-- Row 1: T-Bill Calculator + Bond Calculator -->
 <div class="row g-3 mb-4">
-    <div class="col-lg-7">
+    <!-- T-Bill Calculator -->
+    <div class="col-lg-6">
         <div class="card-panel">
             <div class="panel-header">
-                <h3><i class="bi bi-graph-up me-2"></i>Yield Curve</h3>
-                <span class="text-muted" style="font-size:10px"><i class="bi bi-database me-1"></i>{{ data.get('yc_source', 'GFIM Trading Report') }}</span>
+                <h3><i class="bi bi-calculator me-2"></i>Treasury Bill Calculator</h3>
+                <span class="badge bg-info" style="font-size:10px">364-day bill</span>
             </div>
             <div class="panel-body" style="padding:16px;">
-                <canvas id="yieldChart" height="300"></canvas>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="fi-label">Discount Rate</div>
+                        <div class="fi-value">{{ "%.4f"|format(bc.get('364-day bill discount rate', 0) * 100) }}%</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="fi-label">Interest Rate (Yield)</div>
+                        <div class="fi-value">{{ "%.4f"|format(bc.get('364-day bill interest rate (yield)', 0) * 100) }}%</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="fi-label">Price per 100</div>
+                        <div class="fi-value">{{ "%.2f"|format(bc.get('364-day bill price per 100', 0)) }}</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="fi-label">Days in Year</div>
+                        <div class="fi-value">{{ bc.get('T-bill days in year', 364) }}</div>
+                    </div>
+                </div>
+                <hr class="my-2">
+                <table class="table table-sm mb-0" style="font-size:12px;">
+                    <thead><tr><th>Tenor</th><th class="text-end">Interest Rate</th></tr></thead>
+                    <tbody>
+                        <tr><td>91-day bill</td><td class="text-end fw-semibold">{{ "%.4f"|format(bc.get('91-day bill interest rate', 0) * 100) }}%</td></tr>
+                        <tr><td>182-day bill</td><td class="text-end fw-semibold">{{ "%.4f"|format(bc.get('182-day bill interest rate', 0) * 100) }}%</td></tr>
+                        <tr><td>364-day bill</td><td class="text-end fw-semibold">{{ "%.4f"|format(bc.get('364-day bill interest rate (yield)', 0) * 100) }}%</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    <div class="col-lg-5">
+    <!-- Bond Calculator Summary -->
+    <div class="col-lg-6">
         <div class="card-panel">
-            <div class="panel-header"><h3><i class="bi bi-cash-stack me-2"></i>Clean Price Curve</h3></div>
+            <div class="panel-header">
+                <h3><i class="bi bi-cash-stack me-2"></i>Bond Calculator</h3>
+                <span class="badge bg-warning text-dark" style="font-size:10px">DDEP 8.80% Feb-2030</span>
+            </div>
             <div class="panel-body" style="padding:16px;">
-                <canvas id="priceChart" height="300"></canvas>
+                {% set ref_bond = namespace(val=none) %}
+                {% for y in yc %}{% if 'Feb-2030' in y.tenor %}{% set ref_bond.val = y %}{% endif %}{% endfor %}
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="fi-label">YTM (semi-annual)</div>
+                        <div class="fi-value">{% if ref_bond.val %}{{ "%.2f"|format(ref_bond.val.yield_pct * 100) }}%{% else %}&mdash;{% endif %}</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="fi-label">Clean Price</div>
+                        <div class="fi-value">{% if ref_bond.val %}{{ "%.2f"|format(ref_bond.val.price) }}{% else %}&mdash;{% endif %}</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="fi-label">Coupon</div>
+                        <div class="fi-value-sm">{% if ref_bond.val %}{{ "%.2f"|format(ref_bond.val.coupon_pct * 100) }}%{% else %}&mdash;{% endif %}</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="fi-label">Maturity</div>
+                        <div class="fi-value-sm">{% if ref_bond.val %}{{ ref_bond.val.maturity_date }}{% else %}&mdash;{% endif %}</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="fi-label">Days to Maturity</div>
+                        <div class="fi-value-sm">{% if ref_bond.val %}{{ ref_bond.val.tenor_days }}{% else %}&mdash;{% endif %}</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="fi-label">Settlement</div>
+                        <div class="fi-value-sm">{{ bc.get('Settlement date', '&mdash;') }}</div>
+                    </div>
+                </div>
+                <hr class="my-2">
+                <div class="text-muted" style="font-size:10px;">Coupons per year: {{ bc.get('Bond coupons per year', 2) }} | Day count: Actual/Actual</div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Bond Calculator -->
+<!-- Row 2: Benchmark Yield Curve Snapshot + Chart -->
 <div class="row g-3 mb-4">
     <div class="col-lg-5">
         <div class="card-panel">
-            <div class="panel-header"><h3><i class="bi bi-calculator me-2"></i>Bond Calculator Inputs</h3></div>
-            <div class="panel-body" style="padding:20px;">
-                <table class="table table-sm" style="font-size:13px;">
-                    {% for key, val in data.bond_calc.items() %}
-                    <tr>
-                        <td class="text-muted" style="width:55%;">{{ key }}</td>
-                        <td class="fw-semibold">
-                            {% if val is number and val|float|abs < 1 and val|float != 0 %}{{ "%.2f"|format(val|float * 100) }}%
-                            {% elif val is number %}{{ "{:,.2f}".format(val|float) }}
-                            {% else %}{{ val }}{% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
+            <div class="panel-header">
+                <h3><i class="bi bi-graph-up me-2"></i>Benchmark Yield Curve</h3>
+                <span class="text-muted" style="font-size:10px">8 standard tenors</span>
+            </div>
+            <div class="panel-body">
+                <table class="table table-sm bench-table mb-0">
+                    <thead>
+                        <tr>
+                            <th>Tenor</th>
+                            <th class="text-end">Yield (%)</th>
+                            <th class="text-end">Spread vs 364d (bp)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for b in bench %}
+                        <tr>
+                            <td class="fw-semibold">{{ b.tenor }}</td>
+                            <td class="text-end fw-bold">{{ "%.2f"|format(b.yield_pct * 100) }}</td>
+                            <td class="text-end {% if b.spread_bp >= 0 %}spread-pos{% else %}spread-neg{% endif %}">
+                                {{ "%+.0f"|format(b.spread_bp) }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
     <div class="col-lg-7">
         <div class="card-panel">
+            <div class="panel-header">
+                <h3><i class="bi bi-bar-chart-line me-2"></i>Yield Curve</h3>
+                <span class="text-muted" style="font-size:10px"><i class="bi bi-database me-1"></i>{{ data.get('yc_source', '') }}</span>
+            </div>
+            <div class="panel-body" style="padding:16px;">
+                <canvas id="yieldChart" height="280"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Row 3: Clean Price Curve -->
+<div class="row g-3 mb-4">
+    <div class="col-lg-12">
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-graph-down me-2"></i>Clean Price Curve</h3></div>
+            <div class="panel-body" style="padding:16px;">
+                <canvas id="priceChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Row 4: Market Points Table -->
+<div class="row g-3 mb-4">
+    <div class="col-12">
+        <div class="card-panel">
             <div class="panel-header d-flex justify-content-between align-items-center">
-                <h3><i class="bi bi-table me-2"></i>Market Points</h3>
+                <h3><i class="bi bi-table me-2"></i>Market Points ({{ yc|length }} instruments)</h3>
                 <div class="d-flex gap-2 align-items-center">
                     {% if current_user.can_edit_data() %}
                     <button class="btn btn-sm btn-outline-primary" id="btnEdit" onclick="toggleEdit()"><i class="bi bi-pencil me-1"></i>Edit</button>
@@ -119,37 +184,52 @@
                 </div>
             </div>
             <div class="panel-body">
-                <div class="table-responsive" style="max-height:450px;overflow-y:auto">
+                <div class="table-responsive">
                     <table class="table table-research" id="ycTable" style="font-size:12px">
                         <thead style="position:sticky;top:0;z-index:1">
                             <tr>
                                 <th>#</th>
                                 <th>Instrument</th>
-                                <th class="text-end">Days to Maturity</th>
+                                <th class="text-end">Days</th>
+                                <th class="text-end">Years</th>
                                 <th class="text-end">Coupon (%)</th>
                                 <th class="text-end">Yield (%)</th>
                                 <th class="text-end">Clean Price</th>
+                                <th class="text-center">In Curve</th>
+                                <th>Source</th>
                                 <th>Maturity</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for y in data.yield_curve %}
+                            {% for y in yc %}
                             {% set is_tbill = 'Bill' in y.tenor or 'bill' in y.tenor %}
-                            <tr class="{{ 'yc-tbill' if is_tbill else 'yc-ddep' }}" data-idx="{{ loop.index0 }}">
+                            {% set excluded = y.get('in_curve', 1) == 0 %}
+                            <tr class="{{ 'yc-excluded' if excluded else ('yc-tbill' if is_tbill else 'yc-ddep') }}" data-idx="{{ loop.index0 }}">
                                 <td class="text-muted">{{ loop.index }}</td>
                                 <td class="fw-semibold">{{ y.tenor }}</td>
                                 <td class="text-end" data-field="tenor_days" data-val="{{ y.get('tenor_days','') }}">
                                     <span class="dv">{{ y.get('tenor_days', '—') }}</span>
                                 </td>
+                                <td class="text-end">
+                                    {% if y.get('years') %}{{ "%.3f"|format(y.years) }}{% elif y.get('tenor_days') %}{{ "%.3f"|format(y.tenor_days / 365.25) }}{% else %}&mdash;{% endif %}
+                                </td>
                                 <td class="text-end" data-field="coupon_pct" data-val="{{ y.get('coupon_pct','') }}">
-                                    <span class="dv">{% if y.get('coupon_pct') is not none and y.coupon_pct is number %}{{ "%.2f"|format(y.coupon_pct * 100) }}{% else %}—{% endif %}</span>
+                                    <span class="dv">{% if y.get('coupon_pct') is not none and y.coupon_pct is number %}{{ "%.2f"|format(y.coupon_pct * 100) }}{% else %}&mdash;{% endif %}</span>
                                 </td>
                                 <td class="text-end fw-semibold" data-field="yield_pct" data-val="{{ y.get('yield_pct','') }}">
-                                    <span class="dv">{% if y.get('yield_pct') is not none and y.yield_pct is number %}{{ "%.2f"|format(y.yield_pct * 100) }}{% else %}—{% endif %}</span>
+                                    <span class="dv">{% if y.get('yield_pct') is not none and y.yield_pct is number %}{{ "%.4f"|format(y.yield_pct * 100) }}{% else %}&mdash;{% endif %}</span>
                                 </td>
                                 <td class="text-end" data-field="price" data-val="{{ y.get('price','') }}">
-                                    <span class="dv">{% if y.get('price') is not none and y.price is number %}{{ "%.2f"|format(y.price) }}{% else %}—{% endif %}</span>
+                                    <span class="dv">{% if y.get('price') is not none and y.price is number %}{{ "%.2f"|format(y.price) }}{% else %}&mdash;{% endif %}</span>
                                 </td>
+                                <td class="text-center">
+                                    {% if excluded %}
+                                    <span class="badge bg-secondary" style="font-size:10px;">No</span>
+                                    {% else %}
+                                    <span class="badge bg-success" style="font-size:10px;">Yes</span>
+                                    {% endif %}
+                                </td>
+                                <td style="font-size:10px; max-width:180px;" class="text-muted text-truncate">{{ y.get('source', '') }}</td>
                                 <td data-field="maturity_date" data-val="{{ y.get('maturity_date','') }}">
                                     <span class="dv">{{ y.get('maturity_date', '') }}</span>
                                 </td>
@@ -163,6 +243,11 @@
     </div>
 </div>
 
+<!-- Data Source -->
+<div class="text-muted text-center mb-3" style="font-size:11px;">
+    <i class="bi bi-info-circle me-1"></i>{{ data.get('yc_source', '') }}
+</div>
+
 {% if current_user.can_edit_data() %}
 <div class="card-panel mb-4">
     <div class="panel-header"><h3><i class="bi bi-upload me-2"></i>Upload from GFIM Trading Report</h3></div>
@@ -173,7 +258,7 @@
                 <div class="col-md-6">
                     <label class="form-label" style="font-size:12px">GFIM Trading Report (.xlsx)</label>
                     <input type="file" name="yc_file" accept=".xlsx,.xls" class="form-control form-control-sm" required>
-                    <div class="text-muted mt-1" style="font-size:10px">Auto-reads all sheets: T-Bills, DDEP Bonds, New GoG Bonds, Corporate</div>
+                    <div class="text-muted mt-1" style="font-size:10px">Auto-reads T-Bills (3) and DDEP Bonds (12). T-bill rates from BoG auction; bond yields from GFIM closing.</div>
                 </div>
                 <div class="col-md-3">
                     <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-cloud-upload me-1"></i>Upload & Update</button>
@@ -188,34 +273,34 @@
 {% block extra_js %}
 <script>
 const yc = {{ data.yield_curve | tojson }};
-const pts = yc.filter(y => y.yield_pct != null && y.tenor_days != null)
-              .sort((a,b) => a.tenor_days - b.tenor_days);
+const bench = {{ data.benchmark_curve | tojson }};
 
-if (pts.length > 0) {
-    // Yield curve
-    const tbills = pts.filter(p => p.tenor.includes('Bill') || p.tenor.includes('bill'));
-    const bonds = pts.filter(p => !p.tenor.includes('Bill') && !p.tenor.includes('bill'));
+const inCurve = yc.filter(y => y.yield_pct != null && y.tenor_days != null && y.in_curve !== 0)
+                  .sort((a,b) => a.tenor_days - b.tenor_days);
+
+if (inCurve.length > 0) {
+    const labels = inCurve.map(y => {
+        if (y.tenor_days <= 364) return y.tenor.replace(' T-Bill','');
+        const yrs = (y.tenor_days / 365).toFixed(1);
+        return yrs + 'Y';
+    });
 
     new Chart(document.getElementById('yieldChart'), {
         type: 'line',
         data: {
-            labels: pts.map(y => {
-                if (y.tenor_days <= 364) return y.tenor.replace(' T-Bill','');
-                const yrs = (y.tenor_days / 365).toFixed(1);
-                return yrs + 'Y';
-            }),
+            labels: labels,
             datasets: [
                 {
-                    label: 'T-Bills',
-                    data: pts.map((y,i) => (y.tenor.includes('Bill') || y.tenor.includes('bill')) ? (y.yield_pct * 100) : null),
+                    label: 'T-Bills (BoG auction)',
+                    data: inCurve.map(y => (y.tenor.includes('Bill') || y.tenor.includes('bill')) ? (y.yield_pct * 100) : null),
                     borderColor: '#0066cc', backgroundColor: 'rgba(0,102,204,.15)',
                     fill: false, tension: 0, pointRadius: 6, borderWidth: 2,
                     pointBackgroundColor: '#0066cc', pointBorderColor: '#fff', pointBorderWidth: 2,
                     spanGaps: false
                 },
                 {
-                    label: 'DDEP Bonds',
-                    data: pts.map(y => (!y.tenor.includes('Bill') && !y.tenor.includes('bill')) ? (y.yield_pct * 100) : null),
+                    label: 'DDEP Bonds (GFIM)',
+                    data: inCurve.map(y => (!y.tenor.includes('Bill') && !y.tenor.includes('bill')) ? (y.yield_pct * 100) : null),
                     borderColor: '#e53935', backgroundColor: 'rgba(229,57,53,.1)',
                     fill: true, tension: .3, pointRadius: 5, borderWidth: 2,
                     pointBackgroundColor: '#e53935', pointBorderColor: '#fff', pointBorderWidth: 2,
@@ -223,7 +308,7 @@ if (pts.length > 0) {
                 },
                 {
                     label: 'Coupon',
-                    data: pts.map(y => y.coupon_pct ? (y.coupon_pct * 100) : null),
+                    data: inCurve.map(y => y.coupon_pct ? (y.coupon_pct * 100) : null),
                     borderColor: '#9e9e9e', backgroundColor: 'transparent',
                     borderDash: [5,3], tension: .3, pointRadius: 0, borderWidth: 1,
                     spanGaps: true
@@ -236,10 +321,10 @@ if (pts.length > 0) {
                 legend: { position: 'top', labels: { font: { size: 11 }, usePointStyle: true, pointStyle: 'circle' } },
                 tooltip: {
                     callbacks: {
-                        label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y ? ctx.parsed.y.toFixed(2) + '%' : '—'),
+                        label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y ? ctx.parsed.y.toFixed(4) + '%' : '—'),
                         afterLabel: ctx => {
-                            const p = pts[ctx.dataIndex];
-                            return p ? 'Days: ' + p.tenor_days + (p.maturity_date ? '\nMat: ' + p.maturity_date : '') : '';
+                            const p = inCurve[ctx.dataIndex];
+                            return p ? 'Days: ' + p.tenor_days + (p.source ? '\nSource: ' + p.source : '') : '';
                         }
                     }
                 }
@@ -251,8 +336,7 @@ if (pts.length > 0) {
         }
     });
 
-    // Price curve
-    const pricePts = pts.filter(p => p.price != null);
+    const pricePts = inCurve.filter(p => p.price != null);
     new Chart(document.getElementById('priceChart'), {
         type: 'line',
         data: {
@@ -309,7 +393,7 @@ function saveYC() {
     const rows = [];
     document.querySelectorAll('#ycTable tbody tr[data-idx]').forEach(tr => {
         const tenor = tr.querySelectorAll('td')[1].textContent.trim();
-        const get = f => { const inp = tr.querySelector('td[data-field=\"'+f+'\"] input'); return inp ? inp.value.trim() : ''; };
+        const get = f => { const inp = tr.querySelector('td[data-field="'+f+'"] input'); return inp ? inp.value.trim() : ''; };
         const num = v => { const n = parseFloat(v); return isNaN(n) ? null : n; };
         let yld = num(get('yield_pct'));
         if (yld !== null && yld > 1) yld = yld / 100;

@@ -57,6 +57,8 @@ def get_dashboard_data():
         'valuations': data.get('valuations', []),
         'index_timeseries': data.get('index_timeseries', []),
         '_sources': data.get('_sources', {}),
+        'bond_calc': data.get('bond_calc', {}),
+        'benchmark_curve': data.get('benchmark_curve', []),
     }
 
 def get_beta_data():
@@ -90,6 +92,7 @@ def get_fixed_income_data():
     return {
         'bond_calc': data.get('bond_calc', {}),
         'yield_curve': data.get('yield_curve', []),
+        'benchmark_curve': data.get('benchmark_curve', []),
     }
 
 def get_peer_data():

@@ -181,6 +181,65 @@
         </div>
     </div>
 </div>
+
+<!-- Section 7: FIXED INCOME -->
+{% set bc = data.get('bond_calc', {}) %}
+{% set bench = data.get('benchmark_curve', []) %}
+<div class="d-flex align-items-center gap-2 mb-3 mt-2">
+    <h5 class="fw-bold mb-0" style="color:var(--nimed-navy);">7. FIXED INCOME</h5>
+    <span class="badge bg-secondary" style="font-size:10px;">T-Bills, Bonds &amp; Yield Curve</span>
+    <a href="{{ url_for('fixed_income') }}" class="btn btn-sm btn-outline-primary ms-auto" style="font-size:11px;">Full Details</a>
+</div>
+<div class="row g-3 mb-4">
+    <!-- T-Bill Summary -->
+    <div class="col-lg-4">
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-calculator me-2"></i>T-Bill Rates (BoG Auction)</h3></div>
+            <div class="panel-body" style="padding:16px;">
+                <table class="table table-sm mb-0" style="font-size:12px;">
+                    <thead><tr><th>Tenor</th><th class="text-end">Discount</th><th class="text-end">Yield</th></tr></thead>
+                    <tbody>
+                        <tr><td>91-day</td><td class="text-end">4.4688%</td><td class="text-end fw-bold">{{ "%.4f"|format(bc.get('91-day bill interest rate', 0.045193) * 100) }}%</td></tr>
+                        <tr><td>182-day</td><td class="text-end">5.9392%</td><td class="text-end fw-bold">{{ "%.4f"|format(bc.get('182-day bill interest rate', 0.06121) * 100) }}%</td></tr>
+                        <tr><td>364-day</td><td class="text-end">{{ "%.4f"|format(bc.get('364-day bill discount rate', 0.086316) * 100) }}%</td><td class="text-end fw-bold">{{ "%.4f"|format(bc.get('364-day bill interest rate (yield)', 0.094471) * 100) }}%</td></tr>
+                    </tbody>
+                </table>
+                <div class="text-muted mt-2" style="font-size:10px;">364-day price: {{ "%.2f"|format(bc.get('364-day bill price per 100', 91.37)) }} per 100</div>
+            </div>
+        </div>
+    </div>
+    <!-- Benchmark Yield Curve -->
+    <div class="col-lg-4">
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-graph-up me-2"></i>Benchmark Curve</h3></div>
+            <div class="panel-body">
+                <table class="table table-sm mb-0" style="font-size:12px;">
+                    <thead><tr><th>Tenor</th><th class="text-end">Yield</th><th class="text-end">Spread (bp)</th></tr></thead>
+                    <tbody>
+                        {% for b in bench %}
+                        <tr>
+                            <td>{{ b.tenor }}</td>
+                            <td class="text-end fw-bold">{{ "%.2f"|format(b.yield_pct * 100) }}%</td>
+                            <td class="text-end {% if b.spread_bp >= 0 %}text-success{% else %}text-danger{% endif %}">{{ "%+.0f"|format(b.spread_bp) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Yield Curve Mini Chart -->
+    <div class="col-lg-4">
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-bar-chart-line me-2"></i>Yield Curve Shape</h3></div>
+            <div class="panel-body" style="padding:16px;">
+                <canvas id="dashYieldChart" height="220"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mb-4"><div class="col-12"><div class="text-muted" style="font-size:10px;"><i class="bi bi-info-circle me-1"></i><strong>Source:</strong> T-bills from Bank of Ghana Tender auction of 20 Nov 2026 (official). Bond yields from GFIM trading.</div></div></div>
+
 {% endblock %}
 
 {% block extra_js %}
@@ -243,5 +302,33 @@ new Chart(document.getElementById('verdictChart'), {
         cutout: '55%'
     }
 });
+
+// Dashboard yield curve mini chart
+const benchData = {{ data.get('benchmark_curve', []) | tojson }};
+if (benchData.length > 0) {
+    new Chart(document.getElementById('dashYieldChart'), {
+        type: 'line',
+        data: {
+            labels: benchData.map(b => b.tenor),
+            datasets: [{
+                label: 'Yield (%)',
+                data: benchData.map(b => b.yield_pct * 100),
+                borderColor: '#0066cc', backgroundColor: 'rgba(0,102,204,.1)',
+                fill: true, tension: .3, pointRadius: 5, borderWidth: 2,
+                pointBackgroundColor: '#0066cc', pointBorderColor: '#fff', pointBorderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false },
+                tooltip: { callbacks: { label: ctx => ctx.parsed.y.toFixed(2) + '%' } }
+            },
+            scales: {
+                x: { ticks: { font: { size: 9 }, maxRotation: 45 }, grid: { display: false } },
+                y: { title: { display: true, text: 'Yield %', font: { size: 10 } }, ticks: { font: { size: 9 }, callback: v => v.toFixed(0) + '%' }, grid: { color: '#f0f0f0' } }
+            }
+        }
+    });
+}
 </script>
 {% endblock %}
