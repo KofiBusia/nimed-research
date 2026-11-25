@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+import json as _json
 
 db = SQLAlchemy()
 
@@ -64,3 +65,70 @@ class AuditLog(db.Model):
     details = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     user = db.relationship('User', backref='audit_logs')
+
+
+class MarketInput(db.Model):
+    __tablename__ = 'market_inputs'
+    id = db.Column(db.Integer, primary_key=True)
+    key = db.Column(db.String(100), unique=True, nullable=False)
+    value = db.Column(db.Float)
+    text_value = db.Column(db.String(200))
+    label = db.Column(db.String(200))
+    input_type = db.Column(db.String(20), default='number')
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    INPUT_DEFS = [
+        ('risk_free_rate', 'Risk-Free Rate', 'percent', 0.111),
+        ('equity_risk_premium', 'Equity Risk Premium', 'percent', 0.07),
+        ('long_term_growth', 'Long-Term Growth (g)', 'percent', 0.064),
+        ('pre_tax_cost_of_debt', 'Pre-Tax Cost of Debt', 'percent', 0.18),
+        ('marginal_tax_rate', 'Marginal Tax Rate', 'percent', 0.25),
+        ('usd_ghs_rate', 'USD/GHS Rate', 'number', 11.68),
+        ('undervalued_band', 'Undervalued Band', 'percent', 0.15),
+        ('blume_weight', 'Blume Weight', 'number', 0.67),
+        ('r_squared_threshold', 'R-Squared Threshold', 'number', 0.1),
+        ('beta_type', 'Beta Type', 'select', None),
+        ('return_frequency', 'Return Frequency', 'select', None),
+        ('return_basis', 'Return Basis', 'select', None),
+    ]
+
+
+class SharePrice(db.Model):
+    __tablename__ = 'share_prices'
+    id = db.Column(db.Integer, primary_key=True)
+    ticker = db.Column(db.String(20), nullable=False, unique=True)
+    company_name = db.Column(db.String(200))
+    price_ghs = db.Column(db.Float, nullable=False)
+    shares_m = db.Column(db.Float)
+    price_date = db.Column(db.String(20))
+    source = db.Column(db.String(200))
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+
+class CompanyFinancials(db.Model):
+    __tablename__ = 'company_financials'
+    id = db.Column(db.Integer, primary_key=True)
+    ticker = db.Column(db.String(20), unique=True, nullable=False)
+    company_name = db.Column(db.String(200))
+    data_json = db.Column(db.Text)
+    source = db.Column(db.String(200), default='manual')
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def get_data(self):
+        if self.data_json:
+            return _json.loads(self.data_json)
+        return {'periods': [], 'items': []}
+
+    def set_data(self, data):
+        self.data_json = _json.dumps(data)
+
+
+class ComputedData(db.Model):
+    __tablename__ = 'computed_data'
+    id = db.Column(db.Integer, primary_key=True)
+    data_key = db.Column(db.String(100), unique=True, nullable=False)
+    data_json = db.Column(db.Text)
+    computed_at = db.Column(db.DateTime, default=datetime.utcnow)

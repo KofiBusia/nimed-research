@@ -167,6 +167,9 @@
             <a href="{{ url_for('financial_statements') }}" class="{% if request.endpoint == 'financial_statements' %}active{% endif %}">
                 <i class="bi bi-file-earmark-spreadsheet"></i> Financial Statements
             </a>
+            <a href="{{ url_for('share_prices') }}" class="{% if request.endpoint == 'share_prices' %}active{% endif %}">
+                <i class="bi bi-tags"></i> Share Prices
+            </a>
 
             <div class="nav-section">Private Capital</div>
             <a href="{{ url_for('yin_dashboard') }}" class="{% if request.endpoint == 'yin_dashboard' %}active{% endif %}">

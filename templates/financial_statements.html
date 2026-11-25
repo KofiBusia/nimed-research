@@ -18,12 +18,13 @@
     }
     .ticker-btn:hover { background: #f0f7ff; border-color: var(--nimed-blue); color: var(--nimed-blue); }
     .ticker-btn.active { background: var(--nimed-blue); color: #fff; border-color: var(--nimed-blue); }
+    .edit-cell { width:90px; text-align:right; font-size:11px; padding:1px 4px; }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="row g-3 mb-4">
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <div class="stat-card">
             <div class="d-flex align-items-center gap-3">
                 <div class="stat-icon" style="background:linear-gradient(135deg,#0066cc,#00b4d8);">
@@ -36,7 +37,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <div class="stat-card">
             <label class="stat-label d-block mb-2">Select Company</label>
             <select class="form-select company-select" id="companySelect" onchange="window.location.href='/financial-statements/'+this.value">
@@ -46,9 +47,25 @@
             </select>
         </div>
     </div>
+    {% if current_user.can_edit_data() %}
+    <div class="col-lg-4">
+        <div class="stat-card">
+            <div class="stat-label mb-2">Upload Financial Statements</div>
+            <form method="POST" action="{{ url_for('upload_financial_statements') }}" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="ticker" value="{{ selected_ticker }}">
+                <input type="hidden" name="company_name" value="{{ selected.company_name if selected else '' }}">
+                <div class="d-flex gap-2">
+                    <input type="file" name="fs_file" accept=".xlsx,.xls" class="form-control form-control-sm" required style="font-size:11px">
+                    <button type="submit" class="btn btn-sm btn-success"><i class="bi bi-upload"></i></button>
+                </div>
+                <div class="text-muted mt-1" style="font-size:10px">Excel: Col A = Item | Col B = Stmt Type (IS/BS/CF) | Col C+ = Periods</div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
-<!-- Ticker Quick Select -->
 <div class="row g-4 mb-4">
     <div class="col-12">
         <div class="card-panel">
@@ -91,12 +108,19 @@
 </div>
 
 <div class="card-panel mb-4">
-    <div class="panel-header">
+    <div class="panel-header d-flex justify-content-between align-items-center">
         <h3><i class="bi bi-table me-2"></i>{{ selected.company_name }} ({{ selected_ticker }}) — Financial Data</h3>
+        {% if current_user.can_edit_data() %}
+        <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-primary" id="btnEditMode" onclick="toggleEdit()"><i class="bi bi-pencil me-1"></i>Edit</button>
+            <button class="btn btn-sm btn-primary d-none" id="btnSave" onclick="saveFS()"><i class="bi bi-save me-1"></i>Save Changes</button>
+            <button class="btn btn-sm btn-secondary d-none" id="btnCancel" onclick="location.reload()"><i class="bi bi-x me-1"></i>Cancel</button>
+        </div>
+        {% endif %}
     </div>
     <div class="panel-body">
         <div class="table-responsive" style="max-height:600px;overflow-y:auto">
-            <table class="table table-research fs-table">
+            <table class="table table-research fs-table" id="fsTable">
                 <thead style="position:sticky;top:0;z-index:1">
                     <tr>
                         <th style="min-width:260px">Line Item</th>
@@ -111,19 +135,19 @@
                     {% set label = item.get('item', '') %}
                     {% set stmt = item.get('stmt', '') %}
                     {% set is_section = label == label|upper and label|length > 3 %}
-                    {% set is_subtotal = label.startswith('Total') or 'Net income' in label or 'Net profit' in label or 'Profit before' in label or 'Profit after' in label or 'Operating' in label and 'profit' in label|lower or 'EBITDA' in label or 'Gross profit' in label or 'Shareholders' in label %}
+                    {% set is_subtotal = label.startswith('Total') or 'Net income' in label or 'Net profit' in label or 'Profit before' in label or 'Profit after' in label or 'EBITDA' in label or 'Gross profit' in label or 'Shareholders' in label %}
                     {% if is_section %}
                     <tr class="fs-section-header">
                         <td colspan="{{ selected.periods|length + 2 }}">{{ label }}</td>
                     </tr>
                     {% else %}
-                    <tr{% if is_subtotal %} class="fs-subtotal"{% endif %}>
+                    <tr{% if is_subtotal %} class="fs-subtotal"{% endif %} data-row="{{ loop.index0 }}">
                         <td{% if not is_subtotal %} style="padding-left:28px"{% endif %}>{{ label }}</td>
-                        <td><span class="badge {% if stmt == 'IS' %}bg-primary{% elif stmt == 'BS' %}bg-success{% else %}bg-secondary{% endif %}" style="font-size:9px">{{ stmt }}</span></td>
+                        <td><span class="badge {% if stmt == 'IS' %}bg-primary{% elif stmt == 'BS' %}bg-success{% elif stmt == 'CF' %}bg-info{% else %}bg-secondary{% endif %}" style="font-size:9px">{{ stmt }}</span></td>
                         {% for p in selected.periods %}
                         {% set v = item.get(p) %}
-                        <td class="num {% if v is number and v < 0 %}negative{% endif %}">
-                            {% if v is none or v == '' %}—{% elif v is number and v|abs >= 1 %}{{ "{:,.0f}".format(v) }}{% elif v is number and v|abs < 0.0001 %}—{% elif v is number %}{{ "%.4f"|format(v) }}{% else %}{{ v }}{% endif %}
+                        <td class="num {% if v is number and v < 0 %}negative{% endif %}" data-period="{{ p }}" data-val="{{ v if v is not none else '' }}">
+                            <span class="display-val">{% if v is none or v == '' %}—{% elif v is number and v|abs >= 1 %}{{ "{:,.0f}".format(v) }}{% elif v is number and v|abs < 0.0001 %}—{% elif v is number %}{{ "%.4f"|format(v) }}{% else %}{{ v }}{% endif %}</span>
                         </td>
                         {% endfor %}
                     </tr>
@@ -135,4 +159,68 @@
     </div>
 </div>
 {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const fsItems = {{ selected['items'] | tojson if selected else '[]' }};
+const fsPeriods = {{ selected.periods | tojson if selected else '[]' }};
+const ticker = '{{ selected_ticker }}';
+const companyName = '{{ selected.company_name if selected else "" }}';
+let editMode = false;
+
+function toggleEdit() {
+    editMode = !editMode;
+    document.getElementById('btnEditMode').classList.toggle('d-none', editMode);
+    document.getElementById('btnSave').classList.toggle('d-none', !editMode);
+    document.getElementById('btnCancel').classList.toggle('d-none', !editMode);
+    document.querySelectorAll('#fsTable td[data-period]').forEach(td => {
+        if (editMode) {
+            const v = td.dataset.val;
+            td.querySelector('.display-val').classList.add('d-none');
+            const inp = document.createElement('input');
+            inp.type = 'text'; inp.className = 'form-control edit-cell';
+            inp.value = v || '';
+            td.appendChild(inp);
+        } else {
+            const inp = td.querySelector('input');
+            if (inp) inp.remove();
+            td.querySelector('.display-val').classList.remove('d-none');
+        }
+    });
+}
+
+function saveFS() {
+    const items = JSON.parse(JSON.stringify(fsItems));
+    document.querySelectorAll('#fsTable tr[data-row]').forEach(tr => {
+        const idx = parseInt(tr.dataset.row);
+        tr.querySelectorAll('td[data-period]').forEach(td => {
+            const p = td.dataset.period;
+            const inp = td.querySelector('input');
+            if (inp) {
+                const raw = inp.value.replace(/,/g, '').trim();
+                if (raw === '' || raw === '—') { items[idx][p] = null; }
+                else {
+                    const n = parseFloat(raw);
+                    items[idx][p] = isNaN(n) ? raw : n;
+                }
+            }
+        });
+    });
+    const form = document.createElement('form');
+    form.method = 'POST'; form.action = '/financial-statements/save';
+    const csrfInp = document.createElement('input');
+    csrfInp.type = 'hidden'; csrfInp.name = 'csrf_token'; csrfInp.value = '{{ csrf_token() }}';
+    form.appendChild(csrfInp);
+    const tInp = document.createElement('input');
+    tInp.type = 'hidden'; tInp.name = 'ticker'; tInp.value = ticker;
+    form.appendChild(tInp);
+    const dInp = document.createElement('input');
+    dInp.type = 'hidden'; dInp.name = 'fs_data';
+    dInp.value = JSON.stringify({company_name: companyName, periods: fsPeriods, items: items});
+    form.appendChild(dInp);
+    document.body.appendChild(form);
+    form.submit();
+}
+</script>
 {% endblock %}

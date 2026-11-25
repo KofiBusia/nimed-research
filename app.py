@@ -1,16 +1,18 @@
+import json
 from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_wtf.csrf import CSRFProtect
 from functools import wraps
 from datetime import datetime
 from config import Config
-from models import db, User, AuditLog
+from models import db, User, AuditLog, MarketInput, SharePrice, CompanyFinancials
 from data_loader import (
     get_dashboard_data, get_beta_data, get_valuation_data,
     get_credit_risk_data, get_fixed_income_data, get_peer_data,
     get_checks_data, get_inputs_data, get_index_data,
     get_yin_full, get_financial_statements_data,
-    get_shareholder_ratios_data, load_workbook_data
+    get_shareholder_ratios_data, load_workbook_data,
+    invalidate_live_cache
 )
 
 app = Flask(__name__)
@@ -408,6 +410,219 @@ def pc_qualitative():
 def pc_assumptions():
     data = get_yin_full()
     return render_template('pc_assumptions.html', data=data)
+
+
+@app.route('/settings/save-inputs', methods=['POST'])
+@login_required
+@role_required('super_admin', 'head_of_research')
+def save_inputs():
+    for key, label, itype, default in MarketInput.INPUT_DEFS:
+        raw = request.form.get(key, '').strip()
+        if not raw:
+            continue
+        mi = MarketInput.query.filter_by(key=key).first()
+        if not mi:
+            mi = MarketInput(key=key, label=label, input_type=itype)
+            db.session.add(mi)
+        if itype == 'select':
+            mi.text_value = raw
+        else:
+            try:
+                mi.value = float(raw)
+            except (ValueError, TypeError):
+                continue
+        mi.updated_by = current_user.id
+    db.session.commit()
+    invalidate_live_cache()
+    log_action(current_user.id, 'update_inputs', 'Updated market inputs')
+    flash('Market inputs saved. Dashboard will reflect changes.', 'success')
+    return redirect(url_for('settings'))
+
+
+@app.route('/prices', methods=['GET', 'POST'])
+@login_required
+def share_prices():
+    if request.method == 'POST' and current_user.can_edit_data():
+        ticker = request.form.get('ticker', '').strip().upper()
+        price = request.form.get('price_ghs', '').strip()
+        shares = request.form.get('shares_m', '').strip()
+        company = request.form.get('company_name', '').strip()
+        pdate = request.form.get('price_date', '').strip()
+        if ticker and price:
+            sp = SharePrice.query.filter_by(ticker=ticker).first()
+            if not sp:
+                sp = SharePrice(ticker=ticker)
+                db.session.add(sp)
+            sp.price_ghs = float(price)
+            if shares:
+                sp.shares_m = float(shares)
+            sp.company_name = company or ticker
+            sp.price_date = pdate
+            sp.source = 'Manual update'
+            sp.updated_by = current_user.id
+            db.session.commit()
+            invalidate_live_cache()
+            log_action(current_user.id, 'update_price', f'{ticker}: GHS {price}')
+            flash(f'Price updated for {ticker}.', 'success')
+        return redirect(url_for('share_prices'))
+
+    prices = SharePrice.query.order_by(SharePrice.ticker).all()
+    base = load_workbook_data()
+    all_peers = base.get('all_peers', {})
+    base_tickers = {}
+    for sector, peers in all_peers.items():
+        for p in peers:
+            t = p.get('Ticker', '')
+            if t:
+                base_tickers[t] = {
+                    'company': p.get('Company', t),
+                    'price': p.get('Last close (GHS)', 0),
+                    'shares_m': p.get('Shares (m)', 0),
+                }
+    return render_template('prices.html', prices=prices, base_tickers=base_tickers)
+
+
+@app.route('/prices/bulk', methods=['POST'])
+@login_required
+@role_required('super_admin', 'head_of_research', 'senior_analyst')
+def bulk_price_upload():
+    f = request.files.get('price_file')
+    if not f or not f.filename.endswith(('.xlsx', '.xls')):
+        flash('Please upload an Excel file (.xlsx).', 'danger')
+        return redirect(url_for('share_prices'))
+    import openpyxl
+    wb = openpyxl.load_workbook(f, data_only=True)
+    ws = wb.active
+    count = 0
+    for row in ws.iter_rows(min_row=2, values_only=False):
+        cells = [c.value for c in row]
+        if len(cells) < 2 or not cells[0] or not cells[1]:
+            continue
+        ticker = str(cells[0]).strip().upper()
+        try:
+            price = float(cells[1])
+        except (ValueError, TypeError):
+            continue
+        sp = SharePrice.query.filter_by(ticker=ticker).first()
+        if not sp:
+            sp = SharePrice(ticker=ticker)
+            db.session.add(sp)
+        sp.price_ghs = price
+        if len(cells) > 2 and cells[2]:
+            try:
+                sp.shares_m = float(cells[2])
+            except (ValueError, TypeError):
+                pass
+        if len(cells) > 3 and cells[3]:
+            sp.company_name = str(cells[3]).strip()
+        if len(cells) > 4 and cells[4]:
+            sp.price_date = str(cells[4]).strip()
+        sp.source = f'Excel upload: {f.filename}'
+        sp.updated_by = current_user.id
+        count += 1
+    db.session.commit()
+    invalidate_live_cache()
+    log_action(current_user.id, 'bulk_price_upload', f'{count} prices from {f.filename}')
+    flash(f'{count} share prices uploaded successfully.', 'success')
+    return redirect(url_for('share_prices'))
+
+
+@app.route('/financial-statements/upload', methods=['POST'])
+@login_required
+@role_required('super_admin', 'head_of_research', 'senior_analyst')
+def upload_financial_statements():
+    f = request.files.get('fs_file')
+    ticker = request.form.get('ticker', '').strip().upper()
+    if not f or not ticker:
+        flash('Please select a ticker and upload a file.', 'danger')
+        return redirect(url_for('financial_statements'))
+    if not f.filename.endswith(('.xlsx', '.xls')):
+        flash('Please upload an Excel file (.xlsx).', 'danger')
+        return redirect(url_for('financial_statements'))
+
+    import openpyxl
+    wb = openpyxl.load_workbook(f, data_only=True)
+    ws = wb.active
+
+    rows = list(ws.iter_rows(values_only=True))
+    if not rows:
+        flash('Empty file.', 'danger')
+        return redirect(url_for('financial_statements'))
+
+    header = rows[0]
+    periods = [str(h).strip() for h in header[2:] if h]
+    items = []
+    for row in rows[1:]:
+        cells = list(row)
+        if not cells or not cells[0]:
+            continue
+        item_name = str(cells[0]).strip()
+        stmt_type = str(cells[1]).strip() if len(cells) > 1 and cells[1] else ''
+        item = {'item': item_name, 'stmt': stmt_type}
+        for i, p in enumerate(periods):
+            val = cells[i + 2] if i + 2 < len(cells) else None
+            if val is not None:
+                try:
+                    val = float(val)
+                except (ValueError, TypeError):
+                    pass
+            item[p] = val
+        items.append(item)
+
+    cf = CompanyFinancials.query.filter_by(ticker=ticker).first()
+    if not cf:
+        cf = CompanyFinancials(ticker=ticker)
+        db.session.add(cf)
+    cf.company_name = request.form.get('company_name', ticker)
+    cf.set_data({'periods': periods, 'items': items})
+    cf.source = f'Excel upload: {f.filename}'
+    cf.updated_by = current_user.id
+    db.session.commit()
+    invalidate_live_cache()
+    log_action(current_user.id, 'upload_fs', f'{ticker}: {len(items)} items, {len(periods)} periods')
+    flash(f'Financial statements uploaded for {ticker}: {len(items)} items across {len(periods)} periods.', 'success')
+    return redirect(url_for('financial_statements', ticker=ticker))
+
+
+@app.route('/financial-statements/save', methods=['POST'])
+@login_required
+@role_required('super_admin', 'head_of_research', 'senior_analyst')
+def save_financial_statements():
+    ticker = request.form.get('ticker', '').strip().upper()
+    data_raw = request.form.get('fs_data', '{}')
+    if not ticker:
+        flash('No ticker specified.', 'danger')
+        return redirect(url_for('financial_statements'))
+    try:
+        data = json.loads(data_raw)
+    except (json.JSONDecodeError, TypeError):
+        flash('Invalid data format.', 'danger')
+        return redirect(url_for('financial_statements', ticker=ticker))
+
+    cf = CompanyFinancials.query.filter_by(ticker=ticker).first()
+    if not cf:
+        cf = CompanyFinancials(ticker=ticker)
+        db.session.add(cf)
+    cf.company_name = data.get('company_name', ticker)
+    cf.set_data(data)
+    cf.source = 'Manual edit'
+    cf.updated_by = current_user.id
+    db.session.commit()
+    invalidate_live_cache()
+    log_action(current_user.id, 'manual_fs_edit', f'{ticker}')
+    flash(f'Financial statements saved for {ticker}.', 'success')
+    return redirect(url_for('financial_statements', ticker=ticker))
+
+
+@app.route('/api/recalculate', methods=['POST'])
+@login_required
+@role_required('super_admin', 'head_of_research')
+def api_recalculate():
+    invalidate_live_cache()
+    from data_loader import get_live_data
+    get_live_data()
+    log_action(current_user.id, 'recalculate', 'Triggered full recalculation')
+    return jsonify({'status': 'ok', 'message': 'Recalculation complete'})
 
 
 def init_db():

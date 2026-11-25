@@ -3,6 +3,7 @@
 {% block page_title %}Research Dashboard{% endblock %}
 
 {% block content %}
+{% set sources = data.get('_sources', {}) %}
 <!-- At a Glance -->
 <div class="row g-3 mb-4">
     {% set glance = data.at_a_glance %}
@@ -75,6 +76,10 @@
     </div>
 </div>
 
+{% if sources %}
+<div class="row mb-3"><div class="col-12"><div class="text-muted" style="font-size:10px;"><i class="bi bi-info-circle me-1"></i><strong>Source:</strong> {{ sources.get('at_a_glance', 'Workbook base data') }}</div></div></div>
+{% endif %}
+
 <!-- Index Chart + Bank Credit Risk -->
 <div class="row g-3 mb-4">
     <div class="col-lg-7">
@@ -119,7 +124,10 @@
 <div class="card-panel mb-4">
     <div class="panel-header">
         <h3><i class="bi bi-currency-exchange me-2"></i>Intrinsic Value vs Market Price</h3>
-        <a href="{{ url_for('valuation') }}" class="btn btn-sm btn-outline-primary" style="font-size:11px;">Full Analysis</a>
+        <div class="d-flex align-items-center gap-2">
+            {% if sources.get('valuations') %}<span class="text-muted" style="font-size:10px"><i class="bi bi-database me-1"></i>{{ sources.valuations }}</span>{% endif %}
+            <a href="{{ url_for('valuation') }}" class="btn btn-sm btn-outline-primary" style="font-size:11px;">Full Analysis</a>
+        </div>
     </div>
     <div class="panel-body">
         <div class="table-responsive">

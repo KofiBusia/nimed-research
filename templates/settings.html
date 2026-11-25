@@ -3,7 +3,6 @@
 {% block page_title %}Settings & Inputs{% endblock %}
 
 {% block content %}
-<!-- Tab Navigation -->
 <ul class="nav nav-tabs mb-4" role="tablist" style="border-bottom:2px solid #e8eaed;">
     <li class="nav-item"><a class="nav-link active fw-semibold" data-bs-toggle="tab" href="#nimed-tab" style="font-size:14px;"><i class="bi bi-graph-up me-1"></i>NIMED Research Inputs</a></li>
     <li class="nav-item"><a class="nav-link fw-semibold" data-bs-toggle="tab" href="#yin-tab" style="font-size:14px;"><i class="bi bi-briefcase me-1"></i>Private Capital Inputs</a></li>
@@ -12,49 +11,75 @@
 <div class="tab-content">
 <!-- NIMED Tab -->
 <div class="tab-pane fade show active" id="nimed-tab">
-<div class="row g-3 mb-4">
-    <div class="col-lg-6">
-        <div class="card-panel">
-            <div class="panel-header"><h3><i class="bi bi-sliders me-2"></i>Market & Beta Settings</h3></div>
-            <div class="panel-body" style="padding:20px;">
-                <table class="table table-sm" style="font-size:13px;">
-                    {% for key, val in data.inputs.items() %}
-                    <tr>
-                        <td class="text-muted" style="width:55%;">{{ key|replace('_',' ')|title }}</td>
-                        <td class="fw-semibold">
-                            {% if val is number and val|float|abs < 1 and val|float != 0 %}
-                            {{ "%.1f"|format(val|float * 100) }}%
-                            {% else %}
-                            {{ val }}
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="card-panel">
-            <div class="panel-header"><h3><i class="bi bi-shield me-2"></i>Credit Scoring Thresholds</h3></div>
-            <div class="panel-body">
-                <table class="table table-research">
-                    <thead><tr><th>Ratio</th><th>Strong If</th><th>Weak If</th><th>Weight</th></tr></thead>
-                    <tbody>
-                        {% for s in data.credit_scoring %}
+<form method="POST" action="{{ url_for('save_inputs') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="row g-3 mb-4">
+        <div class="col-lg-6">
+            <div class="card-panel">
+                <div class="panel-header d-flex justify-content-between align-items-center">
+                    <h3><i class="bi bi-sliders me-2"></i>Market & Beta Settings</h3>
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="bi bi-save me-1"></i>Save & Recalculate</button>
+                </div>
+                <div class="panel-body" style="padding:20px;">
+                    <table class="table table-sm" style="font-size:13px;">
+                        <thead><tr><th style="width:50%">Parameter</th><th>Current</th><th>New Value</th></tr></thead>
+                        <tbody>
+                        {% for key, val in data.inputs.items() %}
                         <tr>
-                            <td class="fw-semibold">{{ s.ratio }}</td>
-                            <td>{{ s.strong_if }}</td>
-                            <td>{{ s.weak_if }}</td>
-                            <td>{{ "%.0f"|format(s.weight|float * 100) }}%</td>
+                            <td class="text-muted">{{ key|replace('_',' ')|title }}</td>
+                            <td class="fw-semibold">
+                                {% if val is number and val|float|abs < 1 and val|float != 0 %}
+                                {{ "%.1f"|format(val|float * 100) }}%
+                                {% else %}{{ val }}{% endif %}
+                            </td>
+                            <td>
+                                {% if key in ('beta_type', 'return_frequency', 'return_basis') %}
+                                <input type="text" name="{{ key }}" class="form-control form-control-sm" value="{{ val }}" style="max-width:160px">
+                                {% elif val is number %}
+                                <input type="number" step="any" name="{{ key }}" class="form-control form-control-sm" placeholder="{{ val }}" style="max-width:120px">
+                                {% else %}
+                                <input type="text" name="{{ key }}" class="form-control form-control-sm" value="{{ val }}" style="max-width:160px">
+                                {% endif %}
+                            </td>
                         </tr>
                         {% endfor %}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                    <div class="text-muted mt-2" style="font-size:11px"><i class="bi bi-info-circle me-1"></i>Leave blank to keep current value. Changes trigger full recalculation of betas, valuations, and dashboard.</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card-panel">
+                <div class="panel-header"><h3><i class="bi bi-shield me-2"></i>Credit Scoring Thresholds</h3></div>
+                <div class="panel-body">
+                    <table class="table table-research">
+                        <thead><tr><th>Ratio</th><th>Strong If</th><th>Weak If</th><th>Weight</th><th>Better When</th></tr></thead>
+                        <tbody>
+                            {% for s in data.credit_scoring %}
+                            <tr>
+                                <td class="fw-semibold">{{ s.ratio }}</td>
+                                <td>{{ s.strong_if }}</td>
+                                <td>{{ s.weak_if }}</td>
+                                <td>{{ "%.0f"|format(s.weight|float * 100) }}%</td>
+                                <td><span class="badge bg-{{ 'success' if s.get('better_when','Higher') == 'Higher' else 'warning' }}">{{ s.get('better_when', 'Higher') }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-panel mt-3">
+                <div class="panel-header"><h3><i class="bi bi-arrow-repeat me-2"></i>Recalculate All</h3></div>
+                <div class="panel-body p-3">
+                    <p class="text-muted" style="font-size:12px">Force a full recalculation of all derived metrics (betas, valuations, ratios, credit scores, dashboard). Use after bulk data changes.</p>
+                    <button type="button" id="btnRecalc" class="btn btn-warning btn-sm"><i class="bi bi-lightning me-1"></i>Recalculate Now</button>
+                    <span id="recalcStatus" class="ms-2 text-muted" style="font-size:12px"></span>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>
 </div>
 
 <!-- Private Capital Tab -->
@@ -70,15 +95,10 @@
                     <tr>
                         <td class="text-muted" style="width:60%;">{{ key }}</td>
                         <td class="fw-semibold">
-                            {% if val.unit == '%' and val.value is number %}
-                            {{ "%.1f"|format(val.value|float * 100) }}%
-                            {% elif val.unit == 'x' and val.value is number %}
-                            {{ "%.2f"|format(val.value|float) }}x
-                            {% elif val.unit == 'rate' and val.value is number %}
-                            {{ "%.2f"|format(val.value|float) }}
-                            {% else %}
-                            {{ val.value }}
-                            {% endif %}
+                            {% if val.unit == '%' and val.value is number %}{{ "%.1f"|format(val.value|float * 100) }}%
+                            {% elif val.unit == 'x' and val.value is number %}{{ "%.2f"|format(val.value|float) }}x
+                            {% elif val.unit == 'rate' and val.value is number %}{{ "%.2f"|format(val.value|float) }}
+                            {% else %}{{ val.value }}{% endif %}
                         </td>
                     </tr>
                     {% endif %}
@@ -151,4 +171,17 @@
 </div>
 </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('btnRecalc')?.addEventListener('click', function() {
+    const st = document.getElementById('recalcStatus');
+    st.textContent = 'Recalculating...';
+    fetch('/api/recalculate', {method:'POST', headers:{'X-CSRFToken': '{{ csrf_token() }}'}})
+    .then(r => r.json())
+    .then(d => { st.textContent = d.message || 'Done'; setTimeout(() => location.reload(), 1000); })
+    .catch(e => { st.textContent = 'Error: ' + e.message; });
+});
+</script>
 {% endblock %}
