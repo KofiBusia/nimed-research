@@ -912,6 +912,10 @@ def init_db():
             db.session.add(admin)
             db.session.commit()
             print("Super Admin created: admin / NimedAdmin2024!")
+        stale = YieldCurvePoint.query.count()
+        if stale > 20:
+            YieldCurvePoint.query.delete()
+            db.session.commit()
 
 
 init_db()
