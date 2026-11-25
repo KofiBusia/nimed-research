@@ -1,8 +1,8 @@
 databases:
   - name: nimed-db
     plan: free
-    databaseName: nimed_research
-    user: nimed_user
+    databaseName: nimed_db
+    user: nimed_db_user
 
 services:
   - type: web
