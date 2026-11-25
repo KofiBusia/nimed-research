@@ -914,10 +914,15 @@ def init_db():
             db.session.add(admin)
             db.session.commit()
             print("Super Admin created: admin / NimedAdmin2024!")
-        stale = YieldCurvePoint.query.count()
-        if stale > 20:
-            YieldCurvePoint.query.delete()
+        stale = YieldCurvePoint.query.filter(
+            YieldCurvePoint.source.like('%GFIM%')
+        ).count()
+        if stale > 0:
+            YieldCurvePoint.query.filter(
+                YieldCurvePoint.source.like('%GFIM%')
+            ).delete(synchronize_session=False)
             db.session.commit()
+            print("Cleared %d stale GFIM yield curve points" % stale)
 
 
 init_db()
