@@ -26,7 +26,7 @@
                         <span class="text-muted" style="font-size:11px;">{{ co.industry }}</span>
                     </div>
                     <h6 class="fw-bold mb-1" style="font-size:13px;">{{ co.company_name }}</h6>
-                    <div class="text-muted" style="font-size:11px;">{{ co.periods|length }} periods &middot; {{ co.items|length }} line items</div>
+                    <div class="text-muted" style="font-size:11px;">{{ co.periods|length }} periods &middot; {{ co.item_count }} line items</div>
                     <a href="{{ url_for('pc_company_view', ticker=ticker) }}" class="btn btn-sm btn-outline-primary mt-2 w-100"><i class="bi bi-eye me-1"></i>View Financials</a>
                 </div>
             </div>
