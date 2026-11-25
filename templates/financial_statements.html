@@ -90,6 +90,54 @@
     {% endif %}
 </div>
 
+{% if current_user.can_edit_inputs() %}
+<div class="row g-3 mb-4">
+    <div class="col-lg-6">
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-plus-circle me-2"></i>Create New Company</h3></div>
+            <div class="panel-body p-3">
+                <form method="POST" action="{{ url_for('create_company') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="row g-2">
+                        <div class="col-sm-3">
+                            <label class="form-label" style="font-size:11px">Ticker</label>
+                            <input type="text" name="ticker" class="form-control form-control-sm" placeholder="e.g. NEWCO" required style="font-size:12px;text-transform:uppercase">
+                        </div>
+                        <div class="col-sm-5">
+                            <label class="form-label" style="font-size:11px">Company Name</label>
+                            <input type="text" name="company_name" class="form-control form-control-sm" placeholder="e.g. New Company PLC" required style="font-size:12px">
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="form-label" style="font-size:11px">Industry</label>
+                            <select name="industry" class="form-select form-select-sm" style="font-size:12px">
+                                <option value="">Select...</option>
+                                <option value="Banking">Banking</option>
+                                <option value="Insurance">Insurance</option>
+                                <option value="Telecom">Telecom</option>
+                                <option value="Mining">Mining</option>
+                                <option value="Manufacturing">Manufacturing</option>
+                                <option value="Oil & Gas">Oil & Gas</option>
+                                <option value="FMCG">FMCG</option>
+                                <option value="Consumer Goods">Consumer Goods</option>
+                                <option value="Petroleum">Petroleum</option>
+                                <option value="Real Estate">Real Estate</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Agribusiness">Agribusiness</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-1 d-flex align-items-end">
+                            <button type="submit" class="btn btn-sm btn-primary w-100"><i class="bi bi-plus-lg"></i></button>
+                        </div>
+                    </div>
+                    <div class="text-muted mt-1" style="font-size:10px">Creates an empty entry — upload or manually enter financial statements after creation</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 <div class="row g-4 mb-4">
     <div class="col-12">
         <div class="card-panel">

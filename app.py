@@ -740,6 +740,34 @@ def clear_financial_statements():
     return redirect(url_for('financial_statements'))
 
 
+@app.route('/financial-statements/create-company', methods=['POST'])
+@login_required
+@role_required('super_admin', 'head_of_research')
+def create_company():
+    ticker = request.form.get('ticker', '').strip().upper()
+    company_name = request.form.get('company_name', '').strip()
+    industry = request.form.get('industry', '').strip()
+    if not ticker or not company_name:
+        flash('Ticker and company name are required.', 'danger')
+        return redirect(url_for('financial_statements'))
+    existing = CompanyFinancials.query.filter_by(ticker=ticker).first()
+    if existing:
+        flash(f'Ticker {ticker} already exists ({existing.company_name}).', 'warning')
+        return redirect(url_for('financial_statements', ticker=ticker))
+    cf = CompanyFinancials(ticker=ticker)
+    cf.company_name = company_name
+    periods = ['FY2022', 'FY2023', 'FY2024']
+    cf.set_data({'periods': periods, 'items': [], 'industry': industry})
+    cf.source = 'Created by admin'
+    cf.updated_by = current_user.id
+    db.session.add(cf)
+    db.session.commit()
+    invalidate_live_cache()
+    log_action(current_user.id, 'create_company', f'{ticker}: {company_name} ({industry})')
+    flash(f'Company created: {ticker} — {company_name}. Upload financial statements or edit inline.', 'success')
+    return redirect(url_for('financial_statements', ticker=ticker))
+
+
 @app.route('/fixed-income/upload', methods=['POST'])
 @login_required
 @role_required('super_admin', 'head_of_research', 'senior_analyst')
