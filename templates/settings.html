@@ -3,6 +3,15 @@
 {% block page_title %}Settings & Inputs{% endblock %}
 
 {% block content %}
+<!-- Tab Navigation -->
+<ul class="nav nav-tabs mb-4" role="tablist" style="border-bottom:2px solid #e8eaed;">
+    <li class="nav-item"><a class="nav-link active fw-semibold" data-bs-toggle="tab" href="#nimed-tab" style="font-size:14px;"><i class="bi bi-graph-up me-1"></i>NIMED Research Inputs</a></li>
+    <li class="nav-item"><a class="nav-link fw-semibold" data-bs-toggle="tab" href="#yin-tab" style="font-size:14px;"><i class="bi bi-briefcase me-1"></i>Private Capital Inputs</a></li>
+</ul>
+
+<div class="tab-content">
+<!-- NIMED Tab -->
+<div class="tab-pane fade show active" id="nimed-tab">
 <div class="row g-3 mb-4">
     <div class="col-lg-6">
         <div class="card-panel">
@@ -45,5 +54,101 @@
             </div>
         </div>
     </div>
+</div>
+</div>
+
+<!-- YIN Private Capital Tab -->
+<div class="tab-pane fade" id="yin-tab">
+<div class="row g-3 mb-4">
+    <div class="col-lg-6">
+        <div class="card-panel mb-3">
+            <div class="panel-header"><h3><i class="bi bi-gear me-2"></i>Cost of Capital & Valuation Inputs</h3></div>
+            <div class="panel-body" style="padding:20px;">
+                <table class="table table-sm" style="font-size:13px;">
+                    {% for key, val in data.yin_market.items() %}
+                    {% if val.value is not none and val.value != 'Value' %}
+                    <tr>
+                        <td class="text-muted" style="width:60%;">{{ key }}</td>
+                        <td class="fw-semibold">
+                            {% if val.unit == '%' and val.value is number %}
+                            {{ "%.1f"|format(val.value|float * 100) }}%
+                            {% elif val.unit == 'x' and val.value is number %}
+                            {{ "%.2f"|format(val.value|float) }}x
+                            {% elif val.unit == 'rate' and val.value is number %}
+                            {{ "%.2f"|format(val.value|float) }}
+                            {% else %}
+                            {{ val.value }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card-panel mb-3">
+            <div class="panel-header"><h3><i class="bi bi-file-earmark-spreadsheet me-2"></i>Target Company Financials</h3></div>
+            <div class="panel-body" style="padding:20px;">
+                <h6 class="fw-bold mb-2" style="font-size:12px;color:var(--nimed-navy);text-transform:uppercase;letter-spacing:1px;">Income Statement</h6>
+                <div class="table-responsive">
+                <table class="table table-sm" style="font-size:12px;">
+                    <thead><tr><th>Item</th><th>FY2023</th><th>FY2024</th><th>FY2025</th></tr></thead>
+                    <tbody>
+                        {% for item in data.yin_target.income_statement %}
+                        <tr>
+                            <td>{{ item.item }}</td>
+                            <td class="fw-semibold">{{ "{:,.0f}".format(item.fy2023|float) if item.fy2023 is number else '—' }}</td>
+                            <td class="fw-semibold">{{ "{:,.0f}".format(item.fy2024|float) if item.fy2024 is number else '—' }}</td>
+                            <td class="fw-semibold">{{ "{:,.0f}".format(item.fy2025|float) if item.fy2025 is number else '—' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+                <h6 class="fw-bold mb-2 mt-3" style="font-size:12px;color:var(--nimed-navy);text-transform:uppercase;letter-spacing:1px;">Balance Sheet</h6>
+                <div class="table-responsive">
+                <table class="table table-sm" style="font-size:12px;">
+                    <thead><tr><th>Item</th><th>FY2023</th><th>FY2024</th><th>FY2025</th></tr></thead>
+                    <tbody>
+                        {% for item in data.yin_target.balance_sheet %}
+                        <tr>
+                            <td>{{ item.item }}</td>
+                            <td class="fw-semibold">{{ "{:,.0f}".format(item.fy2023|float) if item.fy2023 is number else '—' }}</td>
+                            <td class="fw-semibold">{{ "{:,.0f}".format(item.fy2024|float) if item.fy2024 is number else '—' }}</td>
+                            <td class="fw-semibold">{{ "{:,.0f}".format(item.fy2025|float) if item.fy2025 is number else '—' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+                <h6 class="fw-bold mb-2 mt-3" style="font-size:12px;color:var(--nimed-navy);text-transform:uppercase;letter-spacing:1px;">Key Ratios</h6>
+                <div class="table-responsive">
+                <table class="table table-sm" style="font-size:12px;">
+                    <thead><tr><th>Ratio</th><th>FY2023</th><th>FY2024</th><th>FY2025</th></tr></thead>
+                    <tbody>
+                        {% for item in data.yin_target.ratios %}
+                        <tr>
+                            <td>{{ item.item }}</td>
+                            {% for yr in ['fy2023', 'fy2024', 'fy2025'] %}
+                            <td class="fw-semibold">
+                                {% if item[yr] is number %}
+                                    {% if item.unit == '%' %}{{ "%.1f"|format(item[yr]|float * 100) }}%
+                                    {% elif item.unit == 'x' %}{{ "%.2f"|format(item[yr]|float) }}x
+                                    {% else %}{{ "%.2f"|format(item[yr]|float) }}{% endif %}
+                                {% else %}—{% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 </div>
 {% endblock %}

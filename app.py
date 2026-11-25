@@ -143,6 +143,9 @@ def checks():
 @role_required('super_admin', 'head_of_research')
 def settings():
     data = get_inputs_data()
+    yin = get_yin_full()
+    data['yin_market'] = yin.get('market_inputs', {})
+    data['yin_target'] = yin.get('target', {})
     return render_template('settings.html', data=data)
 
 
