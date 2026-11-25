@@ -1,0 +1,681 @@
+{% extends "base.html" %}
+{% block title %}User Manual{% endblock %}
+{% block page_title %}User Manual{% endblock %}
+
+{% block content %}
+<style>
+    .manual-container { max-width: 960px; margin: 0 auto; }
+    .manual-container h2 { font-size: 20px; font-weight: 700; color: var(--nimed-navy); border-bottom: 2px solid var(--nimed-blue); padding-bottom: 8px; margin-top: 32px; margin-bottom: 16px; }
+    .manual-container h3 { font-size: 16px; font-weight: 600; color: #1a3a5c; margin-top: 24px; margin-bottom: 10px; }
+    .manual-container h4 { font-size: 14px; font-weight: 600; color: #2c5282; margin-top: 18px; margin-bottom: 8px; }
+    .manual-container p, .manual-container li { font-size: 13.5px; line-height: 1.7; color: #333; }
+    .manual-container ul, .manual-container ol { padding-left: 20px; }
+    .manual-container li { margin-bottom: 4px; }
+    .manual-container table { font-size: 13px; }
+    .manual-container .role-table td, .manual-container .role-table th { padding: 8px 12px; }
+    .manual-toc { background: #f8f9fb; border: 1px solid #e2e6ea; border-radius: 8px; padding: 20px 24px; }
+    .manual-toc a { color: var(--nimed-blue); text-decoration: none; font-size: 13px; display: block; padding: 3px 0; }
+    .manual-toc a:hover { text-decoration: underline; }
+    .manual-note { background: #eef3fb; border-left: 3px solid var(--nimed-blue); padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 13px; }
+    .manual-warn { background: #fff8e1; border-left: 3px solid #f9a825; padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 13px; }
+    .kbd { background: #eee; border: 1px solid #ccc; border-radius: 3px; padding: 1px 6px; font-size: 12px; font-family: monospace; }
+    .manual-footer { border-top: 1px solid #ddd; margin-top: 40px; padding-top: 16px; font-size: 12px; color: #666; }
+</style>
+
+<div class="manual-container">
+
+    <div class="text-center mb-4">
+        <h1 style="font-size:24px; font-weight:700; color:var(--nimed-navy); margin-bottom:4px;">NIMED Research &amp; Private Capital</h1>
+        <p style="font-size:14px; color:#555; margin-bottom:2px;">User Manual &mdash; Version 2.0</p>
+        <p style="font-size:12px; color:#888;">Last updated: November 2026</p>
+    </div>
+
+    <!-- TABLE OF CONTENTS -->
+    <div class="manual-toc">
+        <strong style="font-size:14px;">Contents</strong>
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <a href="#sec-overview">1. System Overview</a>
+                <a href="#sec-login">2. Logging In</a>
+                <a href="#sec-roles">3. User Roles and Permissions</a>
+                <a href="#sec-dashboard">4. Dashboard</a>
+                <a href="#sec-nimed-index">5. NIMED Index</a>
+                <a href="#sec-beta">6. Beta and Cost of Equity</a>
+                <a href="#sec-valuation">7. Valuation</a>
+                <a href="#sec-credit">8. Bank Credit Risk</a>
+                <a href="#sec-fixed-income">9. Fixed Income</a>
+                <a href="#sec-peers">10. Peer Comparison</a>
+                <a href="#sec-shareholder">11. Shareholder Ratios</a>
+            </div>
+            <div class="col-md-6">
+                <a href="#sec-fs">12. Financial Statements</a>
+                <a href="#sec-prices">13. Share Prices</a>
+                <a href="#sec-currency">14. Multi-Currency and USD Conversion</a>
+                <a href="#sec-pc">15. Private Capital Suite</a>
+                <a href="#sec-checks">16. Model Checks</a>
+                <a href="#sec-settings">17. Settings and Inputs</a>
+                <a href="#sec-users">18. User Management</a>
+                <a href="#sec-approvals">19. Approval Workflow</a>
+                <a href="#sec-audit">20. Audit Log</a>
+                <a href="#sec-profile">21. Profile</a>
+                <a href="#sec-templates">22. Financial Statement Templates</a>
+                <a href="#sec-support">23. Support</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1. SYSTEM OVERVIEW -->
+    <h2 id="sec-overview">1. System Overview</h2>
+    <p>NIMED Research &amp; Private Capital is a web-based equity research and private capital analytics platform. It replicates the analytical capabilities of the NIMED Research Excel workbook in a centralised, multi-user web application with role-based access controls, approval workflows, and audit trails.</p>
+    <h3>Core Capabilities</h3>
+    <ul>
+        <li><strong>Equity Research:</strong> Beta calculation, cost of equity (CAPM), DCF valuation, peer comparison, shareholder ratios, and a proprietary NIMED Index for all Ghana Stock Exchange (GSE) listed securities.</li>
+        <li><strong>Fixed Income:</strong> Government of Ghana yield curve construction from T-bill auction data and GFIM bond trading, with bond calculator and yield curve charting.</li>
+        <li><strong>Bank Credit Risk:</strong> Automated credit scoring of GSE-listed banks using 10 financial ratios with configurable thresholds and weights.</li>
+        <li><strong>Private Capital:</strong> DCF, comparable company, LBO analysis, VC method, Monte Carlo simulation, fund economics, and debt analytics for unlisted companies.</li>
+        <li><strong>Multi-Currency:</strong> Financial statements in any currency (GHS, RWF, TZS, UGX, USD, and others) with live USD conversion.</li>
+        <li><strong>Data Management:</strong> Upload financial statements via Excel or CSV, manage share prices, download industry-specific templates.</li>
+    </ul>
+
+    <h3>System Requirements</h3>
+    <ul>
+        <li>A modern web browser (Chrome, Firefox, Edge, or Safari).</li>
+        <li>An active internet connection.</li>
+        <li>Valid login credentials provided by an administrator.</li>
+    </ul>
+
+    <!-- 2. LOGGING IN -->
+    <h2 id="sec-login">2. Logging In</h2>
+    <p>Navigate to the application URL in your browser. You will be presented with a login screen.</p>
+    <ol>
+        <li>Enter your <strong>username</strong> in the first field.</li>
+        <li>Enter your <strong>password</strong> in the second field.</li>
+        <li>Click <strong>Sign In</strong>.</li>
+    </ol>
+    <p>Upon successful authentication, you are redirected to the Dashboard. Your role badge appears in the top-right corner of every page, confirming your access level.</p>
+    <p>To sign out, click your name in the top-right corner and select <strong>Sign Out</strong> from the dropdown menu.</p>
+
+    <!-- 3. ROLES -->
+    <h2 id="sec-roles">3. User Roles and Permissions</h2>
+    <p>The system enforces five hierarchical roles. Each role inherits all permissions of roles below it.</p>
+    <table class="table table-bordered role-table">
+        <thead style="background:#f0f2f5;">
+            <tr><th>Role</th><th>View Data</th><th>Edit Data</th><th>Edit Inputs</th><th>Manage Users</th><th>Approve Actions</th><th>Delete Users</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Super Admin</strong></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+            <tr><td><strong>Head of Research</strong></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+            <tr><td><strong>Senior Analyst</strong></td><td>Yes</td><td>Yes*</td><td>No</td><td>No</td><td>No</td><td>No</td></tr>
+            <tr><td><strong>Analyst</strong></td><td>Yes</td><td>No</td><td>No</td><td>No</td><td>No</td><td>No</td></tr>
+            <tr><td><strong>Viewer</strong></td><td>Yes</td><td>No</td><td>No</td><td>No</td><td>No</td><td>No</td></tr>
+        </tbody>
+    </table>
+    <div class="manual-note">
+        <strong>*Senior Analyst note:</strong> Senior Analysts can upload financial statements, edit data, and update share prices, but all their changes require approval from a Head of Research or Super Admin before taking effect. See <a href="#sec-approvals">Section 19: Approval Workflow</a>.
+    </div>
+
+    <h3>Permission Definitions</h3>
+    <ul>
+        <li><strong>View Data:</strong> Access to all analytical pages (Dashboard, Beta, Valuation, etc.).</li>
+        <li><strong>Edit Data:</strong> Upload financial statements, update share prices, edit financial data inline.</li>
+        <li><strong>Edit Inputs:</strong> Modify market parameters (risk-free rate, beta type, equity risk premium, exchange rates, credit scoring thresholds, Private Capital assumptions).</li>
+        <li><strong>Manage Users:</strong> Create, edit, and deactivate user accounts.</li>
+        <li><strong>Approve Actions:</strong> Review and approve or reject pending submissions from Senior Analysts.</li>
+        <li><strong>Delete Users:</strong> Permanently remove user accounts from the system.</li>
+    </ul>
+
+    <!-- 4. DASHBOARD -->
+    <h2 id="sec-dashboard">4. Dashboard</h2>
+    <p>The Dashboard is the primary overview page. It presents key market metrics in summary cards at the top, followed by detailed data tables and charts.</p>
+    <h3>Summary Cards</h3>
+    <p>The top row displays headline statistics: total companies covered, market capitalisation, GSE-CI level, average cost of equity, and other aggregate metrics. Each card includes a contextual icon and the current computed value.</p>
+    <h3>Sections</h3>
+    <ul>
+        <li><strong>Beta Overview:</strong> Distribution of beta reliability across all covered securities, with counts of reliable versus unreliable betas.</li>
+        <li><strong>Valuation Summary:</strong> Counts and percentages of undervalued, fairly valued, and overvalued securities based on the DCF model.</li>
+        <li><strong>Credit Scoring:</strong> Average bank credit scores and rating distribution (A/B/C) for GSE-listed banks.</li>
+        <li><strong>Yield Curve:</strong> Current Government of Ghana yield curve chart.</li>
+    </ul>
+    <div class="manual-note">
+        All data on the Dashboard is computed from the underlying inputs and financial statements. To refresh computations after data changes, use the <strong>Save &amp; Recalculate</strong> button on the Settings page or the <strong>Recalculate Now</strong> button.
+    </div>
+
+    <!-- 5. NIMED INDEX -->
+    <h2 id="sec-nimed-index">5. NIMED Index</h2>
+    <p>The NIMED Index is a proprietary market index that provides an alternative weighting methodology to the GSE Composite Index. It displays:</p>
+    <ul>
+        <li>Index level and period-over-period change.</li>
+        <li>Constituent weights based on the NIMED methodology.</li>
+        <li>Historical time-series chart of index performance.</li>
+        <li>Comparison against the GSE-CI benchmark.</li>
+    </ul>
+
+    <!-- 6. BETA -->
+    <h2 id="sec-beta">6. Beta and Cost of Equity</h2>
+    <p>This page calculates and displays the beta coefficient and cost of equity for every GSE-listed security.</p>
+    <h3>Key Concepts</h3>
+    <ul>
+        <li><strong>Beta:</strong> Measures a security's sensitivity to market movements. Calculated by regressing each stock's returns against the GSE Composite Index returns.</li>
+        <li><strong>Cost of Equity:</strong> Computed using the Capital Asset Pricing Model (CAPM): <em>Cost of Equity = Risk-Free Rate + Beta &times; Equity Risk Premium</em>.</li>
+        <li><strong>Reliability:</strong> Beta is flagged as reliable or unreliable based on the R-squared threshold set in Settings. Unreliable betas are either replaced with the sector average or kept with a warning, depending on the configuration.</li>
+    </ul>
+    <h3>Beta Type Options</h3>
+    <p>The beta type is configured in Settings &gt; NIMED Research Inputs. The four options are:</p>
+    <table class="table table-bordered" style="font-size:13px;">
+        <thead style="background:#f0f2f5;"><tr><th>Option</th><th>Description</th></tr></thead>
+        <tbody>
+            <tr><td><strong>Raw</strong></td><td>Unadjusted OLS regression beta.</td></tr>
+            <tr><td><strong>Blume</strong></td><td>Blume-adjusted beta: weighted average of the raw beta and 1.0, using the Blume weight configured in Settings.</td></tr>
+            <tr><td><strong>Dimson</strong></td><td>Dimson beta: sums lagged, contemporaneous, and lead coefficients to correct for thin-trading bias.</td></tr>
+            <tr><td><strong>Dimson + Blume</strong></td><td>Dimson beta with Blume adjustment applied. This is the default and recommended setting for the GSE.</td></tr>
+        </tbody>
+    </table>
+    <h3>Display</h3>
+    <ul>
+        <li>Summary table of all securities with their betas, R-squared values, reliability flags, and computed cost of equity.</li>
+        <li>Colour-coded reliability badges: green for reliable, amber for borderline, red for unreliable.</li>
+        <li>Sector-level beta averages.</li>
+    </ul>
+
+    <!-- 7. VALUATION -->
+    <h2 id="sec-valuation">7. Valuation</h2>
+    <p>The Valuation page produces a DCF-based intrinsic value for each GSE-listed company and compares it against the current market price.</p>
+    <h3>Methodology</h3>
+    <ul>
+        <li><strong>Discounted Cash Flow (DCF):</strong> Projects free cash flows using the latest financial statements, discounts them at the company's WACC, and derives an equity value per share.</li>
+        <li><strong>Model Weights:</strong> Multiple valuation approaches (earnings-based, book-based, cash flow-based) are weighted to produce a blended target price.</li>
+        <li><strong>Verdict:</strong> Each security receives a verdict: <span style="color:#2e7d32;font-weight:600;">Undervalued</span>, <span style="color:#1565c0;font-weight:600;">Fair Value</span>, or <span style="color:#c62828;font-weight:600;">Overvalued</span>, based on the gap between the target price and the market price relative to the undervalued band set in Settings.</li>
+    </ul>
+    <h3>Key Inputs</h3>
+    <ul>
+        <li>Risk-free rate, equity risk premium, long-term growth rate, pre-tax cost of debt, marginal tax rate &mdash; all configured in Settings.</li>
+        <li>Financial statement data for each company.</li>
+        <li>Current share prices from the Share Prices page.</li>
+    </ul>
+
+    <!-- 8. CREDIT RISK -->
+    <h2 id="sec-credit">8. Bank Credit Risk</h2>
+    <p>Automated credit assessment of GSE-listed banks using a weighted scoring model.</p>
+    <h3>Scoring Framework</h3>
+    <p>The system evaluates 10 financial ratios extracted from the latest bank financial statements:</p>
+    <ol>
+        <li>Capital adequacy ratio</li>
+        <li>NPL ratio</li>
+        <li>Cash to deposits</li>
+        <li>Loan-to-deposit</li>
+        <li>Equity to assets</li>
+        <li>Return on assets</li>
+        <li>Return on equity</li>
+        <li>Cost-to-income</li>
+        <li>Deposit growth</li>
+        <li>Securities to assets</li>
+    </ol>
+    <p>Each ratio is scored as <strong>Strong</strong>, <strong>Adequate</strong>, or <strong>Weak</strong> based on configurable thresholds. The weighted composite score maps to a credit rating:</p>
+    <ul>
+        <li><strong>Rating A</strong> (green): Strong credit quality, suitable for large placements.</li>
+        <li><strong>Rating B</strong> (amber): Adequate credit quality, suitable for moderate placements with monitoring.</li>
+        <li><strong>Rating C</strong> (red): Weak credit quality, placements not recommended without further due diligence.</li>
+    </ul>
+    <div class="manual-note">
+        Thresholds and weights are configurable in Settings &gt; NIMED Research Inputs &gt; Credit Scoring Thresholds. Only Super Admins and Heads of Research can modify these values.
+    </div>
+
+    <!-- 9. FIXED INCOME -->
+    <h2 id="sec-fixed-income">9. Fixed Income</h2>
+    <p>The Fixed Income page provides Government of Ghana yield curve data and bond analytics.</p>
+    <h3>Yield Curve</h3>
+    <ul>
+        <li>Displays tenors from 91-day T-bills through long-dated government bonds.</li>
+        <li>Shows yield, coupon, price, and maturity date for each instrument.</li>
+        <li>Plots an interactive yield curve chart.</li>
+    </ul>
+    <h3>Bond Calculator</h3>
+    <ul>
+        <li>Calculate price from yield, or yield from price, for a given coupon and maturity.</li>
+        <li>Duration and convexity calculations.</li>
+    </ul>
+    <h3>Uploading Yield Curve Data</h3>
+    <p>Authorised users can upload updated yield curve data from an Excel file. The system parses T-bill auction results and bond trading data from multiple sheet formats.</p>
+    <ol>
+        <li>Navigate to <strong>Fixed Income</strong>.</li>
+        <li>Click the upload area and select an Excel file containing T-bill or bond data.</li>
+        <li>The system will parse tenors, yields, coupons, and prices automatically.</li>
+        <li>Data replaces the existing yield curve in the database.</li>
+    </ol>
+
+    <!-- 10. PEERS -->
+    <h2 id="sec-peers">10. Peer Comparison</h2>
+    <p>Peer Comparison groups GSE-listed companies by sector and displays side-by-side financial metrics for comparative analysis.</p>
+    <ul>
+        <li>Grouped by industry sector (Banking, Insurance, Manufacturing, etc.).</li>
+        <li>Metrics include market cap, P/E ratio, P/B ratio, dividend yield, ROE, and beta.</li>
+        <li>Sortable columns for ranking within each sector.</li>
+    </ul>
+
+    <!-- 11. SHAREHOLDER RATIOS -->
+    <h2 id="sec-shareholder">11. Shareholder Ratios</h2>
+    <p>Displays key shareholder-focused financial ratios for all covered companies:</p>
+    <ul>
+        <li>Earnings per share (EPS)</li>
+        <li>Book value per share</li>
+        <li>Dividend per share</li>
+        <li>Price-to-earnings (P/E) ratio</li>
+        <li>Price-to-book (P/B) ratio</li>
+        <li>Dividend yield</li>
+        <li>Payout ratio</li>
+    </ul>
+    <p>All ratios are computed from the uploaded financial statements and current share prices.</p>
+
+    <!-- 12. FINANCIAL STATEMENTS -->
+    <h2 id="sec-fs">12. Financial Statements</h2>
+    <p>The Financial Statements page is the central data management hub. It stores income statements, balance sheets, cash flow statements, and metadata for every company in the system.</p>
+
+    <h3>12.1 Viewing Financial Statements</h3>
+    <ol>
+        <li>Navigate to <strong>Financial Statements</strong> in the sidebar.</li>
+        <li>Use the <strong>Select Company</strong> dropdown or click a ticker in the <strong>Quick Select</strong> bar to choose a company.</li>
+        <li>The page displays the company's financial data organised into tabbed sections: Income Statement, Balance Sheet, Cash Flow, and Other Data (META).</li>
+        <li>The currency badge at the top of the data table indicates the reporting currency (e.g., GHS, RWF, TZS).</li>
+    </ol>
+
+    <h3>12.2 Uploading Financial Statements</h3>
+    <div class="manual-note">
+        Required role: Super Admin, Head of Research, or Senior Analyst (with approval).
+    </div>
+    <ol>
+        <li>In the <strong>Upload Financial Statements</strong> section (top-right), select the target company from the dropdown. To upload for a new company, type the ticker and company name in the fields below the dropdown.</li>
+        <li>Click <strong>Choose File</strong> and select an Excel (.xlsx) or CSV (.csv) file.</li>
+        <li>Click the green upload button.</li>
+    </ol>
+    <h4>File Format Requirements</h4>
+    <p>The upload file must follow this structure:</p>
+    <table class="table table-bordered" style="font-size:12px;">
+        <thead style="background:#f0f2f5;">
+            <tr><th>Column A</th><th>Column B</th><th>Column C onward</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Line Item name</td><td>Statement type code</td><td>Period values (one column per period)</td></tr>
+        </tbody>
+    </table>
+    <p><strong>Statement type codes:</strong></p>
+    <ul>
+        <li><strong>IS</strong> &mdash; Income Statement item</li>
+        <li><strong>BS</strong> &mdash; Balance Sheet item</li>
+        <li><strong>CF</strong> &mdash; Cash Flow item</li>
+        <li><strong>META</strong> &mdash; Metadata (Company Name, Currency, Country of Incorporation, Industry, etc.)</li>
+    </ul>
+    <p><strong>Header row:</strong> The first row must contain headers. Columns C onward should contain period identifiers (e.g., FY2022, FY2023, FY2024).</p>
+    <p><strong>Currency detection:</strong> If a META row with item name "Currency" is present, the system automatically detects the reporting currency (e.g., GHS, RWF, TZS, UGX) and stores it with the company data.</p>
+
+    <h3>12.3 Editing Data Inline</h3>
+    <p>Authorised users can edit individual cell values directly in the data table:</p>
+    <ol>
+        <li>Click on a cell value to make it editable.</li>
+        <li>Modify the value.</li>
+        <li>Click <strong>Save Changes</strong> to persist edits.</li>
+    </ol>
+
+    <h3>12.4 Creating a New Company</h3>
+    <ol>
+        <li>Scroll to the <strong>Create New Company</strong> section.</li>
+        <li>Enter a <strong>Ticker</strong> (e.g., CLG-RW), <strong>Company Name</strong>, and select an <strong>Industry</strong>.</li>
+        <li>Click the green plus button to create the entry.</li>
+        <li>Upload financial statements for the newly created company.</li>
+    </ol>
+
+    <h3>12.5 Clearing Data</h3>
+    <div class="manual-warn">
+        <strong>Caution:</strong> Clearing data is permanent and cannot be undone.
+    </div>
+    <ul>
+        <li><strong>Clear [TICKER]:</strong> Removes all financial data for the currently selected company.</li>
+        <li><strong>Clear All:</strong> Removes financial data for all companies. Available to Super Admin and Head of Research only.</li>
+    </ul>
+
+    <!-- 13. SHARE PRICES -->
+    <h2 id="sec-prices">13. Share Prices</h2>
+    <p>The Share Prices page displays current prices for all GSE-listed securities and allows authorised users to update them.</p>
+    <h3>Viewing Prices</h3>
+    <p>The table shows each ticker, company name, current price (GHS), shares outstanding (millions), last update date, and source.</p>
+    <h3>Updating a Single Price</h3>
+    <ol>
+        <li>Select the ticker from the dropdown at the top of the page.</li>
+        <li>Enter the new price, shares outstanding (optional), date, and source.</li>
+        <li>Click <strong>Update</strong>.</li>
+    </ol>
+    <h3>Bulk Price Upload</h3>
+    <ol>
+        <li>Prepare an Excel file with columns: TICKER, PRICE, SHARES_M (optional), DATE (optional).</li>
+        <li>Use the bulk upload form to upload the file.</li>
+        <li>The system matches tickers and updates prices in bulk.</li>
+    </ol>
+    <div class="manual-note">
+        Only securities with financial statements in the system appear on this page. The displayed tickers are filtered to real GSE tickers only.
+    </div>
+
+    <!-- 14. CURRENCY -->
+    <h2 id="sec-currency">14. Multi-Currency and USD Conversion</h2>
+    <p>The system supports financial statements in multiple currencies and provides real-time conversion to USD.</p>
+    <h3>Supported Currencies</h3>
+    <p>The system is pre-loaded with 11 currencies and can be extended with additional currencies at any time:</p>
+    <table class="table table-bordered" style="font-size:12px;">
+        <thead style="background:#f0f2f5;"><tr><th>Code</th><th>Currency</th><th>Region</th></tr></thead>
+        <tbody>
+            <tr><td>GHS</td><td>Ghanaian Cedi</td><td>Ghana (GSE default)</td></tr>
+            <tr><td>USD</td><td>US Dollar</td><td>International</td></tr>
+            <tr><td>RWF</td><td>Rwandan Franc</td><td>Rwanda</td></tr>
+            <tr><td>TZS</td><td>Tanzanian Shilling</td><td>Tanzania</td></tr>
+            <tr><td>UGX</td><td>Ugandan Shilling</td><td>Uganda</td></tr>
+            <tr><td>XOF</td><td>West African CFA Franc</td><td>Benin / UEMOA</td></tr>
+            <tr><td>NGN</td><td>Nigerian Naira</td><td>Nigeria</td></tr>
+            <tr><td>KES</td><td>Kenyan Shilling</td><td>Kenya</td></tr>
+            <tr><td>ZAR</td><td>South African Rand</td><td>South Africa</td></tr>
+            <tr><td>GBP</td><td>British Pound</td><td>United Kingdom</td></tr>
+            <tr><td>EUR</td><td>Euro</td><td>Eurozone</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Automatic Currency Detection</h3>
+    <p>When uploading financial statements, include a META row with item name "Currency" and the currency code as its value. The system automatically assigns the correct currency to the company.</p>
+
+    <h3>USD Conversion on Financial Statements</h3>
+    <ol>
+        <li>Open any company's financial statements.</li>
+        <li>The currency badge at the top shows the original reporting currency.</li>
+        <li>Click <strong>Convert to USD</strong> to view all values converted at the current exchange rate.</li>
+        <li>Click <strong>Show Original</strong> to revert to the original currency.</li>
+    </ol>
+    <p>The conversion uses the exchange rates configured in Settings &gt; Exchange Rates.</p>
+
+    <h3>Managing Exchange Rates</h3>
+    <p>Navigate to <strong>Settings &gt; Exchange Rates</strong> tab (available to Super Admin and Head of Research):</p>
+    <ul>
+        <li><strong>View rates:</strong> All currencies and their current rate to USD are displayed.</li>
+        <li><strong>Update rates:</strong> Enter new rates in the "New Rate" column and click <strong>Save Rates</strong>.</li>
+        <li><strong>Add a currency:</strong> Use the "Add Currency" form on the right panel to register a new currency code, name, and rate.</li>
+        <li><strong>Quick Converter:</strong> Enter an amount and select a currency to see the USD equivalent instantly.</li>
+    </ul>
+
+    <!-- 15. PRIVATE CAPITAL -->
+    <h2 id="sec-pc">15. Private Capital Suite</h2>
+    <p>The Private Capital suite provides valuation and analytics tools for unlisted companies, private equity, venture capital, and debt transactions.</p>
+
+    <h3>15.1 PC Dashboard</h3>
+    <p>Overview page summarising the target company's key metrics and valuation outputs. Displays summary statistics, charts, and links to each analytical module.</p>
+
+    <h3>15.2 PE and Valuation Plus</h3>
+    <p>Extended valuation toolkit for private companies:</p>
+    <ul>
+        <li>DCF analysis with customisable forecast periods, growth rates, and discount rates.</li>
+        <li>Comparable company analysis using public market multiples.</li>
+        <li>Precedent transaction analysis.</li>
+        <li>Blended valuation summary with adjustable model weights.</li>
+    </ul>
+
+    <h3>15.3 Monte Carlo Simulation</h3>
+    <p>Runs probability-weighted valuation scenarios by randomising key assumptions (growth rates, margins, discount rates). Outputs a distribution of possible values with percentile ranges, providing a probabilistic view of the valuation.</p>
+
+    <h3>15.4 LBO Analysis</h3>
+    <p>Leveraged buyout model for private equity transactions:</p>
+    <ul>
+        <li>Configurable capital structure (debt tranches, equity contribution).</li>
+        <li>Projected cash flows and debt repayment schedule.</li>
+        <li>IRR and money-multiple calculations for the equity sponsor.</li>
+        <li>Sensitivity analysis on entry/exit multiples and leverage.</li>
+    </ul>
+
+    <h3>15.5 VC Method</h3>
+    <p>Venture capital valuation method for early-stage companies:</p>
+    <ul>
+        <li>Pre-money and post-money valuation.</li>
+        <li>Expected return analysis based on projected exit values.</li>
+        <li>Dilution modelling across funding rounds.</li>
+    </ul>
+
+    <h3>15.6 Fund Economics</h3>
+    <p>Models private equity or venture capital fund-level economics:</p>
+    <ul>
+        <li>Management fees and carried interest calculations.</li>
+        <li>GP/LP split modelling.</li>
+        <li>J-curve and cash flow waterfall projections.</li>
+        <li>Net IRR to limited partners.</li>
+    </ul>
+
+    <h3>15.7 Debt: Loan Pricing</h3>
+    <p>Analyses loan pricing and structuring:</p>
+    <ul>
+        <li>Interest rate build-up (base rate + credit spread).</li>
+        <li>Amortisation schedules.</li>
+        <li>Covenant analysis and headroom calculations.</li>
+    </ul>
+
+    <h3>15.8 Debt: Borrower Credit</h3>
+    <p>Credit assessment framework for corporate borrowers:</p>
+    <ul>
+        <li>Financial ratio analysis (leverage, coverage, liquidity).</li>
+        <li>Qualitative factors (management, industry, competitive position).</li>
+        <li>Internal credit rating assignment.</li>
+    </ul>
+
+    <h3>15.9 Debt: Distressed</h3>
+    <p>Tools for analysing distressed debt opportunities:</p>
+    <ul>
+        <li>Recovery analysis and liquidation value.</li>
+        <li>Restructuring scenario modelling.</li>
+        <li>Distressed debt pricing.</li>
+    </ul>
+
+    <h3>15.10 Qualitative Score</h3>
+    <p>Structured qualitative assessment for private companies covering:</p>
+    <ul>
+        <li>Management quality and track record.</li>
+        <li>Industry attractiveness and competitive dynamics.</li>
+        <li>Governance structure and risk factors.</li>
+        <li>Weighted composite qualitative score.</li>
+    </ul>
+
+    <h3>15.11 Assumptions and Forecast</h3>
+    <p>Central page for entering and reviewing all assumptions used in Private Capital analysis. Contains revenue growth rates, margin assumptions, capex forecasts, working capital assumptions, terminal growth rates, and discount rates for the target company.</p>
+
+    <h3>Private Capital Inputs</h3>
+    <p>The Private Capital module has its own dedicated settings tab (Settings &gt; Private Capital Inputs) where market-level inputs specific to private transactions are configured. These are separate from the GSE equity research inputs.</p>
+
+    <!-- 16. CHECKS -->
+    <h2 id="sec-checks">16. Model Checks</h2>
+    <p>The Model Checks page runs diagnostic tests across the entire system to verify data integrity and computational consistency:</p>
+    <ul>
+        <li>Number of securities with computed betas and their reliability rates.</li>
+        <li>Balance sheet checks (assets equals liabilities plus equity).</li>
+        <li>Cash flow reconciliation checks.</li>
+        <li>Missing data flags (companies without prices, without financial statements).</li>
+        <li>Input consistency checks (rates within expected ranges).</li>
+    </ul>
+    <p>Each check shows a pass/fail status. Failed checks include a description of the issue and guidance on resolution.</p>
+
+    <!-- 17. SETTINGS -->
+    <h2 id="sec-settings">17. Settings and Inputs</h2>
+    <div class="manual-note">
+        Required role: Super Admin or Head of Research.
+    </div>
+    <p>The Settings page has three tabs:</p>
+
+    <h3>17.1 NIMED Research Inputs</h3>
+    <p>Market-level parameters that drive all equity research calculations:</p>
+    <table class="table table-bordered" style="font-size:12px;">
+        <thead style="background:#f0f2f5;"><tr><th>Parameter</th><th>Description</th><th>Default</th></tr></thead>
+        <tbody>
+            <tr><td>Return Frequency</td><td>Frequency of return calculations. Options: Weekly, Monthly, Quarterly, Annual.</td><td>Weekly</td></tr>
+            <tr><td>Return Basis</td><td>Whether returns include dividends. Options: Price only, Total return.</td><td>Price only</td></tr>
+            <tr><td>Beta Type</td><td>Beta calculation methodology. Options: Raw, Blume, Dimson, Dimson + Blume.</td><td>Dimson + Blume</td></tr>
+            <tr><td>R-Squared Threshold</td><td>Minimum R-squared for a beta to be considered reliable.</td><td>0.10</td></tr>
+            <tr><td>Blume Weight</td><td>Weight on raw beta in the Blume adjustment (remainder goes to 1.0).</td><td>0.67</td></tr>
+            <tr><td>Risk-Free Rate</td><td>Ghana government yield used in CAPM.</td><td>11.1%</td></tr>
+            <tr><td>Equity Risk Premium</td><td>Market premium over the risk-free rate.</td><td>7.0%</td></tr>
+            <tr><td>USD/GHS Rate</td><td>Exchange rate for USD to GHS conversion.</td><td>11.68</td></tr>
+            <tr><td>Long-Term Growth</td><td>Terminal growth rate for DCF models.</td><td>6.4%</td></tr>
+            <tr><td>Undervalued Band</td><td>Minimum discount to target price for an "Undervalued" verdict.</td><td>15%</td></tr>
+            <tr><td>Pre-Tax Cost of Debt</td><td>Pre-tax borrowing cost assumption.</td><td>18%</td></tr>
+        </tbody>
+    </table>
+    <p>The <strong>Credit Scoring Thresholds</strong> panel (right side) allows adjustment of the strong/weak thresholds and weights for each of the 10 bank credit ratios.</p>
+    <p>After modifying any input, click <strong>Save &amp; Recalculate</strong> to update all computed values across the system.</p>
+
+    <h3>17.2 Private Capital Inputs</h3>
+    <p>Market assumptions specific to private capital analysis, including target company financial data, growth assumptions, and transaction-specific parameters.</p>
+
+    <h3>17.3 Exchange Rates</h3>
+    <p>Currency rate management. See <a href="#sec-currency">Section 14: Multi-Currency and USD Conversion</a> for detailed instructions.</p>
+
+    <!-- 18. USER MANAGEMENT -->
+    <h2 id="sec-users">18. User Management</h2>
+    <div class="manual-note">
+        Required role: Super Admin or Head of Research.
+    </div>
+    <h3>Viewing Users</h3>
+    <p>Navigate to <strong>User Management</strong> in the sidebar. The page lists all registered users with their username, full name, email, role, status, and creation date.</p>
+
+    <h3>Creating a New User</h3>
+    <ol>
+        <li>Click <strong>Create New User</strong>.</li>
+        <li>Fill in: Username, Email, Full Name, Password.</li>
+        <li>Select a <strong>Role</strong> from the dropdown. The right panel displays the permissions associated with the selected role in real time.</li>
+        <li>Click <strong>Create User</strong>.</li>
+    </ol>
+    <div class="manual-note">
+        Head of Research can create users with roles up to Senior Analyst. Only Super Admins can create other Super Admin or Head of Research accounts.
+    </div>
+
+    <h3>Editing a User</h3>
+    <ol>
+        <li>Click the edit icon next to the user's row.</li>
+        <li>Modify the full name, email, role, active status, or password.</li>
+        <li>Click <strong>Save Changes</strong>.</li>
+    </ol>
+
+    <h3>Deactivating vs. Deleting</h3>
+    <ul>
+        <li><strong>Deactivate:</strong> Uncheck the "Active" checkbox when editing. The user cannot log in but their audit trail is preserved. Preferred approach.</li>
+        <li><strong>Delete:</strong> Permanently removes the user account. Only Super Admins can delete users. This action cannot be undone.</li>
+    </ul>
+
+    <!-- 19. APPROVALS -->
+    <h2 id="sec-approvals">19. Approval Workflow</h2>
+    <p>The approval system ensures data quality by requiring that Senior Analyst changes are reviewed before they take effect.</p>
+    <h3>How It Works</h3>
+    <ol>
+        <li>A Senior Analyst uploads financial statements, edits data, or updates a share price.</li>
+        <li>Instead of being applied immediately, the change is saved as a <strong>Pending Action</strong>.</li>
+        <li>The system notifies approvers via a badge count on the <strong>Approvals</strong> menu item.</li>
+        <li>A Super Admin or Head of Research navigates to <strong>Approvals</strong>, reviews the pending action, and either <strong>Approves</strong> or <strong>Rejects</strong> it.</li>
+        <li>Approved actions are applied to the database. Rejected actions are discarded with a note.</li>
+    </ol>
+    <h3>Reviewing a Pending Action</h3>
+    <ol>
+        <li>Navigate to <strong>Approvals</strong> in the sidebar.</li>
+        <li>Click on a pending action to view its details: who submitted it, when, what data it contains.</li>
+        <li>For financial statement uploads, the full data preview is displayed for review.</li>
+        <li>Click <strong>Approve</strong> to apply the changes, or <strong>Reject</strong> with an optional note explaining the reason.</li>
+    </ol>
+    <h3>Action Types</h3>
+    <ul>
+        <li><strong>upload_fs:</strong> New financial statement upload for a company.</li>
+        <li><strong>edit_fs:</strong> Inline edits to existing financial data.</li>
+        <li><strong>update_price:</strong> Share price update for a ticker.</li>
+    </ul>
+
+    <!-- 20. AUDIT LOG -->
+    <h2 id="sec-audit">20. Audit Log</h2>
+    <div class="manual-note">
+        Required role: Super Admin or Head of Research.
+    </div>
+    <p>The Audit Log records every significant action performed in the system. Navigate to <strong>Audit Log</strong> in the sidebar to view the 200 most recent entries.</p>
+    <p>Each entry records:</p>
+    <ul>
+        <li><strong>Timestamp:</strong> Date and time of the action.</li>
+        <li><strong>User:</strong> Who performed the action.</li>
+        <li><strong>Action:</strong> What was done (e.g., update_price, upload_fs, create_user, manual_fs_edit).</li>
+        <li><strong>Details:</strong> Specifics of the action (e.g., ticker, number of items, role assigned).</li>
+    </ul>
+    <p>The audit log is append-only and cannot be modified or deleted by any user.</p>
+
+    <!-- 21. PROFILE -->
+    <h2 id="sec-profile">21. Profile</h2>
+    <p>All users can access their profile from the dropdown menu in the top-right corner.</p>
+    <h3>Available Actions</h3>
+    <ul>
+        <li><strong>Update full name:</strong> Change the display name shown across the system.</li>
+        <li><strong>Change password:</strong> Enter your current password and a new password to update your credentials.</li>
+    </ul>
+    <p>Users cannot change their own role or username. These can only be modified by an administrator.</p>
+
+    <!-- 22. TEMPLATES -->
+    <h2 id="sec-templates">22. Financial Statement Templates</h2>
+    <p>The system provides downloadable Excel and CSV templates pre-formatted for financial statement uploads. Templates are available for over 20 industry types.</p>
+    <h3>Available Industry Templates</h3>
+    <div class="row" style="font-size:12px;">
+        <div class="col-md-4">
+            <ul>
+                <li>Banking</li>
+                <li>Insurance</li>
+                <li>Manufacturing</li>
+                <li>Retail / Distribution</li>
+                <li>Mining / Extractive</li>
+                <li>Agriculture</li>
+                <li>Real Estate / REIT</li>
+                <li>IT / Technology</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <ul>
+                <li>Telecommunications</li>
+                <li>Utilities / Energy</li>
+                <li>Healthcare / Pharma</li>
+                <li>Education</li>
+                <li>Hospitality / Tourism</li>
+                <li>Media / Entertainment</li>
+                <li>Transport / Logistics</li>
+                <li>Conglomerate / Diversified</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <ul>
+                <li>Oil and Gas</li>
+                <li>Construction / Engineering</li>
+                <li>Investment / Holding</li>
+                <li>Microfinance / Savings &amp; Loans</li>
+                <li>Food and Beverage</li>
+                <li>Fintech</li>
+                <li>Gaming / Betting</li>
+                <li>General (All Industries)</li>
+            </ul>
+        </div>
+    </div>
+    <p>Templates are available on the Financial Statements page. Each template includes the correct line items and statement type codes for its industry, with example period headers.</p>
+
+    <h3>Using a Template</h3>
+    <ol>
+        <li>Download the template for the relevant industry (available in both .xlsx and .csv format).</li>
+        <li>Fill in the financial data for each period column. Leave cells blank where data is not available.</li>
+        <li>Ensure the Currency META row is set to the correct currency code.</li>
+        <li>Upload the completed file on the Financial Statements page.</li>
+    </ol>
+
+    <!-- 23. SUPPORT -->
+    <h2 id="sec-support">23. Support</h2>
+    <table class="table table-bordered" style="font-size:13px; max-width:500px;">
+        <tbody>
+            <tr><td style="width:140px;"><strong>System</strong></td><td>NIMED Research &amp; Private Capital</td></tr>
+            <tr><td><strong>Created by</strong></td><td>NIMED Systems</td></tr>
+            <tr><td><strong>Supervised by</strong></td><td>Kofi B. Kyei, Consultant</td></tr>
+            <tr><td><strong>Contact</strong></td><td>0244208667</td></tr>
+        </tbody>
+    </table>
+
+    <div class="manual-footer">
+        <p>NIMED Research &amp; Private Capital &mdash; User Manual v2.0 &mdash; November 2026</p>
+        <p>Created by NIMED Systems. Supervised by Kofi B. Kyei, Consultant.</p>
+        <p>This manual is confidential and intended for authorised users of the NIMED Research platform only.</p>
+    </div>
+
+</div>
+{% endblock %}

@@ -210,6 +210,9 @@
             <a href="{{ url_for('checks') }}" class="{% if request.endpoint == 'checks' %}active{% endif %}">
                 <i class="bi bi-check-circle"></i> Model Checks
             </a>
+            <a href="{{ url_for('manual') }}" class="{% if request.endpoint == 'manual' %}active{% endif %}">
+                <i class="bi bi-book"></i> User Manual
+            </a>
             {% if current_user.can_edit_inputs() %}
             <a href="{{ url_for('settings') }}" class="{% if request.endpoint == 'settings' %}active{% endif %}">
                 <i class="bi bi-gear"></i> Settings & Inputs

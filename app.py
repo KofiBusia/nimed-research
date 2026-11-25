@@ -182,6 +182,12 @@ def checks():
     return render_template('checks.html', data=data)
 
 
+@app.route('/manual')
+@login_required
+def manual():
+    return render_template('manual.html')
+
+
 @app.route('/settings')
 @login_required
 @role_required('super_admin', 'head_of_research')
