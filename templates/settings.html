@@ -34,8 +34,24 @@
                                 {% else %}{{ val }}{% endif %}
                             </td>
                             <td>
-                                {% if key in ('beta_type', 'return_frequency', 'return_basis') %}
-                                <input type="text" name="{{ key }}" class="form-control form-control-sm" value="{{ val }}" style="max-width:160px">
+                                {% if key == 'beta_type' %}
+                                <select name="{{ key }}" class="form-select form-select-sm" style="max-width:180px">
+                                    {% for opt in ['Raw', 'Blume', 'Dimson', 'Dimson + Blume'] %}
+                                    <option value="{{ opt }}" {{ 'selected' if val == opt else '' }}>{{ opt }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% elif key == 'return_frequency' %}
+                                <select name="{{ key }}" class="form-select form-select-sm" style="max-width:180px">
+                                    {% for opt in ['Weekly', 'Monthly', 'Quarterly', 'Annual'] %}
+                                    <option value="{{ opt }}" {{ 'selected' if val == opt else '' }}>{{ opt }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% elif key == 'return_basis' %}
+                                <select name="{{ key }}" class="form-select form-select-sm" style="max-width:180px">
+                                    {% for opt in ['Total return', 'Price only'] %}
+                                    <option value="{{ opt }}" {{ 'selected' if val == opt else '' }}>{{ opt }}</option>
+                                    {% endfor %}
+                                </select>
                                 {% elif val is number %}
                                 <input type="number" step="any" name="{{ key }}" class="form-control form-control-sm" placeholder="{{ val }}" style="max-width:120px">
                                 {% else %}
