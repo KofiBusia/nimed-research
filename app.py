@@ -495,13 +495,30 @@ def recommendation(ticker):
         back_url = url_for('financial_statements', ticker=ticker)
 
     fy_periods = [p for p in periods if p.startswith('FY')]
-    latest_fy = fy_periods[-1] if fy_periods else (periods[-1] if periods else '')
-    prev_fy = fy_periods[-2] if len(fy_periods) >= 2 else None
 
     label_map = {}
     for item in items:
         label = (item.get('item') or '').strip()
         label_map[label.lower()] = item
+
+    # Find the latest FY that has actual data (not empty projections)
+    latest_fy = ''
+    for p in reversed(fy_periods):
+        has_data = False
+        for item in items:
+            if item.get('stmt') in ('IS', 'BS', 'CF', ''):
+                v = item.get(p)
+                if v is not None and v != 0 and v != '':
+                    has_data = True
+                    break
+        if has_data:
+            latest_fy = p
+            break
+    if not latest_fy:
+        latest_fy = fy_periods[-1] if fy_periods else (periods[-1] if periods else '')
+
+    fy_idx = fy_periods.index(latest_fy) if latest_fy in fy_periods else -1
+    prev_fy = fy_periods[fy_idx - 1] if fy_idx > 0 else None
 
     def find_val(fragments, period=None):
         period = period or latest_fy
@@ -572,7 +589,13 @@ def recommendation(ticker):
         ('Total Equity', ['total equity', 'total shareholders'], False, True),
     ]
 
-    summary_periods = fy_periods[-3:] if len(fy_periods) >= 3 else fy_periods
+    # Use up to 3 FY periods ending at latest_fy (not empty projection years)
+    if latest_fy in fy_periods:
+        end_idx = fy_periods.index(latest_fy) + 1
+        start_idx = max(0, end_idx - 3)
+        summary_periods = fy_periods[start_idx:end_idx]
+    else:
+        summary_periods = fy_periods[-3:] if len(fy_periods) >= 3 else fy_periods
     summary_rows = []
     for label, frags, indent, bold in summary_labels:
         values = {}
