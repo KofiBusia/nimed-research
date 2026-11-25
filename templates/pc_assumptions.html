@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block title %}Assumptions & Forecast{% endblock %}
+{% block page_title %}Assumptions & Forecast{% endblock %}
+
+{% block content %}
+{% set assumptions = data.get('assumptions', []) %}
+{% set forecast = data.get('forecast', []) %}
+
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="card-panel">
+            <div class="panel-header">
+                <h3><i class="bi bi-sliders me-2"></i>Operating Forecast Drivers</h3>
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-research">
+                    <thead>
+                        <tr>
+                            <th style="min-width:260px">Driver</th>
+                            <th>Unit</th>
+                            <th class="text-end">FY2025</th>
+                            <th class="text-end">FY2026E</th>
+                            <th class="text-end">FY2027E</th>
+                            <th class="text-end">FY2028E</th>
+                            <th class="text-end">FY2029E</th>
+                            <th class="text-end">FY2030E</th>
+                            <th style="min-width:200px">Evidence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in assumptions %}
+                        {% set c1 = row.get('c1', '') %}
+                        {% if c1 and not c1.startswith('Operating') and not c1.startswith('Column C') and not c1.startswith('Created') %}
+                        {% set is_header = c1.isupper() or c1.startswith('DRIVERS') or c1.startswith('FORECAST') or c1.startswith('CURRENCY') or c1.startswith('WORKING') or c1.startswith('FX FORECAST') or c1.startswith('US$ DEBT') %}
+                        {% if is_header %}
+                        <tr class="table-light">
+                            <td colspan="9"><strong>{{ c1 }}</strong></td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td>{{ c1 }}</td>
+                            <td class="text-muted">{{ row.get('c2', '') or '' }}</td>
+                            {% set unit = row.get('c2', '') %}
+                            {% for col in ['c3','c4','c5','c6','c7','c8'] %}
+                            {% set v = row.get(col) %}
+                            <td class="text-end">
+                                {% if v is none or v == '' %}—{% elif unit == '%' %}{{ (v * 100)|round(2) }}%{% elif 'rate' in (unit|string) %}{{ v|round(2) }}{% elif 'days' in (unit|string) %}{{ v|round(1) }}{% elif "GHS" in (unit|string) %}{{ "{:,.0f}".format(v) }}{% elif 'selector' in (unit|string) %}{{ v }}{% else %}{{ v }}{% endif %}
+                            </td>
+                            {% endfor %}
+                            <td class="text-muted" style="font-size:11px">{{ row.get('c10', '') or '' }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="card-panel">
+            <div class="panel-header">
+                <h3><i class="bi bi-bar-chart-line me-2"></i>Unlevered Operating Forecast</h3>
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-research">
+                    <thead>
+                        <tr>
+                            <th style="min-width:260px">Item</th>
+                            <th>Unit</th>
+                            <th class="text-end">FY2025</th>
+                            <th class="text-end">FY2026E</th>
+                            <th class="text-end">FY2027E</th>
+                            <th class="text-end">FY2028E</th>
+                            <th class="text-end">FY2029E</th>
+                            <th class="text-end">FY2030E</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in forecast %}
+                        {% set c1 = row.get('c1', '') %}
+                        {% if c1 and not c1.startswith('Unlevered') and not c1.startswith('Feeds') and not c1.startswith('Created') %}
+                        {% set is_header = c1 == 'FORECAST' %}
+                        {% if is_header %}
+                        <tr class="table-light">
+                            <td colspan="8"><strong>{{ c1 }}</strong></td>
+                        </tr>
+                        {% else %}
+                        <tr{% if c1 == 'FCFF = NOPAT + D&A − capex − ΔNWC' or c1 == 'EBITDA margin' %} class="table-warning"{% endif %}>
+                            <td>{% if c1.startswith('Discount') %}<span class="text-muted">{{ c1 }}</span>{% else %}<strong>{{ c1 }}</strong>{% endif %}</td>
+                            <td class="text-muted">{{ row.get('c2', '') or '' }}</td>
+                            {% set unit = row.get('c2', '') or '' %}
+                            {% for col in ['c3','c4','c5','c6','c7','c8'] %}
+                            {% set v = row.get(col) %}
+                            <td class="text-end">
+                                {% if v is none or v == '' %}—{% elif 'margin' in c1|lower or unit == '%' %}{{ (v * 100)|round(1) }}%{% elif "GHS" in unit %}{{ "{:,.0f}".format(v) }}{% else %}{{ v|round(2) if v is number else v }}{% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Revenue & EBITDA Forecast</h3></div>
+            <div class="panel-body p-3">
+                <canvas id="forecastChart" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card-panel">
+            <div class="panel-header"><h3>EBITDA Margin Trend</h3></div>
+            <div class="panel-body p-3">
+                <canvas id="marginChart" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const forecast = {{ forecast | tojson }};
+const labels = [];
+const revenue = [];
+const ebitda = [];
+const fcff = [];
+const margins = [];
+forecast.forEach(r => {
+    if (r.c1 === 'Revenue') { for (let c of ['c3','c4','c5','c6','c7','c8']) if (r[c] != null) revenue.push(r[c] / 1000); }
+    if (r.c1 === 'Adjusted EBITDA') { for (let c of ['c3','c4','c5','c6','c7','c8']) if (r[c] != null) ebitda.push(r[c] / 1000); }
+    if (r.c1 && r.c1.startsWith('FCFF')) { for (let c of ['c3','c4','c5','c6','c7','c8']) if (r[c] != null) fcff.push(r[c] / 1000); }
+    if (r.c1 === 'EBITDA margin') { for (let c of ['c3','c4','c5','c6','c7','c8']) if (r[c] != null) margins.push((r[c] * 100)); }
+});
+const lbl = ['FY2025','FY2026E','FY2027E','FY2028E','FY2029E','FY2030E'];
+new Chart(document.getElementById('forecastChart'), {
+    type: 'bar',
+    data: {
+        labels: lbl,
+        datasets: [
+            { label: "Revenue (GHS'm)", data: revenue, backgroundColor: 'rgba(0,102,204,0.7)', order: 2 },
+            { label: "EBITDA (GHS'm)", data: ebitda, backgroundColor: 'rgba(76,175,80,0.7)', order: 2 },
+            { label: "FCFF (GHS'm)", data: fcff, type: 'line', borderColor: '#e53935', backgroundColor: 'transparent', borderWidth: 2, pointRadius: 4, order: 1 }
+        ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { y: { beginAtZero: true } } }
+});
+new Chart(document.getElementById('marginChart'), {
+    type: 'line',
+    data: {
+        labels: lbl,
+        datasets: [{ label: 'EBITDA Margin %', data: margins, borderColor: '#0066cc', backgroundColor: 'rgba(0,102,204,0.1)', fill: true, tension: 0.3, pointRadius: 5 }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { ticks: { callback: v => v + '%' } } } }
+});
+</script>
+{% endblock %}

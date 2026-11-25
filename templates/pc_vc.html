@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% block title %}VC Method{% endblock %}
+{% block page_title %}Venture Capital Method{% endblock %}
+
+{% block content %}
+{% set vc = data.get('vc_method', []) %}
+
+{% set exit_val = namespace(v=0) %}
+{% set r1_irr = namespace(v=0) %}
+{% set r2_irr = namespace(v=0) %}
+{% set vps_r1 = namespace(v=0) %}
+{% for r in vc %}
+    {% set c1 = r.get('c1','') %}
+    {% if c1 and 'Exit value (V)' in c1|string %}{% set exit_val.v = r.c3 or 0 %}{% endif %}
+    {% if c1 and 'Round 1 implied IRR' in c1|string %}{% set r1_irr.v = r.c3 or 0 %}{% endif %}
+    {% if c1 and 'Round 2 implied IRR' in c1|string %}{% set r2_irr.v = r.c3 or 0 %}{% endif %}
+    {% if c1 and 'Round 1 price per share' in c1|string %}{% set vps_r1.v = r.c3 or 0 %}{% endif %}
+{% endfor %}
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-blue)"><i class="bi bi-rocket-takeoff"></i></div>
+                <div>
+                    <div class="stat-label">Exit Value</div>
+                    <div class="stat-value">{{ "{:,.0f}".format(exit_val.v) }}</div>
+                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-green)"><i class="bi bi-graph-up-arrow"></i></div>
+                <div>
+                    <div class="stat-label">Round 1 IRR</div>
+                    <div class="stat-value">{{ "%.1f"|format(r1_irr.v * 100) }}%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-gold)"><i class="bi bi-graph-up"></i></div>
+                <div>
+                    <div class="stat-label">Round 2 IRR</div>
+                    <div class="stat-value">{{ "%.1f"|format(r2_irr.v * 100) }}%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-cyan)"><i class="bi bi-tag"></i></div>
+                <div>
+                    <div class="stat-label">R1 Price/Share</div>
+                    <div class="stat-value">{{ "%.2f"|format(vps_r1.v) }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="card-panel">
+            <div class="panel-header">
+                <h3><i class="bi bi-rocket-takeoff me-2"></i>VC Method — Two Financing Rounds</h3>
+                <span class="badge bg-info">NPV with Failure-Adjusted Returns</span>
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-research">
+                    <tbody>
+                        {% for row in vc %}
+                        {% set c1 = row.get('c1', '') %}
+                        {% if c1 and not c1.startswith('Private equity — venture') and not c1.startswith('CFA:') and not c1.startswith('Created') %}
+                        {% set is_section = c1 == 'INPUTS' or c1.startswith('ROUND 2') or c1.startswith('ROUND 1') or c1 == 'SHARES & PRICES' or c1.startswith('OWNERSHIP') %}
+                        {% if is_section %}
+                        <tr class="table-primary">
+                            <td colspan="4"><strong>{{ c1 }}</strong></td>
+                        </tr>
+                        {% else %}
+                        {% set unit = row.get('c2', '') or '' %}
+                        {% set hi = 'ownership' in c1|lower or 'value at exit' in c1|lower or c1.startswith('PRE') or c1.startswith('POST') or 'implied IRR' in c1 or c1 == 'Step-up in price, round 2 vs round 1' %}
+                        <tr{% if hi %} class="table-warning"{% endif %}>
+                            <td style="min-width:350px">{{ c1 }}</td>
+                            <td class="text-muted">{{ unit }}</td>
+                            <td class="text-end">
+                                {% set v = row.get('c3') %}
+                                {% if v is none %}—{% elif unit == '%' or 'ownership' in c1|lower %}{{ "%.2f"|format(v * 100) }}%{% elif "GHS" in unit %}{{ "{:,.0f}".format(v) }}{% elif unit == 'shares' %}{{ "{:,.0f}".format(v) }}{% elif 'per share' in unit %}{{ "%.2f"|format(v) }}{% elif v is number %}{{ "%.2f"|format(v) }}{% else %}{{ v }}{% endif %}
+                            </td>
+                            <td class="text-muted" style="font-size:11px">{{ row.get('c4', '') or '' }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Ownership at Exit</h3></div>
+            <div class="panel-body p-3"><canvas id="ownerChart" height="250"></canvas></div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Investment vs Exit Value</h3></div>
+            <div class="panel-body p-3"><canvas id="returnChart" height="250"></canvas></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const vc = {{ vc | tojson }};
+let r1Own = 0, r2Own = 0, fOwn = 0, r1Val = 0, r2Val = 0, r1Inv = 0, r2Inv = 0;
+vc.forEach(r => {
+    if (!r.c1) return;
+    if (r.c1.includes('Round 1 investors — ownership')) r1Own = (r.c3||0)*100;
+    if (r.c1.includes('Round 2 investors — ownership')) r2Own = (r.c3||0)*100;
+    if (r.c1.includes('Founders — ownership')) fOwn = (r.c3||0)*100;
+    if (r.c1 === 'Round 1 value at exit') r1Val = (r.c3||0)/1000;
+    if (r.c1 === 'Round 2 value at exit') r2Val = (r.c3||0)/1000;
+    if (r.c1 === 'Round 1 investment') r1Inv = (r.c3||0)/1000;
+    if (r.c1 === 'Round 2 investment') r2Inv = (r.c3||0)/1000;
+});
+new Chart(document.getElementById('ownerChart'), {
+    type: 'doughnut',
+    data: { labels: ['Round 1','Round 2','Founders'], datasets: [{ data: [r1Own, r2Own, fOwn], backgroundColor: ['#0066cc','#4caf50','#ffc107'] }] },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.raw.toFixed(1) + '%' } } } }
+});
+new Chart(document.getElementById('returnChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Round 1', 'Round 2'],
+        datasets: [
+            { label: 'Investment', data: [r1Inv, r2Inv], backgroundColor: 'rgba(229,57,53,0.7)' },
+            { label: 'Exit Value', data: [r1Val, r2Val], backgroundColor: 'rgba(76,175,80,0.7)' }
+        ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { y: { title: { display: true, text: "GHS'm" } } } }
+});
+</script>
+{% endblock %}

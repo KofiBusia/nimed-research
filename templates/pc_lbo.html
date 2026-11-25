@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% block title %}LBO Analysis{% endblock %}
+{% block page_title %}LBO Analysis{% endblock %}
+
+{% block content %}
+{% set lbo = data.get('lbo', []) %}
+
+<!-- Summary Cards -->
+{% set entry_ev = namespace(val=0) %}
+{% set exit_equity = namespace(val=0) %}
+{% set sponsor_irr = namespace(val=0) %}
+{% set total_debt_ebitda = namespace(val=0) %}
+{% for r in lbo %}
+    {% if r.item and r.item.startswith('Use: enterprise value') %}{% set entry_ev.val = r.col_3 or 0 %}{% endif %}
+    {% if r.item and 'Equity value if exited' in r.item %}{% set exit_equity.val = r.col_8 or 0 %}{% endif %}
+    {% if r.item and 'Sponsor target IRR' in r.item %}{% set sponsor_irr.val = r.col_3 or 0 %}{% endif %}
+    {% if r.item and r.item == 'Entry EV / FY0 adjusted EBITDA' %}{% set entry_ev.val = r.col_3 or 0 %}{% endif %}
+{% endfor %}
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-blue)"><i class="bi bi-bank"></i></div>
+                <div>
+                    <div class="stat-label">Entry EV/EBITDA</div>
+                    <div class="stat-value">{{ "%.1f"|format(entry_ev.val) }}x</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-green)"><i class="bi bi-cash-stack"></i></div>
+                <div>
+                    <div class="stat-label">Y5 Exit Equity</div>
+                    <div class="stat-value">{{ "{:,.0f}".format(exit_equity.val) }}</div>
+                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-gold)"><i class="bi bi-bullseye"></i></div>
+                <div>
+                    <div class="stat-label">Target IRR</div>
+                    <div class="stat-value">{{ "%.0f"|format(sponsor_irr.val * 100) }}%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-cyan)"><i class="bi bi-clock-history"></i></div>
+                <div>
+                    <div class="stat-label">Holding Period</div>
+                    <div class="stat-value">5 Years</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LBO Full Table -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="card-panel">
+            <div class="panel-header">
+                <h3><i class="bi bi-bank me-2"></i>Leveraged Buyout Model</h3>
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-research">
+                    <tbody>
+                        {% for row in lbo %}
+                        {% set item = row.get('item', '') %}
+                        {% if item and not item.startswith('Private equity — leveraged') and not item.startswith('CFA LBO') and not item.startswith('Created') %}
+                        {% set is_section = item.startswith('A.') or item.startswith('B.') or item.startswith('C.') or item.startswith('D.') %}
+                        {% if is_section %}
+                        <tr class="table-primary">
+                            <td colspan="8"><strong>{{ item }}</strong></td>
+                        </tr>
+                        {% if row.col_3 is not none and (row.col_4 is not none or row.col_5 is not none) %}
+                        <tr class="table-light">
+                            <td></td><td></td>
+                            <td class="text-end"><strong>{{ row.col_3 or '' }}</strong></td>
+                            <td class="text-end"><strong>{{ row.col_4 or '' }}</strong></td>
+                            <td class="text-end"><strong>{{ row.col_5 or '' }}</strong></td>
+                            <td class="text-end"><strong>{{ row.col_6 or '' }}</strong></td>
+                            <td class="text-end">{{ row.col_7 or '' }}</td>
+                            <td class="text-end">{{ row.col_8 or '' }}</td>
+                        </tr>
+                        {% endif %}
+                        {% else %}
+                        {% set hi = 'Total uses' in item or 'Total sources' in item or 'Enterprise value at exit' in item or 'Equity value if exited' in item or 'Net debt' in item %}
+                        <tr{% if hi %} class="table-warning"{% endif %}>
+                            <td style="min-width:320px">{{ item }}</td>
+                            <td class="text-muted">{{ row.col_2 or '' }}</td>
+                            {% for col in ['col_3','col_4','col_5','col_6','col_7','col_8'] %}
+                            {% set v = row.get(col) %}
+                            <td class="text-end">
+                                {% if v is none %}—{% elif "GHS" in (row.col_2 or '') %}{{ "{:,.0f}".format(v) }}{% elif v is number and v < 1 and v > -1 and v != 0 %}{{ "%.1f"|format(v * 100) }}%{% elif v is number %}{{ "%.2f"|format(v) }}{% else %}{{ v }}{% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Debt Paydown Chart -->
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Debt Paydown Schedule</h3></div>
+            <div class="panel-body p-3"><canvas id="debtChart" height="280"></canvas></div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Sources & Uses at Close</h3></div>
+            <div class="panel-body p-3"><canvas id="suChart" height="280"></canvas></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const lbo = {{ lbo | tojson }};
+const lbl = ['Close','FY2026E','FY2027E','FY2028E','FY2029E','FY2030E'];
+let senior = [], mezz = [], cash = [];
+lbo.forEach(r => {
+    if (!r.item) return;
+    if (r.item.startsWith('Senior term loan — closing')) { for (let c of ['col_3','col_4','col_5','col_6','col_7','col_8']) senior.push((r[c]||0)/1000); }
+    if (r.item.startsWith('Mezzanine — closing')) { for (let c of ['col_3','col_4','col_5','col_6','col_7','col_8']) mezz.push((r[c]||0)/1000); }
+    if (r.item.startsWith('Cash — closing')) { for (let c of ['col_3','col_4','col_5','col_6','col_7','col_8']) cash.push((r[c]||0)/1000); }
+});
+new Chart(document.getElementById('debtChart'), {
+    type: 'bar',
+    data: {
+        labels: lbl,
+        datasets: [
+            { label: 'Senior', data: senior, backgroundColor: 'rgba(0,102,204,0.7)' },
+            { label: 'Mezzanine', data: mezz, backgroundColor: 'rgba(255,193,7,0.7)' },
+            { label: 'Cash', data: cash, type: 'line', borderColor: '#4caf50', backgroundColor: 'transparent', borderWidth: 2, pointRadius: 4 }
+        ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { x: {}, y: { stacked: true, title: { display: true, text: "GHS'm" } } } }
+});
+
+let suLabels = [], suAmts = [];
+lbo.forEach(r => {
+    if (!r.item) return;
+    if (r.item.startsWith('Source:') || r.item.startsWith('Use:')) {
+        suLabels.push(r.item.replace('Source: ','').replace('Use: ',''));
+        suAmts.push((r.col_3||0)/1000);
+    }
+});
+const colors = suLabels.map((l,i) => ['#0066cc','#4caf50','#ffc107','#e53935','#00b4d8','#8bc34a','#9c27b0','#ff5722'][i%8]);
+new Chart(document.getElementById('suChart'), {
+    type: 'bar',
+    data: { labels: suLabels, datasets: [{ data: suAmts, backgroundColor: colors }] },
+    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { title: { display: true, text: "GHS'm" } } } }
+});
+</script>
+{% endblock %}

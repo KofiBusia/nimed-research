@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block title %}Private Debt: Borrower Credit{% endblock %}
+{% block page_title %}Private Debt — Borrower Credit Analysis{% endblock %}
+
+{% block content %}
+{% set pdb = data.get('pd_borrower', []) %}
+
+{% set breaches = namespace(v=0) %}
+{% set headroom = namespace(v=0) %}
+{% set peak_lev = namespace(v=0) %}
+{% set min_dscr = namespace(v=0) %}
+{% set verdict = namespace(v='') %}
+{% set capacity = namespace(v=0) %}
+{% for r in pdb %}
+    {% set c1 = r.get('c1','') %}
+    {% if 'Number of covenant breaches' in c1 %}{% set breaches.v = r.c3 or 0 %}{% endif %}
+    {% if 'Minimum EBITDA headroom' in c1 %}{% set headroom.v = r.c3 or 0 %}{% endif %}
+    {% if 'Peak total debt' in c1 %}{% set peak_lev.v = r.c3 or 0 %}{% endif %}
+    {% if 'Minimum DSCR' in c1 and loop.index0 >= 36 %}{% set min_dscr.v = r.c3 or 0 %}{% endif %}
+    {% if 'CREDIT VERDICT' in c1 %}{% set verdict.v = r.c3 or '' %}{% endif %}
+    {% if 'Debt capacity (binding' in c1 %}{% set capacity.v = r.c3 or 0 %}{% endif %}
+{% endfor %}
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-2">
+        <div class="stat-card">
+            <div class="stat-label">Covenant Breaches</div>
+            <div class="stat-value {% if breaches.v > 0 %}text-danger{% else %}text-success{% endif %}">{{ breaches.v|int }}</div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-2">
+        <div class="stat-card">
+            <div class="stat-label">Min EBITDA Headroom</div>
+            <div class="stat-value">{{ "%.1f"|format(headroom.v * 100) }}%</div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-2">
+        <div class="stat-card">
+            <div class="stat-label">Peak Debt/EBITDA</div>
+            <div class="stat-value">{{ "%.1f"|format(peak_lev.v) }}x</div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-2">
+        <div class="stat-card">
+            <div class="stat-label">Min DSCR</div>
+            <div class="stat-value">{{ "%.2f"|format(min_dscr.v) }}x</div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-2">
+        <div class="stat-card">
+            <div class="stat-label">Debt Capacity</div>
+            <div class="stat-value">{{ "{:,.0f}".format(capacity.v) }}</div>
+            <div class="text-muted" style="font-size:11px">GHS '000</div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-2">
+        <div class="stat-card">
+            <div class="stat-label">Verdict</div>
+            <div class="stat-value" style="font-size:11px;{% if 'BREACH' in verdict.v %}color:var(--nimed-red){% else %}color:var(--nimed-green){% endif %}">{{ verdict.v }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="card-panel">
+            <div class="panel-header">
+                <h3><i class="bi bi-person-check me-2"></i>Borrower Credit Analysis & Covenants</h3>
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-research">
+                    <tbody>
+                        {% for row in pdb %}
+                        {% set c1 = row.get('c1', '') %}
+                        {% if c1 and not c1.startswith('Private debt — borrower') and not c1.startswith('Leverage, coverage') and not c1.startswith('Created') %}
+                        {% set is_section = c1.startswith('A.') or c1.startswith('B.') or c1.startswith('C.') or c1.startswith('D.') or c1 == 'CREDIT VERDICT' %}
+                        {% if is_section %}
+                        {% if 'VERDICT' in c1 %}
+                        <tr class="{% if 'BREACH' in (row.get('c3','')|string) %}table-danger{% else %}table-success{% endif %}">
+                            <td colspan="8"><strong>{{ c1 }}: {{ row.c3 or '' }}</strong></td>
+                        </tr>
+                        {% else %}
+                        <tr class="table-primary">
+                            <td colspan="8"><strong>{{ c1 }}</strong></td>
+                        </tr>
+                        {% endif %}
+                        {% else %}
+                        {% set unit = row.get('c2','') or '' %}
+                        <tr>
+                            <td style="min-width:300px">{{ c1 }}</td>
+                            <td class="text-muted">{{ unit }}</td>
+                            {% for col in ['c3','c4','c5','c6','c7','c8'] %}
+                            {% set v = row.get(col) %}
+                            <td class="text-end">
+                                {% if v is none %}—
+                                {% elif v == 'OK' %}<span class="badge bg-success">OK</span>
+                                {% elif v == 'BREACH' %}<span class="badge bg-danger">BREACH</span>
+                                {% elif unit == '%' %}{{ "%.1f"|format(v * 100) }}%
+                                {% elif "GHS" in unit %}{{ "{:,.0f}".format(v) }}
+                                {% elif v is number and v > -1 and v < 10 %}{{ "%.2f"|format(v) }}
+                                {% elif v is number %}{{ "{:,.0f}".format(v) }}
+                                {% else %}{{ v }}{% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Leverage & Coverage Ratios</h3></div>
+            <div class="panel-body p-3"><canvas id="ratioChart" height="280"></canvas></div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card-panel">
+            <div class="panel-header"><h3>EBITDA Headroom to Covenant</h3></div>
+            <div class="panel-body p-3"><canvas id="headroomChart" height="280"></canvas></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const pdb = {{ pdb | tojson }};
+const lbl = ['FY2026E','FY2027E','FY2028E','FY2029E','FY2030E'];
+const cols = ['c4','c5','c6','c7','c8'];
+let leverage = [], intCover = [], dscr = [], headroom = [];
+pdb.forEach(r => {
+    if (!r.c1) return;
+    if (r.c1 === 'Total debt / EBITDA') cols.forEach(c => leverage.push(r[c]||0));
+    if (r.c1 === 'EBITDA / cash interest') cols.forEach(c => intCover.push(r[c]||0));
+    if (r.c1.startsWith('DSCR =')) cols.forEach(c => dscr.push(r[c]||0));
+    if (r.c1.startsWith('EBITDA headroom')) cols.forEach(c => headroom.push((r[c]||0)*100));
+});
+new Chart(document.getElementById('ratioChart'), {
+    type: 'line',
+    data: {
+        labels: lbl,
+        datasets: [
+            { label: 'Debt/EBITDA', data: leverage, borderColor: '#e53935', borderWidth: 2, pointRadius: 4, tension: 0.3 },
+            { label: 'Interest Cover', data: intCover, borderColor: '#0066cc', borderWidth: 2, pointRadius: 4, tension: 0.3 },
+            { label: 'DSCR', data: dscr, borderColor: '#4caf50', borderWidth: 2, pointRadius: 4, tension: 0.3 }
+        ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { y: { title: { display: true, text: 'x' } } } }
+});
+new Chart(document.getElementById('headroomChart'), {
+    type: 'bar',
+    data: { labels: lbl, datasets: [{ label: 'EBITDA Headroom %', data: headroom, backgroundColor: headroom.map(v => v < 20 ? 'rgba(229,57,53,0.7)' : 'rgba(76,175,80,0.7)') }] },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { title: { display: true, text: '%' }, beginAtZero: true } } }
+});
+</script>
+{% endblock %}

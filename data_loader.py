@@ -59,8 +59,19 @@ def get_fixed_income_data():
 def get_peer_data():
     data = load_workbook_data()
     return {
+        'all_peers': data.get('all_peers', {}),
         'peer_banks': data.get('peer_banks', []),
     }
+
+
+def get_financial_statements_data():
+    data = load_workbook_data()
+    return data.get('financial_statements', {})
+
+
+def get_shareholder_ratios_data():
+    data = load_workbook_data()
+    return data.get('shareholder_ratios', [])
 
 def get_checks_data():
     data = load_workbook_data()

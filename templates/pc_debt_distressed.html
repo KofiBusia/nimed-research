@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block title %}Private Debt: Distressed{% endblock %}
+{% block page_title %}Private Debt — Distressed / Recovery Analysis{% endblock %}
+
+{% block content %}
+{% set pdd = data.get('pd_distressed', []) %}
+
+{% set dist_val = namespace(v=0) %}
+{% set recovery = namespace(v=0) %}
+{% set fulcrum = namespace(v='') %}
+{% for r in pdd %}
+    {% set c1 = r.get('c1','') %}
+    {% if 'Distributable value' in c1 %}{% set dist_val.v = r.c3 or 0 %}{% endif %}
+    {% if 'Recovery on our loan' in c1 %}{% set recovery.v = r.c3 or 0 %}{% endif %}
+    {% if 'Fulcrum security' in c1 %}{% set fulcrum.v = r.c3 or '' %}{% endif %}
+{% endfor %}
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-red)"><i class="bi bi-exclamation-triangle"></i></div>
+                <div>
+                    <div class="stat-label">Distributable Value</div>
+                    <div class="stat-value">{{ "{:,.0f}".format(dist_val.v) }}</div>
+                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-gold)"><i class="bi bi-percent"></i></div>
+                <div>
+                    <div class="stat-label">Our Recovery</div>
+                    <div class="stat-value">{{ "%.1f"|format(recovery.v * 100) }}%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-blue)"><i class="bi bi-layers"></i></div>
+                <div>
+                    <div class="stat-label">Fulcrum Security</div>
+                    <div class="stat-value" style="font-size:13px">{{ fulcrum.v }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-cyan)"><i class="bi bi-clock"></i></div>
+                <div>
+                    <div class="stat-label">Resolution</div>
+                    {% set res_time = namespace(v=0) %}
+                    {% for r in pdd %}{% if 'Years to resolution' in (r.get('c1','')|string) %}{% set res_time.v = r.c3 or 0 %}{% endif %}{% endfor %}
+                    <div class="stat-value">{{ "%.1f"|format(res_time.v) }} yrs</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="card-panel">
+            <div class="panel-header">
+                <h3><i class="bi bi-exclamation-triangle me-2"></i>Distressed / Recovery Analysis</h3>
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-research">
+                    <tbody>
+                        {% for row in pdd %}
+                        {% set c1 = row.get('c1', '') %}
+                        {% if c1 and not c1.startswith('Private debt — distressed') and not c1.startswith('Restructuring value') and not c1.startswith('Created') %}
+                        {% set is_section = c1.startswith('A.') or c1.startswith('B.') or c1.startswith('C.') %}
+                        {% if is_section %}
+                        <tr class="table-primary">
+                            <td colspan="10"><strong>{{ c1 }}</strong></td>
+                        </tr>
+                        {% if row.get('c3') is not none and row.get('c4') is not none %}
+                        <tr class="table-light">
+                            <td></td><td></td>
+                            {% for col in ['c3','c4','c5','c6','c7','c8','c9','c10'] %}
+                            <td class="text-end"><strong>{{ row.get(col, '') or '' }}</strong></td>
+                            {% endfor %}
+                        </tr>
+                        {% endif %}
+                        {% else %}
+                        {% set unit = row.get('c2','') or '' %}
+                        {% set hi = 'Distributable' in c1 or 'Restructuring enterprise' in c1 or 'Recovery on our' in c1 or 'Fulcrum' in c1 or 'Total distributed' in c1 %}
+                        <tr{% if hi %} class="table-warning"{% endif %}>
+                            <td style="min-width:320px">{{ c1 }}</td>
+                            <td class="text-muted">{{ unit }}</td>
+                            {% for col in ['c3','c4','c5','c6','c7','c8','c9','c10'] %}
+                            {% set v = row.get(col) %}
+                            <td class="text-end">
+                                {% if v is none %}—
+                                {% elif v == 'n/a' %}n/a
+                                {% elif unit == '%' or ('Recovery %' in c1 and v is number and v <= 1) %}{{ "%.1f"|format(v * 100) }}%
+                                {% elif unit == 'x' %}{{ "%.1f"|format(v) }}x
+                                {% elif "GHS" in unit %}{{ "{:,.0f}".format(v) }}
+                                {% elif 'years' in unit %}{{ "%.1f"|format(v) }}
+                                {% elif v is number and v <= 1 and v >= -1 and v != 0 %}{{ "%.1f"|format(v * 100) }}%
+                                {% elif v is number %}{{ "{:,.0f}".format(v) }}
+                                {% else %}{{ v }}{% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Absolute Priority Waterfall</h3></div>
+            <div class="panel-body p-3"><canvas id="waterfallChart" height="280"></canvas></div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Recovery by Class</h3></div>
+            <div class="panel-body p-3"><canvas id="recoveryChart" height="280"></canvas></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const pdd = {{ pdd | tojson }};
+let wfLabels = [], claims = [], recoveries = [], recovPct = [];
+pdd.forEach((r, i) => {
+    if (i >= 14 && i <= 20 && r.c1 && !r.c1.startsWith('B.') && r.c1 !== 'Total distributed') {
+        wfLabels.push(r.c1.length > 30 ? r.c1.substring(0,30)+'...' : r.c1);
+        claims.push((r.c3||0)/1000);
+        recoveries.push((r.c5||0)/1000);
+        recovPct.push(r.c6 != null ? r.c6*100 : 0);
+    }
+});
+new Chart(document.getElementById('waterfallChart'), {
+    type: 'bar',
+    data: {
+        labels: wfLabels,
+        datasets: [
+            { label: "Claim (GHS'm)", data: claims, backgroundColor: 'rgba(0,102,204,0.7)' },
+            { label: "Recovery (GHS'm)", data: recoveries, backgroundColor: 'rgba(76,175,80,0.7)' }
+        ]
+    },
+    options: { indexAxis: 'y', responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { x: { title: { display: true, text: "GHS'm" } } } }
+});
+new Chart(document.getElementById('recoveryChart'), {
+    type: 'bar',
+    data: { labels: wfLabels, datasets: [{ label: 'Recovery %', data: recovPct, backgroundColor: recovPct.map(v => v >= 100 ? 'rgba(76,175,80,0.7)' : v > 0 ? 'rgba(255,193,7,0.7)' : 'rgba(229,57,53,0.7)') }] },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { max: 110, title: { display: true, text: '%' } } } }
+});
+</script>
+{% endblock %}

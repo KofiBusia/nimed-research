@@ -9,7 +9,8 @@ from data_loader import (
     get_dashboard_data, get_beta_data, get_valuation_data,
     get_credit_risk_data, get_fixed_income_data, get_peer_data,
     get_checks_data, get_inputs_data, get_index_data,
-    get_yin_full
+    get_yin_full, get_financial_statements_data,
+    get_shareholder_ratios_data, load_workbook_data
 )
 
 app = Flask(__name__)
@@ -304,6 +305,97 @@ def api_credit_risk():
 def yin_dashboard():
     data = get_yin_full()
     return render_template('yin_dashboard.html', data=data)
+
+
+@app.route('/financial-statements')
+@app.route('/financial-statements/<ticker>')
+@login_required
+def financial_statements(ticker=None):
+    fs_data = get_financial_statements_data()
+    tickers = sorted(fs_data.keys())
+    if not ticker or ticker not in fs_data:
+        ticker = tickers[0] if tickers else None
+    selected = fs_data.get(ticker, {}) if ticker else {}
+    return render_template('financial_statements.html',
+                           fs_data=fs_data, tickers=tickers,
+                           selected=selected, selected_ticker=ticker)
+
+
+@app.route('/shareholder-ratios')
+@login_required
+def shareholder_ratios():
+    data = get_shareholder_ratios_data()
+    return render_template('shareholder_ratios.html', ratios=data)
+
+
+@app.route('/private-capital/valuation')
+@login_required
+def pc_valuation():
+    data = get_yin_full()
+    return render_template('pc_valuation.html', data=data)
+
+
+@app.route('/private-capital/monte-carlo')
+@login_required
+def pc_monte_carlo():
+    data = get_yin_full()
+    return render_template('pc_monte_carlo.html', data=data)
+
+
+@app.route('/private-capital/lbo')
+@login_required
+def pc_lbo():
+    data = get_yin_full()
+    return render_template('pc_lbo.html', data=data)
+
+
+@app.route('/private-capital/vc-method')
+@login_required
+def pc_vc():
+    data = get_yin_full()
+    return render_template('pc_vc.html', data=data)
+
+
+@app.route('/private-capital/fund-economics')
+@login_required
+def pc_fund():
+    data = get_yin_full()
+    return render_template('pc_fund.html', data=data)
+
+
+@app.route('/private-capital/debt-loan')
+@login_required
+def pc_debt_loan():
+    data = get_yin_full()
+    return render_template('pc_debt_loan.html', data=data)
+
+
+@app.route('/private-capital/debt-borrower')
+@login_required
+def pc_debt_borrower():
+    data = get_yin_full()
+    return render_template('pc_debt_borrower.html', data=data)
+
+
+@app.route('/private-capital/debt-distressed')
+@login_required
+def pc_debt_distressed():
+    data = get_yin_full()
+    return render_template('pc_debt_distressed.html', data=data)
+
+
+@app.route('/private-capital/qualitative')
+@login_required
+def pc_qualitative():
+    data = get_yin_full()
+    return render_template('pc_qualitative.html', data=data)
+
+
+@app.route('/private-capital/assumptions')
+@login_required
+def pc_assumptions():
+    data = get_yin_full()
+    return render_template('pc_assumptions.html', data=data)
 
 
 def init_db():

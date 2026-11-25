@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block title %}Shareholder Ratios{% endblock %}
+{% block page_title %}Shareholder Ratios{% endblock %}
+
+{% block extra_css %}
+<style>
+    .group-header th { background: var(--nimed-navy) !important; color: #fff !important;
+        text-align: center; font-size: 10px; letter-spacing: 1px; padding: 6px 10px !important; }
+    .sr-table td { font-size: 12px; padding: 8px 10px !important; white-space: nowrap; }
+    .sr-table thead tr:last-child th { font-size: 10px; padding: 8px 10px !important; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-label">Companies Covered</div>
+            <div class="stat-value">{{ ratios|length }}</div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-label">Median P/E</div>
+            <div class="stat-value" id="medPE">—</div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-label">Median P/B</div>
+            <div class="stat-value" id="medPB">—</div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-label">Median ROE</div>
+            <div class="stat-value" id="medROE">—</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-lg-6">
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-scatter-chart me-2"></i>P/E vs ROE</h3></div>
+            <div class="panel-body" style="padding:16px;">
+                <canvas id="scatterChart" height="280"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-bar-chart me-2"></i>Dividend Yield by Company</h3></div>
+            <div class="panel-body" style="padding:16px;">
+                <canvas id="divChart" height="280"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-panel">
+    <div class="panel-header">
+        <h3><i class="bi bi-bar-chart-steps me-2"></i>Shareholder Ratios — All Companies</h3>
+        <input type="text" class="form-control form-control-sm" style="width:200px;" placeholder="Search..."
+               onkeyup="filterSR(this)">
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-research sr-table" id="srTable">
+                <thead>
+                    <tr class="group-header">
+                        <th colspan="4">Company</th>
+                        <th colspan="3">Size</th>
+                        <th colspan="3">Per Share (GHS)</th>
+                        <th colspan="4">Market Multiples</th>
+                        <th colspan="4">Profitability</th>
+                        <th colspan="4">Payout & Growth</th>
+                        <th colspan="2">Returns</th>
+                    </tr>
+                    <tr>
+                        <th>Ticker</th><th>Company</th><th>Sector</th><th>FY</th>
+                        <th>Price</th><th>Shares (m)</th><th>Mkt Cap (m)</th>
+                        <th>EPS</th><th>DPS</th><th>BVPS</th>
+                        <th>P/E</th><th>P/B</th><th>Earn Yld</th><th>Div Yld</th>
+                        <th>ROE</th><th>ROA</th><th>Margin</th><th>Eq Mult</th>
+                        <th>Payout</th><th>Retention</th><th>Sust. Growth</th><th>EPS CAGR</th>
+                        <th>TSR 1Y</th><th>CoE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in ratios %}
+                    <tr>
+                        <td><strong>{{ r.get('Ticker', '') }}</strong></td>
+                        <td>{{ r.get('Company', '') }}</td>
+                        <td><span class="badge bg-light text-dark" style="font-size:10px;">{{ r.get('Sector', '') }}</span></td>
+                        <td>{{ r.get('Latest FY', '') }}</td>
+                        <td>{{ "%.2f"|format(r.get('Price (GHS)', 0)|float) if r.get('Price (GHS)') else '—' }}</td>
+                        <td>{{ "%.1f"|format(r.get('Shares (m)', 0)|float) if r.get('Shares (m)') else '—' }}</td>
+                        <td>{{ "{:,.0f}"|format(r.get('Market cap (GHS m)', 0)|float) if r.get('Market cap (GHS m)') else '—' }}</td>
+                        <td>{{ "%.2f"|format(r.get('EPS', 0)|float) if r.get('EPS') else '—' }}</td>
+                        <td>{{ "%.2f"|format(r.get('DPS (latest FY)', 0)|float) if r.get('DPS (latest FY)') else '—' }}</td>
+                        <td>{{ "%.2f"|format(r.get('Book value per share', 0)|float) if r.get('Book value per share') else '—' }}</td>
+                        <td class="fw-semibold">{{ "%.1f"|format(r.get('P/E', 0)|float) if r.get('P/E') and r.get('P/E') != 'n/m' else '—' }}</td>
+                        <td>{{ "%.2f"|format(r.get('P/B', 0)|float) if r.get('P/B') else '—' }}</td>
+                        <td>{{ "%.1f"|format(r.get('Earnings yield', 0)|float * 100) if r.get('Earnings yield') else '—' }}{% if r.get('Earnings yield') %}%{% endif %}</td>
+                        <td>{{ "%.1f"|format(r.get('Dividend yield', 0)|float * 100) if r.get('Dividend yield') else '—' }}{% if r.get('Dividend yield') %}%{% endif %}</td>
+                        <td class="{{ 'text-success fw-semibold' if r.get('ROE (latest)') and r.get('ROE (latest)')|float > 0.15 else '' }}">
+                            {{ "%.1f"|format(r.get('ROE (latest)', 0)|float * 100) if r.get('ROE (latest)') else '—' }}{% if r.get('ROE (latest)') %}%{% endif %}
+                        </td>
+                        <td>{{ "%.1f"|format(r.get('ROA', 0)|float * 100) if r.get('ROA') else '—' }}{% if r.get('ROA') %}%{% endif %}</td>
+                        <td>{{ "%.1f"|format(r.get('Net margin', 0)|float * 100) if r.get('Net margin') else '—' }}{% if r.get('Net margin') %}%{% endif %}</td>
+                        <td>{{ "%.1f"|format(r.get('Equity multiplier', 0)|float) if r.get('Equity multiplier') else '—' }}x</td>
+                        <td>{{ "%.1f"|format(r.get('Payout ratio', 0)|float * 100) if r.get('Payout ratio') else '—' }}{% if r.get('Payout ratio') %}%{% endif %}</td>
+                        <td>{{ "%.1f"|format(r.get('Retention ratio', 0)|float * 100) if r.get('Retention ratio') else '—' }}{% if r.get('Retention ratio') %}%{% endif %}</td>
+                        <td>{{ "%.1f"|format(r.get('Sustainable growth (5-yr ROE x retention)', 0)|float * 100) if r.get('Sustainable growth (5-yr ROE x retention)') else '—' }}{% if r.get('Sustainable growth (5-yr ROE x retention)') %}%{% endif %}</td>
+                        <td>{% if r.get('EPS growth (3-yr CAGR)') and r.get('EPS growth (3-yr CAGR)') != 'n/m' %}{{ "%.1f"|format(r.get('EPS growth (3-yr CAGR)', 0)|float * 100) }}%{% else %}n/m{% endif %}</td>
+                        <td class="{{ 'text-success' if r.get('Total shareholder return, 1 year') and r.get('Total shareholder return, 1 year')|float > 0 else 'text-danger' }}">
+                            {{ "%.1f"|format(r.get('Total shareholder return, 1 year', 0)|float * 100) if r.get('Total shareholder return, 1 year') else '—' }}{% if r.get('Total shareholder return, 1 year') %}%{% endif %}
+                        </td>
+                        <td class="fw-semibold">{{ "%.1f"|format(r.get('Cost of equity', 0)|float * 100) if r.get('Cost of equity') else '—' }}{% if r.get('Cost of equity') %}%{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function filterSR(input) {
+    const f = input.value.toLowerCase();
+    document.getElementById('srTable').querySelectorAll('tbody tr').forEach(r =>
+        r.style.display = r.textContent.toLowerCase().includes(f) ? '' : 'none');
+}
+
+const ratios = {{ ratios | tojson }};
+
+// Compute medians
+function median(arr) {
+    const s = arr.filter(x => x != null && !isNaN(x)).sort((a,b) => a-b);
+    if (!s.length) return null;
+    const mid = Math.floor(s.length / 2);
+    return s.length % 2 ? s[mid] : (s[mid-1] + s[mid]) / 2;
+}
+const pes = ratios.map(r => r['P/E']).filter(v => v && v !== 'n/m');
+const pbs = ratios.map(r => r['P/B']).filter(v => v);
+const roes = ratios.map(r => r['ROE (latest)']).filter(v => v);
+
+const mPE = median(pes);
+const mPB = median(pbs);
+const mROE = median(roes);
+if (mPE) document.getElementById('medPE').textContent = mPE.toFixed(1) + 'x';
+if (mPB) document.getElementById('medPB').textContent = mPB.toFixed(2) + 'x';
+if (mROE) document.getElementById('medROE').textContent = (mROE * 100).toFixed(1) + '%';
+
+// Scatter: P/E vs ROE
+const scatterData = ratios.filter(r => r['P/E'] && r['P/E'] !== 'n/m' && r['ROE (latest)'])
+    .map(r => ({ x: r['ROE (latest)'] * 100, y: r['P/E'], label: r['Ticker'] }));
+
+new Chart(document.getElementById('scatterChart'), {
+    type: 'scatter',
+    data: { datasets: [{
+        label: 'Companies',
+        data: scatterData,
+        backgroundColor: '#0066cc',
+        pointRadius: 6, pointHoverRadius: 8
+    }]},
+    options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: ctx => ctx.raw.label + ': ROE ' + ctx.raw.x.toFixed(1) + '%, P/E ' + ctx.raw.y.toFixed(1) } }
+        },
+        scales: {
+            x: { title: { display: true, text: 'ROE (%)', font: { size: 11 } }, ticks: { font: { size: 10 } } },
+            y: { title: { display: true, text: 'P/E', font: { size: 11 } }, ticks: { font: { size: 10 } } }
+        }
+    }
+});
+
+// Dividend yield bar
+const divData = ratios.filter(r => r['Dividend yield'] && r['Dividend yield'] > 0)
+    .sort((a,b) => b['Dividend yield'] - a['Dividend yield']);
+new Chart(document.getElementById('divChart'), {
+    type: 'bar',
+    data: {
+        labels: divData.map(r => r['Ticker']),
+        datasets: [{ label: 'Dividend Yield', data: divData.map(r => r['Dividend yield'] * 100),
+            backgroundColor: '#4caf50', borderRadius: 4 }]
+    },
+    options: {
+        responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+        plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: ctx => ctx.raw.toFixed(1) + '%' } } },
+        scales: {
+            x: { ticks: { font: { size: 10 }, callback: v => v + '%' } },
+            y: { ticks: { font: { size: 10 } } }
+        }
+    }
+});
+</script>
+{% endblock %}

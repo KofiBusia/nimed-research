@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}Qualitative Assessment{% endblock %}
+{% block page_title %}Qualitative Risk Scorecard{% endblock %}
+
+{% block content %}
+{% set qual = data.get('qualitative', []) %}
+
+{% set wscore = namespace(v=0) %}
+{% set impl_prem = namespace(v=0) %}
+{% set assessment = namespace(v='') %}
+{% for r in qual %}
+    {% set c1 = r.get('c1','') %}
+    {% if 'Weighted score' in c1 %}{% set wscore.v = r.c4 or 0 %}{% endif %}
+    {% if 'Implied company-specific premium' in c1 %}{% set impl_prem.v = r.c4 or 0 %}{% endif %}
+    {% if c1 == 'Assessment' %}{% set assessment.v = r.c4 or '' %}{% endif %}
+{% endfor %}
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-4">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:{% if wscore.v >= 4 %}var(--nimed-green){% elif wscore.v >= 3 %}var(--nimed-gold){% else %}var(--nimed-red){% endif %}"><i class="bi bi-clipboard-check"></i></div>
+                <div>
+                    <div class="stat-label">Weighted Score</div>
+                    <div class="stat-value">{{ "%.1f"|format(wscore.v) }} / 5.0</div>
+                    <div class="text-muted" style="font-size:11px">1 = High Risk, 5 = Low Risk</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-blue)"><i class="bi bi-percent"></i></div>
+                <div>
+                    <div class="stat-label">Implied Company Premium</div>
+                    <div class="stat-value">{{ "%.2f"|format(impl_prem.v * 100) }}%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:{% if assessment.v == 'Strong' %}var(--nimed-green){% elif assessment.v == 'Average' %}var(--nimed-gold){% else %}var(--nimed-red){% endif %}"><i class="bi bi-shield-check"></i></div>
+                <div>
+                    <div class="stat-label">Assessment</div>
+                    <div class="stat-value">{{ assessment.v }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-8">
+        <div class="card-panel">
+            <div class="panel-header">
+                <h3><i class="bi bi-clipboard-check me-2"></i>9-Factor Risk Scorecard</h3>
+                <span class="badge bg-info">Score 1 (High Risk) to 5 (Low Risk)</span>
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-research">
+                    <thead>
+                        <tr>
+                            <th style="min-width:280px">Factor</th>
+                            <th class="text-end">Weight</th>
+                            <th class="text-center">Score (1–5)</th>
+                            <th class="text-end">Weighted</th>
+                            <th style="min-width:260px">Evidence to Record</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in qual %}
+                        {% set c1 = row.get('c1','') %}
+                        {% if c1 and not c1.startswith('Qualitative') and not c1.startswith('Score each') and not c1.startswith('Created') and c1 != 'FACTOR' %}
+                        {% if 'Total weight' in c1 or 'Weighted score' in c1 or 'Maximum' in c1 or 'Implied' in c1 or c1 == 'Assessment' %}
+                        <tr class="table-warning">
+                            <td><strong>{{ c1 }}</strong></td>
+                            <td class="text-end">{% if row.c2 is not none %}{{ "%.0f"|format(row.c2 * 100) }}%{% endif %}</td>
+                            <td></td>
+                            <td class="text-end"><strong>{% if row.c4 is not none %}{% if row.c4 is number and row.c4 < 1 %}{{ "%.2f"|format(row.c4 * 100) }}%{% else %}{{ row.c4 }}{% endif %}{% endif %}</strong></td>
+                            <td></td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td>{{ c1 }}</td>
+                            <td class="text-end">{{ "%.0f"|format((row.c2 or 0) * 100) }}%</td>
+                            <td class="text-center">
+                                {% set s = row.get('c3', 0) or 0 %}
+                                <div class="d-flex align-items-center justify-content-center gap-1">
+                                    {% for i in range(1, 6) %}
+                                    <span style="width:16px;height:16px;border-radius:50%;display:inline-block;{% if i <= s %}background:{% if s >= 4 %}var(--nimed-green){% elif s >= 3 %}var(--nimed-gold){% else %}var(--nimed-red){% endif %}{% else %}background:#e0e0e0{% endif %}"></span>
+                                    {% endfor %}
+                                    <span class="ms-2 fw-bold">{{ s|int }}</span>
+                                </div>
+                            </td>
+                            <td class="text-end">{{ "%.2f"|format(row.c4 or 0) }}</td>
+                            <td class="text-muted" style="font-size:11px">{{ row.c5 or '' }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Risk Radar</h3></div>
+            <div class="panel-body p-3"><canvas id="radarChart" height="350"></canvas></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const qual = {{ qual | tojson }};
+const labels = [], scores = [];
+qual.forEach((r, i) => {
+    if (i >= 4 && i <= 12 && r.c1 && r.c3 != null) {
+        labels.push(r.c1.length > 25 ? r.c1.substring(0, 25) + '...' : r.c1);
+        scores.push(r.c3);
+    }
+});
+new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Score',
+            data: scores,
+            backgroundColor: 'rgba(0,102,204,0.2)',
+            borderColor: '#0066cc',
+            borderWidth: 2,
+            pointRadius: 4,
+            pointBackgroundColor: '#0066cc'
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { r: { min: 0, max: 5, ticks: { stepSize: 1 }, pointLabels: { font: { size: 10 } } } }
+    }
+});
+</script>
+{% endblock %}

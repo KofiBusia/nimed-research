@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+{% block title %}PE Valuation & Valuation Plus{% endblock %}
+{% block page_title %}PE Valuation & Valuation Plus{% endblock %}
+
+{% block content %}
+{% set pe = data.get('pe_valuation', []) %}
+{% set vp = data.get('valuation_plus', []) %}
+
+<!-- Summary Cards -->
+<div class="row g-3 mb-4">
+    {% set concluded_ev = namespace(val='—') %}
+    {% set concluded_equity = namespace(val='—') %}
+    {% set vps = namespace(val='—') %}
+    {% set wacc_val = namespace(val='—') %}
+    {% for r in pe %}
+        {% if r.item and 'Concluded equity value' in r.item %}{% set concluded_equity.val = r.col_3 %}{% endif %}
+        {% if r.item and 'Implied enterprise value' in r.item and 'concluded' in r.item %}{% set concluded_ev.val = r.col_3 %}{% endif %}
+        {% if r.item and 'Value per share' in r.item %}{% set vps.val = r.col_3 %}{% endif %}
+        {% if r.item and r.item == 'WACC' %}{% set wacc_val.val = r.col_3 %}{% endif %}
+    {% endfor %}
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-blue)"><i class="bi bi-building"></i></div>
+                <div>
+                    <div class="stat-label">Enterprise Value</div>
+                    <div class="stat-value">{% if concluded_ev.val != '—' %}{{ "{:,.0f}".format(concluded_ev.val) }}{% else %}—{% endif %}</div>
+                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-green)"><i class="bi bi-cash"></i></div>
+                <div>
+                    <div class="stat-label">Equity Value (100%)</div>
+                    <div class="stat-value">{% if concluded_equity.val != '—' %}{{ "{:,.0f}".format(concluded_equity.val) }}{% else %}—{% endif %}</div>
+                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-gold)"><i class="bi bi-tag"></i></div>
+                <div>
+                    <div class="stat-label">Value Per Share</div>
+                    <div class="stat-value">{% if vps.val != '—' %}{{ "%.2f"|format(vps.val) }}{% else %}—{% endif %}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-cyan)"><i class="bi bi-percent"></i></div>
+                <div>
+                    <div class="stat-label">WACC</div>
+                    <div class="stat-value">{% if wacc_val.val != '—' %}{{ "%.1f"|format(wacc_val.val * 100) }}%{% else %}—{% endif %}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PE Valuation Table -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="card-panel">
+            <div class="panel-header">
+                <h3><i class="bi bi-graph-up-arrow me-2"></i>PE Valuation — Income & Market Approach</h3>
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-research">
+                    <tbody>
+                        {% for row in pe %}
+                        {% set item = row.get('item', '') %}
+                        {% if item and not item.startswith('Private equity') and not item.startswith('CFA private') and not item.startswith('Created') and not item.startswith('helper') %}
+                        {% set is_section = item.startswith('A.') or item.startswith('B.') or item.startswith('C.') or item.startswith('D.') or item.startswith('E.') or item.startswith('F.') or item.startswith('G.') %}
+                        {% if is_section %}
+                        <tr class="table-primary">
+                            <td colspan="8"><strong>{{ item }}</strong></td>
+                        </tr>
+                        {% if row.col_3 is not none and row.col_4 is not none %}
+                        <tr class="table-light">
+                            <td></td><td></td>
+                            <td class="text-end"><strong>{{ row.col_3 or '' }}</strong></td>
+                            <td class="text-end"><strong>{{ row.col_4 or '' }}</strong></td>
+                            <td class="text-end"><strong>{{ row.col_5 or '' }}</strong></td>
+                            <td class="text-end"><strong>{{ row.col_6 or '' }}</strong></td>
+                            <td class="text-end">{{ row.col_7 or '' }}</td>
+                            <td class="text-end">{{ row.col_8 or '' }}</td>
+                        </tr>
+                        {% endif %}
+                        {% else %}
+                        <tr{% if 'Concluded' in item or 'Enterprise value —' in item or item == 'WACC' %} class="table-warning"{% endif %}>
+                            <td style="min-width:300px">{{ item }}</td>
+                            <td class="text-muted">{{ row.col_2 or '' }}</td>
+                            {% for col in ['col_3','col_4','col_5','col_6','col_7','col_8'] %}
+                            {% set v = row.get(col) %}
+                            <td class="text-end">
+                                {% if v is none %}—{% elif row.col_2 == '%' %}{{ "%.1f"|format(v * 100) }}%{% elif row.col_2 == 'x' %}{{ "%.2f"|format(v) }}x{% elif "GHS" in (row.col_2 or '') %}{{ "{:,.0f}".format(v) }}{% elif v is number %}{{ "%.2f"|format(v) }}{% else %}{{ v }}{% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Valuation Plus -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="card-panel">
+            <div class="panel-header">
+                <h3><i class="bi bi-calculator me-2"></i>Valuation Plus — Extensions</h3>
+                <span class="badge bg-info">Equity Bridge, DCF Variants, WACC Iteration, Sensitivity, DLOM, Real Option</span>
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-research">
+                    <tbody>
+                        {% for row in vp %}
+                        {% set c1 = row.get('c1', '') %}
+                        {% if c1 and not c1.startswith('Valuation extensions') and not c1.startswith('Equity bridge') and not c1.startswith('Created') %}
+                        {% set is_section = c1.startswith('A.') or c1.startswith('B.') or c1.startswith('C.') or c1.startswith('D.') or c1.startswith('E.') or c1.startswith('F.') or c1.startswith('G.') or c1.startswith('H.') or c1.startswith('I.') or c1 == 'WACC ITERATION (market-value weights)' or c1 == 'SCENARIO-WEIGHTED FCFF' %}
+                        {% if is_section %}
+                        <tr class="table-primary">
+                            <td colspan="9"><strong>{{ c1 }}</strong></td>
+                        </tr>
+                        {% if row.get('c3') is not none and (row.get('c4') is not none or row.get('c5') is not none) %}
+                        <tr class="table-light">
+                            <td></td><td></td>
+                            {% for col in ['c3','c4','c5','c6','c7','c8'] %}
+                            <td class="text-end"><strong>{{ row.get(col, '') or '' }}</strong></td>
+                            {% endfor %}
+                            <td></td>
+                        </tr>
+                        {% endif %}
+                        {% else %}
+                        {% set unit = row.get('c2', '') or '' %}
+                        <tr{% if 'EV —' in c1 or 'Equity —' in c1 or 'concluded' in c1|lower or 'WACC used' in c1 or c1.startswith('Option value') or c1.startswith('DLOM used') %} class="table-warning"{% endif %}>
+                            <td style="min-width:300px">{{ c1 }}</td>
+                            <td class="text-muted">{{ unit }}</td>
+                            {% for col in ['c3','c4','c5','c6','c7','c8'] %}
+                            {% set v = row.get(col) %}
+                            <td class="text-end">
+                                {% if v is none %}—{% elif unit == '%' %}{{ "%.2f"|format(v * 100) }}%{% elif unit == 'x' %}{{ "%.4f"|format(v) }}x{% elif "GHS" in unit %}{{ "{:,.0f}".format(v) }}{% elif v is number %}{{ "%.4f"|format(v) }}{% else %}{{ v }}{% endif %}
+                            </td>
+                            {% endfor %}
+                            <td class="text-muted" style="font-size:11px">{{ row.get('c9', '') or '' }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Valuation Football Field Chart -->
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Valuation Range (Enterprise Value)</h3></div>
+            <div class="panel-body p-3">
+                <canvas id="footballChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Method Weights</h3></div>
+            <div class="panel-body p-3">
+                <canvas id="weightChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const pe = {{ pe | tojson }};
+let dcfEV = 0, tradingEV = 0, precedentEV = 0, concludedEV = 0;
+let wDCF = 0, wTrading = 0, wPrecedent = 0;
+pe.forEach(r => {
+    if (!r.item) return;
+    if (r.item.startsWith('Enterprise value — DCF')) dcfEV = r.col_3 || 0;
+    if (r.item.includes('trading comparables (average')) tradingEV = r.col_3 || 0;
+    if (r.item.includes('precedent transactions (average')) precedentEV = r.col_3 || 0;
+    if (r.item.includes('Implied enterprise value') && r.item.includes('concluded')) concludedEV = r.col_3 || 0;
+    if (r.item.startsWith('Weight') && r.col_3 != null) { wDCF = r.col_3; wTrading = r.col_4; wPrecedent = r.col_5; }
+});
+new Chart(document.getElementById('footballChart'), {
+    type: 'bar',
+    data: {
+        labels: ['DCF', 'Trading Comps', 'Precedent Txn', 'Concluded'],
+        datasets: [{
+            data: [dcfEV/1000, tradingEV/1000, precedentEV/1000, concludedEV/1000],
+            backgroundColor: ['rgba(0,102,204,0.7)', 'rgba(76,175,80,0.7)', 'rgba(255,193,7,0.7)', 'rgba(229,57,53,0.7)']
+        }]
+    },
+    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => "GHS " + ctx.raw.toLocaleString('en',{maximumFractionDigits:0}) + "k" } } }, scales: { x: { title: { display: true, text: "GHS '000" } } } }
+});
+new Chart(document.getElementById('weightChart'), {
+    type: 'doughnut',
+    data: {
+        labels: ['DCF', 'Trading Comps', 'Precedent Txn'],
+        datasets: [{ data: [wDCF*100, wTrading*100, wPrecedent*100], backgroundColor: ['#0066cc','#4caf50','#ffc107'] }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.raw + '%' } } } }
+});
+</script>
+{% endblock %}

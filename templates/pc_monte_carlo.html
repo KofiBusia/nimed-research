@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% block title %}Monte Carlo Simulation{% endblock %}
+{% block page_title %}Monte Carlo Simulation{% endblock %}
+
+{% block content %}
+{% set mc = data.get('monte_carlo', []) %}
+
+<!-- Extract summary stats -->
+{% set stats = namespace(mean='—', p5='—', p25='—', median='—', p75='—', p95='—', std='—', prob_lbo='—', prob_dcf='—') %}
+{% for r in mc %}
+    {% set c1 = r.get('c1', '') %}
+    {% if c1 == 'Mean' %}{% set stats.mean = r.c3 %}{% endif %}
+    {% if c1 == '5th percentile' %}{% set stats.p5 = r.c3 %}{% endif %}
+    {% if c1 == '25th percentile' %}{% set stats.p25 = r.c3 %}{% endif %}
+    {% if c1 == 'Median' %}{% set stats.median = r.c3 %}{% endif %}
+    {% if c1 == '75th percentile' %}{% set stats.p75 = r.c3 %}{% endif %}
+    {% if c1 == '95th percentile' %}{% set stats.p95 = r.c3 %}{% endif %}
+    {% if c1 == 'Standard deviation' %}{% set stats.std = r.c3 %}{% endif %}
+    {% if c1 and 'LBO' in c1|string %}{% set stats.prob_lbo = r.c3 %}{% endif %}
+    {% if c1 and 'DCF EV' in c1|string %}{% set stats.prob_dcf = r.c3 %}{% endif %}
+{% endfor %}
+
+<!-- Summary Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-blue)"><i class="bi bi-bullseye"></i></div>
+                <div>
+                    <div class="stat-label">Mean EV</div>
+                    <div class="stat-value">{% if stats.mean != '—' %}{{ "{:,.0f}".format(stats.mean) }}{% else %}—{% endif %}</div>
+                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-green)"><i class="bi bi-graph-up"></i></div>
+                <div>
+                    <div class="stat-label">Median EV</div>
+                    <div class="stat-value">{% if stats.median != '—' %}{{ "{:,.0f}".format(stats.median) }}{% else %}—{% endif %}</div>
+                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-gold)"><i class="bi bi-arrow-left-right"></i></div>
+                <div>
+                    <div class="stat-label">90% Range</div>
+                    <div class="stat-value" style="font-size:16px">{% if stats.p5 != '—' %}{{ "{:,.0f}".format(stats.p5) }} – {{ "{:,.0f}".format(stats.p95) }}{% else %}—{% endif %}</div>
+                    <div class="text-muted" style="font-size:11px">5th to 95th percentile</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="stat-icon" style="background:var(--nimed-cyan)"><i class="bi bi-activity"></i></div>
+                <div>
+                    <div class="stat-label">Std Dev</div>
+                    <div class="stat-value">{% if stats.std != '—' %}{{ "{:,.0f}".format(stats.std) }}{% else %}—{% endif %}</div>
+                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inputs & Summary Table -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-4">
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-sliders me-2"></i>Simulation Inputs</h3></div>
+            <div class="panel-body">
+                <table class="table table-research mb-0">
+                    <tbody>
+                        {% for r in mc %}
+                        {% set c1 = r.get('c1', '') %}
+                        {% if c1 and ('shift' in c1|lower or c1 == 'INPUTS (standard deviation of each shock)') and c1 != 'Trial' %}
+                        {% if 'INPUTS' in c1 %}
+                        <tr class="table-light"><td colspan="2"><strong>{{ c1 }}</strong></td></tr>
+                        {% else %}
+                        <tr><td>{{ c1 }}</td><td class="text-end">{{ "%.1f"|format(r.c3 * 100) }}%</td></tr>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-panel mt-4">
+            <div class="panel-header"><h3>Percentile Summary</h3></div>
+            <div class="panel-body">
+                <table class="table table-research mb-0">
+                    <thead><tr><th>Statistic</th><th class="text-end">EV (GHS '000)</th></tr></thead>
+                    <tbody>
+                        <tr><td>5th Percentile</td><td class="text-end">{% if stats.p5 != '—' %}{{ "{:,.0f}".format(stats.p5) }}{% endif %}</td></tr>
+                        <tr><td>25th Percentile</td><td class="text-end">{% if stats.p25 != '—' %}{{ "{:,.0f}".format(stats.p25) }}{% endif %}</td></tr>
+                        <tr class="table-warning"><td><strong>Median</strong></td><td class="text-end"><strong>{% if stats.median != '—' %}{{ "{:,.0f}".format(stats.median) }}{% endif %}</strong></td></tr>
+                        <tr><td>75th Percentile</td><td class="text-end">{% if stats.p75 != '—' %}{{ "{:,.0f}".format(stats.p75) }}{% endif %}</td></tr>
+                        <tr><td>95th Percentile</td><td class="text-end">{% if stats.p95 != '—' %}{{ "{:,.0f}".format(stats.p95) }}{% endif %}</td></tr>
+                        <tr><td>Mean</td><td class="text-end">{% if stats.mean != '—' %}{{ "{:,.0f}".format(stats.mean) }}{% endif %}</td></tr>
+                        <tr><td>Std Deviation</td><td class="text-end">{% if stats.std != '—' %}{{ "{:,.0f}".format(stats.std) }}{% endif %}</td></tr>
+                        <tr><td>P(EV > LBO entry)</td><td class="text-end">{% if stats.prob_lbo != '—' %}{{ "%.0f"|format(stats.prob_lbo * 100) }}%{% endif %}</td></tr>
+                        <tr><td>P(EV > DCF)</td><td class="text-end">{% if stats.prob_dcf != '—' %}{{ "%.0f"|format(stats.prob_dcf * 100) }}%{% endif %}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card-panel">
+            <div class="panel-header"><h3><i class="bi bi-bar-chart me-2"></i>EV Distribution — 500 Trials</h3></div>
+            <div class="panel-body p-3">
+                <canvas id="histChart" height="350"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Trial Data Table -->
+<div class="row g-4">
+    <div class="col-12">
+        <div class="card-panel">
+            <div class="panel-header">
+                <h3><i class="bi bi-table me-2"></i>Trial Data (500 trials)</h3>
+                <span class="badge bg-secondary">Scroll to view all</span>
+            </div>
+            <div class="panel-body table-responsive" style="max-height:400px;overflow-y:auto">
+                <table class="table table-research table-sm">
+                    <thead style="position:sticky;top:0;z-index:1">
+                        <tr>
+                            <th>Trial</th>
+                            <th class="text-end">Growth Shift</th>
+                            <th class="text-end">Margin Shift</th>
+                            <th class="text-end">WACC Used</th>
+                            <th class="text-end">Terminal g</th>
+                            <th class="text-end">EV (GHS '000)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in mc %}
+                        {% if r.get('c1') is number and r.c1 >= 1 and r.c1 <= 500 %}
+                        <tr>
+                            <td>{{ r.c1|int }}</td>
+                            <td class="text-end {% if r.c2 is number and r.c2 < 0 %}text-danger{% else %}text-success{% endif %}">{{ "%.2f"|format(r.c2 * 100) }}%</td>
+                            <td class="text-end {% if r.c3 is number and r.c3 < 0 %}text-danger{% else %}text-success{% endif %}">{{ "%.2f"|format(r.c3 * 100) }}%</td>
+                            <td class="text-end">{{ "%.1f"|format(r.c4 * 100) }}%</td>
+                            <td class="text-end">{{ "%.1f"|format(r.c5 * 100) }}%</td>
+                            <td class="text-end"><strong>{{ "{:,.0f}".format(r.c6) }}</strong></td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const mc = {{ mc | tojson }};
+const evs = mc.filter(r => typeof r.c1 === 'number' && r.c1 >= 1 && r.c6 != null).map(r => r.c6 / 1000);
+const nbins = 25;
+const mn = Math.min(...evs), mx = Math.max(...evs);
+const bw = (mx - mn) / nbins;
+const bins = Array(nbins).fill(0);
+const labels = [];
+evs.forEach(v => { let b = Math.min(Math.floor((v - mn) / bw), nbins - 1); bins[b]++; });
+for (let i = 0; i < nbins; i++) labels.push(Math.round(mn + i * bw));
+new Chart(document.getElementById('histChart'), {
+    type: 'bar',
+    data: {
+        labels: labels.map(l => l.toLocaleString()),
+        datasets: [{ label: 'Frequency', data: bins, backgroundColor: 'rgba(0,102,204,0.6)', borderColor: '#0066cc', borderWidth: 1 }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false }, title: { display: true, text: "Enterprise Value Distribution (GHS'm)" } },
+        scales: { x: { title: { display: true, text: "EV (GHS'm)" } }, y: { title: { display: true, text: 'Frequency' }, beginAtZero: true } }
+    }
+});
+</script>
+{% endblock %}

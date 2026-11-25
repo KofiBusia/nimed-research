@@ -161,10 +161,46 @@
             <a href="{{ url_for('peers') }}" class="{% if request.endpoint == 'peers' %}active{% endif %}">
                 <i class="bi bi-people"></i> Peer Comparison
             </a>
+            <a href="{{ url_for('shareholder_ratios') }}" class="{% if request.endpoint == 'shareholder_ratios' %}active{% endif %}">
+                <i class="bi bi-bar-chart-steps"></i> Shareholder Ratios
+            </a>
+            <a href="{{ url_for('financial_statements') }}" class="{% if request.endpoint == 'financial_statements' %}active{% endif %}">
+                <i class="bi bi-file-earmark-spreadsheet"></i> Financial Statements
+            </a>
 
             <div class="nav-section">Private Capital</div>
             <a href="{{ url_for('yin_dashboard') }}" class="{% if request.endpoint == 'yin_dashboard' %}active{% endif %}">
-                <i class="bi bi-briefcase"></i> Private Capital Valuation
+                <i class="bi bi-briefcase-fill"></i> PC Dashboard
+            </a>
+            <a href="{{ url_for('pc_valuation') }}" class="{% if request.endpoint == 'pc_valuation' %}active{% endif %}">
+                <i class="bi bi-graph-up-arrow"></i> PE & Valuation Plus
+            </a>
+            <a href="{{ url_for('pc_monte_carlo') }}" class="{% if request.endpoint == 'pc_monte_carlo' %}active{% endif %}">
+                <i class="bi bi-dice-5"></i> Monte Carlo
+            </a>
+            <a href="{{ url_for('pc_lbo') }}" class="{% if request.endpoint == 'pc_lbo' %}active{% endif %}">
+                <i class="bi bi-bank"></i> LBO Analysis
+            </a>
+            <a href="{{ url_for('pc_vc') }}" class="{% if request.endpoint == 'pc_vc' %}active{% endif %}">
+                <i class="bi bi-rocket-takeoff"></i> VC Method
+            </a>
+            <a href="{{ url_for('pc_fund') }}" class="{% if request.endpoint == 'pc_fund' %}active{% endif %}">
+                <i class="bi bi-pie-chart"></i> Fund Economics
+            </a>
+            <a href="{{ url_for('pc_debt_loan') }}" class="{% if request.endpoint == 'pc_debt_loan' %}active{% endif %}">
+                <i class="bi bi-cash-coin"></i> Debt: Loan Pricing
+            </a>
+            <a href="{{ url_for('pc_debt_borrower') }}" class="{% if request.endpoint == 'pc_debt_borrower' %}active{% endif %}">
+                <i class="bi bi-person-check"></i> Debt: Borrower Credit
+            </a>
+            <a href="{{ url_for('pc_debt_distressed') }}" class="{% if request.endpoint == 'pc_debt_distressed' %}active{% endif %}">
+                <i class="bi bi-exclamation-triangle"></i> Debt: Distressed
+            </a>
+            <a href="{{ url_for('pc_qualitative') }}" class="{% if request.endpoint == 'pc_qualitative' %}active{% endif %}">
+                <i class="bi bi-clipboard-check"></i> Qualitative Score
+            </a>
+            <a href="{{ url_for('pc_assumptions') }}" class="{% if request.endpoint == 'pc_assumptions' %}active{% endif %}">
+                <i class="bi bi-sliders"></i> Assumptions & Forecast
             </a>
 
             <div class="nav-section">System</div>

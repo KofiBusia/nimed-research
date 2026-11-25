@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block title %}Private Debt: Loan Pricing{% endblock %}
+{% block page_title %}Private Debt — Loan Pricing & Valuation{% endblock %}
+
+{% block content %}
+{% set pdl = data.get('pd_loan', []) %}
+
+{% set ytm = namespace(v=0) %}
+{% set fv = namespace(v=0) %}
+{% set exp_return = namespace(v=0) %}
+{% set pricing_v = namespace(v='') %}
+{% set return_v = namespace(v='') %}
+{% set dur = namespace(v=0) %}
+{% for r in pdl %}
+    {% set c1 = r.get('c1','') %}
+    {% if 'Yield to maturity' in c1 %}{% set ytm.v = r.c3 or 0 %}{% endif %}
+    {% if c1 == 'Fair value — contractual CFs at required yield' %}{% set fv.v = r.c3 or 0 %}{% endif %}
+    {% if 'Expected (loss-adjusted) return' in c1 %}{% set exp_return.v = r.c3 or 0 %}{% endif %}
+    {% if c1 == 'PRICING VERDICT (fair value vs net issue price)' %}{% set pricing_v.v = r.c3 or '' %}{% endif %}
+    {% if c1 == 'RETURN VERDICT (loss-adjusted return vs hurdle)' %}{% set return_v.v = r.c3 or '' %}{% endif %}
+    {% if 'Macaulay duration' in c1 %}{% set dur.v = r.c3 or 0 %}{% endif %}
+{% endfor %}
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-2">
+        <div class="stat-card">
+            <div class="stat-label">YTM</div>
+            <div class="stat-value">{{ "%.1f"|format(ytm.v * 100) }}%</div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-2">
+        <div class="stat-card">
+            <div class="stat-label">Fair Value</div>
+            <div class="stat-value">{{ "{:,.0f}".format(fv.v) }}</div>
+            <div class="text-muted" style="font-size:11px">GHS '000</div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-2">
+        <div class="stat-card">
+            <div class="stat-label">Expected Return</div>
+            <div class="stat-value">{{ "%.1f"|format(exp_return.v * 100) }}%</div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-2">
+        <div class="stat-card">
+            <div class="stat-label">Duration</div>
+            <div class="stat-value">{{ "%.1f"|format(dur.v) }}y</div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-2">
+        <div class="stat-card">
+            <div class="stat-label">Pricing</div>
+            <div class="stat-value" style="font-size:14px;{% if 'UNDER' in pricing_v.v %}color:var(--nimed-green){% elif 'OVER' in pricing_v.v %}color:var(--nimed-red){% endif %}">{{ pricing_v.v }}</div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-2">
+        <div class="stat-card">
+            <div class="stat-label">Return</div>
+            <div class="stat-value" style="font-size:14px;{% if 'MEETS' in return_v.v %}color:var(--nimed-green){% else %}color:var(--nimed-red){% endif %}">{{ return_v.v }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="card-panel">
+            <div class="panel-header">
+                <h3><i class="bi bi-cash-coin me-2"></i>Loan Structuring, Pricing & Valuation</h3>
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-research">
+                    <tbody>
+                        {% for row in pdl %}
+                        {% set c1 = row.get('c1', '') %}
+                        {% if c1 and not c1.startswith('Private debt — loan') and not c1.startswith('Direct lending') and not c1.startswith('Created') %}
+                        {% set is_section = c1.startswith('A.') or c1.startswith('B.') or c1.startswith('C.') or c1.startswith('D.') or c1.startswith('E.') or c1 == 'PRICING VERDICT (fair value vs net issue price)' or c1 == 'RETURN VERDICT (loss-adjusted return vs hurdle)' %}
+                        {% if is_section %}
+                        {% if 'VERDICT' in c1 %}
+                        <tr class="{% if 'UNDER' in (row.get('c3','')|string) or 'MEETS' in (row.get('c3','')|string) %}table-success{% else %}table-danger{% endif %}">
+                            <td colspan="10"><strong>{{ c1 }}: {{ row.c3 or '' }}</strong></td>
+                        </tr>
+                        {% else %}
+                        <tr class="table-primary">
+                            <td colspan="10"><strong>{{ c1 }}</strong></td>
+                        </tr>
+                        {% if row.get('c3') is not none and row.get('c4') is not none %}
+                        <tr class="table-light">
+                            <td></td><td></td>
+                            {% for col in ['c3','c4','c5','c6','c7','c8','c9','c10'] %}
+                            <td class="text-end"><strong>{{ row.get(col, '') or '' }}</strong></td>
+                            {% endfor %}
+                        </tr>
+                        {% endif %}
+                        {% endif %}
+                        {% else %}
+                        {% set unit = row.get('c2','') or '' %}
+                        {% set hi = 'Fair value' in c1 or 'Yield to maturity' in c1 or 'Expected (loss' in c1 or 'Macaulay' in c1 or c1.startswith('Lender cash flow') %}
+                        <tr{% if hi %} class="table-warning"{% endif %}>
+                            <td style="min-width:320px">{{ c1 }}</td>
+                            <td class="text-muted">{{ unit }}</td>
+                            {% for col in ['c3','c4','c5','c6','c7','c8','c9','c10'] %}
+                            {% set v = row.get(col) %}
+                            <td class="text-end">
+                                {% if v is none %}—{% elif unit == '%' or 'rate' in c1|lower and v is number and v < 1 %}{{ "%.2f"|format(v * 100) }}%{% elif unit == 'x' %}{{ "%.4f"|format(v) }}x{% elif "GHS" in unit %}{{ "{:,.0f}".format(v) }}{% elif 'years' in unit %}{{ "%.1f"|format(v) }}{% elif v is number and v < 2 and v > -2 and v != 0 %}{{ "%.4f"|format(v) }}{% elif v is number %}{{ "%.2f"|format(v) }}{% else %}{{ v }}{% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Lender Cash Flow Profile</h3></div>
+            <div class="panel-body p-3"><canvas id="cfChart" height="260"></canvas></div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card-panel">
+            <div class="panel-header"><h3>Principal Amortisation</h3></div>
+            <div class="panel-body p-3"><canvas id="principalChart" height="260"></canvas></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const pdl = {{ pdl | tojson }};
+const lbl = ['Close','Y1','Y2','Y3','Y4','Y5'];
+const cols = ['c3','c4','c5','c6','c7','c8'];
+let lenderCF = [], principal = [];
+pdl.forEach(r => {
+    if (!r.c1) return;
+    if (r.c1.startsWith('Lender cash flow (contractual)')) cols.forEach(c => lenderCF.push((r[c]||0)/1000));
+    if (r.c1 === 'Closing principal') cols.forEach(c => principal.push((r[c]||0)/1000));
+});
+new Chart(document.getElementById('cfChart'), {
+    type: 'bar',
+    data: { labels: lbl, datasets: [{ label: "Lender CF (GHS'm)", data: lenderCF, backgroundColor: lenderCF.map(v => v < 0 ? 'rgba(229,57,53,0.7)' : 'rgba(76,175,80,0.7)') }] },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { title: { display: true, text: "GHS'm" } } } }
+});
+new Chart(document.getElementById('principalChart'), {
+    type: 'line',
+    data: { labels: lbl, datasets: [{ label: "Outstanding (GHS'm)", data: principal, borderColor: '#0066cc', fill: true, backgroundColor: 'rgba(0,102,204,0.1)', tension: 0.3, pointRadius: 5 }] },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+});
+</script>
+{% endblock %}
