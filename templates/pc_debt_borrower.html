@@ -88,7 +88,7 @@
                         {% set unit = row.get('c2','') or '' %}
                         <tr>
                             <td style="min-width:300px">{{ c1 }}</td>
-                            <td class="text-muted">{{ unit }}</td>
+                            <td class="text-muted">{{ unit|replace('GHS', 'US$') }}</td>
                             {% for col in ['c3','c4','c5','c6','c7','c8'] %}
                             {% set v = row.get(col) %}
                             <td class="text-end">

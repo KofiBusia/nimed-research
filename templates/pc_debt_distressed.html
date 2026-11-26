@@ -95,7 +95,7 @@
                         {% set hi = 'Distributable' in c1 or 'Restructuring enterprise' in c1 or 'Recovery on our' in c1 or 'Fulcrum' in c1 or 'Total distributed' in c1 %}
                         <tr{% if hi %} class="table-warning"{% endif %}>
                             <td style="min-width:320px">{{ c1 }}</td>
-                            <td class="text-muted">{{ unit }}</td>
+                            <td class="text-muted">{{ unit|replace('GHS', 'US$') }}</td>
                             {% for col in ['c3','c4','c5','c6','c7','c8','c9','c10'] %}
                             {% set v = row.get(col) %}
                             <td class="text-end">

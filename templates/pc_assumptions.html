@@ -39,7 +39,7 @@
                         {% else %}
                         <tr>
                             <td>{{ c1 }}</td>
-                            <td class="text-muted">{{ row.get('c2', '') or '' }}</td>
+                            <td class="text-muted">{{ (row.get('c2', '') or '')|replace('GHS', 'US$') }}</td>
                             {% set unit = row.get('c2', '') %}
                             {% for col in ['c3','c4','c5','c6','c7','c8'] %}
                             {% set v = row.get(col) %}
@@ -91,7 +91,7 @@
                         {% else %}
                         <tr{% if c1 == 'FCFF = NOPAT + D&A − capex − ΔNWC' or c1 == 'EBITDA margin' %} class="table-warning"{% endif %}>
                             <td>{% if c1.startswith('Discount') %}<span class="text-muted">{{ c1 }}</span>{% else %}<strong>{{ c1 }}</strong>{% endif %}</td>
-                            <td class="text-muted">{{ row.get('c2', '') or '' }}</td>
+                            <td class="text-muted">{{ (row.get('c2', '') or '')|replace('GHS', 'US$') }}</td>
                             {% set unit = row.get('c2', '') or '' %}
                             {% for col in ['c3','c4','c5','c6','c7','c8'] %}
                             {% set v = row.get(col) %}

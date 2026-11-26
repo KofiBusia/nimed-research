@@ -88,7 +88,7 @@
                         {% set hi = 'ownership' in c1|lower or 'value at exit' in c1|lower or c1.startswith('PRE') or c1.startswith('POST') or 'implied IRR' in c1 or c1 == 'Step-up in price, round 2 vs round 1' %}
                         <tr{% if hi %} class="table-warning"{% endif %}>
                             <td style="min-width:350px">{{ c1 }}</td>
-                            <td class="text-muted">{{ unit }}</td>
+                            <td class="text-muted">{{ unit|replace('GHS', 'US$') }}</td>
                             <td class="text-end">
                                 {% set v = row.get('c3') %}
                                 {% if v is none %}—{% elif unit == '%' or 'ownership' in c1|lower %}{{ "%.2f"|format((v or 0)|sf * 100) }}%{% elif "GHS" in unit %}{{ "{:,.0f}".format((v or 0)|sf) }}{% elif unit == 'shares' %}{{ "{:,.0f}".format((v or 0)|sf) }}{% elif 'per share' in unit %}{{ "%.2f"|format(v) }}{% elif v is number %}{{ "%.2f"|format(v) }}{% else %}{{ v }}{% endif %}

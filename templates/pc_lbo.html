@@ -98,7 +98,7 @@
                         {% set hi = 'Total uses' in item or 'Total sources' in item or 'Enterprise value at exit' in item or 'Equity value if exited' in item or 'Net debt' in item %}
                         <tr{% if hi %} class="table-warning"{% endif %}>
                             <td style="min-width:320px">{{ item }}</td>
-                            <td class="text-muted">{{ row.get('c2', '') or '' }}</td>
+                            <td class="text-muted">{{ (row.get('c2', '') or '')|replace('GHS', 'US$') }}</td>
                             {% for col in ['c3','c4','c5','c6','c7','c8'] %}
                             {% set v = row.get(col) %}
                             <td class="text-end">

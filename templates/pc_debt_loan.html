@@ -97,7 +97,7 @@
                         {% set hi = 'Fair value' in c1 or 'Yield to maturity' in c1 or 'Expected (loss' in c1 or 'Macaulay' in c1 or c1.startswith('Lender cash flow') %}
                         <tr{% if hi %} class="table-warning"{% endif %}>
                             <td style="min-width:320px">{{ c1 }}</td>
-                            <td class="text-muted">{{ unit }}</td>
+                            <td class="text-muted">{{ unit|replace('GHS', 'US$') }}</td>
                             {% for col in ['c3','c4','c5','c6','c7','c8','c9','c10'] %}
                             {% set v = row.get(col) %}
                             <td class="text-end">
