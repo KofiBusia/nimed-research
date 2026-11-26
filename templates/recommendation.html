@@ -192,8 +192,8 @@
                     <td>{{ v.method }}</td>
                     <td class="num" style="font-weight:600;">{{ "%.0f"|format(v.weight * 100) }}%</td>
                     {% if is_private %}
-                    <td class="num">{% if v.ev is number %}{{ currency }} {{ "{:,.0f}".format(v.ev|float) }}{% else %}&mdash;{% endif %}</td>
-                    <td class="num">{% if v.equity is number %}{{ currency }} {{ "{:,.0f}".format(v.equity|float) }}{% else %}&mdash;{% endif %}</td>
+                    <td class="num">{% if v.ev is number %}GHS {{ "{:,.0f}".format(v.ev|float) }}{% else %}&mdash;{% endif %}</td>
+                    <td class="num">{% if v.equity is number %}GHS {{ "{:,.0f}".format(v.equity|float) }}{% else %}&mdash;{% endif %}</td>
                     {% else %}
                     <td class="num">{{ currency }} {{ "%.2f"|format(v.value) }}</td>
                     {% endif %}
@@ -211,25 +211,26 @@
             {% endfor %}
         </div>
 
+        {% set val_ccy = 'GHS' if is_private else currency %}
         <div class="val-blended-row">
             <span style="flex:1;">Blended Fair Value</span>
             <span>
                 {% if blended_value is number %}
-                {{ currency }} {{ "{:,.2f}".format(blended_value|float) if not is_private else "{:,.0f}".format(blended_value|float) }}
+                {{ val_ccy }} {{ "{:,.2f}".format(blended_value|float) if not is_private else "{:,.0f}".format(blended_value|float) }}
                 {% else %}&mdash;{% endif %}
             </span>
         </div>
 
         {% if fair_value_low is not none and fair_value_high is not none %}
         <div class="val-range" style="margin-top:6px;">
-            <span>{{ currency }} {{ "{:,.0f}".format(fair_value_low|float) }}</span>
+            <span>{{ val_ccy }} {{ "{:,.0f}".format(fair_value_low|float) }}</span>
             <div class="range-bar">
                 {% if blended_value is number and fair_value_high != fair_value_low %}
                 {% set pct = ((blended_value - fair_value_low) / (fair_value_high - fair_value_low) * 100) %}
                 <div class="range-marker" style="left:{{ "%.0f"|format(pct) }}%;"></div>
                 {% endif %}
             </div>
-            <span>{{ currency }} {{ "{:,.0f}".format(fair_value_high|float) }}</span>
+            <span>{{ val_ccy }} {{ "{:,.0f}".format(fair_value_high|float) }}</span>
         </div>
         {% endif %}
 

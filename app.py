@@ -741,6 +741,7 @@ def recommendation(ticker):
         yin = get_yin_full()
         pev = yin.get('pe_valuation', [])
         dash = yin.get('dashboard', {})
+        valuation_currency = 'GHS'
         ev_dcf = None
         ev_comps = None
         ev_prec = None
