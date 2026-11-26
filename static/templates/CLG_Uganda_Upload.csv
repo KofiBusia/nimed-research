@@ -2,44 +2,48 @@ Line Item,Stmt Type,FY2023,FY2024,FY2025
 Company Name,META,Choplife Gaming Ltd (Uganda),Choplife Gaming Ltd (Uganda),Choplife Gaming Ltd (Uganda)
 Currency,META,UGX,UGX,UGX
 Country of Incorporation,META,Uganda,Uganda,Uganda
-Revenue / Gross Gaming Revenue,IS,,,
-Cost of revenue / Direct costs,IS,,,
-Gross Profit,IS,,,
-Other operating income,IS,,,
-Staff costs / Employment costs,IS,,,
-Administration expenses,IS,,,
-Operating expenses,IS,,,
-Finance costs,IS,,,
-Profit / (Loss) before tax,IS,,,
-Income tax expense,IS,,,
-Profit / (Loss) after tax,IS,,,
-Other comprehensive income,IS,,,
-Total comprehensive income,IS,,,
-Property and equipment,BS,,,
-Total non-current assets,BS,,,
-Trade and other receivables,BS,,,
-Income tax receivable,BS,,,
-Cash and cash equivalents,BS,,,
-Total current assets,BS,,,
-TOTAL ASSETS,BS,,,
-Ordinary share capital,BS,,,
-Retained earnings / (Accumulated losses),BS,,,
-Total equity,BS,,,
-Trade and other payables,BS,,,
-Income tax payable,BS,,,
-Total current liabilities,BS,,,
-TOTAL EQUITY AND LIABILITIES,BS,,,
-Profit / (Loss) before tax,CF,,,
-Depreciation of property and equipment,CF,,,
-Prior year adjustments,CF,,,
-Change in trade and other receivables,CF,,,
-Change in trade and other payables,CF,,,
-Tax paid,CF,,,
-Net cash from operating activities,CF,,,
-Purchase of property and equipment,CF,,,
-Net cash used in investing activities,CF,,,
-Dividends paid,CF,,,
-Net cash from financing activities,CF,,,
-Net increase / (decrease) in cash,CF,,,
-Cash at beginning of year,CF,,,
-Cash at end of year,CF,,,
+Revenue / Gross Gaming Revenue,IS,193378871723,349206581958,312237181929
+Cost of revenue / Direct costs,IS,-81482571098,-157789063107,-179042022127
+Gross Profit,IS,111896300625,191417518851,133195159802
+Other operating income,IS,1025372651,2283637852,3191638477
+Staff costs / Employment costs,IS,-2148424509,-2775394141,-3361687435
+Administration expenses,IS,-2981362080,-4935499907,-3700146142
+Operating expenses,IS,-108779676134,-185857278457,-130732784412
+Finance costs,IS,969437411,-436660197,-777580488
+Profit / (Loss) before tax,IS,-18352036,-303676000,-2185400198
+Income tax expense,IS,0,0,-432983429
+Profit / (Loss) after tax,IS,-18352036,-303676000,-2618383627
+Other comprehensive income,IS,0,0,0
+Total comprehensive income,IS,-18352036,-303676000,-2618383627
+Property and equipment,BS,144551831,123065925,184791702
+Intangible assets,BS,0,14333800000,7166900000
+Total non-current assets,BS,144551831,14456865925,7351691702
+Trade and other receivables,BS,1016245274,4448907446,253706832
+Income tax receivable,BS,0,0,0
+Cash and cash equivalents,BS,38131859504,60575633458,51442791205
+Total current assets,BS,39148104779,65024540905,51696498037
+TOTAL ASSETS,BS,39292656610,79481406830,59048189740
+Ordinary share capital,BS,1262000000,4350000000,4350000000
+Retained earnings / (Accumulated losses),BS,-3097030144,-1016184657,-3634568283
+Total equity,BS,-1835030144,3333815343,715431717
+Trade and other payables,BS,13323253942,56084843106,45183084594
+Income tax payable,BS,0,0,0
+Deferred tax liability,BS,0,0,432983429
+Total current liabilities,BS,13323253942,56084843106,45616068023
+Long term loans / borrowings,BS,27804432812,20062748380,12716690000
+TOTAL EQUITY AND LIABILITIES,BS,39292656610,79481406830,59048189740
+Profit / (Loss) before tax,CF,-18352036,-303676000,-2185400198
+Depreciation of property and equipment,CF,105747825,101030305,94593622
+Amortization of intangible assets,CF,0,0,7166900000
+Prior year adjustments,CF,0,2384512487,0
+Change in trade and other receivables,CF,-919007708,-3432662172,4195200614
+Change in trade and other payables,CF,-7736383053,42761598165,-10901758512
+Tax paid,CF,-192851797,0,0
+Net cash from operating activities,CF,-8760846769,39328935993,-6706557898
+Purchase of property and equipment,CF,-48494800,-79544399,-156319398
+Net cash used in investing activities,CF,74424543,-14413344399,-156319398
+Dividends paid,CF,0,0,0
+Net cash from financing activities,CF,26383320451,-4653684433,-7346058380
+Net increase / (decrease) in cash,CF,17784294013,22443773953,-9132842251
+Cash at beginning of year,CF,20347565492,38131859505,60575633459
+Cash at end of year,CF,38131859504,60575633459,51442791208

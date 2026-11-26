@@ -1849,8 +1849,13 @@ def init_db():
         currency_map = {'CLG-RW': 'RWF', 'CLG-TZ': 'TZS', 'CLG-UG': 'UGX', 'CLG-BJ': 'XOF'}
         for tick, cur in currency_map.items():
             cf = CompanyFinancials.query.filter_by(ticker=tick).first()
-            if cf and (not cf.currency or cf.currency == 'GHS'):
-                cf.currency = cur
+            if cf:
+                if not cf.currency or cf.currency == 'GHS':
+                    cf.currency = cur
+                if not cf.is_private:
+                    cf.is_private = True
+                if not cf.industry:
+                    cf.industry = 'Gaming / Betting'
         db.session.commit()
 
 
