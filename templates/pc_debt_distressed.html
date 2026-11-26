@@ -23,7 +23,7 @@
                 <div>
                     <div class="stat-label">Distributable Value</div>
                     <div class="stat-value">{{ "{:,.0f}".format(dist_val.v) }}</div>
-                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                    <div class="text-muted" style="font-size:11px">US$ '000</div>
                 </div>
             </div>
         </div>
@@ -154,11 +154,11 @@ new Chart(document.getElementById('waterfallChart'), {
     data: {
         labels: wfLabels,
         datasets: [
-            { label: "Claim (GHS'm)", data: claims, backgroundColor: 'rgba(0,102,204,0.7)' },
-            { label: "Recovery (GHS'm)", data: recoveries, backgroundColor: 'rgba(76,175,80,0.7)' }
+            { label: "Claim (US$'m)", data: claims, backgroundColor: 'rgba(0,102,204,0.7)' },
+            { label: "Recovery (US$'m)", data: recoveries, backgroundColor: 'rgba(76,175,80,0.7)' }
         ]
     },
-    options: { indexAxis: 'y', responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { x: { title: { display: true, text: "GHS'm" } } } }
+    options: { indexAxis: 'y', responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { x: { title: { display: true, text: "US$'m" } } } }
 });
 new Chart(document.getElementById('recoveryChart'), {
     type: 'bar',

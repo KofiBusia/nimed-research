@@ -29,7 +29,7 @@
                 <div>
                     <div class="stat-label">Mean EV</div>
                     <div class="stat-value">{% if stats.mean != '—' %}{{ "{:,.0f}".format(stats.mean) }}{% else %}—{% endif %}</div>
-                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                    <div class="text-muted" style="font-size:11px">US$ '000</div>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                 <div>
                     <div class="stat-label">Median EV</div>
                     <div class="stat-value">{% if stats.median != '—' %}{{ "{:,.0f}".format(stats.median) }}{% else %}—{% endif %}</div>
-                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                    <div class="text-muted" style="font-size:11px">US$ '000</div>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
                 <div>
                     <div class="stat-label">Std Dev</div>
                     <div class="stat-value">{% if stats.std != '—' %}{{ "{:,.0f}".format(stats.std) }}{% else %}—{% endif %}</div>
-                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                    <div class="text-muted" style="font-size:11px">US$ '000</div>
                 </div>
             </div>
         </div>
@@ -98,7 +98,7 @@
             <div class="panel-header"><h3>Percentile Summary</h3></div>
             <div class="panel-body">
                 <table class="table table-research mb-0">
-                    <thead><tr><th>Statistic</th><th class="text-end">EV (GHS '000)</th></tr></thead>
+                    <thead><tr><th>Statistic</th><th class="text-end">EV (US$ '000)</th></tr></thead>
                     <tbody>
                         <tr><td>5th Percentile</td><td class="text-end">{% if stats.p5 != '—' %}{{ "{:,.0f}".format(stats.p5) }}{% endif %}</td></tr>
                         <tr><td>25th Percentile</td><td class="text-end">{% if stats.p25 != '—' %}{{ "{:,.0f}".format(stats.p25) }}{% endif %}</td></tr>
@@ -141,7 +141,7 @@
                             <th class="text-end">Margin Shift</th>
                             <th class="text-end">WACC Used</th>
                             <th class="text-end">Terminal g</th>
-                            <th class="text-end">EV (GHS '000)</th>
+                            <th class="text-end">EV (US$ '000)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -184,8 +184,8 @@ new Chart(document.getElementById('histChart'), {
     },
     options: {
         responsive: true,
-        plugins: { legend: { display: false }, title: { display: true, text: "Enterprise Value Distribution (GHS'm)" } },
-        scales: { x: { title: { display: true, text: "EV (GHS'm)" } }, y: { title: { display: true, text: 'Frequency' }, beginAtZero: true } }
+        plugins: { legend: { display: false }, title: { display: true, text: "Enterprise Value Distribution (US$'m)" } },
+        scales: { x: { title: { display: true, text: "EV (US$'m)" } }, y: { title: { display: true, text: 'Frequency' }, beginAtZero: true } }
     }
 });
 </script>

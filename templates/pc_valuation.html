@@ -25,7 +25,7 @@
                 <div>
                     <div class="stat-label">Enterprise Value</div>
                     <div class="stat-value">{% if concluded_ev.val != '—' %}{{ "{:,.0f}".format(concluded_ev.val) }}{% else %}—{% endif %}</div>
-                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                    <div class="text-muted" style="font-size:11px">US$ '000</div>
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
                 <div>
                     <div class="stat-label">Equity Value (100%)</div>
                     <div class="stat-value">{% if concluded_equity.val != '—' %}{{ "{:,.0f}".format(concluded_equity.val) }}{% else %}—{% endif %}</div>
-                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                    <div class="text-muted" style="font-size:11px">US$ '000</div>
                 </div>
             </div>
         </div>
@@ -210,7 +210,7 @@ new Chart(document.getElementById('footballChart'), {
             backgroundColor: ['rgba(0,102,204,0.7)', 'rgba(76,175,80,0.7)', 'rgba(255,193,7,0.7)', 'rgba(229,57,53,0.7)']
         }]
     },
-    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => "GHS " + ctx.raw.toLocaleString('en',{maximumFractionDigits:0}) + "k" } } }, scales: { x: { title: { display: true, text: "GHS '000" } } } }
+    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => "US$ " + ctx.raw.toLocaleString('en',{maximumFractionDigits:0}) + "k" } } }, scales: { x: { title: { display: true, text: "US$ '000" } } } }
 });
 new Chart(document.getElementById('weightChart'), {
     type: 'doughnut',

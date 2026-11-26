@@ -32,7 +32,7 @@
         <div class="stat-card">
             <div class="stat-label">Fair Value</div>
             <div class="stat-value">{{ "{:,.0f}".format(fv.v) }}</div>
-            <div class="text-muted" style="font-size:11px">GHS '000</div>
+            <div class="text-muted" style="font-size:11px">US$ '000</div>
         </div>
     </div>
     <div class="col-sm-6 col-lg-2">
@@ -144,12 +144,12 @@ pdl.forEach(r => {
 });
 new Chart(document.getElementById('cfChart'), {
     type: 'bar',
-    data: { labels: lbl, datasets: [{ label: "Lender CF (GHS'm)", data: lenderCF, backgroundColor: lenderCF.map(v => v < 0 ? 'rgba(229,57,53,0.7)' : 'rgba(76,175,80,0.7)') }] },
-    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { title: { display: true, text: "GHS'm" } } } }
+    data: { labels: lbl, datasets: [{ label: "Lender CF (US$'m)", data: lenderCF, backgroundColor: lenderCF.map(v => v < 0 ? 'rgba(229,57,53,0.7)' : 'rgba(76,175,80,0.7)') }] },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { title: { display: true, text: "US$'m" } } } }
 });
 new Chart(document.getElementById('principalChart'), {
     type: 'line',
-    data: { labels: lbl, datasets: [{ label: "Outstanding (GHS'm)", data: principal, borderColor: '#0066cc', fill: true, backgroundColor: 'rgba(0,102,204,0.1)', tension: 0.3, pointRadius: 5 }] },
+    data: { labels: lbl, datasets: [{ label: "Outstanding (US$'m)", data: principal, borderColor: '#0066cc', fill: true, backgroundColor: 'rgba(0,102,204,0.1)', tension: 0.3, pointRadius: 5 }] },
     options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
 });
 </script>

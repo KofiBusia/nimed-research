@@ -48,14 +48,14 @@
         <div class="stat-card">
             <div class="stat-label">Total Carry</div>
             <div class="stat-value">{{ "{:,.0f}".format(carry.v|sf) }}</div>
-            <div class="text-muted" style="font-size:11px">GHS '000</div>
+            <div class="text-muted" style="font-size:11px">US$ '000</div>
         </div>
     </div>
     <div class="col-6 col-lg-2">
         <div class="stat-card">
             <div class="stat-label">Fund Size</div>
             <div class="stat-value">100,000</div>
-            <div class="text-muted" style="font-size:11px">GHS '000</div>
+            <div class="text-muted" style="font-size:11px">US$ '000</div>
         </div>
     </div>
 </div>
@@ -211,12 +211,12 @@ new Chart(document.getElementById('jcurveChart'), {
     data: {
         labels: lbl,
         datasets: [{
-            label: "Cumulative LP Net CF (GHS'm)", data: jcurve,
+            label: "Cumulative LP Net CF (US$'m)", data: jcurve,
             borderColor: '#0066cc', backgroundColor: ctx => { const v = ctx.raw; return v < 0 ? 'rgba(229,57,53,0.15)' : 'rgba(76,175,80,0.15)'; },
             fill: true, tension: 0.3, pointRadius: 5
         }]
     },
-    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { title: { display: true, text: "GHS'm" } } } }
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { title: { display: true, text: "US$'m" } } } }
 });
 new Chart(document.getElementById('tvpiChart'), {
     type: 'bar',

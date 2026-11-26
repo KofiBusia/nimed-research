@@ -58,9 +58,6 @@
             </div>
             <div class="stat-label">Enterprise Value (DCF)</div>
             <div class="stat-value" style="font-size:16px;">
-                GHS {{ "{:,.0f}".format(db.get('Enterprise value — DCF (method selected)',{}).get('value',0)|float) }}k
-            </div>
-            <div class="stat-change" style="color:#6b7280;">
                 US$ {{ "{:,.0f}".format(db.get('Enterprise value — DCF (method selected)',{}).get('usd',0)|float) }}k
             </div>
         </div>
@@ -72,7 +69,7 @@
             </div>
             <div class="stat-label">Concluded Equity (100%)</div>
             <div class="stat-value" style="font-size:16px;">
-                GHS {{ "{:,.0f}".format(db.get('Concluded equity value — 100% (level-of-value adjusted)',{}).get('value',0)|float) }}k
+                US$ {{ "{:,.0f}".format(db.get('Concluded equity value — 100% (level-of-value adjusted)',{}).get('usd',0)|float) }}k
             </div>
             <div class="stat-change" style="color:#6b7280;">
                 {{ db.get('Concluded equity value — 100% (level-of-value adjusted)',{}).get('assessment','') }}
@@ -122,17 +119,16 @@
             <div class="panel-header"><h3><i class="bi bi-currency-exchange me-2"></i>PE Target Valuation</h3></div>
             <div class="panel-body">
                 <table class="table table-research">
-                    <thead><tr><th>Measure</th><th>GHS '000</th><th>Assessment</th><th>US$ '000</th></tr></thead>
+                    <thead><tr><th>Measure</th><th>US$ '000</th><th>Assessment</th></tr></thead>
                     <tbody>
                         {% for key in ['Enterprise value — DCF (method selected)', 'Enterprise value — trading comparables', 'Enterprise value — precedent transactions', 'Concluded equity value — 100% (level-of-value adjusted)', 'Value of stake', 'Implied EV / FY0 adjusted EBITDA', 'Value per share'] %}
                         {% if db.get(key) %}
                         <tr>
                             <td style="font-size:12px;">{{ key }}</td>
                             <td class="fw-semibold">
-                                {% if db[key].value is number %}{{ "{:,.1f}".format(db[key].value|float) }}{% else %}{{ db[key].value }}{% endif %}
+                                {% if db[key].usd is number %}{{ "{:,.1f}".format(db[key].usd|float) }}{% elif db[key].value is number %}{{ "{:,.1f}".format(db[key].value|float) }}{% else %}{{ db[key].value }}{% endif %}
                             </td>
                             <td style="font-size:11px;">{{ db[key].assessment or '' }}</td>
-                            <td>{% if db[key].usd is number %}{{ "{:,.1f}".format(db[key].usd|float) }}{% else %}{{ db[key].usd or '' }}{% endif %}</td>
                         </tr>
                         {% endif %}
                         {% endfor %}
@@ -321,15 +317,15 @@
 
 {% block extra_js %}
 <script>
-const dcf = {{ data.dashboard.get('Enterprise value — DCF (method selected)',{}).get('value',0) | tojson }};
-const comps = {{ data.dashboard.get('Enterprise value — trading comparables',{}).get('value',0) | tojson }};
-const prec = {{ data.dashboard.get('Enterprise value — precedent transactions',{}).get('value',0) | tojson }};
+const dcf = {{ data.dashboard.get('Enterprise value — DCF (method selected)',{}).get('usd',0) | tojson }};
+const comps = {{ data.dashboard.get('Enterprise value — trading comparables',{}).get('usd',0) | tojson }};
+const prec = {{ data.dashboard.get('Enterprise value — precedent transactions',{}).get('usd',0) | tojson }};
 new Chart(document.getElementById('yinValChart'), {
     type: 'bar',
     data: {
         labels: ['DCF (FCFF)', 'Trading Comparables', 'Precedent Transactions'],
         datasets: [{
-            label: "Enterprise Value (GHS '000)",
+            label: "Enterprise Value (US$ '000)",
             data: [dcf, comps, prec],
             backgroundColor: ['#0066cc', '#4caf50', '#ff9800'],
             borderRadius: 8, barThickness: 60
@@ -338,7 +334,7 @@ new Chart(document.getElementById('yinValChart'), {
     options: {
         responsive: true, maintainAspectRatio: false,
         plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true, ticks: { font: { size: 11 }, callback: v => 'GHS ' + (v/1000).toFixed(0) + 'm' } } }
+        scales: { y: { beginAtZero: true, ticks: { font: { size: 11 }, callback: v => 'US$ ' + (v/1000).toFixed(0) + 'm' } } }
     }
 });
 </script>

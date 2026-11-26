@@ -25,7 +25,7 @@
                 <div>
                     <div class="stat-label">Exit Value</div>
                     <div class="stat-value">{{ "{:,.0f}".format(exit_val.v) }}</div>
-                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                    <div class="text-muted" style="font-size:11px">US$ '000</div>
                 </div>
             </div>
         </div>
@@ -149,7 +149,7 @@ new Chart(document.getElementById('returnChart'), {
             { label: 'Exit Value', data: [r1Val, r2Val], backgroundColor: 'rgba(76,175,80,0.7)' }
         ]
     },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { y: { title: { display: true, text: "GHS'm" } } } }
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { y: { title: { display: true, text: "US$'m" } } } }
 });
 </script>
 {% endblock %}

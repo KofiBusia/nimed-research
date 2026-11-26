@@ -36,7 +36,7 @@
                 <div>
                     <div class="stat-label">Y5 Exit Equity</div>
                     <div class="stat-value">{{ "{:,.0f}".format(exit_equity.val) }}</div>
-                    <div class="text-muted" style="font-size:11px">GHS '000</div>
+                    <div class="text-muted" style="font-size:11px">US$ '000</div>
                 </div>
             </div>
         </div>
@@ -154,7 +154,7 @@ new Chart(document.getElementById('debtChart'), {
             { label: 'Cash', data: cash, type: 'line', borderColor: '#4caf50', backgroundColor: 'transparent', borderWidth: 2, pointRadius: 4 }
         ]
     },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { x: {}, y: { stacked: true, title: { display: true, text: "GHS'm" } } } }
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { x: {}, y: { stacked: true, title: { display: true, text: "US$'m" } } } }
 });
 
 let suLabels = [], suAmts = [];
@@ -169,7 +169,7 @@ const colors = suLabels.map((l,i) => ['#0066cc','#4caf50','#ffc107','#e53935','#
 new Chart(document.getElementById('suChart'), {
     type: 'bar',
     data: { labels: suLabels, datasets: [{ data: suAmts, backgroundColor: colors }] },
-    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { title: { display: true, text: "GHS'm" } } } }
+    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { title: { display: true, text: "US$'m" } } } }
 });
 </script>
 {% endblock %}

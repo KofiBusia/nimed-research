@@ -150,9 +150,9 @@ new Chart(document.getElementById('forecastChart'), {
     data: {
         labels: lbl,
         datasets: [
-            { label: "Revenue (GHS'm)", data: revenue, backgroundColor: 'rgba(0,102,204,0.7)', order: 2 },
-            { label: "EBITDA (GHS'm)", data: ebitda, backgroundColor: 'rgba(76,175,80,0.7)', order: 2 },
-            { label: "FCFF (GHS'm)", data: fcff, type: 'line', borderColor: '#e53935', backgroundColor: 'transparent', borderWidth: 2, pointRadius: 4, order: 1 }
+            { label: "Revenue (US$'m)", data: revenue, backgroundColor: 'rgba(0,102,204,0.7)', order: 2 },
+            { label: "EBITDA (US$'m)", data: ebitda, backgroundColor: 'rgba(76,175,80,0.7)', order: 2 },
+            { label: "FCFF (US$'m)", data: fcff, type: 'line', borderColor: '#e53935', backgroundColor: 'transparent', borderWidth: 2, pointRadius: 4, order: 1 }
         ]
     },
     options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { y: { beginAtZero: true } } }
