@@ -662,10 +662,12 @@ def recommendation(ticker):
 
     if not is_private:
         from compute import compute_valuation_models, compute_cost_of_equity
+        from data_loader import get_live_data
+        live = get_live_data()
         workbook = load_workbook_data()
         betas = workbook.get('betas', [])
         sector_weights = workbook.get('sector_weights', [])
-        all_peers = workbook.get('all_peers', {})
+        all_peers = live.get('all_peers', {})
         beta_info = {}
         for b in betas:
             if b.get('ticker', '') == ticker:
@@ -674,8 +676,11 @@ def recommendation(ticker):
         if beta_info:
             beta_used = _safe(beta_info.get('beta_used', 1))
             sector = beta_info.get('category', 'Other')
-            inputs_data = get_inputs_data().get('inputs', {})
-            metrics_for_val = extract_key_metrics(items, periods)
+            inputs_data = live.get('inputs', workbook.get('inputs', {}))
+            live_fs = live.get('financial_statements', {}).get(ticker, {})
+            val_items = live_fs.get('items', items)
+            val_periods = live_fs.get('periods', periods)
+            metrics_for_val = extract_key_metrics(val_items, val_periods)
             sp = SharePrice.query.filter_by(ticker=ticker).first()
             shares_m = (sp.shares_m if sp else None) or _safe(beta_info.get('shares_m', 0))
             if metrics_for_val:
