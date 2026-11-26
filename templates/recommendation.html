@@ -175,8 +175,18 @@
 
     {% if valuation_bridge %}
     <!-- Valuation Bridge -->
-    <div class="rec-section-title"><i class="bi bi-graph-up me-1"></i>Fair Value Analysis ({{ valuation_unit }})</div>
-    <div class="val-bridge">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="rec-section-title" style="margin-bottom:0;flex:1;"><i class="bi bi-graph-up me-1"></i>Fair Value Analysis ({{ valuation_unit }})</div>
+        <div class="no-print" style="display:flex;align-items:center;gap:6px;font-size:11px;">
+            <span style="color:#888;">Currency:</span>
+            <select id="ccySelect" onchange="switchCcy(this.value)" style="font-size:11px;padding:2px 8px;border:1px solid #ccc;border-radius:4px;">
+                {% for c in available_ccys %}
+                <option value="{{ c }}" {% if c == display_ccy %}selected{% endif %}>{{ c }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="val-bridge" style="margin-top:10px;">
         <table class="rec-table">
             <thead>
                 <tr>
@@ -192,10 +202,10 @@
                     <td>{{ v.method }}</td>
                     <td class="num" style="font-weight:600;">{{ "%.0f"|format(v.weight * 100) }}%</td>
                     {% if is_private %}
-                    <td class="num">{% if v.ev is number %}GHS {{ "{:,.0f}".format(v.ev|float) }}{% else %}&mdash;{% endif %}</td>
-                    <td class="num">{% if v.equity is number %}GHS {{ "{:,.0f}".format(v.equity|float) }}{% else %}&mdash;{% endif %}</td>
+                    <td class="num">{% if v.ev is number %}{{ display_ccy }} {{ "{:,.0f}".format(v.ev|float) }}{% else %}&mdash;{% endif %}</td>
+                    <td class="num">{% if v.equity is number %}{{ display_ccy }} {{ "{:,.0f}".format(v.equity|float) }}{% else %}&mdash;{% endif %}</td>
                     {% else %}
-                    <td class="num">{{ currency }} {{ "%.2f"|format(v.value) }}</td>
+                    <td class="num">{{ display_ccy }} {{ "%.2f"|format(v.value) }}</td>
                     {% endif %}
                 </tr>
                 {% endfor %}
@@ -211,33 +221,32 @@
             {% endfor %}
         </div>
 
-        {% set val_ccy = 'GHS' if is_private else currency %}
         <div class="val-blended-row">
             <span style="flex:1;">Blended Fair Value</span>
             <span>
                 {% if blended_value is number %}
-                {{ val_ccy }} {{ "{:,.2f}".format(blended_value|float) if not is_private else "{:,.0f}".format(blended_value|float) }}
+                {{ display_ccy }} {{ "{:,.2f}".format(blended_value|float) if not is_private else "{:,.0f}".format(blended_value|float) }}
                 {% else %}&mdash;{% endif %}
             </span>
         </div>
 
         {% if fair_value_low is not none and fair_value_high is not none %}
         <div class="val-range" style="margin-top:6px;">
-            <span>{{ val_ccy }} {{ "{:,.0f}".format(fair_value_low|float) }}</span>
+            <span>{{ display_ccy }} {{ "{:,.0f}".format(fair_value_low|float) }}</span>
             <div class="range-bar">
                 {% if blended_value is number and fair_value_high != fair_value_low %}
                 {% set pct = ((blended_value - fair_value_low) / (fair_value_high - fair_value_low) * 100) %}
                 <div class="range-marker" style="left:{{ "%.0f"|format(pct) }}%;"></div>
                 {% endif %}
             </div>
-            <span>{{ val_ccy }} {{ "{:,.0f}".format(fair_value_high|float) }}</span>
+            <span>{{ display_ccy }} {{ "{:,.0f}".format(fair_value_high|float) }}</span>
         </div>
         {% endif %}
 
         {% if price_now is not none and not is_private and blended_value is number %}
         <div style="font-size:11px;margin-top:4px;padding:6px 10px;background:#f9f9f9;border-radius:4px;">
-            <strong>Market Price:</strong> {{ currency }} {{ "%.2f"|format(price_now) }} &nbsp;|&nbsp;
-            <strong>Fair Value:</strong> {{ currency }} {{ "%.2f"|format(blended_value) }} &nbsp;|&nbsp;
+            <strong>Market Price:</strong> {{ display_ccy }} {{ "%.2f"|format(price_now) }} &nbsp;|&nbsp;
+            <strong>Fair Value:</strong> {{ display_ccy }} {{ "%.2f"|format(blended_value) }} &nbsp;|&nbsp;
             {% set upside_pct = ((blended_value - price_now) / price_now * 100) if price_now != 0 else 0 %}
             <strong>Upside:</strong> <span style="color:{% if upside_pct >= 0 %}var(--nimed-green){% else %}var(--nimed-red){% endif %};font-weight:700;">{{ "%+.1f"|format(upside_pct) }}%</span>
         </div>
@@ -379,4 +388,14 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function switchCcy(ccy) {
+    var url = new URL(window.location.href);
+    url.searchParams.set('ccy', ccy);
+    window.location.href = url.toString();
+}
+</script>
 {% endblock %}

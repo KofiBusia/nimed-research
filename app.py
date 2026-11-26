@@ -468,6 +468,23 @@ def pc_assumptions():
 @login_required
 def recommendation(ticker):
     from compute import extract_key_metrics, _safe
+    display_ccy = request.args.get('ccy', 'USD').upper()
+    rates = {}
+    for cr in CurrencyRate.query.all():
+        rates[cr.code] = cr.rate_to_usd
+    if display_ccy not in rates:
+        display_ccy = 'USD'
+    available_ccys = sorted(rates.keys())
+
+    def convert_from_ghs(val, to_ccy='USD'):
+        if val is None or not isinstance(val, (int, float)):
+            return val
+        ghs_to_usd = rates.get('GHS', 0.0625)
+        target_to_usd = rates.get(to_ccy, 1.0)
+        if target_to_usd == 0:
+            return val
+        return val * ghs_to_usd / target_to_usd
+
     cf = CompanyFinancials.query.filter_by(ticker=ticker).first()
     if cf:
         fs = cf.get_data()
@@ -656,7 +673,6 @@ def recommendation(ticker):
     blended_value = None
     fair_value_low = None
     fair_value_high = None
-    valuation_currency = currency
     valuation_unit = ''
     price_now = None
 
@@ -721,27 +737,27 @@ def recommendation(ticker):
                     mv = models.get(mk)
                     mw = weight_map.get(mk, 0)
                     if mv is not None and mw > 0:
+                        cv = convert_from_ghs(mv, display_ccy)
                         valuation_bridge.append({
                             'method': model_labels.get(mk, mk),
-                            'value': mv,
+                            'value': cv,
                             'weight': mw,
                         })
-                        vals_list.append(mv)
-                blended_value = models.get('weighted_value')
+                        vals_list.append(cv)
+                raw_blended = models.get('weighted_value')
+                blended_value = convert_from_ghs(raw_blended, display_ccy)
                 if vals_list:
                     fair_value_low = min(vals_list)
                     fair_value_high = max(vals_list)
-                valuation_unit = 'per share (GHS)'
-                # Add market price context
+                valuation_unit = 'per share'
                 if sp:
-                    price_now = sp.price_ghs
+                    price_now = convert_from_ghs(sp.price_ghs, display_ccy)
                 else:
                     price_now = None
     else:
         yin = get_yin_full()
         pev = yin.get('pe_valuation', [])
         dash = yin.get('dashboard', {})
-        valuation_currency = 'GHS'
         ev_dcf = None
         ev_comps = None
         ev_prec = None
@@ -772,14 +788,17 @@ def recommendation(ticker):
             elif 'concluded equity value' in c1_low and '100%' in c1_low:
                 concluded_equity = item.get('c3')
         if ev_dcf is not None:
-            valuation_bridge.append({'method': 'DCF (Income Approach)', 'ev': ev_dcf, 'equity': eq_dcf, 'weight': weights[0]})
+            valuation_bridge.append({'method': 'DCF (Income Approach)',
+                'ev': convert_from_ghs(ev_dcf, display_ccy), 'equity': convert_from_ghs(eq_dcf, display_ccy), 'weight': weights[0]})
         if ev_comps is not None:
-            valuation_bridge.append({'method': 'Trading Comparables', 'ev': ev_comps, 'equity': eq_comps, 'weight': weights[1]})
+            valuation_bridge.append({'method': 'Trading Comparables',
+                'ev': convert_from_ghs(ev_comps, display_ccy), 'equity': convert_from_ghs(eq_comps, display_ccy), 'weight': weights[1]})
         if ev_prec is not None:
-            valuation_bridge.append({'method': 'Precedent Transactions', 'ev': ev_prec, 'equity': eq_prec, 'weight': weights[2]})
+            valuation_bridge.append({'method': 'Precedent Transactions',
+                'ev': convert_from_ghs(ev_prec, display_ccy), 'equity': convert_from_ghs(eq_prec, display_ccy), 'weight': weights[2]})
         if concluded_equity is not None:
-            blended_value = concluded_equity
-        vals_list = [v for v in [eq_dcf, eq_comps, eq_prec] if v is not None]
+            blended_value = convert_from_ghs(concluded_equity, display_ccy)
+        vals_list = [v.get('equity') for v in valuation_bridge if v.get('equity') is not None]
         if vals_list:
             fair_value_low = min(vals_list)
             fair_value_high = max(vals_list)
@@ -787,7 +806,7 @@ def recommendation(ticker):
         price_now = None
         vps = dash.get('Value per share')
         if vps and isinstance(vps, dict):
-            price_now = vps.get('value')
+            price_now = convert_from_ghs(vps.get('value'), display_ccy)
 
     # Determine recommendation signal
     score = 0
@@ -875,7 +894,8 @@ def recommendation(ticker):
         valuation_bridge=valuation_bridge, blended_value=blended_value,
         fair_value_low=fair_value_low, fair_value_high=fair_value_high,
         valuation_unit=valuation_unit, price_now=price_now,
-        gaming_kpis=gaming_kpis, is_gaming=is_gaming)
+        gaming_kpis=gaming_kpis, is_gaming=is_gaming,
+        display_ccy=display_ccy, available_ccys=available_ccys)
 
 
 @app.route('/settings/save-inputs', methods=['POST'])
