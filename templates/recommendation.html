@@ -89,6 +89,38 @@
     .growth-arrow { font-size: 10px; }
     .growth-arrow.up { color: var(--nimed-green); }
     .growth-arrow.down { color: var(--nimed-red); }
+
+    .val-bridge { margin-bottom: 16px; }
+    .val-bridge-bar {
+        display: flex; align-items: stretch; border-radius: 6px; overflow: hidden;
+        height: 28px; margin: 8px 0 6px; font-size: 10px; font-weight: 600;
+    }
+    .val-bridge-bar .bar-seg {
+        display: flex; align-items: center; justify-content: center;
+        color: #fff; white-space: nowrap; padding: 0 6px; min-width: 30px;
+    }
+    .val-blended-row {
+        display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+        background: var(--nimed-navy); color: #fff; border-radius: 6px;
+        font-size: 13px; font-weight: 700; margin-top: 8px;
+    }
+    .val-range {
+        font-size: 11px; color: #666; padding: 4px 0; display: flex; align-items: center; gap: 8px;
+    }
+    .val-range .range-bar {
+        flex: 1; height: 6px; background: linear-gradient(90deg, #ef9a9a, #fff176, #a5d6a7);
+        border-radius: 3px; position: relative;
+    }
+    .val-range .range-marker {
+        position: absolute; top: -3px; width: 12px; height: 12px; border-radius: 50%;
+        background: var(--nimed-navy); border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    }
+    .gaming-kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-bottom: 14px; }
+    .gaming-kpi-card {
+        border: 1px solid #d0e8d0; border-radius: 6px; padding: 8px 10px; background: #f7faf7;
+    }
+    .gaming-kpi-card .kpi-label { font-size: 9px; text-transform: uppercase; letter-spacing: .5px; color: #666; font-weight: 600; }
+    .gaming-kpi-card .kpi-val { font-size: 15px; font-weight: 700; color: #1b5e20; }
 </style>
 {% endblock %}
 
@@ -131,6 +163,99 @@
             <div class="signal-detail">{{ signal_rationale }}</div>
         </div>
     </div>
+
+    {% if valuation_bridge %}
+    <!-- Valuation Bridge -->
+    <div class="rec-section-title"><i class="bi bi-graph-up me-1"></i>Fair Value Analysis ({{ valuation_unit }})</div>
+    <div class="val-bridge">
+        <table class="rec-table">
+            <thead>
+                <tr>
+                    <th>Valuation Method</th>
+                    <th class="num">Weight</th>
+                    {% if is_private %}<th class="num">Enterprise Value</th><th class="num">Equity Value</th>
+                    {% else %}<th class="num">Fair Value</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for v in valuation_bridge %}
+                <tr>
+                    <td>{{ v.method }}</td>
+                    <td class="num" style="font-weight:600;">{{ "%.0f"|format(v.weight * 100) }}%</td>
+                    {% if is_private %}
+                    <td class="num">{% if v.ev is number %}{{ currency }} {{ "{:,.0f}".format(v.ev|float) }}{% else %}&mdash;{% endif %}</td>
+                    <td class="num">{% if v.equity is number %}{{ currency }} {{ "{:,.0f}".format(v.equity|float) }}{% else %}&mdash;{% endif %}</td>
+                    {% else %}
+                    <td class="num">{{ currency }} {{ "%.2f"|format(v.value) }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% set bar_colors = ['#1565c0', '#2e7d32', '#e65100', '#6a1b9a', '#c62828'] %}
+        <div class="val-bridge-bar">
+            {% for v in valuation_bridge %}
+            <div class="bar-seg" style="flex:{{ "%.0f"|format(v.weight * 100) }};background:{{ bar_colors[loop.index0 % 5] }};">
+                {{ "%.0f"|format(v.weight * 100) }}%
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="val-blended-row">
+            <span style="flex:1;">Blended Fair Value</span>
+            <span>
+                {% if blended_value is number %}
+                {{ currency }} {{ "{:,.2f}".format(blended_value|float) if not is_private else "{:,.0f}".format(blended_value|float) }}
+                {% else %}&mdash;{% endif %}
+            </span>
+        </div>
+
+        {% if fair_value_low is not none and fair_value_high is not none %}
+        <div class="val-range" style="margin-top:6px;">
+            <span>{{ currency }} {{ "{:,.0f}".format(fair_value_low|float) }}</span>
+            <div class="range-bar">
+                {% if blended_value is number and fair_value_high != fair_value_low %}
+                {% set pct = ((blended_value - fair_value_low) / (fair_value_high - fair_value_low) * 100) %}
+                <div class="range-marker" style="left:{{ "%.0f"|format(pct) }}%;"></div>
+                {% endif %}
+            </div>
+            <span>{{ currency }} {{ "{:,.0f}".format(fair_value_high|float) }}</span>
+        </div>
+        {% endif %}
+
+        {% if price_now is not none and not is_private and blended_value is number %}
+        <div style="font-size:11px;margin-top:4px;padding:6px 10px;background:#f9f9f9;border-radius:4px;">
+            <strong>Market Price:</strong> {{ currency }} {{ "%.2f"|format(price_now) }} &nbsp;|&nbsp;
+            <strong>Fair Value:</strong> {{ currency }} {{ "%.2f"|format(blended_value) }} &nbsp;|&nbsp;
+            {% set upside_pct = ((blended_value - price_now) / price_now * 100) if price_now != 0 else 0 %}
+            <strong>Upside:</strong> <span style="color:{% if upside_pct >= 0 %}var(--nimed-green){% else %}var(--nimed-red){% endif %};font-weight:700;">{{ "%+.1f"|format(upside_pct) }}%</span>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if is_gaming and gaming_kpis %}
+    <!-- Gaming KPIs -->
+    <div class="rec-section-title" style="color:#1b5e20;"><i class="bi bi-controller me-1"></i>Gaming Industry KPIs ({{ latest_fy }})</div>
+    <div class="gaming-kpi-grid">
+        {% for kpi in gaming_kpis %}
+        <div class="gaming-kpi-card">
+            <div class="kpi-label">{{ kpi.label }}</div>
+            <div class="kpi-val">
+                {% if kpi.fmt == 'pct' %}{{ "%.1f"|format(kpi.value * 100) }}%
+                {% elif kpi.fmt == 'money' %}{{ currency }} {{ "{:,.0f}".format(kpi.value|float) }}
+                {% else %}{{ kpi.value }}{% endif %}
+            </div>
+            {% if kpi.growth is defined and kpi.growth is not none %}
+            <div style="font-size:9px;color:{% if kpi.growth >= 0 %}var(--nimed-green){% else %}var(--nimed-red){% endif %};">
+                {% if kpi.growth >= 0 %}&uarr;{% else %}&darr;{% endif %} {{ "%.0f"|format(kpi.growth * 100) }}% YoY
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <!-- Key Metrics -->
     <div class="rec-section-title">Key Financial Highlights ({{ latest_fy }})</div>

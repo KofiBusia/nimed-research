@@ -624,6 +624,165 @@ def recommendation(ticker):
     if ebitda and total_debt and total_debt != 0:
         ratios.append({'label': 'Debt/EBITDA', 'display': '{:.1f}x'.format(total_debt / ebitda)})
 
+    # ── Gaming-specific KPIs ──
+    gaming_kpis = []
+    is_gaming = 'gaming' in (company_name or '').lower() or 'gaming' in (industry or '').lower()
+    if is_gaming:
+        ggr = find_val(['gross gaming revenue', 'revenue'])
+        ggr_prev = find_val(['gross gaming revenue', 'revenue'], prev_fy) if prev_fy else None
+        cos = find_val(['cost of revenue', 'direct costs', 'cost of sales'])
+        opex = find_val(['operating expenses', 'administration expenses'])
+        pbt = find_val(['profit', 'loss) before tax'])
+        pat = find_val(['profit', 'loss) after tax', 'net income'])
+        if ggr is not None:
+            gaming_kpis.append({'label': 'Gross Gaming Revenue (GGR)', 'value': ggr, 'fmt': 'money',
+                                'growth': growth(ggr, ggr_prev)})
+        if ggr and cos is not None:
+            gm = (ggr - abs(cos)) / ggr if ggr != 0 else None
+            if gm is not None:
+                gaming_kpis.append({'label': 'GGR Margin', 'value': gm, 'fmt': 'pct'})
+                gaming_kpis.append({'label': 'Direct Cost Ratio', 'value': abs(cos) / ggr, 'fmt': 'pct'})
+        if ggr and opex is not None:
+            gaming_kpis.append({'label': 'OpEx / GGR', 'value': abs(opex) / ggr if ggr != 0 else 0, 'fmt': 'pct'})
+        if ggr and pat is not None:
+            gaming_kpis.append({'label': 'Net Income Margin', 'value': pat / ggr if ggr != 0 else 0, 'fmt': 'pct'})
+        if cash is not None and ggr:
+            gaming_kpis.append({'label': 'Cash / GGR', 'value': cash / ggr if ggr != 0 else 0, 'fmt': 'pct'})
+        if ebitda is not None and ggr:
+            gaming_kpis.append({'label': 'EBITDA Margin', 'value': ebitda / ggr if ggr != 0 else 0, 'fmt': 'pct'})
+
+    # ── Valuation bridge ──
+    valuation_bridge = []
+    blended_value = None
+    fair_value_low = None
+    fair_value_high = None
+    valuation_currency = currency
+    valuation_unit = ''
+    price_now = None
+
+    if not is_private:
+        from compute import compute_valuation_models, compute_cost_of_equity
+        workbook = load_workbook_data()
+        betas = workbook.get('betas', [])
+        sector_weights = workbook.get('sector_weights', [])
+        all_peers = workbook.get('all_peers', {})
+        beta_info = {}
+        for b in betas:
+            if b.get('ticker', '') == ticker:
+                beta_info = b
+                break
+        if beta_info:
+            beta_used = _safe(beta_info.get('beta_used', 1))
+            sector = beta_info.get('category', 'Other')
+            inputs_data = get_inputs_data().get('inputs', {})
+            metrics_for_val = extract_key_metrics(items, periods)
+            sp = SharePrice.query.filter_by(ticker=ticker).first()
+            shares_m = (sp.shares_m if sp else None) or _safe(beta_info.get('shares_m', 0))
+            if metrics_for_val:
+                metrics_for_val['shares_m'] = shares_m
+                peer_pe_by_sector = {}
+                peer_pb_by_sector = {}
+                for sn, peers in all_peers.items():
+                    pes = [_safe(p.get('P/E')) for p in peers if p.get('P/E') and _safe(p.get('P/E')) > 0]
+                    pbs = [_safe(p.get('P/B')) for p in peers if p.get('P/B') and _safe(p.get('P/B')) > 0]
+                    if pes:
+                        peer_pe_by_sector[sn] = sorted(pes)[len(pes) // 2]
+                    if pbs:
+                        peer_pb_by_sector[sn] = sorted(pbs)[len(pbs) // 2]
+                peer_meds = {'pe': peer_pe_by_sector.get(sector), 'pb': peer_pb_by_sector.get(sector)}
+                models, ke_val = compute_valuation_models(metrics_for_val, inputs_data, beta_used, sector, sector_weights, peer_meds)
+
+                sw = {}
+                for w in sector_weights:
+                    if w.get('sector', '').lower() == sector.lower():
+                        sw = w
+                        break
+                weight_map = {
+                    'ddm2': sw.get('ddm2', 0.125),
+                    'ddm3': sw.get('ddm3', 0.125),
+                    'ri': sw.get('ri', 0.25),
+                    'comps': sw.get('comps', 0.125),
+                    'justified': sw.get('justified', 0.1),
+                }
+                model_labels = {
+                    'ddm2': 'DDM (2-Stage)',
+                    'ddm3': 'DDM (3-Stage)',
+                    'ri': 'Residual Income',
+                    'comps': 'Comparable Companies',
+                    'justified': 'Justified Multiples',
+                }
+                vals_list = []
+                for mk in ('ddm2', 'ddm3', 'ri', 'comps', 'justified'):
+                    mv = models.get(mk)
+                    mw = weight_map.get(mk, 0)
+                    if mv is not None and mw > 0:
+                        valuation_bridge.append({
+                            'method': model_labels.get(mk, mk),
+                            'value': mv,
+                            'weight': mw,
+                        })
+                        vals_list.append(mv)
+                blended_value = models.get('weighted_value')
+                if vals_list:
+                    fair_value_low = min(vals_list)
+                    fair_value_high = max(vals_list)
+                valuation_unit = 'per share (GHS)'
+                # Add market price context
+                if sp:
+                    price_now = sp.price_ghs
+                else:
+                    price_now = None
+    else:
+        yin = get_yin_full()
+        pev = yin.get('pe_valuation', [])
+        dash = yin.get('dashboard', {})
+        ev_dcf = None
+        ev_comps = None
+        ev_prec = None
+        eq_dcf = None
+        eq_comps = None
+        eq_prec = None
+        weights = [0.5, 0.25, 0.25]
+        concluded_equity = None
+        for item in pev:
+            c1 = (item.get('c1') or '')
+            c1_low = c1.lower()
+            if 'enterprise value' in c1_low and 'dcf' in c1_low and 'sensitivity' not in c1_low and 'fy0' not in c1_low:
+                ev_dcf = item.get('c3')
+            elif 'enterprise value' in c1_low and 'trading' in c1_low:
+                ev_comps = item.get('c3')
+            elif 'enterprise value' in c1_low and 'precedent' in c1_low:
+                ev_prec = item.get('c3')
+            elif 'equity value' in c1_low and '100%' in c1_low and 'private' in c1_low:
+                eq_dcf = item.get('c3')
+                eq_comps = item.get('c4')
+                eq_prec = item.get('c5')
+            elif c1_low.startswith('weight') or 'effective weight' in c1_low:
+                w3 = item.get('c3')
+                w4 = item.get('c4')
+                w5 = item.get('c5')
+                if w3 is not None:
+                    weights = [_safe(w3), _safe(w4 or 0), _safe(w5 or 0)]
+            elif 'concluded equity value' in c1_low and '100%' in c1_low:
+                concluded_equity = item.get('c3')
+        if ev_dcf is not None:
+            valuation_bridge.append({'method': 'DCF (Income Approach)', 'ev': ev_dcf, 'equity': eq_dcf, 'weight': weights[0]})
+        if ev_comps is not None:
+            valuation_bridge.append({'method': 'Trading Comparables', 'ev': ev_comps, 'equity': eq_comps, 'weight': weights[1]})
+        if ev_prec is not None:
+            valuation_bridge.append({'method': 'Precedent Transactions', 'ev': ev_prec, 'equity': eq_prec, 'weight': weights[2]})
+        if concluded_equity is not None:
+            blended_value = concluded_equity
+        vals_list = [v for v in [eq_dcf, eq_comps, eq_prec] if v is not None]
+        if vals_list:
+            fair_value_low = min(vals_list)
+            fair_value_high = max(vals_list)
+        valuation_unit = "'000"
+        price_now = None
+        vps = dash.get('Value per share')
+        if vps and isinstance(vps, dict):
+            price_now = vps.get('value')
+
     # Determine recommendation signal
     score = 0
     reasons = []
@@ -706,7 +865,11 @@ def recommendation(ticker):
         signal=signal, signal_rationale=signal_rationale,
         highlights=highlights, summary_periods=summary_periods,
         summary_rows=summary_rows, ratios=ratios,
-        strengths=strengths, risks=risks, back_url=back_url)
+        strengths=strengths, risks=risks, back_url=back_url,
+        valuation_bridge=valuation_bridge, blended_value=blended_value,
+        fair_value_low=fair_value_low, fair_value_high=fair_value_high,
+        valuation_unit=valuation_unit, price_now=price_now,
+        gaming_kpis=gaming_kpis, is_gaming=is_gaming)
 
 
 @app.route('/settings/save-inputs', methods=['POST'])
