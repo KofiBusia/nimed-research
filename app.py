@@ -1,7 +1,7 @@
 import json
 from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect, CSRFError
 from functools import wraps
 from datetime import datetime
 from config import Config
@@ -20,6 +20,12 @@ app.config.from_object(Config)
 
 db.init_app(app)
 csrf = CSRFProtect(app)
+
+
+@app.errorhandler(CSRFError)
+def handle_csrf_error(e):
+    flash('Your session expired. Please try again.', 'warning')
+    return redirect(url_for('login'))
 
 
 @app.template_filter('sf')
