@@ -100,7 +100,7 @@
         {% elif action.action_type == 'update_price' %}
         <table class="table table-sm" style="font-size:12px;max-width:400px;">
             <tr><td class="text-muted">Ticker</td><td class="fw-bold">{{ action.ticker }}</td></tr>
-            <tr><td class="text-muted">Price (GHS)</td><td>{{ "{:,.2f}".format(preview.price_ghs) }}</td></tr>
+            <tr><td class="text-muted">Price (Local)</td><td>{{ "{:,.2f}".format(preview.price_ghs) }}</td></tr>
             {% if preview.shares_m %}<tr><td class="text-muted">Shares (m)</td><td>{{ "{:,.1f}".format(preview.shares_m) }}</td></tr>{% endif %}
             {% if preview.price_date %}<tr><td class="text-muted">Date</td><td>{{ preview.price_date }}</td></tr>{% endif %}
         </table>
@@ -109,7 +109,7 @@
         <p class="text-muted" style="font-size:12px;">Showing {{ preview.prices|length }} of {{ preview.total_prices }} price updates</p>
         <div class="table-responsive" style="max-height:400px;overflow-y:auto;">
             <table class="table table-sm table-striped" style="font-size:11px;">
-                <thead><tr><th>Ticker</th><th class="text-end">Price (GHS)</th><th>Date</th></tr></thead>
+                <thead><tr><th>Ticker</th><th class="text-end">Price (Local)</th><th>Date</th></tr></thead>
                 <tbody>
                     {% for bp in preview.prices %}
                     <tr><td class="fw-bold">{{ bp.ticker }}</td><td class="text-end">{{ "{:,.2f}".format(bp.price_ghs) }}</td><td>{{ bp.price_date }}</td></tr>

@@ -13,7 +13,7 @@
             <div class="panel-body table-responsive">
                 <table class="table table-research" id="priceTable" style="font-size:12px">
                     <thead>
-                        <tr><th>Ticker</th><th>Company</th><th class="text-end">Price (GHS)</th><th class="text-end">Shares (m)</th><th>Date</th><th>Source</th><th>Updated</th></tr>
+                        <tr><th>Ticker</th><th>Company</th><th class="text-end">Price (Local)</th><th class="text-end">Shares (m)</th><th>Date</th><th>Source</th><th>Updated</th></tr>
                     </thead>
                     <tbody>
                         {% for t in base_tickers.keys()|sort %}
@@ -52,7 +52,7 @@
                         </select>
                     </div>
                     <div class="mb-2">
-                        <label class="form-label" style="font-size:12px">Price (GHS)</label>
+                        <label class="form-label" style="font-size:12px">Price (Local)</label>
                         <input type="number" step="0.01" name="price_ghs" class="form-control form-control-sm" required>
                     </div>
                     <div class="mb-2">
