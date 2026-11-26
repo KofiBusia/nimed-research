@@ -394,7 +394,7 @@ def pc_company_view(ticker):
         return redirect(url_for('yin_dashboard'))
     fs = cf.get_data()
     fs['company_name'] = cf.company_name
-    fs['currency'] = cf.currency or 'GHS'
+    fs['currency'] = cf.currency or 'USD'
     fs['industry'] = cf.industry or ''
     pc_cos = get_pc_companies()
     return render_template('pc_company.html', selected=fs, selected_ticker=ticker, pc_companies=pc_cos)
@@ -495,7 +495,7 @@ def recommendation(ticker):
     if cf:
         fs = cf.get_data()
         company_name = cf.company_name or ticker
-        currency = cf.currency or 'GHS'
+        currency = cf.currency or 'USD'
         is_private = getattr(cf, 'is_private', False) or False
         industry = getattr(cf, 'industry', None) or ''
     else:
@@ -505,7 +505,7 @@ def recommendation(ticker):
             return redirect(url_for('dashboard'))
         fs = fs_data[ticker]
         company_name = fs.get('company_name', ticker)
-        currency = fs.get('currency', 'GHS')
+        currency = fs.get('currency', 'USD')
         is_private = False
         industry = fs.get('industry', '')
 
@@ -1351,7 +1351,7 @@ def api_pc_companies():
         d = cf.get_data()
         result[cf.ticker] = {
             'company_name': cf.company_name,
-            'currency': cf.currency or 'GHS',
+            'currency': cf.currency or 'USD',
             'industry': cf.industry or '',
             'periods': d.get('periods', []),
             'item_count': len(d.get('items', [])),
@@ -1753,7 +1753,7 @@ def api_currencies():
     company_currencies = {}
     try:
         for cf in CompanyFinancials.query.all():
-            company_currencies[cf.ticker] = cf.currency or 'GHS'
+            company_currencies[cf.ticker] = cf.currency or 'USD'
     except Exception:
         pass
     return jsonify({'rates': result, 'company_currencies': company_currencies})
@@ -1846,7 +1846,7 @@ def init_db():
                 db.session.add(CurrencyRate(code=code, name=name, rate_to_usd=rate))
             db.session.commit()
             print("Seeded %d default currency rates" % len(CurrencyRate.DEFAULTS))
-        currency_map = {'CLG-RW': 'RWF', 'CLG-TZ': 'TZS', 'CLG-UG': 'UGX'}
+        currency_map = {'CLG-RW': 'RWF', 'CLG-TZ': 'TZS', 'CLG-UG': 'UGX', 'CLG-BJ': 'XOF'}
         for tick, cur in currency_map.items():
             cf = CompanyFinancials.query.filter_by(ticker=tick).first()
             if cf and (not cf.currency or cf.currency == 'GHS'):

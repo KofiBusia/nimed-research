@@ -335,7 +335,7 @@ def recalculate_all(inputs, base_data, db_prices, db_financials):
     for cf in db_financials:
         d = cf.get_data()
         d['company_name'] = cf.company_name or cf.ticker
-        d['currency'] = getattr(cf, 'currency', None) or 'GHS'
+        d['currency'] = getattr(cf, 'currency', None) or 'USD'
         d['is_private'] = getattr(cf, 'is_private', False) or False
         d['industry'] = getattr(cf, 'industry', None) or ''
         if d['is_private']:
